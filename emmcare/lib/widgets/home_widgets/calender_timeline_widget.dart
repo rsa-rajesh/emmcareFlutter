@@ -24,10 +24,10 @@ class _CalendarTimelineWidgetState extends State<CalendarTimelineWidget> {
   @override
   Widget build(BuildContext context) {
     return CalendarTimeline(
-      showYears: true,
+      showYears: false,
       initialDate: _selectedDate,
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
       onDateSelected: (date) => setState(() => _selectedDate = date),
       leftMargin: 20,
       monthColor: Colors.blueGrey,

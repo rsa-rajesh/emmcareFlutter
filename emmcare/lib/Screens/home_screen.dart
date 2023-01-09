@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:emmcare/models/client_model.dart';
 import 'package:emmcare/widgets/home_widgets/calender_timeline_widget.dart';
-import 'package:emmcare/widgets/home_widgets/card_widget.dart';
 import 'package:emmcare/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
@@ -16,11 +16,16 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   //
+  // App bar current Month and year.
+  String currentMonth = DateFormat.MMMM().format(DateTime.now());
+  String currentYear = DateFormat("yyyy").format(DateTime.now());
+  //
   //
   late Future<List<ClientModel>> futureClient;
   void initState() {
     super.initState();
     futureClient = fetchClient();
+
     //
     //
   }
@@ -61,6 +66,11 @@ class HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.grey,
         ),
         appBar: AppBar(
+          title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(currentMonth),
+            SizedBox(width: 5),
+            Text(currentYear),
+          ]),
           actions: [
             IconButton(onPressed: () {}, icon: Icon(Icons.refresh)),
           ],
@@ -87,15 +97,16 @@ class HomeScreenState extends State<HomeScreen> {
                           itemBuilder: (context, index) {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Expanded(
                                   child: Container(
                                     child: Text(
-                                      clientList[index].name.toString(),
+                                      textAlign: TextAlign.center,
+                                      clientList[index].id.toString(),
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 20,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -104,11 +115,134 @@ class HomeScreenState extends State<HomeScreen> {
                                   flex: 8,
                                   child: Container(
                                     // height of the card widget
-                                    height: 230,
+                                    height: 220,
                                     //  Home Screen Card Widget. //
                                     child: Padding(
                                       padding: const EdgeInsets.all(7.0),
-                                      child: CardWidget(),
+                                      child: Card(
+                                          elevation: 3,
+                                          color: Colors.white,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                        child: Text(
+                                                      snapshot.data![index].time
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )),
+                                                    SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        "Community participation",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          snapshot
+                                                              .data![index].name
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          snapshot
+                                                                  .data![index]
+                                                                  .address!
+                                                                  .street
+                                                                  .toString() +
+                                                              snapshot
+                                                                  .data![index]
+                                                                  .address!
+                                                                  .zipcode
+                                                                  .toString(),
+                                                          // clientList[index]
+                                                          //     .address!
+                                                          //     .suite
+                                                          //     .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          snapshot.data![index]
+                                                              .address!.city
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                Expanded(child: Container()),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: ListTile(
+                                                        visualDensity: VisualDensity
+                                                            .adaptivePlatformDensity,
+                                                        leading: CircleAvatar(
+                                                          backgroundImage:
+                                                              NetworkImage(snapshot
+                                                                  .data![index]
+                                                                  .avatar
+                                                                  .toString()),
+                                                        ),
+                                                        trailing: Text(
+                                                          snapshot.data![index]
+                                                              .status
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          )),
                                     ),
                                   ),
                                 ),
