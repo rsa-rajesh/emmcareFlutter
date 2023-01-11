@@ -22,162 +22,159 @@ class _AboutScreenState extends State<AboutScreen> {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
           ),
         ),
-        body: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30,
-              ),
-              //
-              //
-              //  First Row Started.
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(25),
-                        child: Image.asset(
-                          "assets/images/app_logo_white.png",
-                          height: 150,
-                          width: 150,
-                        ),
-                      ),
-                      Text(
-                        "Version 1.0.0",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w800),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              //  First Row ended.
-              //
-              //
-              //
-              SizedBox(
-                height: 80,
-              ),
-              //
-              //
-              // Second Row started.
-              Padding(
-                padding: const EdgeInsets.all(11.0),
-                child: Column(
+        body: Column(
+          children: [
+            SizedBox(
+              height: 30,
+            ),
+            //
+            //
+            //  First Row Started.
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        splashColor: Colors.blue,
-                        onTap: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Official Website",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w700),
-                            ),
-                            Icon(Icons.arrow_forward_outlined, size: 22),
-                          ],
-                        ),
+                      padding: const EdgeInsets.all(25),
+                      child: Image.asset(
+                        "assets/images/app_logo_white.png",
+                        height: 150,
+                        width: 150,
                       ),
                     ),
-                    Divider(
-                      thickness: 1.5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        splashColor: Colors.blue,
-                        onTap: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Help",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w700),
-                            ),
-                            Icon(Icons.arrow_forward, size: 22),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      thickness: 1.5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        splashColor: Colors.blue,
-                        onTap: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Terms & Conditions",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w700),
-                            ),
-                            Icon(Icons.arrow_forward, size: 22),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      thickness: 1.5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        splashColor: Colors.blue,
-                        onTap: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Privacy Policy",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w700),
-                            ),
-                            Icon(Icons.arrow_forward, size: 22),
-                          ],
-                        ),
-                      ),
+                    Text(
+                      "Version 1.0.0",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
                     ),
                   ],
                 ),
-              ),
-
-              // Second Row ended.
-              //
-              //
-              // Spacer started.
-              Spacer(),
-              // Spacer ended.
-              //
-              //
-              // Third Row started.
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              ],
+            ),
+            //  First Row ended.
+            //
+            //
+            //
+            SizedBox(
+              height: 80,
+            ),
+            //
+            //
+            // Second Row started.
+            Padding(
+              padding: const EdgeInsets.all(11.0),
+              child: Column(
                 children: [
-                  Text(
-                    "Copyright @ EmmCare Ptv.Ltd.",
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      splashColor: Colors.blue,
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Official Website",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w700),
+                          ),
+                          Icon(Icons.arrow_forward_outlined, size: 22),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    thickness: 1.5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      splashColor: Colors.blue,
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Help",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w700),
+                          ),
+                          Icon(Icons.arrow_forward, size: 22),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    thickness: 1.5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      splashColor: Colors.blue,
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Terms & Conditions",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w700),
+                          ),
+                          Icon(Icons.arrow_forward, size: 22),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    thickness: 1.5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      splashColor: Colors.blue,
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Privacy Policy",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w700),
+                          ),
+                          Icon(Icons.arrow_forward, size: 22),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
-              // Third Row ended.
-              //
-              //
-            ],
-          ),
+            ),
+
+            // Second Row ended.
+            //
+            //
+            // Spacer started.
+            Spacer(),
+            // Spacer ended.
+            //
+            //
+            // Third Row started.
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Copyright @ EmmCare Ptv.Ltd.",
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                ),
+              ],
+            ),
+            // Third Row ended.
+            //
+            //
+          ],
         ),
       ),
     );
