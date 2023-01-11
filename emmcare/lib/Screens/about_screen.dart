@@ -50,13 +50,14 @@ class _AboutScreenState extends State<AboutScreen> {
                       Text(
                         "Version 1.0.0",
                         style: TextStyle(
-                            fontSize: 21, fontWeight: FontWeight.w800),
+                            fontSize: 22, fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
                 ],
               ),
               //  First Row ended.
+              //
               //
               //
               SizedBox(
