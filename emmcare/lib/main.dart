@@ -1,5 +1,7 @@
-import 'package:emmcare/Screens/home_screen.dart';
+import 'package:emmcare/Screens/about_screen.dart';
 import 'package:emmcare/Screens/login_screen.dart';
+import 'package:emmcare/Screens/my_schedule_screen.dart';
+import 'package:emmcare/Screens/notification_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,12 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: '',
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: HomeScreen(),
+      home: AboutScreen(),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:async';
 import 'package:emmcare/models/client_model.dart';
 import 'package:emmcare/widgets/home_widgets/calender_timeline_widget.dart';
 import 'package:emmcare/widgets/navigation_drawer.dart';
@@ -7,38 +7,36 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+class MyScheduleScreen extends StatefulWidget {
+  MyScheduleScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => HomeScreenState();
+  State<MyScheduleScreen> createState() => MyScheduleScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
-  //
-  // App bar current Month and year.
-  String currentMonth = DateFormat.MMMM().format(DateTime.now());
-  String currentYear = DateFormat("yyyy").format(DateTime.now());
-  //
-  //
+class MyScheduleScreenState extends State<MyScheduleScreen> {
   late Future<List<ClientModel>> futureClient;
+
   void initState() {
     super.initState();
+
     futureClient = fetchClient();
 
     //
     //
   }
 
-// List of products coming from api.
+  // List of Client coming from api.
   List<ClientModel> clientList = [];
-// Future fuction used to fetch data from the server.
-// It is also used to refresh the home page.
+
+  // Future fuction used to fetch data from the server.
+  // It is also used to refresh the home page.
   Future<List<ClientModel>> fetchClient() async {
     // Encoded data from the api.
     final response = await http.get(
       Uri.parse("https://6396d55077359127a023e18b.mockapi.io/emmcare_client"),
     );
+
     // Decoded data
     var data = jsonDecode(response.body);
     // clearing the list item.
@@ -55,16 +53,17 @@ class HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  //
+  // App bar current Month and year.
+  String currentMonth = DateFormat.LLL().format(DateTime.now());
+  String currentYear = DateFormat("yyyy").format(DateTime.now());
+  //
+  //
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          splashColor: Colors.grey,
-          onPressed: () {},
-          child: Icon(size: 45, Icons.add_sharp),
-          backgroundColor: Colors.grey,
-        ),
         appBar: AppBar(
           title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(currentMonth),
@@ -74,7 +73,17 @@ class HomeScreenState extends State<HomeScreen> {
           actions: [
             IconButton(onPressed: () {}, icon: Icon(Icons.refresh)),
           ],
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.blueGrey,
+        ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: FloatingActionButton(
+            onPressed: () {
+              // Add your onPressed code here!
+            },
+            backgroundColor: Colors.blueGrey,
+            child: const Icon(Icons.add),
+          ),
         ),
         body: SafeArea(
           child: Column(

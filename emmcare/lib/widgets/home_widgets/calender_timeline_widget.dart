@@ -24,19 +24,18 @@ class _CalendarTimelineWidgetState extends State<CalendarTimelineWidget> {
   @override
   Widget build(BuildContext context) {
     return CalendarTimeline(
-      showYears: false,
       initialDate: _selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
       onDateSelected: (date) => setState(() => _selectedDate = date),
-      leftMargin: 20,
+      leftMargin: 8,
       monthColor: Colors.blueGrey,
       dayColor: Colors.teal[200],
       dayNameColor: const Color(0xFF333A47),
       activeDayColor: Colors.white,
       activeBackgroundDayColor: Colors.redAccent[100],
       dotsColor: const Color(0xFF333A47),
-      selectableDayPredicate: (date) => date.day != 23,
+      // selectableDayPredicate: (date) => date.day != 23,
       locale: 'en_ISO',
     );
   }

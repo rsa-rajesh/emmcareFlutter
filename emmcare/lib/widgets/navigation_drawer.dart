@@ -1,4 +1,9 @@
-import 'package:emmcare/Screens/home_screen.dart';
+import 'package:emmcare/Screens/about_screen.dart';
+import 'package:emmcare/Screens/document_hub_screen.dart';
+import 'package:emmcare/Screens/job_board_screen.dart';
+import 'package:emmcare/Screens/my_schedule_screen.dart';
+import 'package:emmcare/Screens/my_document_screen.dart';
+import 'package:emmcare/Screens/notification_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +38,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             ),
             onTap: () =>
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => NotificationScreen(),
             )),
           ),
           ListTile(
@@ -46,7 +51,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () {},
+            onTap: () =>
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => MyScheduleScreen(),
+            )),
           ),
           ListTile(
             leading: Icon(
@@ -58,7 +66,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () {},
+            onTap: () =>
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => JobBoardScreen(),
+            )),
           ),
           ListTile(
             leading: Icon(
@@ -70,7 +81,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () {},
+            onTap: () =>
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => MyDocumentScreen(),
+            )),
           ),
           ListTile(
             leading: Icon(
@@ -82,7 +96,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () {},
+            onTap: () =>
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DocumentHubScreen(),
+            )),
           ),
           ListTile(
             leading: Icon(
@@ -94,7 +111,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () {},
+            onTap: () =>
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => AboutScreen(),
+            )),
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
@@ -114,7 +134,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () {},
           ),
           Expanded(child: Container()),
           Container(
@@ -158,6 +177,8 @@ class _buildHeaderState extends State<buildHeader> {
     return Material(
       color: Colors.blue.shade700,
       child: Container(
+        // color: Color.fromARGB(255, 23, 36, 59),
+        color: Colors.blueGrey,
         padding: EdgeInsets.only(
             top: 50,
             // top: MediaQuery.of(context).padding.top,
@@ -166,9 +187,12 @@ class _buildHeaderState extends State<buildHeader> {
           children: [
             CircleAvatar(
               radius: 60,
-              backgroundImage: NetworkImage(
-                "https://old.emmett-technique-hq.com/images/icons/icon-logo-emm-care-wh.jpg",
-              ),
+              backgroundImage:
+                  ExactAssetImage('assets/images/app_logo_white.png'),
+
+              // backgroundImage: NetworkImage(
+              //   "https://old.emmett-technique-hq.com/images/icons/icon-logo-emm-care-wh.jpg",
+              // ),
             ),
             SizedBox(
               height: 12,

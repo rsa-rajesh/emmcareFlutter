@@ -1,4 +1,4 @@
-import 'package:emmcare/Screens/home_screen.dart';
+import 'package:emmcare/Screens/my_schedule_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
+                            builder: (context) => MyScheduleScreen(),
                           ),
                         );
                       },
