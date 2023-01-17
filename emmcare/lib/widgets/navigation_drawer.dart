@@ -1,9 +1,4 @@
-import 'package:emmcare/Screens/about_screen.dart';
-import 'package:emmcare/Screens/document_hub_screen.dart';
-import 'package:emmcare/Screens/job_board_screen.dart';
-import 'package:emmcare/Screens/my_schedule_screen.dart';
-import 'package:emmcare/Screens/my_document_screen.dart';
-import 'package:emmcare/Screens/notification_screen.dart';
+import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -36,10 +31,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () =>
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => NotificationScreen(),
-            )),
+            onTap: () => Navigator.pushNamed(context, RoutesName.notification),
           ),
           ListTile(
             leading: Icon(
@@ -51,10 +43,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () =>
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => MyScheduleScreen(),
-            )),
+            onTap: () => Navigator.pushNamed(context, RoutesName.my_schedule),
           ),
           ListTile(
             leading: Icon(
@@ -66,10 +55,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () =>
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => JobBoardScreen(),
-            )),
+            onTap: () => Navigator.pushNamed(context, RoutesName.job_board),
           ),
           ListTile(
             leading: Icon(
@@ -81,10 +67,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () =>
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => MyDocumentScreen(),
-            )),
+            onTap: () => Navigator.pushNamed(context, RoutesName.my_document),
           ),
           ListTile(
             leading: Icon(
@@ -96,10 +79,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () =>
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => DocumentHubScreen(),
-            )),
+            onTap: () => Navigator.pushNamed(context, RoutesName.document_hub),
           ),
           ListTile(
             leading: Icon(
@@ -111,10 +91,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () =>
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => AboutScreen(),
-            )),
+            onTap: () => Navigator.pushNamed(context, RoutesName.about),
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
@@ -143,7 +120,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        onTap:
+                        () => Navigator.pushNamed(context, RoutesName.about);
+                      },
                       icon: Icon(
                         Icons.logout,
                         color: Colors.black,

@@ -1,8 +1,8 @@
-import 'package:emmcare/Screens/about_screen.dart';
-import 'package:emmcare/Screens/login_screen.dart';
-import 'package:emmcare/Screens/my_schedule_screen.dart';
-import 'package:emmcare/Screens/notification_screen.dart';
+import 'package:emmcare/utils/routes/routes.dart';
+import 'package:emmcare/utils/routes/routes_name.dart';
+import 'package:emmcare/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,11 +13,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => AuthViewModel())],
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+        ),
+        initialRoute: RoutesName.login,
+        onGenerateRoute: Routes.generateRoute,
       ),
-      home: AboutScreen(),
     );
   }
 }

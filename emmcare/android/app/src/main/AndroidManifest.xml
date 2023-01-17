@@ -1,6 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.emmcare">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
    <application
+        android:requestLegacyExternalStorage="true"
         android:label="emmcare"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
@@ -31,6 +38,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
-    <!-- Required to fetch data from the internet. -->
-<uses-permission android:name="android.permission.INTERNET" />
+    
 </manifest>
