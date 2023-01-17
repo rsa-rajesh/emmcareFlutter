@@ -52,6 +52,9 @@ dependencies:
   # dio.
   dio: ^4.0.6
 
+
+  shared_preferences: ^2.0.16
+
   
 
 dev_dependencies:
