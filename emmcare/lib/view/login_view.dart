@@ -1,18 +1,17 @@
 import 'package:emmcare/res/components/round_button.dart';
-import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/utils/utils.dart';
-import 'package:emmcare/view_model/auth_view_model.dart';
+import 'package:emmcare/view_model/auth_view_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginViewState extends State<LoginView> {
   ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
   // Email and password Controllers
   var emailController = TextEditingController();
@@ -35,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authViewModel = Provider.of<AuthViewModel>(context);
+    final authViewModel = Provider.of<AuthViewViewModel>(context);
 
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
@@ -163,29 +162,28 @@ class _LoginScreenState extends State<LoginScreen> {
                         title: "Login",
                         loading: authViewModel.loading,
                         onPress: () {
-                          Navigator.pushNamed(context, RoutesName.my_schedule);
-                          // if (emailController.text.isEmpty) {
-                          //   Utils.flushBarErrorMessage(
-                          //       "Please enter email", context);
-                          // } else if (passwordController.text.isEmpty) {
-                          //   Utils.flushBarErrorMessage(
-                          //       "Please enter password", context);
-                          // } else if (passwordController.text.length < 6) {
-                          //   Utils.flushBarErrorMessage(
-                          //       "Please Enter 6 digit password", context);
-                          // } else {
-                          //   Map data = {
-                          //     "email": emailController.text.toString(),
-                          //     "password": passwordController.text.toString(),
-                          //   };
-                          //   // Map data = {
-                          //   //   'email' : 'eve.holt@reqres.in',
-                          //   //   'password' : 'cityslicka',
-                          //   // };
+                          if (emailController.text.isEmpty) {
+                            Utils.flushBarErrorMessage(
+                                "Please enter email", context);
+                          } else if (passwordController.text.isEmpty) {
+                            Utils.flushBarErrorMessage(
+                                "Please enter password", context);
+                          } else if (passwordController.text.length < 6) {
+                            Utils.flushBarErrorMessage(
+                                "Please Enter 6 digit password", context);
+                          } else {
+                            Map data = {
+                              "email": emailController.text.toString(),
+                              "password": passwordController.text.toString(),
+                            };
+                            // Map data = {
+                            //   'email' : 'eve.holt@reqres.in',
+                            //   'password' : 'cityslicka',
+                            // };
 
-                          //   authViewModel.loginApi(data, context);
-                          //   print("api hit");
-                          // }
+                            authViewModel.loginApi(data, context);
+                            print("api hit");
+                          }
                         },
                       ),
                     ),

@@ -1,20 +1,21 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:emmcare/model/client_model.dart';
+import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/widgets/home_widgets/calender_timeline_widget.dart';
-import 'package:emmcare/widgets/navigation_drawer.dart';
+import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
-class JobBoardScreen extends StatefulWidget {
-  JobBoardScreen({super.key});
+class JobBoardView extends StatefulWidget {
+  JobBoardView({super.key});
 
   @override
-  State<JobBoardScreen> createState() => JobBoardScreenState();
+  State<JobBoardView> createState() => JobBoardViewState();
 }
 
-class JobBoardScreenState extends State<JobBoardScreen> {
+class JobBoardViewState extends State<JobBoardView> {
   late Future<List<ClientModel>> futureClient;
 
   void initState() {
@@ -71,7 +72,7 @@ class JobBoardScreenState extends State<JobBoardScreen> {
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.refresh)),
         ],
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: AppColors.appBarColor,
       ),
       body: SafeArea(
         child: Column(

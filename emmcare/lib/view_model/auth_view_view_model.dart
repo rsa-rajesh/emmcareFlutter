@@ -1,10 +1,13 @@
+import 'package:emmcare/model/user_model.dart';
 import 'package:emmcare/repository/auth_repository.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/utils/utils.dart';
+import 'package:emmcare/view_model/user_view_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 
-class AuthViewModel with ChangeNotifier {
+class AuthViewViewModel with ChangeNotifier {
   final _myRepo = AuthRepository();
 
   bool _loading = false;
@@ -21,8 +24,18 @@ class AuthViewModel with ChangeNotifier {
     _myRepo.loginApi(data).then((value) {
       setLoading(false);
 
+      //
+      // Finally shared preference fixed.
+      final userPreference =
+          Provider.of<UserViewViewModel>(context, listen: false);
+      userPreference.saveUser(UserModel(
+        token: value["token"].toString(),
+      ));
+      //
+      //
+
       Utils.flushBarErrorMessage('Login Successfully', context);
-      Navigator.pushNamed(context, RoutesName.my_schedule);
+      Navigator.pushReplacementNamed(context, RoutesName.my_schedule);
       if (kDebugMode) {
         print(value.toString());
       }

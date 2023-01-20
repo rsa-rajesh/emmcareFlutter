@@ -1,20 +1,21 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:emmcare/model/client_model.dart';
+import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/widgets/home_widgets/calender_timeline_widget.dart';
-import 'package:emmcare/widgets/navigation_drawer.dart';
+import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
-class MyScheduleScreen extends StatefulWidget {
-  MyScheduleScreen({super.key});
+class MyScheduleView extends StatefulWidget {
+  MyScheduleView({super.key});
 
   @override
-  State<MyScheduleScreen> createState() => MyScheduleScreenState();
+  State<MyScheduleView> createState() => MyScheduleViewState();
 }
 
-class MyScheduleScreenState extends State<MyScheduleScreen> {
+class MyScheduleViewState extends State<MyScheduleView> {
   late Future<List<ClientModel>> futureClient;
 
   void initState() {
@@ -72,7 +73,7 @@ class MyScheduleScreenState extends State<MyScheduleScreen> {
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.refresh)),
         ],
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: AppColors.appBarColor,
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -80,7 +81,7 @@ class MyScheduleScreenState extends State<MyScheduleScreen> {
           onPressed: () {
             // Add your onPressed code here!
           },
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: AppColors.floatingActionButtonColor,
           child: const Icon(Icons.add),
         ),
       ),

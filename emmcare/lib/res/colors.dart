@@ -5,4 +5,8 @@ class AppColors {
   static const Color whiteColor = Color(0xFFFFFFFF);
 
   static const Color buttonColor = Colors.blueGrey;
+
+  static const Color appBarColor = Colors.lightBlueAccent;
+
+  static const Color floatingActionButtonColor = Colors.lightBlueAccent;
 }

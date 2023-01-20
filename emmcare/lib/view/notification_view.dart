@@ -1,25 +1,26 @@
-import 'package:emmcare/widgets/navigation_drawer.dart';
+import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
+class NotificationView extends StatefulWidget {
+  const NotificationView({super.key});
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  State<NotificationView> createState() => _NotificationViewState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> {
+class _NotificationViewState extends State<NotificationView> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NavigationDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: AppColors.appBarColor,
         centerTitle: true,
         title: Text(
           "My Notification",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+          style: TextStyle(fontWeight: FontWeight.w700),
         ),
         actions: [
           IconButton(

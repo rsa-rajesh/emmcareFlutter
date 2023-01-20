@@ -1,20 +1,21 @@
-import 'package:emmcare/widgets/navigation_drawer.dart';
+import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 
-class AboutScreen extends StatefulWidget {
-  const AboutScreen({super.key});
+class AboutView extends StatefulWidget {
+  const AboutView({super.key});
 
   @override
-  State<AboutScreen> createState() => _AboutScreenState();
+  State<AboutView> createState() => _AboutViewState();
 }
 
-class _AboutScreenState extends State<AboutScreen> {
+class _AboutViewState extends State<AboutView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NavigationDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: AppColors.appBarColor,
         centerTitle: true,
         title: Text(
           "About",

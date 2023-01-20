@@ -1,6 +1,8 @@
 import 'package:emmcare/utils/routes/routes_name.dart';
+import 'package:emmcare/view_model/user_view_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NavigationDrawer extends StatefulWidget {
   const NavigationDrawer({super.key});
@@ -13,6 +15,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   bool light = true;
   @override
   Widget build(BuildContext context) {
+    final userPreference = Provider.of<UserViewViewModel>(context);
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -121,8 +124,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 children: [
                   TextButton.icon(
                       onPressed: () {
-                        onTap:
-                        () => Navigator.pushNamed(context, RoutesName.about);
+                        // Navigator.pushNamed(context, RoutesName.about);
+                        userPreference.remove().then(
+                          (value) {
+                            Navigator.pushNamed(context, RoutesName.login);
+                          },
+                        );
                       },
                       icon: Icon(
                         Icons.logout,
@@ -154,39 +161,36 @@ class buildHeader extends StatefulWidget {
 class _buildHeaderState extends State<buildHeader> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.blue.shade700,
-      child: Container(
-        // color: Color.fromARGB(255, 23, 36, 59),
-        color: Colors.blueGrey,
-        padding: EdgeInsets.only(
-            top: 50,
-            // top: MediaQuery.of(context).padding.top,
-            bottom: 24),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundImage:
-                  ExactAssetImage('assets/images/app_logo_white.png'),
+    return Container(
+      // color: Color.fromARGB(255, 23, 36, 59),
+      color: Colors.lightBlueAccent,
+      padding: EdgeInsets.only(
+          top: 50,
+          // top: MediaQuery.of(context).padding.top,
+          bottom: 24),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 60,
+            backgroundImage:
+                ExactAssetImage('assets/images/app_logo_white.png'),
 
-              // backgroundImage: NetworkImage(
-              //   "https://old.emmett-technique-hq.com/images/icons/icon-logo-emm-care-wh.jpg",
-              // ),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Text(
-              "EMMC Support Services",
-              style: TextStyle(fontSize: 17, color: Colors.white),
-            ),
-            Text(
-              "EMMC Support Services",
-              style: TextStyle(fontSize: 13, color: Colors.white),
-            )
-          ],
-        ),
+            // backgroundImage: NetworkImage(
+            //   "https://old.emmett-technique-hq.com/images/icons/icon-logo-emm-care-wh.jpg",
+            // ),
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Text(
+            "EMMC Support Services",
+            style: TextStyle(fontSize: 17, color: Colors.white),
+          ),
+          Text(
+            "EMMC Support Services",
+            style: TextStyle(fontSize: 13, color: Colors.white),
+          )
+        ],
       ),
     );
   }
