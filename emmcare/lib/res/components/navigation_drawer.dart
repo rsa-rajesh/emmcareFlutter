@@ -46,7 +46,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () => Navigator.pushNamed(context, RoutesName.my_schedule),
+            onTap: () => Navigator.pushNamed(context, RoutesName.home),
           ),
           ListTile(
             leading: Icon(

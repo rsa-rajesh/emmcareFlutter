@@ -1,3 +1,4 @@
+import 'package:emmcare/view/client_detail_view/client_detail_view.dart';
 import 'package:emmcare/view/my_document_viewer.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view/about_view.dart';
@@ -5,7 +6,7 @@ import 'package:emmcare/view/document_hub_view.dart';
 import 'package:emmcare/view/job_board_view.dart';
 import 'package:emmcare/view/login_view.dart';
 import 'package:emmcare/view/my_document_view.dart';
-import 'package:emmcare/view/my_schedule_view.dart';
+import 'package:emmcare/view/home_view.dart';
 import 'package:emmcare/view/notification_view.dart';
 import 'package:emmcare/view/splash_view.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +22,9 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => LoginView(),
         );
-      case RoutesName.my_schedule:
+      case RoutesName.home:
         return MaterialPageRoute(
-          builder: (BuildContext context) => MyScheduleView(),
+          builder: (BuildContext context) => HomeView(),
         );
       case RoutesName.my_document:
         return MaterialPageRoute(
@@ -48,6 +49,11 @@ class Routes {
       case RoutesName.document_open:
         return MaterialPageRoute(
           builder: (BuildContext context) => MyDocumentViewer(),
+        );
+
+      case RoutesName.client_detail:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ClientDetailView(),
         );
 
       default:

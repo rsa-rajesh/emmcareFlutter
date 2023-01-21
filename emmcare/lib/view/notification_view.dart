@@ -9,7 +9,8 @@ class NotificationView extends StatefulWidget {
   State<NotificationView> createState() => _NotificationViewState();
 }
 
-class _NotificationViewState extends State<NotificationView> {
+class _NotificationViewState extends State<NotificationView> { 
+  
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {

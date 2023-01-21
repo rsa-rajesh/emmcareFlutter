@@ -1,0 +1,92 @@
+import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/view/client_detail_view/details_view.dart';
+import 'package:emmcare/view/client_detail_view/events_view.dart';
+import 'package:emmcare/view/client_detail_view/progress_view.dart';
+import 'package:emmcare/view/client_detail_view/tasks_view.dart';
+import 'package:flutter/material.dart';
+
+class ClientDetailView extends StatefulWidget {
+  const ClientDetailView({super.key});
+
+  @override
+  State<ClientDetailView> createState() => _ClientDetailViewState();
+}
+
+class _ClientDetailViewState extends State<ClientDetailView> {
+  int _selectedIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> _pages = <Widget>[
+      DetailsView(),
+      TasksView(),
+      ProgressView(),
+      EventsView(),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.appBarColor,
+        centerTitle: true,
+        title: Text(
+          "Name of Client",
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ),
+
+      // body: Center(
+
+      //   child: _pages.elementAt(_selectedIndex),
+
+      // ),
+
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blueAccent,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+        type: BottomNavigationBarType.fixed,
+        iconSize: 26,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.assignment,
+              color: Color.fromARGB(255, 23, 36, 59),
+            ),
+            label: "DETAILS",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              color: Color.fromARGB(255, 23, 36, 59),
+              Icons.list_outlined,
+            ),
+            label: "TASKS",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.message_sharp,
+              color: Color.fromARGB(255, 23, 36, 59),
+            ),
+            label: "PROGRESS",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              color: Color.fromARGB(255, 23, 36, 59),
+              Icons.notifications,
+            ),
+            label: "EVENTS",
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+}

@@ -14,6 +14,7 @@ class MyDocumentView extends StatefulWidget {
 
 class _MyDocumentViewState extends State<MyDocumentView> {
   MyDocumentViewViewModel myDocumentViewViewModel = MyDocumentViewViewModel();
+
   @override
   void initState() {
     myDocumentViewViewModel.fetchDocumentsListApi();
@@ -89,8 +90,10 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                     );
                   },
                 );
+
+              default:
+                return Container(); // just to satisfy flutter analyzer
             }
-            return Container();
           },
         ),
       ),

@@ -15,7 +15,7 @@ class SplashServices {
         Navigator.pushReplacementNamed(context, RoutesName.login);
       } else {
         await Future.delayed(Duration(seconds: 3));
-        Navigator.pushReplacementNamed(context, RoutesName.my_schedule);
+        Navigator.pushReplacementNamed(context, RoutesName.home);
       }
     }).onError(
       (error, stackTrace) {

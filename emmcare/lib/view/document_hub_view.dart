@@ -85,8 +85,10 @@ class _DocumentHubViewState extends State<DocumentHubView> {
                     );
                   },
                 );
+              default:
+                return Container(); // just to satisfy flutter analyzer
+
             }
-            return Container();
           },
         ),
       ),
