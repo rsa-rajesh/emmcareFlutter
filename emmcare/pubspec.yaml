@@ -41,7 +41,7 @@ dependencies:
   provider: ^6.0.5
   calendar_timeline: ^1.1.0
   http: ^0.13.5
-  flutter_cached_pdfview: ^0.4.1
+  syncfusion_flutter_pdfviewer: ^20.4.44
   dio: ^4.0.6
   shared_preferences: ^2.0.16
   flutter_downloader: ^1.10.1

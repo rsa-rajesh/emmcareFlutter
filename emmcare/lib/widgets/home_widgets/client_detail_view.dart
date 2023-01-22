@@ -1,8 +1,9 @@
+import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
-import 'package:emmcare/view/client_detail_view/details_view.dart';
-import 'package:emmcare/view/client_detail_view/events_view.dart';
-import 'package:emmcare/view/client_detail_view/progress_view.dart';
-import 'package:emmcare/view/client_detail_view/tasks_view.dart';
+import 'package:emmcare/widgets/home_widgets/details_view.dart';
+import 'package:emmcare/widgets/home_widgets/events_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view.dart';
+import 'package:emmcare/widgets/home_widgets/tasks_view.dart';
 import 'package:flutter/material.dart';
 
 class ClientDetailView extends StatefulWidget {
@@ -16,6 +17,10 @@ class _ClientDetailViewState extends State<ClientDetailView> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    // Receiving the list of client from home view .
+    final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
+    //
+
     List<Widget> _pages = <Widget>[
       DetailsView(),
       TasksView(),
@@ -28,7 +33,7 @@ class _ClientDetailViewState extends State<ClientDetailView> {
         backgroundColor: AppColors.appBarColor,
         centerTitle: true,
         title: Text(
-          "Name of Client",
+          client_Detail.name.toString(),
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
@@ -43,6 +48,8 @@ class _ClientDetailViewState extends State<ClientDetailView> {
         index: _selectedIndex,
         children: _pages,
       ),
+
+      
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blueAccent,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),

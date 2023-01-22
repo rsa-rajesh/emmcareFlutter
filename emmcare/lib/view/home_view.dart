@@ -1,6 +1,6 @@
 import 'package:emmcare/data/response/status.dart';
 import 'package:emmcare/res/colors.dart';
-import 'package:emmcare/utils/routes/routes_name.dart';
+import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
 import 'package:emmcare/view_model/home_view_view_model.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({super.key});
+  HomeView({
+    super.key,
+  });
 
   @override
   State<HomeView> createState() => HomeViewState();
@@ -73,8 +75,18 @@ class HomeViewState extends State<HomeView> {
                   itemBuilder: (context, index) {
                     return InkWell(
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, RoutesName.client_detail);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ClientDetailView(),
+                              // Pass the arguments as part of the RouteSettings. The
+                              // DetailScreen reads the arguments from these settings.
+                              settings: RouteSettings(
+                                arguments:
+                                    value.clientList.data!.clients![index],
+                              ),
+                            ),
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 58),
@@ -91,7 +103,7 @@ class HomeViewState extends State<HomeView> {
                                 trailing: Text(
                                   value.clientList.data!.clients![index].purpose
                                       .toString(),
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                  style: TextStyle(fontWeight: FontWeight.w700),
                                 ),
                               ),
                               ListTile(

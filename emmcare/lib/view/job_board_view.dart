@@ -3,7 +3,7 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 
 import 'package:emmcare/res/components/navigation_drawer.dart';
-import 'package:emmcare/widgets/home_widgets/calender_timeline_widget.dart';
+import 'package:emmcare/res/components/calender_timeline_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

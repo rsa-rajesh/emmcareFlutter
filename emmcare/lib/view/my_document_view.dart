@@ -1,12 +1,13 @@
 import 'package:emmcare/data/response/status.dart';
 import 'package:emmcare/res/colors.dart';
-import 'package:emmcare/view/my_document_viewer.dart';
+import 'package:emmcare/widgets/my_document_widgets/my_document_viewer.dart';
 import 'package:emmcare/view_model/my_document_view_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class MyDocumentView extends StatefulWidget {
-  const MyDocumentView({super.key});
+  MyDocumentView({super.key});
 
   @override
   State<MyDocumentView> createState() => _MyDocumentViewState();
@@ -14,6 +15,7 @@ class MyDocumentView extends StatefulWidget {
 
 class _MyDocumentViewState extends State<MyDocumentView> {
   MyDocumentViewViewModel myDocumentViewViewModel = MyDocumentViewViewModel();
+  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
 
   @override
   void initState() {
@@ -57,10 +59,14 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                           iconSize: 30,
                           splashColor: Colors.lightBlueAccent,
                           onPressed: () {
+                            _pdfViewerKey.currentState?.openBookmarkView();
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => MyDocumentViewer(),
+                                // Pass the arguments as part of the RouteSettings. The
+                                // DetailScreen reads the arguments from these settings.
                                 settings: RouteSettings(
                                   arguments: value
                                       .mydocumentList.data!.mydocuments![index],

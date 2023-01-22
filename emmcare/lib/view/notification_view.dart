@@ -1,5 +1,7 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
+import 'package:emmcare/widgets/notification_widgets/read_notification_view.dart';
+import 'package:emmcare/widgets/notification_widgets/unread_notification_view.dart';
 import 'package:flutter/material.dart';
 
 class NotificationView extends StatefulWidget {
@@ -9,9 +11,16 @@ class NotificationView extends StatefulWidget {
   State<NotificationView> createState() => _NotificationViewState();
 }
 
-class _NotificationViewState extends State<NotificationView> { 
-  
+class _NotificationViewState extends State<NotificationView> {
   int _selectedIndex = 0;
+
+  // List of Notificaiton Widgets.
+  List<Widget> _pages = <Widget>[
+    ReadNotificationView(),
+    UnReadNotificationView(),
+  ];
+  //
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +39,14 @@ class _NotificationViewState extends State<NotificationView> {
           ),
         ],
       ),
-      body: Column(
-        children: [],
+
+      // Default view of Notification widget.
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
       ),
+      //
+
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 26,
         currentIndex: _selectedIndex,

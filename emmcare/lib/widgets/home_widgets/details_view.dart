@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class DetailsView extends StatefulWidget {
   const DetailsView({super.key});
@@ -15,10 +13,6 @@ class _DetailsViewState extends State<DetailsView> {
     return Center(
       child: Column(
         children: [
-          Text("Details"),
-          Text("Details"),
-          Text("Details"),
-          Text("Details"),
           Text("Details"),
         ],
       ),

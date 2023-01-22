@@ -1,9 +1,10 @@
 import 'package:emmcare/data/response/status.dart';
 import 'package:emmcare/res/colors.dart';
-import 'package:emmcare/view/document_hub_viewer.dart';
+import 'package:emmcare/widgets/document_hub_widgets/document_hub_viewer.dart';
 import 'package:emmcare/view_model/ducument_hub_view_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class DocumentHubView extends StatefulWidget {
   const DocumentHubView({super.key});
@@ -15,6 +16,7 @@ class DocumentHubView extends StatefulWidget {
 class _DocumentHubViewState extends State<DocumentHubView> {
   DocumentHubViewViewModel documentHubViewViewModel =
       DocumentHubViewViewModel();
+  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   @override
   void initState() {
     documentHubViewViewModel.fetchDocumentHubListApi();
@@ -52,10 +54,13 @@ class _DocumentHubViewState extends State<DocumentHubView> {
                           iconSize: 30,
                           splashColor: Colors.lightBlueAccent,
                           onPressed: () {
+                            _pdfViewerKey.currentState?.openBookmarkView();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DocumentHubViewer(),
+                                // Pass the arguments as part of the RouteSettings. The
+                                // DetailScreen reads the arguments from these settings.
                                 settings: RouteSettings(
                                   arguments: value.documentHubList.data!
                                       .documentHub![index],

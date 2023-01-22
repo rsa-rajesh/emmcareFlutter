@@ -183,6 +183,7 @@ class _LoginViewState extends State<LoginView> {
 
                             authViewModel.loginApi(data, context);
                             print("api hit");
+                            FocusManager.instance.primaryFocus?.unfocus();
                           }
                         },
                       ),

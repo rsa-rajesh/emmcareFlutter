@@ -1,5 +1,5 @@
-import 'package:emmcare/view/client_detail_view/client_detail_view.dart';
-import 'package:emmcare/view/my_document_viewer.dart';
+import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
+import 'package:emmcare/widgets/my_document_widgets/my_document_viewer.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view/about_view.dart';
 import 'package:emmcare/view/document_hub_view.dart';
