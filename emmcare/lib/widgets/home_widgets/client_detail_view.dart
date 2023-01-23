@@ -33,7 +33,9 @@ class _ClientDetailViewState extends State<ClientDetailView> {
         backgroundColor: AppColors.appBarColor,
         centerTitle: true,
         title: Text(
-          client_Detail.name.toString(),
+          client_Detail.name.toString() +
+              "-" +
+              client_Detail.purpose.toString(),
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),

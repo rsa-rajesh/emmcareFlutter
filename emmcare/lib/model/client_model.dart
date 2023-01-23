@@ -70,14 +70,16 @@ class Address {
   String? suite;
   String? city;
   String? zipcode;
+  Geo? geo;
 
-  Address({this.street, this.suite, this.city, this.zipcode});
+  Address({this.street, this.suite, this.city, this.zipcode, this.geo});
 
   Address.fromJson(Map<String, dynamic> json) {
     street = json['street'];
     suite = json['suite'];
     city = json['city'];
     zipcode = json['zipcode'];
+    geo = json['geo'] != null ? new Geo.fromJson(json['geo']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -86,6 +88,28 @@ class Address {
     data['suite'] = this.suite;
     data['city'] = this.city;
     data['zipcode'] = this.zipcode;
+    if (this.geo != null) {
+      data['geo'] = this.geo!.toJson();
+    }
+    return data;
+  }
+}
+
+class Geo {
+  String? lat;
+  String? lng;
+
+  Geo({this.lat, this.lng});
+
+  Geo.fromJson(Map<String, dynamic> json) {
+    lat = json['lat'];
+    lng = json['lng'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['lat'] = this.lat;
+    data['lng'] = this.lng;
     return data;
   }
 }
