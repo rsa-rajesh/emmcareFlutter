@@ -4,6 +4,7 @@ import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
 import 'package:emmcare/view_model/home_view_view_model.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -43,15 +44,29 @@ class HomeViewState extends State<HomeView> {
         ],
         backgroundColor: AppColors.appBarColor,
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(20.2),
-        child: FloatingActionButton(
-          onPressed: () {
-            // Add your onPressed code here!
-          },
-          backgroundColor: AppColors.floatingActionButtonColor,
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: SpeedDial(
+        icon: Icons.add, //icon on Floating action button
+        activeIcon: Icons.close, //icon when menu is expanded on button
+        backgroundColor:
+            AppColors.floatingActionButtonColor, //background color of button
+        buttonSize: Size(56, 56), //button size
+        visible: true,
+        closeManually: false,
+        curve: Curves.bounceIn,
+
+        shape: CircleBorder(), //shape of button
+
+        children: [
+          SpeedDialChild(
+            //speed dial child
+            child: Icon(Icons.event_busy_rounded),
+            backgroundColor: AppColors.floatingActionButtonColor,
+            foregroundColor: Colors.white,
+            label: 'Add Unavailability',
+            labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
+            onTap: () {},
+          ),
+        ],
       ),
       body: ChangeNotifierProvider<HomeViewViewModel>(
         create: (BuildContext context) => homeViewViewModel,

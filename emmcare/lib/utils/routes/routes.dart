@@ -1,4 +1,11 @@
 import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/enquiry_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/expense_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/feedback_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/goal_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/incident_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/mileage_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/progress_notes_view.dart';
 import 'package:emmcare/widgets/my_document_widgets/my_document_viewer.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view/about_view.dart';
@@ -54,6 +61,41 @@ class Routes {
       case RoutesName.client_detail:
         return MaterialPageRoute(
           builder: (BuildContext context) => ClientDetailView(),
+        );
+
+      case RoutesName.goal:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => GoalView(),
+        );
+
+      case RoutesName.expense:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ExpenseView(),
+        );
+
+      case RoutesName.mileage:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => MileageView(),
+        );
+
+      case RoutesName.enquiry:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => EnquiryView(),
+        );
+
+      case RoutesName.incident:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => IncidentView(),
+        );
+
+      case RoutesName.feedback:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => FeedbackView(),
+        );
+
+      case RoutesName.progress_notes:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ProgressNotesView(),
         );
 
       default:

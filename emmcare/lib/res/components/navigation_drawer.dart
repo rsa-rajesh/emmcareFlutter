@@ -1,3 +1,4 @@
+import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view_model/user_view_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -163,7 +164,7 @@ class _buildHeaderState extends State<buildHeader> {
   Widget build(BuildContext context) {
     return Container(
       // color: Color.fromARGB(255, 23, 36, 59),
-      color: Colors.lightBlueAccent,
+      color: AppColors.NavDrawerHeaderColor,
       padding: EdgeInsets.only(
           top: 50,
           // top: MediaQuery.of(context).padding.top,
@@ -176,7 +177,7 @@ class _buildHeaderState extends State<buildHeader> {
                 ExactAssetImage('assets/images/app_logo_white.png'),
 
             // backgroundImage: NetworkImage(
-            //   "https://old.emmett-technique-hq.com/images/icons/icon-logo-emm-care-wh.jpg",
+            //   "",
             // ),
           ),
           SizedBox(
@@ -187,7 +188,7 @@ class _buildHeaderState extends State<buildHeader> {
             style: TextStyle(fontSize: 17, color: Colors.white),
           ),
           Text(
-            "EMMC Support Services",
+            "rostermanagement@emmc.com.au",
             style: TextStyle(fontSize: 13, color: Colors.white),
           )
         ],

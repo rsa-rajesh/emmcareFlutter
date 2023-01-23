@@ -2,7 +2,7 @@ import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/widgets/home_widgets/details_view.dart';
 import 'package:emmcare/widgets/home_widgets/events_view.dart';
-import 'package:emmcare/widgets/home_widgets/progress_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_view.dart';
 import 'package:emmcare/widgets/home_widgets/tasks_view.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +49,6 @@ class _ClientDetailViewState extends State<ClientDetailView> {
         children: _pages,
       ),
 
-      
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blueAccent,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),

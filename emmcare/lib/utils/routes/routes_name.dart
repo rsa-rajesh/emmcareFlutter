@@ -27,4 +27,25 @@ class RoutesName {
 
   //
   static const String client_detail = "client_detail_view";
+
+  //
+  static const String goal = "goal_view";
+
+  //
+  static const String expense = "expense_view";
+
+  //
+  static const String mileage = "mileage_view";
+
+  //
+  static const String enquiry = "enquiry_view";
+
+  //
+  static const String incident = "incident_view";
+
+  //
+  static const String feedback = "feedback_view";
+
+  //
+  static const String progress_notes = "progress_note_view";
 }
