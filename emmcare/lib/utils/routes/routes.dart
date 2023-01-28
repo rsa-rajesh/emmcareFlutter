@@ -1,4 +1,10 @@
 import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
+import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_detail.dart';
+import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_documents.dart';
+import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_goal.dart';
+import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_view.dart';
+import 'package:emmcare/widgets/home_widgets/details_view/instructions_view.dart';
+import 'package:emmcare/widgets/home_widgets/events_view/shift_report_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/enquiry_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/expense_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/feedback_view.dart';
@@ -96,6 +102,36 @@ class Routes {
       case RoutesName.progress_notes:
         return MaterialPageRoute(
           builder: (BuildContext context) => ProgressNotesView(),
+        );
+
+      case RoutesName.instruction:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => InstructionView(),
+        );
+
+      case RoutesName.shif_report:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ShiftReportView(),
+        );
+
+      case RoutesName.client_profile:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ClientProfileView(),
+        );
+
+      case RoutesName.client_profile_detail:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ClientProfileDetailView(),
+        );
+
+      case RoutesName.client_profile_document:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ClientProfileDocumentView(),
+        );
+
+      case RoutesName.client_profile_Goal:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ClientProfileGoalView(),
         );
 
       default:

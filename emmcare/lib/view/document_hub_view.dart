@@ -1,5 +1,6 @@
 import 'package:emmcare/data/response/status.dart';
 import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:emmcare/widgets/document_hub_widgets/document_hub_viewer.dart';
 import 'package:emmcare/view_model/ducument_hub_view_view_model.dart';
 import 'package:flutter/material.dart';
@@ -97,6 +98,7 @@ class _DocumentHubViewState extends State<DocumentHubView> {
           },
         ),
       ),
+      drawer: NavigationDrawer(),
     );
   }
 }

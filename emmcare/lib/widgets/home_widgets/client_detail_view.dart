@@ -1,7 +1,7 @@
 import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
-import 'package:emmcare/widgets/home_widgets/details_view.dart';
-import 'package:emmcare/widgets/home_widgets/events_view.dart';
+import 'package:emmcare/widgets/home_widgets/details_view/details_view.dart';
+import 'package:emmcare/widgets/home_widgets/events_view/events_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_view.dart';
 import 'package:emmcare/widgets/home_widgets/tasks_view.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +10,16 @@ class ClientDetailView extends StatefulWidget {
   const ClientDetailView({super.key});
 
   @override
-  State<ClientDetailView> createState() => _ClientDetailViewState();
+  State<ClientDetailView> createState() => ClientDetailViewState();
 }
 
-class _ClientDetailViewState extends State<ClientDetailView> {
+class ClientDetailViewState extends State<ClientDetailView> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     // Receiving the list of client from home view .
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
+
     //
 
     List<Widget> _pages = <Widget>[

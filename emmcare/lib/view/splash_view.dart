@@ -1,3 +1,4 @@
+import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view_model/services/splash_services.dart';
 import 'package:flutter/material.dart';
 
@@ -20,10 +21,12 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.appBarColor,
       body: Center(
         child: Text(
           "Emm Care",
-          style: Theme.of(context).textTheme.headline4,
+          style: TextStyle(
+              fontSize: 30, color: Colors.white, fontWeight: FontWeight.w900),
         ),
       ),
     );

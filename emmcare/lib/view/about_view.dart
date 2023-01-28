@@ -1,6 +1,7 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutView extends StatefulWidget {
   const AboutView({super.key});
@@ -68,7 +69,15 @@ class _AboutViewState extends State<AboutView> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     splashColor: Colors.blue,
-                    onTap: () {},
+                    onTap: () async {
+                      final Uri _url = Uri.parse("https://www.emmc.com.au/");
+                      if (await canLaunchUrl(_url)) {
+                        await launchUrl(_url);
+                      } else {
+                        // can't launch url
+                        throw 'Could not launch $_url';
+                      }
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -89,7 +98,15 @@ class _AboutViewState extends State<AboutView> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     splashColor: Colors.blue,
-                    onTap: () {},
+                    onTap: () async {
+                      final Uri _url = Uri.parse("https://www.emmc.com.au/");
+                      if (await canLaunchUrl(_url)) {
+                        await launchUrl(_url);
+                      } else {
+                        // can't launch url
+                        throw 'Could not launch $_url';
+                      }
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -110,7 +127,15 @@ class _AboutViewState extends State<AboutView> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     splashColor: Colors.blue,
-                    onTap: () {},
+                    onTap: () async {
+                      final Uri _url = Uri.parse("https://www.emmc.com.au/");
+                      if (await canLaunchUrl(_url)) {
+                        await launchUrl(_url);
+                      } else {
+                        // can't launch url
+                        throw 'Could not launch $_url';
+                      }
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -131,7 +156,15 @@ class _AboutViewState extends State<AboutView> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     splashColor: Colors.blue,
-                    onTap: () {},
+                    onTap: () async {
+                      final Uri _url = Uri.parse("https://www.emmc.com.au/");
+                      if (await canLaunchUrl(_url)) {
+                        await launchUrl(_url);
+                      } else {
+                        // can't launch url
+                        throw 'Could not launch $_url';
+                      }
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

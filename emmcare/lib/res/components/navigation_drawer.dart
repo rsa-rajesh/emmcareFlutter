@@ -1,9 +1,11 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
+import 'package:emmcare/view/login_view.dart';
 import 'package:emmcare/view_model/user_view_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigationDrawer extends StatefulWidget {
   const NavigationDrawer({super.key});
@@ -14,6 +16,8 @@ class NavigationDrawer extends StatefulWidget {
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
   bool light = true;
+
+  String obtainEmail = "";
   @override
   Widget build(BuildContext context) {
     final userPreference = Provider.of<UserViewViewModel>(context);
@@ -119,13 +123,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           Expanded(child: Container()),
           Container(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton.icon(
                       onPressed: () {
-                        // Navigator.pushNamed(context, RoutesName.about);
                         userPreference.remove().then(
                           (value) {
                             Navigator.pushNamed(context, RoutesName.login);
@@ -161,18 +164,26 @@ class buildHeader extends StatefulWidget {
 
 class _buildHeaderState extends State<buildHeader> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getEmail();
+  }
+
+  String obtainEmail = "";
+  @override
   Widget build(BuildContext context) {
     return Container(
       // color: Color.fromARGB(255, 23, 36, 59),
       color: AppColors.NavDrawerHeaderColor,
       padding: EdgeInsets.only(
-          top: 50,
+          top: 35,
           // top: MediaQuery.of(context).padding.top,
-          bottom: 24),
+          bottom: 10),
       child: Column(
         children: [
           CircleAvatar(
-            radius: 60,
+            radius: 45,
             backgroundImage:
                 ExactAssetImage('assets/images/app_logo_white.png'),
 
@@ -181,18 +192,27 @@ class _buildHeaderState extends State<buildHeader> {
             // ),
           ),
           SizedBox(
-            height: 12,
+            height: 8,
           ),
           Text(
             "EMMC Support Services",
             style: TextStyle(fontSize: 17, color: Colors.white),
           ),
           Text(
-            "rostermanagement@emmc.com.au",
+            // "rostermanagement@emmc.com.au",
+            obtainEmail,
             style: TextStyle(fontSize: 13, color: Colors.white),
           )
         ],
       ),
     );
+  }
+
+  Future<void> getEmail() async {
+    final sharedpref = await SharedPreferences.getInstance();
+
+    setState(() {
+      obtainEmail = sharedpref.getString(LoginViewState.KEYEMAIL)!;
+    });
   }
 }

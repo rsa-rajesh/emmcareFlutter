@@ -1,3 +1,4 @@
+import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,13 @@ class ProgressView extends StatefulWidget {
   const ProgressView({super.key});
 
   @override
-  State<ProgressView> createState() => _ProgressViewState();
+  State<ProgressView> createState() => ProgressViewState();
 }
 
-class _ProgressViewState extends State<ProgressView> {
+class ProgressViewState extends State<ProgressView> {
   @override
   Widget build(BuildContext context) {
+    final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
     return Scaffold(
       floatingActionButton: SpeedDial(
         icon: Icons.add, //icon on Floating action button

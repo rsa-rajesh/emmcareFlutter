@@ -16,8 +16,8 @@ class _NotificationViewState extends State<NotificationView> {
 
   // List of Notificaiton Widgets.
   List<Widget> _pages = <Widget>[
-    ReadNotificationView(),
     UnReadNotificationView(),
+    ReadNotificationView(),
   ];
   //
 

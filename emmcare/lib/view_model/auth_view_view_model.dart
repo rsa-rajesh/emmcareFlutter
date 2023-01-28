@@ -19,10 +19,12 @@ class AuthViewViewModel with ChangeNotifier {
   }
 
   Future<void> loginApi(dynamic data, BuildContext context) async {
+    
     setLoading(true);
 
     _myRepo.loginApi(data).then((value) {
       setLoading(false);
+      
 
       //
       // Finally shared preference fixed.

@@ -1,4 +1,6 @@
+import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 
 class EventsView extends StatefulWidget {
@@ -11,16 +13,19 @@ class EventsView extends StatefulWidget {
 class _EventsViewState extends State<EventsView> {
   @override
   Widget build(BuildContext context) {
+    final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
     return ListView.builder(
       itemCount: 20,
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, RoutesName.shif_report);
+          },
           child: Card(
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: AppColors.buttonColor,
-                backgroundImage: NetworkImage(""),
+                backgroundImage: NetworkImage(client_Detail.avatar.toString()),
               ),
               title: Text(
                 "**SHIFT REPORT .......**...",

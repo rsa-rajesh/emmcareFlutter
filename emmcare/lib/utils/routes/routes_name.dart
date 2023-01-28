@@ -48,4 +48,22 @@ class RoutesName {
 
   //
   static const String progress_notes = "progress_note_view";
+
+  //
+  static const String instruction = "instruction_view";
+
+  //
+  static const String shif_report = "shift_report_view";
+
+  //
+  static const String client_profile = "client_profile_view";
+
+  //
+  static const String client_profile_detail = "client_profile_detail_view";
+
+  //
+  static const String client_profile_document = "client_profile_document_view";
+
+  //
+  static const String client_profile_Goal = "client_profile_Goal_view";
 }

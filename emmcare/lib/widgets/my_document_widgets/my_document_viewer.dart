@@ -1,4 +1,5 @@
 import 'package:emmcare/model/my_document_model.dart';
+import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -19,7 +20,7 @@ class _MyDocumentViewerState extends State<MyDocumentViewer> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.lightBlueAccent,
+          backgroundColor: AppColors.appBarColor,
           automaticallyImplyLeading: true,
         ),
         body: Stack(
@@ -29,6 +30,7 @@ class _MyDocumentViewerState extends State<MyDocumentViewer> {
               newdocumentList.documentUrl.toString(),
               key: _pdfViewerKey,
               enableDoubleTapZooming: true,
+              canShowScrollStatus: true,
             ),
             Positioned(
                 bottom: 37,

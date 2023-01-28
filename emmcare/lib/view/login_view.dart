@@ -3,15 +3,16 @@ import 'package:emmcare/utils/utils.dart';
 import 'package:emmcare/view_model/auth_view_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<LoginView> createState() => LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class LoginViewState extends State<LoginView> {
   ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
   // Email and password Controllers
   var emailController = TextEditingController();
@@ -32,6 +33,7 @@ class _LoginViewState extends State<LoginView> {
     _obsecurePassword.dispose();
   }
 
+  static String KEYEMAIL = "email";
   @override
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<AuthViewViewModel>(context);
@@ -153,7 +155,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
 
-                    SizedBox(height: height * .39),
+                    SizedBox(height: height * .17),
 
                     // RoundButton
                     Container(
@@ -161,7 +163,7 @@ class _LoginViewState extends State<LoginView> {
                       child: RoundButton(
                         title: "Login",
                         loading: authViewModel.loading,
-                        onPress: () {
+                        onPress: () async {
                           if (emailController.text.isEmpty) {
                             Utils.flushBarErrorMessage(
                                 "Please enter email", context);
@@ -172,13 +174,22 @@ class _LoginViewState extends State<LoginView> {
                             Utils.flushBarErrorMessage(
                                 "Please Enter 6 digit password", context);
                           } else {
+                            final sharedprefs =
+                                await SharedPreferences.getInstance();
+
+                            sharedprefs.setString(
+                                KEYEMAIL, emailController.text.toString());
+                            setState(() {
+                              sharedprefs.getString(KEYEMAIL);
+                            });
                             Map data = {
                               "email": emailController.text.toString(),
                               "password": passwordController.text.toString(),
                             };
+
                             // Map data = {
-                            //   'email' : 'eve.holt@reqres.in',
-                            //   'password' : 'cityslicka',
+                            //   'email' : 'rostermanagement@emmc.com.au',
+                            //   'password' : '132LangdonDrive',
                             // };
 
                             authViewModel.loginApi(data, context);

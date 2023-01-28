@@ -27,31 +27,79 @@ class _GoalViewState extends State<GoalView> {
           child: Wrap(
             children: [
               InkWell(
-                onTap: () {},
-                splashColor: Colors.lightBlueAccent,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      tileColor: Colors.white70,
-                      // leading: ,
-                      // trailing: ,
-                    ),
+                onTap: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const <Widget>[
+                              Text('Name of client'),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                splashColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                  child: Row(
+                    children: [
+                      Icon(Icons.notifications, size: 30),
+                      Expanded(
+                        child: Text(
+                          "Name of client",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w900),
+                        ),
+                      ),
+                      Icon(Icons.keyboard_arrow_down_outlined, size: 30),
+                    ],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.notifications, size: 30),
-                    Text(
-                      "No Strategies Available",
-                      style: TextStyle(
-                        fontSize: 15,
+              InkWell(
+                onTap: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const <Widget>[
+                              Text('No Strategies Available'),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                splashColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                  child: Row(
+                    children: [
+                      Icon(Icons.battery_full_outlined, size: 30),
+                      Expanded(
+                        child: Text(
+                          "No Strategies Available",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      Icon(Icons.keyboard_arrow_down_outlined, size: 30),
+                    ],
+                  ),
                 ),
               ),
               Center(
@@ -83,7 +131,22 @@ class _GoalViewState extends State<GoalView> {
                       icon: Icon(Icons.save_outlined),
                       iconSize: 35,
                       color: Colors.white,
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text("Error"),
+                            content: Text("Choose a strtegy to rate!"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("OK"))
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

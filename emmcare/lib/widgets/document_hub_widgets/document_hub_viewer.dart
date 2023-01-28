@@ -1,4 +1,5 @@
 import 'package:emmcare/model/document_hub_model.dart';
+import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -17,8 +18,8 @@ class _DocumentHubViewerState extends State<DocumentHubViewer> {
 
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.lightBlueAccent //appbar background color
-            ),
+          backgroundColor: AppColors.appBarColor, //appbar background color
+        ),
         body: Stack(
           children: [
             SfPdfViewer.network(

@@ -11,11 +11,7 @@ class _TasksViewState extends State<TasksView> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          Text("Tasks"),
-        ],
-      ),
+      child: Text("Tasks"),
     );
   }
 }

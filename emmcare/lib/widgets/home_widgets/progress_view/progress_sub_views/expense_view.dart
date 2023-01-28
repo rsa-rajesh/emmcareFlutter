@@ -1,4 +1,7 @@
+import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_view.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseView extends StatefulWidget {
@@ -13,7 +16,7 @@ class _ExpenseViewState extends State<ExpenseView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.appBarColor, 
+        backgroundColor: AppColors.appBarColor,
         actions: [
           InkWell(
               onTap: () {},

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({
@@ -29,6 +30,8 @@ class HomeViewState extends State<HomeView> {
     homeViewViewModel.fetchClientListApi();
     super.initState();
   }
+
+  static String KEYCLIENTID = "client_Id";
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +92,23 @@ class HomeViewState extends State<HomeView> {
                   itemCount: value.clientList.data!.clients!.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                        onTap: () {
+                        onTap: () async {
+                          int? clientId =
+                              value.clientList.data!.clients![index].id;
+
+                          final sharedprefs =
+                              await SharedPreferences.getInstance();
+
+                          sharedprefs.setInt(KEYCLIENTID, clientId!);
+
+                          setState(() {
+                            sharedprefs.getInt(KEYCLIENTID);
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => ClientDetailView(),
+
                               // Pass the arguments as part of the RouteSettings. The
                               // DetailScreen reads the arguments from these settings.
                               settings: RouteSettings(
@@ -104,7 +119,7 @@ class HomeViewState extends State<HomeView> {
                           );
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 58),
+                          padding: const EdgeInsets.only(left: 45),
                           child: Card(
                             child: Column(children: [
                               ListTile(
@@ -118,6 +133,7 @@ class HomeViewState extends State<HomeView> {
                                 trailing: Text(
                                   value.clientList.data!.clients![index].purpose
                                       .toString(),
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontWeight: FontWeight.w700),
                                 ),
                               ),
