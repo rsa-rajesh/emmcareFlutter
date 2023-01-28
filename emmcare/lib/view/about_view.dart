@@ -51,6 +51,7 @@ class _AboutViewState extends State<AboutView> {
               ),
             ],
           ),
+
           //  First Row ended.
           //
           //
@@ -70,12 +71,15 @@ class _AboutViewState extends State<AboutView> {
                   child: InkWell(
                     splashColor: Colors.blue,
                     onTap: () async {
-                      final Uri _url = Uri.parse("https://www.emmc.com.au/");
-                      if (await canLaunchUrl(_url)) {
-                        await launchUrl(_url);
+                      final url = Uri.parse(
+                        'https://www.emmc.com.au/',
+                      );
+
+                      if (await canLaunchUrl(url)) {
+                        launchUrl(url, mode: LaunchMode.externalApplication);
                       } else {
-                        // can't launch url
-                        throw 'Could not launch $_url';
+                        // ignore: avoid_print
+                        print("Can't launch $url");
                       }
                     },
                     child: Row(
@@ -99,12 +103,15 @@ class _AboutViewState extends State<AboutView> {
                   child: InkWell(
                     splashColor: Colors.blue,
                     onTap: () async {
-                      final Uri _url = Uri.parse("https://www.emmc.com.au/");
-                      if (await canLaunchUrl(_url)) {
-                        await launchUrl(_url);
+                      final url = Uri.parse(
+                        'https://www.emmc.com.au/',
+                      );
+
+                      if (await canLaunchUrl(url)) {
+                        launchUrl(url, mode: LaunchMode.externalApplication);
                       } else {
-                        // can't launch url
-                        throw 'Could not launch $_url';
+                        // ignore: avoid_print
+                        print("Can't launch $url");
                       }
                     },
                     child: Row(
@@ -128,12 +135,15 @@ class _AboutViewState extends State<AboutView> {
                   child: InkWell(
                     splashColor: Colors.blue,
                     onTap: () async {
-                      final Uri _url = Uri.parse("https://www.emmc.com.au/");
-                      if (await canLaunchUrl(_url)) {
-                        await launchUrl(_url);
+                      final url = Uri.parse(
+                        'https://www.emmc.com.au/',
+                      );
+
+                      if (await canLaunchUrl(url)) {
+                        launchUrl(url, mode: LaunchMode.externalApplication);
                       } else {
-                        // can't launch url
-                        throw 'Could not launch $_url';
+                        // ignore: avoid_print
+                        print("Can't launch $url");
                       }
                     },
                     child: Row(
@@ -157,12 +167,15 @@ class _AboutViewState extends State<AboutView> {
                   child: InkWell(
                     splashColor: Colors.blue,
                     onTap: () async {
-                      final Uri _url = Uri.parse("https://www.emmc.com.au/");
-                      if (await canLaunchUrl(_url)) {
-                        await launchUrl(_url);
+                      final url = Uri.parse(
+                        'https://www.emmc.com.au/',
+                      );
+
+                      if (await canLaunchUrl(url)) {
+                        launchUrl(url, mode: LaunchMode.externalApplication);
                       } else {
-                        // can't launch url
-                        throw 'Could not launch $_url';
+                        // ignore: avoid_print
+                        print("Can't launch $url");
                       }
                     },
                     child: Row(

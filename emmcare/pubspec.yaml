@@ -49,6 +49,8 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   google_maps_flutter: ^2.2.3
   url_launcher: ^6.1.8
+  # package_info_plus: ^3.0.2
+ 
 
   
 
