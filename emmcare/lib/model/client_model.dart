@@ -24,6 +24,8 @@ class ClientModel {
 class Clients {
   String? name;
   String? purpose;
+  String? day;
+  String? number;
   Address? address;
   String? time;
   String? avatar;
@@ -33,6 +35,8 @@ class Clients {
   Clients(
       {this.name,
       this.purpose,
+      this.day,
+      this.number,
       this.address,
       this.time,
       this.avatar,
@@ -42,6 +46,8 @@ class Clients {
   Clients.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     purpose = json['purpose'];
+    day = json['day'];
+    number = json['number'];
     address =
         json['address'] != null ? new Address.fromJson(json['address']) : null;
     time = json['time'];
@@ -54,6 +60,8 @@ class Clients {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['purpose'] = this.purpose;
+    data['day'] = this.day;
+    data['number'] = this.number;
     if (this.address != null) {
       data['address'] = this.address!.toJson();
     }
