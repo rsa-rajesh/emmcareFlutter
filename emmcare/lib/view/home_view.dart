@@ -31,7 +31,13 @@ class HomeViewState extends State<HomeView> {
     super.initState();
   }
 
+  // Shared prefs keys.
   static String KEYCLIENTID = "client_Id";
+  static String KEYCLIENTNAME = "client_Name";
+  static String KEYCLIENTAVATAR = "client_Avatar";
+  static String KEYCLIENTLAT = "client_Lat";
+  static String KEYCLIENTLog = "client_Log";
+  // Shared prefs keys.
 
   @override
   Widget build(BuildContext context) {
@@ -95,15 +101,43 @@ class HomeViewState extends State<HomeView> {
                         onTap: () async {
                           int? clientId =
                               value.clientList.data!.clients![index].id;
+                          String? clientName =
+                              value.clientList.data!.clients![index].name;
+                          String? clientAvatar =
+                              value.clientList.data!.clients![index].avatar;
+                          String? clientLat = value.clientList.data!
+                              .clients![index].address!.geo!.lat;
+                          String? clientLog = value.clientList.data!
+                              .clients![index].address!.geo!.lng;
 
                           final sharedprefs =
                               await SharedPreferences.getInstance();
 
                           sharedprefs.setInt(KEYCLIENTID, clientId!);
-
                           setState(() {
                             sharedprefs.getInt(KEYCLIENTID);
                           });
+
+                          sharedprefs.setString(KEYCLIENTNAME, clientName!);
+                          setState(() {
+                            sharedprefs.getString(KEYCLIENTNAME);
+                          });
+
+                          sharedprefs.setString(KEYCLIENTAVATAR, clientAvatar!);
+                          setState(() {
+                            sharedprefs.getString(KEYCLIENTAVATAR);
+                          });
+
+                          sharedprefs.setString(KEYCLIENTLAT, clientLat!);
+                          setState(() {
+                            sharedprefs.getString(KEYCLIENTLAT);
+                          });
+
+                          sharedprefs.setString(KEYCLIENTLog, clientLog!);
+                          setState(() {
+                            sharedprefs.getString(KEYCLIENTLog);
+                          });
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(

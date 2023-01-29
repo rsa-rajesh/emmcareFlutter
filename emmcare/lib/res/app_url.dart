@@ -9,4 +9,5 @@ class AppUrl {
   static var documentHubListEndPoint = baseUrl + "document_hub";
   static var clientListEndPoint = baseUrl + "clients";
   static var clientDetailEndPoint = baseUrl + "client_detail";
+  static var JobListEndPoint = baseUrl + "jobs";
 }

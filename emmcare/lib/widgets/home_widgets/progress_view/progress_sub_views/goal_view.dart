@@ -1,6 +1,8 @@
 import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/view/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GoalView extends StatefulWidget {
   const GoalView({super.key});
@@ -10,6 +12,19 @@ class GoalView extends StatefulWidget {
 }
 
 class _GoalViewState extends State<GoalView> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Step:1
+    //
+    getClientName();
+  }
+
+  // Step:2
+  //
+  String? cltName;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +51,8 @@ class _GoalViewState extends State<GoalView> {
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
-                              Text('Name of client'),
+                            children: <Widget>[
+                              Text(cltName!),
                             ],
                           ),
                         ),
@@ -53,7 +68,7 @@ class _GoalViewState extends State<GoalView> {
                       Icon(Icons.notifications, size: 30),
                       Expanded(
                         child: Text(
-                          "Name of client",
+                          cltName!,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w900),
                         ),
@@ -156,5 +171,13 @@ class _GoalViewState extends State<GoalView> {
         ),
       ),
     );
+  }
+
+  Future<void> getClientName() async {
+    final sharedpref = await SharedPreferences.getInstance();
+
+    setState(() {
+      cltName = sharedpref.getString(HomeViewState.KEYCLIENTNAME)!;
+    });
   }
 }

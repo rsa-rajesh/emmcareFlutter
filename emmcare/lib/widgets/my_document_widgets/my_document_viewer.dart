@@ -2,7 +2,7 @@ import 'package:emmcare/model/my_document_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/round_button.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
 class MyDocumentViewer extends StatefulWidget {
   const MyDocumentViewer({super.key});
@@ -12,7 +12,6 @@ class MyDocumentViewer extends StatefulWidget {
 }
 
 class _MyDocumentViewerState extends State<MyDocumentViewer> {
-  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     final newdocumentList =
@@ -25,19 +24,18 @@ class _MyDocumentViewerState extends State<MyDocumentViewer> {
         ),
         body: Stack(
           children: [
-            SfPdfViewer.network(
-              // 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
+            PDF().cachedFromUrl(
               newdocumentList.documentUrl.toString(),
-              key: _pdfViewerKey,
-              enableDoubleTapZooming: true,
-              canShowScrollStatus: true,
+              maxAgeCacheObject: Duration(days: 30), //duration of cache
+              placeholder: (progress) => Center(child: Text('$progress %')),
+              errorWidget: (error) => Center(child: Text(error.toString())),
             ),
             Positioned(
                 bottom: 37,
                 right: 105,
                 child: RoundButton(
                   title: "Download",
-                  onPress: () async {},
+                  onPress: () {},
                 ))
           ],
         ));

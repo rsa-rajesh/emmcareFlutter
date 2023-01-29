@@ -1,10 +1,9 @@
 import 'package:emmcare/data/response/status.dart';
 import 'package:emmcare/res/colors.dart';
-import 'package:emmcare/utils/routes/routes_name.dart';
-
 import 'package:emmcare/res/components/navigation_drawer.dart';
-import 'package:emmcare/res/components/calender_timeline_widget.dart';
+import 'package:emmcare/view_model/job_board_view_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -20,13 +19,19 @@ class JobBoardViewState extends State<JobBoardView> {
   String currentMonth = DateFormat.LLL().format(DateTime.now());
   String currentYear = DateFormat("yyyy").format(DateTime.now());
 
-  // JobBoardViewViewModel jobBoardViewViewModel = JobBoardViewViewModel();
+  JobBoardViewViewModel jobBoardViewViewModel = JobBoardViewViewModel();
 
-  // @override
-  // void initState() {
-  //   jobBoardViewViewModel.fetchJobListApi();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    jobBoardViewViewModel.fetchJobListApi();
+    super.initState();
+  }
+
+  // Calendar controller and event list.
+  final _calendarControllerCustom =
+      AdvancedCalendarController.custom(DateTime.now());
+  final List<DateTime> events = [DateTime.now(), DateTime(2022, 10, 10)];
+  // Calendar controller and event list.
 
   @override
   Widget build(BuildContext context) {
@@ -42,215 +47,138 @@ class JobBoardViewState extends State<JobBoardView> {
         ],
         backgroundColor: AppColors.appBarColor,
       ),
+      body: ChangeNotifierProvider<JobBoardViewViewModel>(
+        create: (BuildContext context) => jobBoardViewViewModel,
+        child: Consumer<JobBoardViewViewModel>(
+          builder: (context, value, _) {
+            switch (value.JobList.status) {
+              case Status.LOADING:
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              case Status.ERROR:
+                return Center(
+                  child: Text(
+                    value.JobList.message.toString(),
+                  ),
+                );
 
-      body: Center(child: Text("Jobs")),
-      // body: ChangeNotifierProvider<JobBoardViewViewModel>(
-      //   create: (BuildContext context) => jobBoardViewViewModel,
-      //   child: Consumer<JobBoardViewViewModel>(
-      //     builder: (context, value, _) {
-      //       switch (value.clientList.status) {
-      //         case Status.LOADING:
-      //           return Center(
-      //             child: CircularProgressIndicator(),
-      //           );
-      //         case Status.ERROR:
-      //           return Center(
-      //             child: Text(
-      //               value.clientList.message.toString(),
-      //             ),
-      //           );
+              case Status.COMPLETED:
+                return Column(
+                  children: [
+                    // ...
+                    Theme(
+                      data: ThemeData.light().copyWith(
+                        textTheme: ThemeData.light().textTheme.copyWith(
+                              subtitle1: ThemeData.light()
+                                  .textTheme
+                                  .subtitle1!
+                                  .copyWith(
+                                    fontSize: 16,
+                                  ),
+                              bodyText1: ThemeData.light()
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                  ),
+                              bodyText2: ThemeData.light()
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    fontSize: 12,
+                                    color: Colors.black87,
+                                  ),
+                            ),
+                        primaryColor: Colors.blueAccent,
+                        highlightColor: Colors.yellow,
+                        disabledColor: Colors.green,
+                      ),
+                      child: AdvancedCalendar(
+                        controller: _calendarControllerCustom,
+                        events: events,
+                        weekLineHeight: 48.0,
+                        startWeekDay: 0,
+                        innerDot: true,
+                        keepLineSize: true,
+                        calendarTextStyle: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          height: 1.3125,
+                          letterSpacing: 0,
+                        ),
+                      ),
+                    ),
 
-      //         case Status.COMPLETED:
-      //           return Column(
-      //               crossAxisAlignment: CrossAxisAlignment.start,
-      //               children: <Widget>[
-      //                 // Calendar timeline widget.
-      //                 CalendarTimelineWidget(),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                        child: ListView.builder(
+                          itemCount: value.JobList.data!.jobs!.length,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    child: Center(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            value.JobList.data!.jobs![index]
+                                                .number
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            value.JobList.data!.jobs![index].day
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 6,
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        value.JobList.data!.jobs![index].job
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                );
 
-      //                 ListView.builder(
-      //                   padding: const EdgeInsets.all(8.0),
-      //                   itemCount: value.clientList.data!.clients!.length,
-      //                   itemBuilder: (context, index) {
-      //                     return Row(
-      //                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //                       crossAxisAlignment: CrossAxisAlignment.center,
-      //                       children: [
-      //                         Expanded(
-      //                           child: Container(
-      //                             child: Text(
-      //                               value.clientList.data!.clients![index].id
-      //                                   .toString(),
-      //                               textAlign: TextAlign.center,
-      //                               style: TextStyle(
-      //                                   color: Colors.black,
-      //                                   fontSize: 12,
-      //                                   fontWeight: FontWeight.bold),
-      //                             ),
-      //                           ),
-      //                         ),
-      //                         Expanded(
-      //                           flex: 8,
-      //                           child: Container(
-      //                             // height of the card widget
-      //                             height: 220,
-      //                             //  Home Screen Card Widget. //
-      //                             child: Padding(
-      //                               padding: const EdgeInsets.all(7.0),
-      //                               child: InkWell(
-      //                                 onTap: () {
-      //                                   Navigator.pushNamed(
-      //                                       context, RoutesName.client_detail);
-      //                                 },
-      //                                 child: Card(
-      //                                     elevation: 3,
-      //                                     color: Colors.white,
-      //                                     child: Padding(
-      //                                       padding: const EdgeInsets.all(16.0),
-      //                                       child: Column(
-      //                                         mainAxisAlignment:
-      //                                             MainAxisAlignment.spaceEvenly,
-      //                                         children: [
-      //                                           Row(
-      //                                             crossAxisAlignment:
-      //                                                 CrossAxisAlignment.start,
-      //                                             children: [
-      //                                               Expanded(
-      //                                                   child: Text(
-      //                                                 value.clientList.data!
-      //                                                     .clients![index].time
-      //                                                     .toString(),
-      //                                                 style: TextStyle(
-      //                                                     fontSize: 12,
-      //                                                     fontWeight:
-      //                                                         FontWeight.bold),
-      //                                               )),
-      //                                               SizedBox(
-      //                                                 width: 8,
-      //                                               ),
-      //                                               Expanded(
-      //                                                 child: Text(
-      //                                                   overflow: TextOverflow
-      //                                                       .ellipsis,
-      //                                                   textAlign:
-      //                                                       TextAlign.right,
-      //                                                   "Community participation",
-      //                                                   style: TextStyle(
-      //                                                     fontSize: 14,
-      //                                                     fontWeight:
-      //                                                         FontWeight.bold,
-      //                                                   ),
-      //                                                 ),
-      //                                               )
-      //                                             ],
-      //                                           ),
-      //                                           Row(
-      //                                             mainAxisAlignment:
-      //                                                 MainAxisAlignment.start,
-      //                                             children: [
-      //                                               Column(
-      //                                                 crossAxisAlignment:
-      //                                                     CrossAxisAlignment
-      //                                                         .start,
-      //                                                 children: [
-      //                                                   Text(
-      //                                                     value
-      //                                                         .clientList
-      //                                                         .data!
-      //                                                         .clients![index]
-      //                                                         .name
-      //                                                         .toString(),
-      //                                                     style: TextStyle(
-      //                                                       fontSize: 16,
-      //                                                       fontWeight:
-      //                                                           FontWeight.bold,
-      //                                                     ),
-      //                                                   ),
-      //                                                   Text(
-      //                                                     value
-      //                                                         .clientList
-      //                                                         .data!
-      //                                                         .clients![index]
-      //                                                         .address
-      //                                                         .toString(),
-      //                                                     style: TextStyle(
-      //                                                       fontSize: 15,
-      //                                                       fontWeight:
-      //                                                           FontWeight.bold,
-      //                                                     ),
-      //                                                   ),
-      //                                                   Text(
-      //                                                     value
-      //                                                         .clientList
-      //                                                         .data!
-      //                                                         .clients![index]
-      //                                                         .address!
-      //                                                         .city
-      //                                                         .toString(),
-      //                                                     style: TextStyle(
-      //                                                       fontSize: 15,
-      //                                                       fontWeight:
-      //                                                           FontWeight.bold,
-      //                                                     ),
-      //                                                   )
-      //                                                 ],
-      //                                               ),
-      //                                             ],
-      //                                           ),
-      //                                           Expanded(child: Container()),
-      //                                           Row(
-      //                                             children: [
-      //                                               Expanded(
-      //                                                 child: ListTile(
-      //                                                   visualDensity: VisualDensity
-      //                                                       .adaptivePlatformDensity,
-      //                                                   leading: CircleAvatar(
-      //                                                     backgroundImage:
-      //                                                         NetworkImage(
-      //                                                       value
-      //                                                           .clientList
-      //                                                           .data!
-      //                                                           .clients![index]
-      //                                                           .avatar
-      //                                                           .toString(),
-      //                                                     ),
-      //                                                   ),
-      //                                                   trailing: Text(
-      //                                                     value
-      //                                                         .clientList
-      //                                                         .data!
-      //                                                         .clients![index]
-      //                                                         .status
-      //                                                         .toString(),
-      //                                                     style: TextStyle(
-      //                                                       fontSize: 14,
-      //                                                       fontWeight:
-      //                                                           FontWeight.bold,
-      //                                                     ),
-      //                                                   ),
-      //                                                 ),
-      //                                               )
-      //                                             ],
-      //                                           )
-      //                                         ],
-      //                                       ),
-      //                                     )),
-      //                               ),
-      //                             ),
-      //                           ),
-      //                         ),
-      //                       ],
-      //                     );
-      //                   },
-      //                 ),
-      //               ]);
+              // return CalendarTimelineWidget();
 
-      //         default:
-      //           return Container(); // just to satisfy flutter analyzer
-      //       }
-      //     },
-      //   ),
-      // ),
-
+              default:
+                return Container(); // just to satisfy flutter analyzer
+            }
+          },
+        ),
+      ),
       drawer: NavigationDrawer(),
     );
   }

@@ -19,11 +19,15 @@ class ClientProfileViewState extends State<ClientProfileView> {
     // Step:1
     //
     getClientId();
+    getClientName();
+    getClientAvatar();
   }
 
   // Step:2
   //
   int? cltId;
+  String? cltName;
+  String? cltAvatar;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class ClientProfileViewState extends State<ClientProfileView> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            cltId.toString(),
+            cltName!,
           ),
           centerTitle: true,
           backgroundColor: AppColors.appBarColor,
@@ -46,13 +50,16 @@ class ClientProfileViewState extends State<ClientProfileView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
+                    backgroundImage: NetworkImage(cltAvatar!),
                     backgroundColor: AppColors.buttonColor,
                     radius: 30,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Name of client',
+                      cltName!,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
                     ),
                   ),
                 ],
@@ -110,6 +117,22 @@ class ClientProfileViewState extends State<ClientProfileView> {
 
     setState(() {
       cltId = sharedpref.getInt(HomeViewState.KEYCLIENTID)!;
+    });
+  }
+
+  Future<void> getClientName() async {
+    final sharedpref = await SharedPreferences.getInstance();
+
+    setState(() {
+      cltName = sharedpref.getString(HomeViewState.KEYCLIENTNAME)!;
+    });
+  }
+
+  Future<void> getClientAvatar() async {
+    final sharedpref = await SharedPreferences.getInstance();
+
+    setState(() {
+      cltAvatar = sharedpref.getString(HomeViewState.KEYCLIENTAVATAR)!;
     });
   }
 }
