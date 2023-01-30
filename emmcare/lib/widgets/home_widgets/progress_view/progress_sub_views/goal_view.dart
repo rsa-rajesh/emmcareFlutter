@@ -52,7 +52,11 @@ class _GoalViewState extends State<GoalView> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text(cltName!),
+                              Text(
+                                cltName!,
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w900),
+                              ),
                             ],
                           ),
                         ),
@@ -89,7 +93,11 @@ class _GoalViewState extends State<GoalView> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const <Widget>[
-                              Text('No Strategies Available'),
+                              Text(
+                                'No Strategies Available',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w900),
+                              ),
                             ],
                           ),
                         ),
@@ -150,14 +158,28 @@ class _GoalViewState extends State<GoalView> {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text("Error"),
-                            content: Text("Choose a strtegy to rate!"),
+                            title: Text(
+                              "Error",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w900),
+                            ),
+                            content: Text(
+                              "Choose a strategy to rate!",
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w900),
+                            ),
                             actions: [
                               TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text("OK"))
+                                  child: Text(
+                                    "OK",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.black),
+                                  ))
                             ],
                           ),
                         );
