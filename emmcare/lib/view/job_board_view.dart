@@ -41,7 +41,7 @@ class JobBoardViewState extends State<JobBoardView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(currentMonth + " " + currentYear),
+        title: Text(currentMonth + "\t" + currentYear),
         centerTitle: true,
         // title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         //   Text(currentMonth),

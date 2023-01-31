@@ -54,7 +54,7 @@ class HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(currentMonth + " " + currentYear),
+        title: Text(currentMonth + "\t" + currentYear),
         centerTitle: true,
         // actions: [
         //   IconButton(
