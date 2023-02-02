@@ -7,16 +7,32 @@ import 'package:emmcare/view_model/job_board_view_view_model.dart';
 import 'package:emmcare/view_model/my_document_view_view_model.dart';
 import 'package:emmcare/view_model/user_view_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
+import 'view_model/services/local_notification_services.dart';
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.data.toString());
+  print(message.notification!.title);
+}
 
 Future<void> main() async {
-  runApp(const MyApp());
+  //
+  //
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging.instance.subscribeToTopic('emmccare');
+  //
+  //
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+  LocalNotificationService.initialize();
+  //
+  //
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

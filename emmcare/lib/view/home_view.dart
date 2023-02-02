@@ -3,6 +3,7 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
 import 'package:emmcare/view_model/home_view_view_model.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
@@ -27,10 +28,21 @@ class HomeViewState extends State<HomeView> {
 
   HomeViewViewModel homeViewViewModel = HomeViewViewModel();
 
+  // Device Token to send push notification
+  String deviceTokenToSendPushNotification = "";
+  // Device Token to send push notification
+
   @override
   void initState() {
     homeViewViewModel.fetchClientListApi();
     super.initState();
+  }
+
+  Future<void> getDeviceTokenToSendNotification() async {
+    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+    final token = await _fcm.getToken();
+    deviceTokenToSendPushNotification = token.toString();
+    print("Token Value $deviceTokenToSendPushNotification");
   }
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -52,21 +64,12 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    getDeviceTokenToSendNotification();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(currentMonth + "\t" + currentYear),
         centerTitle: true,
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         Navigator.pushAndRemoveUntil(
-        //           context,
-        //           MaterialPageRoute(builder: (context) => HomeView()),
-        //           (Route<dynamic> route) => false,
-        //         );
-        //       },
-        //       icon: Icon(Icons.refresh)),
-        // ],
         backgroundColor: AppColors.appBarColor,
       ),
       floatingActionButton: SpeedDial(
@@ -301,9 +304,6 @@ class HomeViewState extends State<HomeView> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     ClientDetailView(),
-
-                                                // Pass the arguments as part of the RouteSettings. The
-                                                // DetailScreen reads the arguments from these settings.
                                                 settings: RouteSettings(
                                                   arguments: value.clientList
                                                       .data!.clients![index],
@@ -418,7 +418,7 @@ class HomeViewState extends State<HomeView> {
                   );
 
                 default:
-                  return Container(); // just to satisfy flutter analyzer
+                  return Container();
               }
             },
           ),
@@ -433,4 +433,10 @@ class HomeViewState extends State<HomeView> {
       homeViewViewModel.fetchClientListApi();
     });
   }
+
+  // void notifyUser(Map<String, dynamic> a) {
+  //             LocalNotificationService.createanddisplaynotification(a);
+
+  // }
+
 }
