@@ -1,10 +1,11 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_detail.dart';
-import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_documents.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_goal.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'client_profile_sub_views/client_profile_documents.dart';
 
 class ClientProfileView extends StatefulWidget {
   @override
@@ -97,7 +98,7 @@ class ClientProfileViewState extends State<ClientProfileView> {
                   ClientProfileDetailView(),
 
                   // second tab bar viiew widget
-                  ClientProfileDocumentView(),
+                  ClientProfileDocumentsView(),
 
                   // second tab bar viiew widget
                   ClientProfileGoalView(),

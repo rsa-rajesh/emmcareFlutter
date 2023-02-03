@@ -8,6 +8,11 @@ class AppUrl {
   static var myDocumentListEndPoint = baseUrl + "my_documents";
   static var documentHubListEndPoint = baseUrl + "document_hub";
   static var clientListEndPoint = baseUrl + "clients";
-  static var clientDetailEndPoint = baseUrl + "client_detail";
   static var JobListEndPoint = baseUrl + "jobs";
+  static var clientProfileDocumentsListEndPoint =
+      baseUrl + "client_profile_documents";
+  static var clientProfileDetailEndPoint = baseUrl + "client_profile_detail";
+  static var clientProfileGoalEndPoint = baseUrl + "client_profile_goal";
+
+  static var eventsEndPoint = baseUrl + "events";
 }

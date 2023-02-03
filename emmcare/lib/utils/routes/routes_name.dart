@@ -62,7 +62,8 @@ class RoutesName {
   static const String client_profile_detail = "client_profile_detail_view";
 
   //
-  static const String client_profile_document = "client_profile_document_view";
+  static const String client_profile_documents =
+      "client_profile_documents_view";
 
   //
   static const String client_profile_Goal = "client_profile_Goal_view";

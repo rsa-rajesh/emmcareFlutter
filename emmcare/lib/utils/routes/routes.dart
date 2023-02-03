@@ -12,7 +12,7 @@ import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/go
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/incident_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/mileage_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/progress_notes_view.dart';
-import 'package:emmcare/widgets/my_document_widgets/my_document_viewer.dart';
+import 'package:emmcare/widgets/file_viewer/my_document_viewer.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view/about_view.dart';
 import 'package:emmcare/view/document_hub_view.dart';
@@ -124,9 +124,9 @@ class Routes {
           builder: (BuildContext context) => ClientProfileDetailView(),
         );
 
-      case RoutesName.client_profile_document:
+      case RoutesName.client_profile_documents:
         return MaterialPageRoute(
-          builder: (BuildContext context) => ClientProfileDocumentView(),
+          builder: (BuildContext context) => ClientProfileDocumentsView(),
         );
 
       case RoutesName.client_profile_Goal:

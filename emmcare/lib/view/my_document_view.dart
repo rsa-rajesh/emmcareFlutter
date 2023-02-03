@@ -2,7 +2,7 @@
 import 'package:emmcare/data/response/status.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
-import 'package:emmcare/widgets/my_document_widgets/my_document_viewer.dart';
+import 'package:emmcare/widgets/file_viewer/my_document_viewer.dart';
 import 'package:emmcare/view_model/my_document_view_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
