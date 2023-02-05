@@ -5,20 +5,17 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../model/client_model.dart';
 import '../../../res/colors.dart';
-import '../../../utils/routes/routes_name.dart';
 import '../../../view_model/events_view_view_model.dart';
 import 'shift_report_view.dart';
 
 class EventsView extends StatefulWidget {
   EventsView({super.key});
-
   @override
   State<EventsView> createState() => _EventsViewState();
 }
 
 class _EventsViewState extends State<EventsView> {
   EventsViewViewModel eventsViewViewModel = EventsViewViewModel();
-
   @override
   void initState() {
     eventsViewViewModel.fetchEventsListApi();
@@ -27,7 +24,6 @@ class _EventsViewState extends State<EventsView> {
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-
   @override
   Widget build(BuildContext context) {
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
@@ -92,9 +88,7 @@ class _EventsViewState extends State<EventsView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ShiftReportView(),
-                              // Pass the arguments as part of the RouteSettings. The
-                              // DetailScreen reads the arguments from these settings.
+                              builder: (context) => ShiftReportView(),
                               settings: RouteSettings(
                                   arguments:
                                       value.eventsList.data!.events![index]),

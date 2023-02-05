@@ -2,7 +2,11 @@ import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:provider/provider.dart';
+import '../../../data/response/status.dart';
+import '../../../view_model/progress_view_view_model.dart';
 
 class ProgressView extends StatefulWidget {
   const ProgressView({super.key});
@@ -12,9 +16,19 @@ class ProgressView extends StatefulWidget {
 }
 
 class ProgressViewState extends State<ProgressView> {
+  ProgressViewViewModel progressViewViewModel = ProgressViewViewModel();
+  @override
+  void initState() {
+    progressViewViewModel.fetchProgressListApi();
+    super.initState();
+  }
+
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
   @override
   Widget build(BuildContext context) {
-    final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
+    // final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
     return Scaffold(
       floatingActionButton: SpeedDial(
         icon: Icons.add, //icon on Floating action button
@@ -103,11 +117,77 @@ class ProgressViewState extends State<ProgressView> {
           ),
         ],
       ),
-      body: Center(
-        child: Container(
-          child: Text("Progress"),
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: () {
+          return refresh();
+        },
+        child: ChangeNotifierProvider<ProgressViewViewModel>(
+          create: (BuildContext context) => progressViewViewModel,
+          child: Consumer<ProgressViewViewModel>(
+            builder: (context, value, _) {
+              switch (value.progressList.status) {
+                case Status.LOADING:
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+
+                case Status.ERROR:
+                  return AlertDialog(
+                    icon: Icon(Icons.error_rounded, size: 30),
+                    title: Text(
+                      value.progressList.message.toString(),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
+                    ),
+                    actions: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                                shape: StadiumBorder()),
+                            onPressed: () {
+                              refresh();
+                            },
+                            child: Text(
+                              'Refresh',
+                            ),
+                          ),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                                shape: StadiumBorder()),
+                            onPressed: () {
+                              SystemChannels.platform
+                                  .invokeMethod('SystemNavigator.pop');
+                            },
+                            child: Text('Abort'),
+                          ),
+                        ],
+                      )
+                    ],
+                  );
+
+                case Status.COMPLETED:
+                  return ListView.builder(
+                    itemCount: value.progressList.data!.progress!.length,
+                    itemBuilder: (context, index) {
+                      return Container();
+                    },
+                  );
+                default:
+                  return Container();
+              }
+            },
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> refresh() async {
+    setState(() {
+      progressViewViewModel.fetchProgressListApi();
+    });
   }
 }

@@ -13,6 +13,8 @@ class AppUrl {
       baseUrl + "client_profile_documents";
   static var clientProfileDetailEndPoint = baseUrl + "client_profile_detail";
   static var clientProfileGoalEndPoint = baseUrl + "client_profile_goal";
-
   static var eventsEndPoint = baseUrl + "events";
+  static var instructionEndPoint = baseUrl + "instruction";
+  static var tasksEndPoint = baseUrl + "tasks";
+  static var progressEndPoint = baseUrl + "progress";
 }

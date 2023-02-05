@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../../../data/response/status.dart';
 import '../../../../../view_model/client_profile_detail_view_view_model.dart';
-import '../../../../file_viewer/client_profile_documents_viewer.dart';
 
 class ClientProfileDetailView extends StatefulWidget {
   const ClientProfileDetailView({super.key});
@@ -14,6 +13,7 @@ class ClientProfileDetailView extends StatefulWidget {
 }
 
 class _ClientProfileDetailViewState extends State<ClientProfileDetailView> {
+  
   ClientProfileDetailViewViewModel clientProfileDetailViewViewModel =
       ClientProfileDetailViewViewModel();
 
