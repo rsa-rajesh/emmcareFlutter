@@ -24,6 +24,8 @@ import 'package:emmcare/view/notification_view.dart';
 import 'package:emmcare/view/splash_view.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/home_widgets/unavailability_view/unavailability_view.dart';
+
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -132,6 +134,11 @@ class Routes {
       case RoutesName.client_profile_Goal:
         return MaterialPageRoute(
           builder: (BuildContext context) => ClientProfileGoalView(),
+        );
+
+      case RoutesName.unavailability:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => UnavailabilityView(),
         );
 
       default:

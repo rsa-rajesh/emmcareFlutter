@@ -39,7 +39,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () => Navigator.pushNamed(context, RoutesName.notification),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, RoutesName.notification);
+            },
           ),
           ListTile(
             leading: Icon(
@@ -51,7 +54,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () => Navigator.pushNamed(context, RoutesName.home),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, RoutesName.home);
+            },
           ),
           ListTile(
             leading: Icon(
@@ -63,7 +68,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () => Navigator.pushNamed(context, RoutesName.job_board),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, RoutesName.job_board);
+            },
           ),
           ListTile(
             leading: Icon(
@@ -75,7 +83,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () => Navigator.pushNamed(context, RoutesName.my_document),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, RoutesName.my_document);
+            },
           ),
           ListTile(
             leading: Icon(
@@ -87,7 +98,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () => Navigator.pushNamed(context, RoutesName.document_hub),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, RoutesName.document_hub);
+            },
           ),
           ListTile(
             leading: Icon(
@@ -99,7 +113,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
-            onTap: () => Navigator.pushNamed(context, RoutesName.about),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, RoutesName.about);
+            },
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
@@ -184,8 +201,7 @@ class _buildHeaderState extends State<buildHeader> {
         children: [
           CircleAvatar(
             radius: 45,
-            backgroundImage:
-                ExactAssetImage('assets/images/app_logo_white.png'),
+            backgroundImage: ExactAssetImage('assets/images/pwnbot.png'),
 
             // backgroundImage: NetworkImage(
             //   "",

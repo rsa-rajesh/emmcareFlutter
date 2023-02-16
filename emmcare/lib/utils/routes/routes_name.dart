@@ -67,4 +67,7 @@ class RoutesName {
 
   //
   static const String client_profile_Goal = "client_profile_Goal_view";
+
+  //
+  static const String unavailability = "unavailability_view";
 }

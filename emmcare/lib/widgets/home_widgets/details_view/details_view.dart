@@ -91,7 +91,7 @@ class _DetailsViewState extends State<DetailsView> {
                   CircleAvatar(
                     backgroundColor: AppColors.buttonColor,
                     backgroundImage:
-                        ExactAssetImage('assets/images/app_logo_white.png'),
+                        ExactAssetImage('assets/images/pwnbot.png'),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

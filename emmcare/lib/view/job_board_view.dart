@@ -43,22 +43,6 @@ class JobBoardViewState extends State<JobBoardView> {
       appBar: AppBar(
         title: Text(currentMonth + "\t" + currentYear),
         centerTitle: true,
-        // title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        //   Text(currentMonth),
-        //   SizedBox(width: 5),
-        //   Text(currentYear),
-        // ]),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         Navigator.pushAndRemoveUntil(
-        //           context,
-        //           MaterialPageRoute(builder: (context) => JobBoardView()),
-        //           (Route<dynamic> route) => false,
-        //         );
-        //       },
-        //       icon: Icon(Icons.refresh)),
-        // ],
         backgroundColor: AppColors.appBarColor,
       ),
       body: RefreshIndicator(

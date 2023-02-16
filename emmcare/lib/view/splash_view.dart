@@ -118,7 +118,7 @@ class _SplashViewState extends State<SplashView> {
       backgroundColor: AppColors.appBarColor,
       body: Center(
         child: Text(
-          "Emm Care",
+          "Pwnbot",
           style: TextStyle(
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.w900),
         ),

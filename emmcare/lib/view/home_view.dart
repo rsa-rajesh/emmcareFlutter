@@ -1,5 +1,6 @@
 import 'package:emmcare/data/response/status.dart';
 import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
 import 'package:emmcare/view_model/home_view_view_model.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
@@ -92,7 +93,9 @@ class HomeViewState extends State<HomeView> {
             foregroundColor: Colors.white,
             label: 'Add Unavailability',
             labelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w900),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, RoutesName.unavailability);
+            },
           ),
         ],
       ),
@@ -154,7 +157,7 @@ class HomeViewState extends State<HomeView> {
                                     .textTheme
                                     .subtitle1!
                                     .copyWith(
-                                      fontSize: 12,
+                                      fontSize: 16,
                                     ),
                                 bodyText1: ThemeData.light()
                                     .textTheme
@@ -167,7 +170,7 @@ class HomeViewState extends State<HomeView> {
                                     .textTheme
                                     .bodyText1!
                                     .copyWith(
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       color: Colors.black87,
                                     ),
                               ),
@@ -183,9 +186,9 @@ class HomeViewState extends State<HomeView> {
                           innerDot: true,
                           keepLineSize: true,
                           calendarTextStyle: const TextStyle(
-                            fontSize: 12,
+                            fontSize: 18,
                             fontWeight: FontWeight.w400,
-                            height: 1.3105,
+                            height: 1.3125,
                             letterSpacing: 0,
                           ),
                         ),
@@ -194,224 +197,213 @@ class HomeViewState extends State<HomeView> {
                       //
 
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                          child: ListView.builder(
-                            itemCount: value.clientList.data!.clients!.length,
-                            itemBuilder: (context, index) {
-                              return Row(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      height: 40,
-                                      width: 40,
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                                value.clientList.data!
-                                                    .clients![index].number
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            Text(
-                                                value.clientList.data!
-                                                    .clients![index].day
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ],
-                                        ),
+                        child: ListView.builder(
+                          itemCount: value.clientList.data!.clients!.length,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    child: Center(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                              value.clientList.data!
+                                                  .clients![index].number
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(
+                                              value.clientList.data!
+                                                  .clients![index].day
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                  Expanded(
-                                      flex: 6,
-                                      child: InkWell(
-                                          onTap: () async {
-                                            int? clientId = value.clientList
-                                                .data!.clients![index].id;
-                                            String? clientName = value
-                                                .clientList
-                                                .data!
-                                                .clients![index]
-                                                .name;
-                                            String? clientAvatar = value
-                                                .clientList
-                                                .data!
-                                                .clients![index]
-                                                .avatar;
-                                            String? clientLat = value
-                                                .clientList
-                                                .data!
-                                                .clients![index]
-                                                .address!
-                                                .geo!
-                                                .lat;
-                                            String? clientLog = value
-                                                .clientList
-                                                .data!
-                                                .clients![index]
-                                                .address!
-                                                .geo!
-                                                .lng;
+                                ),
+                                Expanded(
+                                    flex: 6,
+                                    child: InkWell(
+                                        onTap: () async {
+                                          int? clientId = value.clientList.data!
+                                              .clients![index].id;
+                                          String? clientName = value.clientList
+                                              .data!.clients![index].name;
+                                          String? clientAvatar = value
+                                              .clientList
+                                              .data!
+                                              .clients![index]
+                                              .avatar;
+                                          String? clientLat = value
+                                              .clientList
+                                              .data!
+                                              .clients![index]
+                                              .address!
+                                              .geo!
+                                              .lat;
+                                          String? clientLog = value
+                                              .clientList
+                                              .data!
+                                              .clients![index]
+                                              .address!
+                                              .geo!
+                                              .lng;
 
-                                            final sharedprefs =
-                                                await SharedPreferences
-                                                    .getInstance();
+                                          final sharedprefs =
+                                              await SharedPreferences
+                                                  .getInstance();
 
-                                            sharedprefs.setInt(
-                                                KEYCLIENTID, clientId!);
-                                            setState(() {
-                                              sharedprefs.getInt(KEYCLIENTID);
-                                            });
+                                          sharedprefs.setInt(
+                                              KEYCLIENTID, clientId!);
+                                          setState(() {
+                                            sharedprefs.getInt(KEYCLIENTID);
+                                          });
 
-                                            sharedprefs.setString(
-                                                KEYCLIENTNAME, clientName!);
-                                            setState(() {
-                                              sharedprefs
-                                                  .getString(KEYCLIENTNAME);
-                                            });
+                                          sharedprefs.setString(
+                                              KEYCLIENTNAME, clientName!);
+                                          setState(() {
+                                            sharedprefs
+                                                .getString(KEYCLIENTNAME);
+                                          });
 
-                                            sharedprefs.setString(
-                                                KEYCLIENTAVATAR, clientAvatar!);
-                                            setState(() {
-                                              sharedprefs
-                                                  .getString(KEYCLIENTAVATAR);
-                                            });
+                                          sharedprefs.setString(
+                                              KEYCLIENTAVATAR, clientAvatar!);
+                                          setState(() {
+                                            sharedprefs
+                                                .getString(KEYCLIENTAVATAR);
+                                          });
 
-                                            sharedprefs.setString(
-                                                KEYCLIENTLAT, clientLat!);
-                                            setState(() {
-                                              sharedprefs
-                                                  .getString(KEYCLIENTLAT);
-                                            });
+                                          sharedprefs.setString(
+                                              KEYCLIENTLAT, clientLat!);
+                                          setState(() {
+                                            sharedprefs.getString(KEYCLIENTLAT);
+                                          });
 
-                                            sharedprefs.setString(
-                                                KEYCLIENTLog, clientLog!);
-                                            setState(() {
-                                              sharedprefs
-                                                  .getString(KEYCLIENTLog);
-                                            });
+                                          sharedprefs.setString(
+                                              KEYCLIENTLog, clientLog!);
+                                          setState(() {
+                                            sharedprefs.getString(KEYCLIENTLog);
+                                          });
 
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ClientDetailView(),
-                                                settings: RouteSettings(
-                                                  arguments: value.clientList
-                                                      .data!.clients![index],
-                                                ),
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ClientDetailView(),
+                                              settings: RouteSettings(
+                                                arguments: value.clientList
+                                                    .data!.clients![index],
                                               ),
-                                            );
-                                          },
-                                          child: Card(
-                                            child: Column(children: [
-                                              ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.fromLTRB(
-                                                        12, 0, 12, 0),
-                                                leading: Text(
-                                                  value.clientList.data!
-                                                      .clients![index].time
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                                trailing: Text(
-                                                  value.clientList.data!
-                                                      .clients![index].purpose
-                                                      .toString(),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
+                                            ),
+                                          );
+                                        },
+                                        child: Card(
+                                          child: Column(children: [
+                                            ListTile(
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      12, 0, 12, 0),
+                                              leading: Text(
+                                                value.clientList.data!
+                                                    .clients![index].time
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w700),
                                               ),
-                                              ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.fromLTRB(
-                                                        12, 0, 12, 0),
-                                                title: Text(
-                                                  value.clientList.data!
-                                                      .clients![index].name
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w900),
-                                                ),
-                                                subtitle: Text(
-                                                  value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .address!
-                                                          .street
-                                                          .toString() +
-                                                      "," +
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .address!
-                                                          .suite
-                                                          .toString() +
-                                                      "," +
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .address!
-                                                          .zipcode
-                                                          .toString() +
-                                                      "," +
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .address!
-                                                          .city
-                                                          .toString(),
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
+                                              trailing: Text(
+                                                value.clientList.data!
+                                                    .clients![index].purpose
+                                                    .toString(),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w700),
                                               ),
-                                              ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.fromLTRB(
-                                                        12, 0, 12, 0),
-                                                leading: CircleAvatar(
-                                                  backgroundImage: NetworkImage(
-                                                    value.clientList.data!
-                                                        .clients![index].avatar
+                                            ),
+                                            ListTile(
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      12, 0, 12, 0),
+                                              title: Text(
+                                                value.clientList.data!
+                                                    .clients![index].name
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w900),
+                                              ),
+                                              subtitle: Text(
+                                                value
+                                                        .clientList
+                                                        .data!
+                                                        .clients![index]
+                                                        .address!
+                                                        .street
+                                                        .toString() +
+                                                    "," +
+                                                    value
+                                                        .clientList
+                                                        .data!
+                                                        .clients![index]
+                                                        .address!
+                                                        .suite
+                                                        .toString() +
+                                                    "," +
+                                                    value
+                                                        .clientList
+                                                        .data!
+                                                        .clients![index]
+                                                        .address!
+                                                        .zipcode
+                                                        .toString() +
+                                                    "," +
+                                                    value
+                                                        .clientList
+                                                        .data!
+                                                        .clients![index]
+                                                        .address!
+                                                        .city
                                                         .toString(),
-                                                  ),
-                                                ),
-                                                trailing: Text(
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                            ListTile(
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      12, 0, 12, 0),
+                                              leading: CircleAvatar(
+                                                backgroundImage: NetworkImage(
                                                   value.clientList.data!
-                                                      .clients![index].status
+                                                      .clients![index].avatar
                                                       .toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700),
                                                 ),
-                                              )
-                                            ]),
-                                          ))),
-                                ],
-                              );
-                            },
-                          ),
+                                              ),
+                                              trailing: Text(
+                                                value.clientList.data!
+                                                    .clients![index].status
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                            )
+                                          ]),
+                                        ))),
+                              ],
+                            );
+                          },
                         ),
                       ),
                     ],
