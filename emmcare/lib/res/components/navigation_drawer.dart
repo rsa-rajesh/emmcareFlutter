@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class NavigationDrawer extends StatefulWidget {
-  const NavigationDrawer({super.key});
+class NavDrawer extends StatefulWidget {
+  const NavDrawer({super.key});
 
   @override
-  State<NavigationDrawer> createState() => _NavigationDrawerState();
+  State<NavDrawer> createState() => _NavDrawerState();
 }
 
-class _NavigationDrawerState extends State<NavigationDrawer> {
+class _NavDrawerState extends State<NavDrawer> {
   bool light = true;
 
   String obtainEmail = "";

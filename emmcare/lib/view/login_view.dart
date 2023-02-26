@@ -72,11 +72,6 @@ class LoginViewState extends State<LoginView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Email",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
                     SizedBox(
                       height: 8,
                     ),
@@ -91,7 +86,6 @@ class LoginViewState extends State<LoginView> {
                         contentPadding: EdgeInsets.symmetric(vertical: 12),
                         hintText: "Email",
                         labelText: "Email",
-                        // prefix: Icon(Icons.email_rounded),
                         border: OutlineInputBorder(),
                       ),
                       onFieldSubmitted: (value) {
@@ -101,11 +95,6 @@ class LoginViewState extends State<LoginView> {
                     ),
                     SizedBox(
                       height: 20,
-                    ),
-                    Text(
-                      "Password",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 8,
@@ -125,7 +114,6 @@ class LoginViewState extends State<LoginView> {
                             contentPadding: EdgeInsets.symmetric(vertical: 12),
                             hintText: "Password",
                             labelText: "Password",
-                            prefix: Icon(Icons.lock_open_rounded),
                             suffixIcon: InkWell(
                               onTap: () {
                                 _obsecurePassword.value =
@@ -145,9 +133,7 @@ class LoginViewState extends State<LoginView> {
                     ),
                     SizedBox(height: height * .04),
                     InkWell(
-                      onTap: () {
-                        Dialog();
-                      },
+                      onTap: () {},
                       child: Text(
                         "Forgot your password?",
                         style: TextStyle(
@@ -188,8 +174,8 @@ class LoginViewState extends State<LoginView> {
                             };
 
                             // Map data = {
-                            //   'email' : 'rostermanagement@emmc.com.au',
-                            //   'password' : '132LangdonDrive',
+                            //   'email' : 'atishghimire21000@gmail.com',
+                            //   'password' : 'Admin@12345',
                             // };
 
                             authViewModel.loginApi(data, context);

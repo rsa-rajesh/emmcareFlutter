@@ -14,7 +14,7 @@ class _AboutViewState extends State<AboutView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavigationDrawer(),
+      drawer: NavDrawer(),
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
         centerTitle: true,

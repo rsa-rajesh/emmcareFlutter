@@ -129,7 +129,7 @@ class _ClientProfileDocumentsViewState
           ),
         ),
       ),
-      drawer: NavigationDrawer(),
+      drawer: NavDrawer(),
     );
   }
 

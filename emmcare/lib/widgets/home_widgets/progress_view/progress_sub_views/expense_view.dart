@@ -1,6 +1,10 @@
+import 'dart:io';
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExpenseView extends StatefulWidget {
@@ -17,16 +21,16 @@ class _ExpenseViewState extends State<ExpenseView> {
 
     // Step:1
     //
-
     getClientName();
     getClientAvatar();
   }
-
   // Step:2
   //
 
   String? cltName;
   String? cltAvatar;
+  XFile? image;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +65,54 @@ class _ExpenseViewState extends State<ExpenseView> {
           child: Wrap(
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  showAdaptiveActionSheet(
+                    context: context,
+                    title: const Text(
+                      'Select Image',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    androidBorderRadius: 15,
+                    actions: <BottomSheetAction>[
+                      BottomSheetAction(
+                          title: const Text(
+                            'Take Photo',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          onPressed: (context) async {
+                            try {
+                              final image = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (image == null) return;
+                              final imageTemp = File(image.path);
+                              setState(() => this.image = imageTemp as XFile?);
+                            } on PlatformException catch (e) {
+                              print('Failed to pick image: $e');
+                            }
+                          }),
+                      BottomSheetAction(
+                          title: const Text(
+                            'Choose from Library',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          onPressed: (context) async {
+                            try {
+                              final image = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (image == null) return;
+                              print('Image picked successfully');
+                              final imageTemp = File(image.path);
+                              setState(() => this.image = imageTemp as XFile?);
+                            } on PlatformException catch (e) {
+                              print('Failed to pick image: $e');
+                            }
+                          }),
+                    ],
+                    cancelAction: CancelAction(
+                      title: const Text('Cancel'),
+                    ),
+                  );
+                },
                 splashColor: Colors.lightBlueAccent,
                 child: Center(
                   child: Padding(

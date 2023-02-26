@@ -19,19 +19,17 @@ class AuthViewViewModel with ChangeNotifier {
   }
 
   Future<void> loginApi(dynamic data, BuildContext context) async {
-    
     setLoading(true);
 
     _myRepo.loginApi(data).then((value) {
       setLoading(false);
-      
 
       //
       // Finally shared preference fixed.
       final userPreference =
           Provider.of<UserViewViewModel>(context, listen: false);
       userPreference.saveUser(UserModel(
-        token: value["token"].toString(),
+        access: value["access"].toString(),
       ));
       //
       //

@@ -6,7 +6,7 @@ class UserViewViewModel with ChangeNotifier {
   // Saving User information.
   Future<bool> saveUser(UserModel user) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.setString("token", user.token.toString());
+    sp.setString("access", user.access.toString());
     notifyListeners();
     return true;
   }
@@ -14,16 +14,16 @@ class UserViewViewModel with ChangeNotifier {
   // retreiving the saved user information.
   Future<UserModel> getUser() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    final String? token = sp.getString("token");
+    final String? access = sp.getString("access");
     return UserModel(
-      token: token.toString(),
+      access: access.toString(),
     );
   }
 
   // Logging out the user.
   Future<bool> remove() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.remove("token");
+    sp.remove("access");
     return true;
   }
 }

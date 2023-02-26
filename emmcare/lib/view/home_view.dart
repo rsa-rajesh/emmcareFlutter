@@ -416,7 +416,7 @@ class HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      drawer: NavigationDrawer(),
+      drawer: NavDrawer(),
     );
   }
 
@@ -430,5 +430,4 @@ class HomeViewState extends State<HomeView> {
   //             LocalNotificationService.createanddisplaynotification(a);
 
   // }
-
 }

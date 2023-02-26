@@ -129,7 +129,7 @@ class _EventsViewState extends State<EventsView> {
           ),
         ),
       ),
-      drawer: NavigationDrawer(),
+      drawer: NavDrawer(),
     );
   }
 

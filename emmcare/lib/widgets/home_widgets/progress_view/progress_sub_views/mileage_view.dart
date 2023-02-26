@@ -1,3 +1,4 @@
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,33 @@ class _MileageViewState extends State<MileageView> {
           child: Wrap(
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  showAdaptiveActionSheet(
+                    context: context,
+                    title: const Text(
+                      'Select Image',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    androidBorderRadius: 15,
+                    actions: <BottomSheetAction>[
+                      BottomSheetAction(
+                          title: const Text(
+                            'Take Photo',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          onPressed: (context) {}),
+                      BottomSheetAction(
+                          title: const Text(
+                            'Choose from Library',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          onPressed: (context) {}),
+                    ],
+                    cancelAction: CancelAction(
+                      title: const Text('Cancel'),
+                    ),
+                  );
+                },
                 splashColor: Colors.lightBlueAccent,
                 child: Center(
                   child: Padding(

@@ -140,7 +140,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
           ),
         ),
       ),
-      drawer: NavigationDrawer(),
+      drawer: NavDrawer(),
     );
   }
 

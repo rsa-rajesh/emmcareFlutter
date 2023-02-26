@@ -211,7 +211,7 @@ class JobBoardViewState extends State<JobBoardView> {
           ),
         ),
       ),
-      drawer: NavigationDrawer(),
+      drawer: NavDrawer(),
     );
   }
 

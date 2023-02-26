@@ -136,7 +136,7 @@ class _DocumentHubViewState extends State<DocumentHubView> {
           ),
         ),
       ),
-      drawer: NavigationDrawer(),
+      drawer: NavDrawer(),
     );
   }
 

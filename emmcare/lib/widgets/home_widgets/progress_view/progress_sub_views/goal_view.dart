@@ -1,3 +1,4 @@
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:flutter/material.dart';
@@ -43,25 +44,45 @@ class _GoalViewState extends State<GoalView> {
             children: [
               InkWell(
                 onTap: () {
-                  showModalBottomSheet<void>(
+                  // showModalBottomSheet<void>(
+                  //   context: context,
+                  //   builder: (BuildContext context) {
+                  //     return SizedBox(
+                  //       height: 200,
+                  //       child: Center(
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: <Widget>[
+                  // Text(
+                  //   cltName!,
+                  //   style: TextStyle(
+                  //       fontSize: 16, fontWeight: FontWeight.w900),
+                  // ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  // );
+                  showAdaptiveActionSheet(
                     context: context,
-                    builder: (BuildContext context) {
-                      return SizedBox(
-                        height: 200,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                cltName!,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w900),
-                              ),
-                            ],
+                    androidBorderRadius: 30,
+                    actions: <BottomSheetAction>[
+                      BottomSheetAction(
+                          title: Text(
+                            cltName!,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w900),
                           ),
-                        ),
-                      );
-                    },
+                          onPressed: (context) {}),
+                    ],
+                    cancelAction: CancelAction(
+                      title: Text(
+                        'Cancel',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w900),
+                      ),
+                    ),
                   );
                 },
                 splashColor: Colors.white,
@@ -84,25 +105,45 @@ class _GoalViewState extends State<GoalView> {
               ),
               InkWell(
                 onTap: () {
-                  showModalBottomSheet<void>(
+                  // showModalBottomSheet<void>(
+                  //   context: context,
+                  //   builder: (BuildContext context) {
+                  //     return SizedBox(
+                  //       height: 200,
+                  //       child: Center(
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: const <Widget>[
+                  //             Text(
+                  //               'No Strategies Available',
+                  //               style: TextStyle(
+                  //                   fontSize: 16, fontWeight: FontWeight.w900),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  // );
+                  showAdaptiveActionSheet(
                     context: context,
-                    builder: (BuildContext context) {
-                      return SizedBox(
-                        height: 200,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
-                              Text(
-                                'No Strategies Available',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w900),
-                              ),
-                            ],
+                    androidBorderRadius: 30,
+                    actions: <BottomSheetAction>[
+                      BottomSheetAction(
+                          title: Text(
+                            'No Strategies Available',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w900),
                           ),
-                        ),
-                      );
-                    },
+                          onPressed: (context) {}),
+                    ],
+                    cancelAction: CancelAction(
+                      title: Text(
+                        'Cancel',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w900),
+                      ),
+                    ),
                   );
                 },
                 splashColor: Colors.white,
