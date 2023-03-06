@@ -3,7 +3,7 @@ import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../../../model/client_model.dart';
+import '../../../model/client_model_v2.dart';
 import '../../../res/colors.dart';
 import '../../../view_model/events_view_view_model.dart';
 import 'shift_report_view.dart';
@@ -98,9 +98,20 @@ class _EventsViewState extends State<EventsView> {
                         child: Card(
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundColor: AppColors.buttonColor,
-                              backgroundImage:
-                                  NetworkImage(client_Detail.avatar.toString()),
+                              child: ClipOval(
+                                child: Image.network(
+                                    client_Detail.client.toString(),
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                  return Icon(
+                                    // Icons.error,
+                                    Icons.person,
+                                    color: Colors.white,
+                                  );
+                                }),
+                              ),
                             ),
                             title: Text(
                               value.eventsList.data!.events![index].title
