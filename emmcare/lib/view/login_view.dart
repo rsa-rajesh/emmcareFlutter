@@ -51,10 +51,13 @@ class LoginViewState extends State<LoginView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    "assets/images/app_logo_white.png",
-                    height: 150,
-                    width: 150,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 18, 0, 0),
+                    child: Image.asset(
+                      "assets/images/pwnbot.png",
+                      height: 150,
+                      width: 150,
+                    ),
                   ),
                   SizedBox(
                     height: 20,
@@ -85,7 +88,7 @@ class LoginViewState extends State<LoginView> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 12),
                         hintText: "Email",
-                        labelText: "Email",
+                        // labelText: "Email",
                         border: OutlineInputBorder(),
                       ),
                       onFieldSubmitted: (value) {
@@ -113,7 +116,7 @@ class LoginViewState extends State<LoginView> {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(vertical: 12),
                             hintText: "Password",
-                            labelText: "Password",
+                            // labelText: "Password",
                             suffixIcon: InkWell(
                               onTap: () {
                                 _obsecurePassword.value =
@@ -177,7 +180,6 @@ class LoginViewState extends State<LoginView> {
                             //   'email' : 'atishghimire21000@gmail.com',
                             //   'password' : 'Admin@12345',
                             // };
-
                             authViewModel.loginApi(data, context);
                             print("api hit");
                             FocusManager.instance.primaryFocus?.unfocus();

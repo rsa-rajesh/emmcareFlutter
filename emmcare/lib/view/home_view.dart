@@ -281,13 +281,13 @@ class HomeViewState extends State<HomeView> {
                                           });
 
                                           sharedprefs.setString(
-                                              KEYCLIENTLAT, clientLat!);
+                                              KEYCLIENTLAT, clientLat);
                                           setState(() {
                                             sharedprefs.getString(KEYCLIENTLAT);
                                           });
 
                                           sharedprefs.setString(
-                                              KEYCLIENTLog, clientLog!);
+                                              KEYCLIENTLog, clientLog);
                                           setState(() {
                                             sharedprefs.getString(KEYCLIENTLog);
                                           });

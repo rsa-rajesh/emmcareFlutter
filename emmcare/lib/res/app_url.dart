@@ -9,7 +9,6 @@ class AppUrl {
   // End Points.
   static var myDocumentListEndPoint = pstmnbaseUrl + "my_documents";
   static var documentHubListEndPoint = pstmnbaseUrl + "document_hub";
-  // static var clientListEndPoint = pstmnbaseUrl + "clients";
   static var JobListEndPoint = pstmnbaseUrl + "jobs";
   static var clientProfileDocumentsListEndPoint =
       pstmnbaseUrl + "client_profile_documents";
