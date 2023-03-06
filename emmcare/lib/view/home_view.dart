@@ -212,14 +212,14 @@ class HomeViewState extends State<HomeView> {
                                         children: [
                                           Text(
                                               value.clientList.data!
-                                                  .clients![index].number
+                                                  .clients![index].client
                                                   .toString(),
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold)),
                                           Text(
                                               value.clientList.data!
-                                                  .clients![index].day
+                                                  .clients![index].client
                                                   .toString(),
                                               style: TextStyle(
                                                   fontSize: 15,
@@ -236,26 +236,24 @@ class HomeViewState extends State<HomeView> {
                                           int? clientId = value.clientList.data!
                                               .clients![index].id;
                                           String? clientName = value.clientList
-                                              .data!.clients![index].name;
+                                              .data!.clients![index].client;
                                           String? clientAvatar = value
                                               .clientList
                                               .data!
                                               .clients![index]
-                                              .avatar;
+                                              .client;
                                           String? clientLat = value
                                               .clientList
                                               .data!
                                               .clients![index]
-                                              .address!
-                                              .geo!
-                                              .lat;
+                                              .client!
+                                              ;
                                           String? clientLog = value
                                               .clientList
                                               .data!
                                               .clients![index]
-                                              .address!
-                                              .geo!
-                                              .lng;
+                                              .client!
+                                              ;
 
                                           final sharedprefs =
                                               await SharedPreferences
@@ -313,7 +311,7 @@ class HomeViewState extends State<HomeView> {
                                                       12, 0, 12, 0),
                                               leading: Text(
                                                 value.clientList.data!
-                                                    .clients![index].time
+                                                    .clients![index].shiftEndDate
                                                     .toString(),
                                                 style: TextStyle(
                                                     fontWeight:
@@ -321,7 +319,7 @@ class HomeViewState extends State<HomeView> {
                                               ),
                                               trailing: Text(
                                                 value.clientList.data!
-                                                    .clients![index].purpose
+                                                    .clients![index].shiftType
                                                     .toString(),
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
@@ -335,7 +333,7 @@ class HomeViewState extends State<HomeView> {
                                                       12, 0, 12, 0),
                                               title: Text(
                                                 value.clientList.data!
-                                                    .clients![index].name
+                                                    .clients![index].client
                                                     .toString(),
                                                 style: TextStyle(
                                                     fontWeight:
@@ -346,32 +344,28 @@ class HomeViewState extends State<HomeView> {
                                                         .clientList
                                                         .data!
                                                         .clients![index]
-                                                        .address!
-                                                        .street
+                                                        .client!
                                                         .toString() +
                                                     "," +
                                                     value
                                                         .clientList
                                                         .data!
                                                         .clients![index]
-                                                        .address!
-                                                        .suite
+                                                        .client!
                                                         .toString() +
                                                     "," +
                                                     value
                                                         .clientList
                                                         .data!
                                                         .clients![index]
-                                                        .address!
-                                                        .zipcode
+                                                        .client
                                                         .toString() +
                                                     "," +
                                                     value
                                                         .clientList
                                                         .data!
                                                         .clients![index]
-                                                        .address!
-                                                        .city
+                                                        .client!
                                                         .toString(),
                                                 style: TextStyle(
                                                     color: Colors.black,
@@ -386,13 +380,13 @@ class HomeViewState extends State<HomeView> {
                                               leading: CircleAvatar(
                                                 backgroundImage: NetworkImage(
                                                   value.clientList.data!
-                                                      .clients![index].avatar
+                                                      .clients![index].client
                                                       .toString(),
                                                 ),
                                               ),
                                               trailing: Text(
                                                 value.clientList.data!
-                                                    .clients![index].status
+                                                    .clients![index].shiftStatus
                                                     .toString(),
                                                 style: TextStyle(
                                                     fontWeight:

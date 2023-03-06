@@ -1,4 +1,4 @@
-import 'package:emmcare/model/client_model.dart';
+import 'package:emmcare/model/client_model_v2.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';

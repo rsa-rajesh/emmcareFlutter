@@ -1,4 +1,4 @@
-import 'package:emmcare/model/client_model.dart';
+import 'package:emmcare/model/client_model_v2.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/details_view.dart';
 import 'package:emmcare/widgets/home_widgets/events_view/events_view.dart';
@@ -34,9 +34,9 @@ class ClientDetailViewState extends State<ClientDetailView> {
         backgroundColor: AppColors.appBarColor,
         centerTitle: true,
         title: Text(
-          client_Detail.name.toString() +
+          client_Detail.client.toString() +
               "-" +
-              client_Detail.purpose.toString(),
+              client_Detail.shiftType.toString(),
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),

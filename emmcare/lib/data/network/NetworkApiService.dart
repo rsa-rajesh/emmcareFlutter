@@ -54,4 +54,21 @@ class NetworkApiService extends BaseApiServices {
                 response.statusCode.toString());
     }
   }
+  
+  @override
+  Future getGetClintsResponse(String url) async {
+    dynamic responseJson;
+    try {
+      Response response = await get(
+        Uri.parse(url),
+        headers: {
+      HttpHeaders.authorizationHeader: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2NzIzOTk3LCJpYXQiOjE2NzgwODM5OTcsImp0aSI6IjhlNjBiZWM0OTY0NjQ1NmU4OTFhMDg2ZTVhMDE0OWQzIiwidXNlcl9pZCI6NjUsInVzZXJuYW1lIjoiRW1tY19BZG1pbkRSN1giLCJlbWFpbCI6Im5hYmFAZW1tYy5jb20uYXUiLCJyb2xlIjoib3duZXIiLCJwcm9maWxlX2lkIjo2NCwiaWQiOjY1LCJmY21fcmVnaXN0cmF0aW9uX2lkIjoiZFVmeEZJNVNSRk9xRURsVzdvZWh4QTpBUEE5MWJINlhhNzJubnJxZUpYVVo3OWpxZURyVXJTaWtCQUZ2WFJ2RnNMRTR4RDBfX25zbjJuTlRLamZ0QVpyTDFrUWhXTHh0S1BzTHVPT0lZeFMyNjJidlZRQ0RrM1hseENGZnlYNFVsMXY5ZlJCQ3gxSi1JSERscmV1REM3VmhjTkxQaVJDbWx4WCIsImVuZHNfaW4iOiIyMDI5LTAyLTA2In0.llAS_vSzmYDKWEoqd2uxsUJNUasx2pDpeiFKlu0SuGQ',
+    },
+      ).timeout(Duration(seconds: 20));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return responseJson;
+  }
 }

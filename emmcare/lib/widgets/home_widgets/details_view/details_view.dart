@@ -1,4 +1,4 @@
-import 'package:emmcare/model/client_model.dart';
+import 'package:emmcare/model/client_model_v2.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
@@ -113,14 +113,14 @@ class _DetailsViewState extends State<DetailsView> {
                     CircleAvatar(
                       backgroundColor: AppColors.buttonColor,
                       backgroundImage: NetworkImage(
-                        client_Detail.avatar.toString(),
+                        client_Detail.shiftEndDate.toString(),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         maxLines: null,
-                        client_Detail.name.toString(),
+                        client_Detail.client.toString(),
                         style: TextStyle(
                             fontSize: 12, fontWeight: FontWeight.bold),
                       ),
@@ -192,7 +192,7 @@ class _DetailsViewState extends State<DetailsView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      client_Detail.time.toString(),
+                      client_Detail.shiftStartTime.toString(),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w900,
@@ -230,28 +230,34 @@ class _DetailsViewState extends State<DetailsView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        client_Detail.address!.street.toString(),
+                        // client_Detail.address!.street.toString(),
+                         client_Detail.client.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
                       Text(
-                        client_Detail.address!.suite.toString(),
+                        // client_Detail.address!.suite.toString(),
+                        client_Detail.client.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
                       Text(
-                        client_Detail.address!.zipcode.toString(),
+                        // client_Detail.address!.zipcode.toString(),
+                                                 client_Detail.client.toString(),
+
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
                       Text(
-                        client_Detail.address!.city.toString(),
+                        // client_Detail.address!.city.toString(),
+                                                 client_Detail.client.toString(),
+
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
