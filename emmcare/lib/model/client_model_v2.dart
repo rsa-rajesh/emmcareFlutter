@@ -3,43 +3,14 @@ class ClientModel {
 
   ClientModel({this.clients});
 
-  //   ClientModel.fromJson(List<dynamic> json) {
-  //   if (json['clients'] != null) {
-  //     clients = <Clients>[];
-  //     json['clients'].forEach((v) {
-  //       clients!.add(new Clients.fromJson(v));
-  //     });
-  //   }
-  // }
-
-  // ClientModel.fromJson(Map<String, dynamic> json) {
-  //   if (json['clients'] != null) {
-  //     clients = <Clients>[];
-  //     json['clients'].forEach((v) {
-  //       clients!.add(new Clients.fromJson(v));
-  //     });
-  //   }
-  // }
-
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   if (this.clients != null) {
-  //     data['clients'] = this.clients!.map((v) => v.toJson()).toList();
-  //   }
-  //   return data;
-  // }
-     ClientModel.fromJson(List<dynamic> parsedJson) {
-
+  ClientModel.fromJson(List<dynamic> parsedJson) {
     // List<Clients> clients = <Clients>[];
-    clients = parsedJson.map((i)=>Clients.fromJson(i)).toList();
-
+    clients = parsedJson.map((i) => Clients.fromJson(i)).toList();
     // return new ClientModel(
     //   clients: clients
     // );
   }
 }
-
-
 
 class Clients {
   int? id;

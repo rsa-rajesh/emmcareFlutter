@@ -111,9 +111,16 @@ class _DetailsViewState extends State<DetailsView> {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      backgroundColor: AppColors.buttonColor,
-                      backgroundImage: NetworkImage(
-                        client_Detail.shiftEndDate.toString(),
+                      child: ClipOval(
+                        child: Image.network(client_Detail.client.toString(),
+                            width: 100, height: 100, fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                          return Icon(
+                            // Icons.error,
+                            Icons.person,
+                            color: Colors.white,
+                          );
+                        }),
                       ),
                     ),
                     Padding(
@@ -231,7 +238,7 @@ class _DetailsViewState extends State<DetailsView> {
                     children: [
                       Text(
                         // client_Detail.address!.street.toString(),
-                         client_Detail.client.toString(),
+                        client_Detail.client.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
@@ -247,7 +254,7 @@ class _DetailsViewState extends State<DetailsView> {
                       ),
                       Text(
                         // client_Detail.address!.zipcode.toString(),
-                                                 client_Detail.client.toString(),
+                        client_Detail.client.toString(),
 
                         style: TextStyle(
                           fontSize: 14,
@@ -256,7 +263,7 @@ class _DetailsViewState extends State<DetailsView> {
                       ),
                       Text(
                         // client_Detail.address!.city.toString(),
-                                                 client_Detail.client.toString(),
+                        client_Detail.client.toString(),
 
                         style: TextStyle(
                           fontSize: 14,
