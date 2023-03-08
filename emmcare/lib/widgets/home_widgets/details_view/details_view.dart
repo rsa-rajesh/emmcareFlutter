@@ -3,6 +3,7 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 class DetailsView extends StatefulWidget {
   const DetailsView({super.key});
@@ -159,19 +160,25 @@ class _DetailsViewState extends State<DetailsView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Monday",
+                        DateFormat("E").format(
+                          DateTime.parse(
+                              client_Detail.shiftStartDate.toString()),
+                        ),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
                       Text(
-                        "Jan 25th 2023",
+                        DateFormat("yMMMMd").format(
+                          DateTime.parse(
+                              client_Detail.shiftStartDate.toString()),
+                        ),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                         ),
-                      ),
+                      )
                     ],
                   ),
                 )
@@ -195,11 +202,22 @@ class _DetailsViewState extends State<DetailsView> {
                   ),
                 ),
                 Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                    child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      client_Detail.shiftStartTime.toString(),
+                      DateFormat.jm().format(DateFormat("hh:mm:ss")
+                          .parse(client_Detail.shiftStartTime.toString())),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    Text("-"),
+                    Text(
+                      DateFormat.jm().format(DateFormat("hh:mm:ss")
+                          .parse(client_Detail.shiftEndTime.toString())),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w900,

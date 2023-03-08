@@ -52,9 +52,9 @@ dependencies:
   firebase_core: ^2.4.1
   firebase_messaging: ^14.2.1
   calendar_date_picker2: ^0.3.8
-
   image_picker: ^0.8.6+3
   adaptive_action_sheet: ^2.0.2
+
  
 
   
