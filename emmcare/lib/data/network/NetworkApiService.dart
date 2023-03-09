@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:emmcare/data/app_exceptions.dart';
 import 'package:emmcare/data/network/BaseApiServices.dart';
 import 'package:http/http.dart';
@@ -28,9 +29,12 @@ class NetworkApiService extends BaseApiServices {
   Future getGetResponseWithAuth(String url, String token) async {
     dynamic responseJson;
     try {
-      Response response = await get(
+      final _chuckerk = ChuckerHttpClient(http.Client());
+      Response response = await _chuckerk.get(
         Uri.parse(url),
         headers: {
+          'Accept': 'application/json',
+          'Connection': 'keep-alive',
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
       ).timeout(Duration(seconds: 20));

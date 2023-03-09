@@ -1,4 +1,5 @@
-import 'package:emmcare/model/client_model_v2.dart';
+import 'dart:math';
+
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,10 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 import '../../../data/response/status.dart';
 import '../../../view_model/progress_view_view_model.dart';
+import 'package:intl/intl.dart';
 
 class ProgressView extends StatefulWidget {
-  const ProgressView({super.key});
-
+  ProgressView({super.key});
   @override
   State<ProgressView> createState() => ProgressViewState();
 }
@@ -19,7 +20,7 @@ class ProgressViewState extends State<ProgressView> {
   ProgressViewViewModel progressViewViewModel = ProgressViewViewModel();
   @override
   void initState() {
-    progressViewViewModel.fetchProgressListApi();
+    progressViewViewModel.fetchProgressListApi(context);
     super.initState();
   }
 
@@ -39,7 +40,6 @@ class ProgressViewState extends State<ProgressView> {
         visible: true,
         closeManually: false,
         curve: Curves.bounceIn,
-
         shape: CircleBorder(), //shape of button
 
         children: [
@@ -119,9 +119,7 @@ class ProgressViewState extends State<ProgressView> {
       ),
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
-        onRefresh: () {
-          return refresh();
-        },
+        onRefresh: refresh,
         child: ChangeNotifierProvider<ProgressViewViewModel>(
           create: (BuildContext context) => progressViewViewModel,
           child: Consumer<ProgressViewViewModel>(
@@ -172,7 +170,38 @@ class ProgressViewState extends State<ProgressView> {
                   return ListView.builder(
                     itemCount: value.progressList.data!.progress!.length,
                     itemBuilder: (context, index) {
-                      return Container();
+                      return Card(
+                        child: Wrap(children: [
+                          Wrap(
+                            alignment: WrapAlignment.end,
+                            children: [
+                              Text(
+                                timeAgoCustom(DateTime.parse(value.progressList
+                                    .data!.progress![index].createdAt
+                                    .toString())),
+                              ),
+                              ListTile(
+                                leading: Text(
+                                  "Name:-" +
+                                      " " +
+                                      value.progressList.data!.progress![index]
+                                          .client
+                                          .toString(),
+                                ),
+                              ),
+                              ListTile(
+                                leading: Text(
+                                  "Category:-" +
+                                      " " +
+                                      value.progressList.data!.progress![index]
+                                          .category
+                                          .toString(),
+                                ),
+                              )
+                            ],
+                          ),
+                        ]),
+                      );
                     },
                   );
                 default:
@@ -187,7 +216,45 @@ class ProgressViewState extends State<ProgressView> {
 
   Future<void> refresh() async {
     setState(() {
-      progressViewViewModel.fetchProgressListApi();
+      progressViewViewModel.fetchProgressListApi(context);
     });
+  }
+
+  // String convertToAgo(DateTime input) {
+  //   Duration diff = DateTime.now().difference(input);
+  //   if (diff.inDays >= 1) {
+  //     return '${diff.inDays} day(s) ago';
+  //   } else if (diff.inHours >= 1) {
+  //     return '${diff.inHours} hour(s) ago';
+  //   } else if (diff.inMinutes >= 1) {
+  //     return '${diff.inMinutes} minute(s) ago';
+  //   } else if (diff.inSeconds >= 1) {
+  //     return '${diff.inSeconds} second(s) ago';
+  //   } else {
+  //     return 'just now';
+  //   }
+  // }
+
+  String timeAgoCustom(DateTime d) {
+    Duration diff = DateTime.now().difference(d);
+    if (diff.inDays > 365) {
+      return "${(diff.inDays / 365).floor()} ${(diff.inDays / 365).floor() == 1 ? "year" : "years"} ago";
+    }
+    if (diff.inDays > 30) {
+      return "${(diff.inDays / 30).floor()} ${(diff.inDays / 30).floor() == 1 ? "month" : "months"} ago";
+    }
+    if (diff.inDays > 7) {
+      return "${(diff.inDays / 7).floor()} ${(diff.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
+    }
+    if (diff.inDays > 0) {
+      return "${DateFormat.E().add_jm().format(d)}";
+    }
+    if (diff.inHours > 0) {
+      return "Today ${DateFormat('jm').format(d)}";
+    }
+    if (diff.inMinutes > 0) {
+      return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
+    }
+    return "just now";
   }
 }

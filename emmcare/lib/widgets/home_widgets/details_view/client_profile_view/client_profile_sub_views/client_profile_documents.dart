@@ -3,7 +3,6 @@ import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../view_model/client_profile_documents_view_view_model.dart';
 import '../../../../file_viewer/client_profile_documents_viewer.dart';
 
@@ -48,7 +47,7 @@ class _ClientProfileDocumentsViewState
                   );
 
                 case Status.ERROR:
-                  return AlertDialog(
+                  return AlertDialog(  
                     icon: Icon(Icons.error_rounded, size: 30),
                     title: Text(
                       value.clientProfiledocumentsList.message.toString(),

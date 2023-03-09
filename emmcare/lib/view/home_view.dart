@@ -26,7 +26,6 @@ class HomeViewState extends State<HomeView> {
   // App bar current Month and year.
   String currentMonth = DateFormat.LLL().format(DateTime.now());
   String currentYear = DateFormat("yyyy").format(DateTime.now());
-
   HomeViewViewModel homeViewViewModel = HomeViewViewModel();
 
   // Device Token to send push notification
