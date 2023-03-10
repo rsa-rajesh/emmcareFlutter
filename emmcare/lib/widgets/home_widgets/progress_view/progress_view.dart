@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
+import 'package:emmcare/widgets/file_viewer/progress_note_list_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -45,30 +44,40 @@ class ProgressViewState extends State<ProgressView> {
         children: [
           SpeedDialChild(
             //speed dial child
-            child: Icon(Icons.star),
+            child: Icon(Icons.personal_injury_outlined),
             backgroundColor: AppColors.floatingActionButtonColor,
             foregroundColor: Colors.white,
-            label: 'Goal',
+            label: 'Injury',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
               Navigator.pushNamed(context, RoutesName.goal);
             },
           ),
           SpeedDialChild(
-            child: Icon(Icons.monetization_on),
+            child: Icon(Icons.warning_amber_rounded),
             backgroundColor: AppColors.floatingActionButtonColor,
             foregroundColor: Colors.white,
-            label: 'Expense',
+            label: 'Warning',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
               Navigator.pushNamed(context, RoutesName.expense);
             },
           ),
           SpeedDialChild(
-            child: Icon(Icons.drive_eta),
+            child: Icon(Icons.import_export),
             backgroundColor: AppColors.floatingActionButtonColor,
             foregroundColor: Colors.white,
-            label: 'Mileage',
+            label: 'Export',
+            labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
+            onTap: () {
+              Navigator.pushNamed(context, RoutesName.expense);
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.import_export),
+            backgroundColor: AppColors.floatingActionButtonColor,
+            foregroundColor: Colors.white,
+            label: 'Import',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
               Navigator.pushNamed(context, RoutesName.mileage);
@@ -171,36 +180,104 @@ class ProgressViewState extends State<ProgressView> {
                     itemCount: value.progressList.data!.progress!.length,
                     itemBuilder: (context, index) {
                       return Card(
-                        child: Wrap(children: [
-                          Wrap(
-                            alignment: WrapAlignment.end,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                timeAgoCustom(DateTime.parse(value.progressList
-                                    .data!.progress![index].createdAt
-                                    .toString())),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 8, 0),
+                                    child: Text(
+                                      "Date:-" +
+                                          " " +
+                                          timeAgoCustom(
+                                            DateTime.parse(
+                                              value.progressList.data!
+                                                  .progress![index].createdAt
+                                                  .toString(),
+                                            ),
+                                          ),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              ListTile(
-                                leading: Text(
-                                  "Name:-" +
-                                      " " +
-                                      value.progressList.data!.progress![index]
-                                          .client
-                                          .toString(),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Category:-" +
+                                          " " +
+                                          value.progressList.data!
+                                              .progress![index].category
+                                              .toString(),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "Summary:-" +
+                                          " " +
+                                          value.progressList.data!
+                                              .progress![index].summary
+                                              .toString(),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "Message:-" +
+                                          " " +
+                                          value.progressList.data!
+                                              .progress![index].msg
+                                              .toString(),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              ListTile(
-                                leading: Text(
-                                  "Category:-" +
-                                      " " +
-                                      value.progressList.data!.progress![index]
-                                          .category
-                                          .toString(),
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 8, 8),
+                                    child: IconButton(
+                                      iconSize: 30,
+                                      color: Colors.redAccent,
+                                      splashColor: Colors.lightBlueAccent,
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProgressNoteViewer(),
+                                            settings: RouteSettings(
+                                              arguments: value.progressList
+                                                  .data!.progress![index],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      icon: Icon(Icons.picture_as_pdf),
+                                    ),
+                                  )
+                                ],
                               )
-                            ],
-                          ),
-                        ]),
+                            ]),
                       );
                     },
                   );

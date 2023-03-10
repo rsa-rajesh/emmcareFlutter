@@ -397,6 +397,7 @@ class HomeViewState extends State<HomeView> {
                                                           .client!
                                                           .toString(),
                                                   style: TextStyle(
+                                                    fontSize: 14,
                                                     color: Colors.black,
                                                   ),
                                                 ),
@@ -406,6 +407,8 @@ class HomeViewState extends State<HomeView> {
                                                     EdgeInsets.fromLTRB(
                                                         12, 0, 12, 0),
                                                 leading: CircleAvatar(
+                                                  backgroundColor:
+                                                      AppColors.buttonColor,
                                                   child: ClipOval(
                                                     child: Image.network(
                                                         value
@@ -420,7 +423,6 @@ class HomeViewState extends State<HomeView> {
                                                         errorBuilder: (context,
                                                             error, stackTrace) {
                                                       return Icon(
-                                                        // Icons.error,
                                                         Icons.person,
                                                         color: Colors.white,
                                                       );
