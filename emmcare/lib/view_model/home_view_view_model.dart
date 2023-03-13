@@ -5,11 +5,10 @@ import 'package:emmcare/repository/home_repository.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeViewViewModel with ChangeNotifier {
-
   final _myRepo = HomeRepository();
 
   ApiResponse<ClientModel> clientList = ApiResponse.loading();
-  
+
   setClientList(ApiResponse<ClientModel> response) {
     clientList = response;
     notifyListeners();

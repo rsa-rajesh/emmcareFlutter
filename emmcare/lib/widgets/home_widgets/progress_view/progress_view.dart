@@ -17,6 +17,7 @@ class ProgressView extends StatefulWidget {
 
 class ProgressViewState extends State<ProgressView> {
   ProgressViewViewModel progressViewViewModel = ProgressViewViewModel();
+  
   @override
   void initState() {
     progressViewViewModel.fetchProgressListApi(context);

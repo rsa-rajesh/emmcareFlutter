@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 
 class JobBoardView extends StatefulWidget {
   JobBoardView({super.key});
-
   @override
   State<JobBoardView> createState() => JobBoardViewState();
 }
@@ -201,8 +200,6 @@ class JobBoardViewState extends State<JobBoardView> {
                       ),
                     ],
                   );
-
-                // return CalendarTimelineWidget();
 
                 default:
                   return Container(); // just to satisfy flutter analyzer

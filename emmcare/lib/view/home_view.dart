@@ -57,9 +57,11 @@ class HomeViewState extends State<HomeView> {
   // Shared prefs keys.
 
   // Calendar controller and event list.
+
   final _calendarControllerCustom =
       AdvancedCalendarController.custom(DateTime.now());
   final List<DateTime> events = [DateTime.now(), DateTime(0000, 10, 10)];
+
   // Calendar controller and event list.
 
   @override
@@ -152,22 +154,22 @@ class HomeViewState extends State<HomeView> {
                       Theme(
                         data: ThemeData.light().copyWith(
                           textTheme: ThemeData.light().textTheme.copyWith(
-                                subtitle1: ThemeData.light()
+                                titleMedium: ThemeData.light()
                                     .textTheme
-                                    .subtitle1!
+                                    .titleMedium!
                                     .copyWith(
                                       fontSize: 16,
                                     ),
-                                bodyText1: ThemeData.light()
+                                bodyLarge: ThemeData.light()
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
                                       fontSize: 14,
                                       color: Colors.black54,
                                     ),
-                                bodyText2: ThemeData.light()
+                                bodyMedium: ThemeData.light()
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
                                       fontSize: 12,
                                       color: Colors.black87,

@@ -2,11 +2,7 @@ class ProgressModel {
   List<Progress>? progress;
   ProgressModel({this.progress});
   ProgressModel.fromJson(List<dynamic> parsedJson) {
-    // List<progress> progress = <progress>[];
     progress = parsedJson.map((i) => Progress.fromJson(i)).toList();
-    // return new ClientModel(
-    //   progress: progress
-    // );
   }
 }
 

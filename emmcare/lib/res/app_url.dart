@@ -10,8 +10,6 @@ class AppUrl {
   static var myDocumentListEndPoint = pstmnbaseUrl + "my_documents";
   static var documentHubListEndPoint = pstmnbaseUrl + "document_hub";
   static var JobListEndPoint = pstmnbaseUrl + "jobs";
-  static var clientProfileDocumentsListEndPoint =
-      pstmnbaseUrl + "client_profile_documents";
   static var clientProfileDetailEndPoint =
       pstmnbaseUrl + "client_profile_detail";
   static var clientProfileGoalEndPoint = pstmnbaseUrl + "client_profile_goal";
@@ -29,4 +27,6 @@ class AppUrl {
   static var loginEndPoint = baseUrl + "v1/api/auth/login/";
   static var clientListEndPoint = baseUrl + "v2/api/shift/shift-list";
   static var progressEndPoint = baseUrl + "v2/api/events/progress-note-list";
+  static var clientProfileDocumentsListEndPoint =
+      baseUrl + "v1/api/document/document-list";
 }

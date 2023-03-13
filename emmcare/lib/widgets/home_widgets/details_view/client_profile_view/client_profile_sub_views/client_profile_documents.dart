@@ -47,7 +47,7 @@ class _ClientProfileDocumentsViewState
                   );
 
                 case Status.ERROR:
-                  return AlertDialog(  
+                  return AlertDialog(
                     icon: Icon(Icons.error_rounded, size: 30),
                     title: Text(
                       value.clientProfiledocumentsList.message.toString(),
@@ -84,8 +84,8 @@ class _ClientProfileDocumentsViewState
 
                 case Status.COMPLETED:
                   return ListView.builder(
-                    itemCount: value.clientProfiledocumentsList.data!
-                        .clientProfileDocuments!.length,
+                    itemCount:
+                        value.clientProfiledocumentsList.data!.results!.length,
                     itemBuilder: (context, index) {
                       return Card(
                         child: ListTile(
@@ -98,11 +98,9 @@ class _ClientProfileDocumentsViewState
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       ClientProfileDocumentsViewer(),
-                                  // Pass the arguments as part of the RouteSettings. The
-                                  // DetailScreen reads the arguments from these settings.
                                   settings: RouteSettings(
                                     arguments: value.clientProfiledocumentsList
-                                        .data!.clientProfileDocuments![index],
+                                        .data!.results![index],
                                   ),
                                 ),
                               );
@@ -111,7 +109,7 @@ class _ClientProfileDocumentsViewState
                           ),
                           title: Text(
                             value.clientProfiledocumentsList.data!
-                                .clientProfileDocuments![index].documentName
+                                .results![index].docCategory
                                 .toString(),
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w600),
