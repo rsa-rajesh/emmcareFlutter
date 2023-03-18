@@ -49,7 +49,7 @@ class HomeViewState extends State<HomeView> {
       GlobalKey<RefreshIndicatorState>();
 
   // Shared prefs keys.
-  static String KEYCLIENTID = "client_Id";
+  static String KEYSHIFTID = "client_Id";
   static String KEYCLIENTNAME = "client_Name";
   static String KEYCLIENTAVATAR = "client_Avatar";
   static String KEYCLIENTLAT = "client_Lat";
@@ -243,7 +243,7 @@ class HomeViewState extends State<HomeView> {
                                     flex: 7,
                                     child: InkWell(
                                         onTap: () async {
-                                          int? clientId = value.clientList.data!
+                                          int? shiftId = value.clientList.data!
                                               .clients![index].id;
                                           String? clientName = value.clientList
                                               .data!.clients![index].client;
@@ -262,9 +262,9 @@ class HomeViewState extends State<HomeView> {
                                                   .getInstance();
 
                                           sharedprefs.setInt(
-                                              KEYCLIENTID, clientId!);
+                                              KEYSHIFTID, shiftId!);
                                           setState(() {
-                                            sharedprefs.getInt(KEYCLIENTID);
+                                            sharedprefs.getInt(KEYSHIFTID);
                                           });
 
                                           sharedprefs.setString(

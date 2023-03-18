@@ -1,100 +1,38 @@
 class ClientProfileDocumentsModel {
-  int? totalCount;
-  int? totalPageCount;
-  int? countItemsOnPage;
-  int? currentPage;
-  String? nextPage;
-  String? previousPage;
   List<Results>? results;
 
-  ClientProfileDocumentsModel(
-      {this.totalCount,
-      this.totalPageCount,
-      this.countItemsOnPage,
-      this.currentPage,
-      this.nextPage,
-      this.previousPage,
-      this.results});
+  ClientProfileDocumentsModel({this.results});
 
-  ClientProfileDocumentsModel.fromJson(Map<String, dynamic> json) {
-    totalCount = json['TotalCount'];
-    totalPageCount = json['TotalPageCount'];
-    countItemsOnPage = json['countItemsOnPage'];
-    currentPage = json['CurrentPage'];
-    nextPage = json['NextPage'];
-    previousPage = json['PreviousPage'];
-    if (json['Results'] != null) {
-      results = <Results>[];
-      json['Results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['TotalCount'] = this.totalCount;
-    data['TotalPageCount'] = this.totalPageCount;
-    data['countItemsOnPage'] = this.countItemsOnPage;
-    data['CurrentPage'] = this.currentPage;
-    data['NextPage'] = this.nextPage;
-    data['PreviousPage'] = this.previousPage;
-    if (this.results != null) {
-      data['Results'] = this.results!.map((v) => v.toJson()).toList();
-    }
-    return data;
+  ClientProfileDocumentsModel.fromJson(List<dynamic> parsedJson) {
+    // List<Clients> clients = <Clients>[];
+    results = parsedJson.map((i) => Results.fromJson(i)).toList();
+    // return new ClientProfileDocumentsModel(
+    //   clients: clients
+    // );
   }
 }
 
 class Results {
+  int? userId;
   int? id;
-  String? file;
-  String? uploadDate;
-  String? updateDate;
-  String? expiryDate;
-  String? contentType;
-  String? docCategory;
-  String? relatedUserType;
-  int? relatedUserId;
-  String? user;
+  String? title;
+  String? body;
 
-  Results(
-      {this.id,
-      this.file,
-      this.uploadDate,
-      this.updateDate,
-      this.expiryDate,
-      this.contentType,
-      this.docCategory,
-      this.relatedUserType,
-      this.relatedUserId,
-      this.user});
+  Results({this.userId, this.id, this.title, this.body});
 
   Results.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
     id = json['id'];
-    file = json['file'];
-    uploadDate = json['upload_date'];
-    updateDate = json['update_date'];
-    expiryDate = json['expiry_date'];
-    contentType = json['content_type'];
-    docCategory = json['doc_category'];
-    relatedUserType = json['related_user_type'];
-    relatedUserId = json['related_user_id'];
-    user = json['user'];
+    title = json['title'];
+    body = json['body'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userId'] = this.userId;
     data['id'] = this.id;
-    data['file'] = this.file;
-    data['upload_date'] = this.uploadDate;
-    data['update_date'] = this.updateDate;
-    data['expiry_date'] = this.expiryDate;
-    data['content_type'] = this.contentType;
-    data['doc_category'] = this.docCategory;
-    data['related_user_type'] = this.relatedUserType;
-    data['related_user_id'] = this.relatedUserId;
-    data['user'] = this.user;
+    data['title'] = this.title;
+    data['body'] = this.body;
     return data;
   }
 }

@@ -15,9 +15,10 @@ class ClientProfileDocumentsViewViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchClientProfileDocumentsListApi() async {
+  Future<void> fetchClientProfileDocumentsListApi(int page_Num) async {
     setClientProfileDocumentsList(ApiResponse.loading());
-    _myRepo.fetchClientProfileDocumentsList().then(
+
+    _myRepo.fetchClientProfileDocumentsList(page_Num).then(
       (value) {
         setClientProfileDocumentsList(ApiResponse.completed(value));
       },

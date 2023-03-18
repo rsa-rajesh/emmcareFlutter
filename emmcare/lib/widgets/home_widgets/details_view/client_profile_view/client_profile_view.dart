@@ -19,7 +19,7 @@ class ClientProfileViewState extends State<ClientProfileView> {
 
     // Step:1
     //
-    getClientId();
+
     getClientName();
     getClientAvatar();
   }
@@ -51,9 +51,18 @@ class ClientProfileViewState extends State<ClientProfileView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(cltAvatar!),
                     backgroundColor: AppColors.buttonColor,
                     radius: 30,
+                    child: ClipOval(
+                      child: Image.network(cltAvatar!,
+                          width: 100, height: 100, fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        );
+                      }),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -113,13 +122,6 @@ class ClientProfileViewState extends State<ClientProfileView> {
 
   // Step:3
   //
-  Future<void> getClientId() async {
-    final sharedpref = await SharedPreferences.getInstance();
-
-    setState(() {
-      cltId = sharedpref.getInt(HomeViewState.KEYCLIENTID)!;
-    });
-  }
 
   Future<void> getClientName() async {
     final sharedpref = await SharedPreferences.getInstance();

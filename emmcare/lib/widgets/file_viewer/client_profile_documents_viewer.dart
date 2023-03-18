@@ -24,7 +24,7 @@ class _ClientProfileDocumentsViewerState
         body: Stack(
           children: [
             PDF().cachedFromUrl(
-              newclientProfielDocumentsList.file.toString(),
+              newclientProfielDocumentsList.title.toString(),
               maxAgeCacheObject: Duration(days: 30), //duration of cache
               placeholder: (progress) => Center(child: Text('$progress %')),
               errorWidget: (error) => Center(child: Text(error.toString())),
