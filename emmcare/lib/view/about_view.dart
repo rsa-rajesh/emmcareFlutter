@@ -1,6 +1,7 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutView extends StatefulWidget {
@@ -11,6 +12,13 @@ class AboutView extends StatefulWidget {
 }
 
 class _AboutViewState extends State<AboutView> {
+  String? _appVersion;
+  @override
+  void initState() {
+    _getAppVersion();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,8 +52,8 @@ class _AboutViewState extends State<AboutView> {
                     ),
                   ),
                   Text(
-                    "Version 1.0.0",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                    "Version\t" + _appVersion!,
+                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
                   ),
                 ],
               ),
@@ -222,5 +230,11 @@ class _AboutViewState extends State<AboutView> {
         ],
       ),
     );
+  }
+
+  Future<void> _getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    _appVersion = packageInfo.version;
+    setState(() {});
   }
 }
