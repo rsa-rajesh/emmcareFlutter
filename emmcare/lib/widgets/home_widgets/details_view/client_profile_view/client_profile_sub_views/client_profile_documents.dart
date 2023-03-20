@@ -148,7 +148,7 @@ class ClientProfileDocumentsViewState
   Future<void> refresh() async {
     setState(() {
       clientProfileDocumentsViewViewModel
-          .fetchClientProfileDocumentsListApi(_listener_page_num);
+          .fetchClientProfileDocumentsListApi(_listener_page_num = 1);
     });
   }
 }

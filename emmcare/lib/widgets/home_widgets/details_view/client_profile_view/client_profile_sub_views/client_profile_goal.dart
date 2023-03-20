@@ -82,24 +82,30 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                     itemCount: value
                         .clientProfileGoalList.data!.clientProfileGoal!.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text(
-                            value.clientProfileGoalList.data!
-                                .clientProfileGoal![index].goals
-                                .toString(),
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
-                          ),
-                          subtitle: Text(
-                            value.clientProfileGoalList.data!
-                                .clientProfileGoal![index].detail
-                                .toString(),
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
-                          ),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: double.maxFinite,
+                          child: Wrap(children: [
+                            ListTile(
+                              title: Text(
+                                value.clientProfileGoalList.data!
+                                    .clientProfileGoal![index].goals
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              subtitle: Text(
+                                value.clientProfileGoalList.data!
+                                    .clientProfileGoal![index].detail
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ]),
                         ),
                       );
                     },

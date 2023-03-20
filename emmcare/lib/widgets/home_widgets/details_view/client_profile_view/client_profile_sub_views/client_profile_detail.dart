@@ -13,7 +13,6 @@ class ClientProfileDetailView extends StatefulWidget {
 }
 
 class _ClientProfileDetailViewState extends State<ClientProfileDetailView> {
-  
   ClientProfileDetailViewViewModel clientProfileDetailViewViewModel =
       ClientProfileDetailViewViewModel();
 
@@ -84,24 +83,33 @@ class _ClientProfileDetailViewState extends State<ClientProfileDetailView> {
                     itemCount: value.clientProfileDetailList.data!
                         .clientProfileDetail!.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text(
-                            value.clientProfileDetailList.data!
-                                .clientProfileDetail![index].generalInformation
-                                .toString(),
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
-                          ),
-                          subtitle: Text(
-                            value.clientProfileDetailList.data!
-                                .clientProfileDetail![index].detail
-                                .toString(),
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
-                          ),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: double.maxFinite,
+                          child: Wrap(children: [
+                            ListTile(
+                              title: Text(
+                                value
+                                    .clientProfileDetailList
+                                    .data!
+                                    .clientProfileDetail![index]
+                                    .generalInformation
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              subtitle: Text(
+                                value.clientProfileDetailList.data!
+                                    .clientProfileDetail![index].detail
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ]),
                         ),
                       );
                     },
