@@ -254,7 +254,6 @@ class HomeViewState extends State<HomeView> {
                                           final sharedprefs =
                                               await SharedPreferences
                                                   .getInstance();
-
                                           sharedprefs.setInt(
                                               KEYSHIFTID, shiftId!);
                                           setState(() {
@@ -268,8 +267,8 @@ class HomeViewState extends State<HomeView> {
                                                 .getString(KEYCLIENTNAME);
                                           });
 
-                                          sharedprefs.setString(
-                                              KEYCLIENTAVATAR, clientAvatar!);
+                                          sharedprefs.setString(KEYCLIENTAVATAR,
+                                              clientAvatar.toString());
                                           setState(() {
                                             sharedprefs
                                                 .getString(KEYCLIENTAVATAR);
