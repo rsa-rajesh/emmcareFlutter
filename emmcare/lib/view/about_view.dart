@@ -12,7 +12,7 @@ class AboutView extends StatefulWidget {
 }
 
 class _AboutViewState extends State<AboutView> {
-  String? _appVersion;
+  String _appVersion = "";
   @override
   void initState() {
     _getAppVersion();
@@ -52,7 +52,7 @@ class _AboutViewState extends State<AboutView> {
                     ),
                   ),
                   Text(
-                    "Version\t" + _appVersion!,
+                    "Version\t" + _appVersion,
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
                   ),
                 ],

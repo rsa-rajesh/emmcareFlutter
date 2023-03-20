@@ -18,8 +18,8 @@ class ClientProfileDocumentsRepository {
     });
     await Future.delayed(Duration(seconds: 3));
     try {
-      dynamic response = await _apiServices
-          .getGetApiResponse(AppUrl.getPersionalDocuments(page_Num));
+      dynamic response = await _apiServices.getGetResponseWithAuth(
+          AppUrl.getPersonalDocuments(page_Num), token);
       print("Repository" + "$page_Num");
       return response = ClientProfileDocumentsModel.fromJson(response);
     } catch (e) {

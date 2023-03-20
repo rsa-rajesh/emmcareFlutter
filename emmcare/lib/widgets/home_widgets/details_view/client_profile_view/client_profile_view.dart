@@ -54,8 +54,12 @@ class ClientProfileViewState extends State<ClientProfileView> {
                     backgroundColor: AppColors.buttonColor,
                     radius: 30,
                     child: ClipOval(
-                      child: Image.network(cltAvatar!,
-                          width: 100, height: 100, fit: BoxFit.cover,
+                      child: Image.network(
+                          "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                              cltAvatar!,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                         return Icon(
                           Icons.person,

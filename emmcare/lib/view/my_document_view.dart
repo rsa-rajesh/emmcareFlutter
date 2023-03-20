@@ -1,4 +1,5 @@
 import 'package:emmcare/data/response/status.dart';
+import 'package:emmcare/model/my_document_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:emmcare/view_model/my_document_view_view_model.dart';
@@ -15,12 +16,28 @@ class MyDocumentView extends StatefulWidget {
 }
 
 class _MyDocumentViewState extends State<MyDocumentView> {
-  MyDocumentViewViewModel myDocumentViewViewModel = MyDocumentViewViewModel();
+  // Scroll down to refresh
+  final scrollController = ScrollController();
+  // Scroll down to refresh
 
+  List<Results> list = <Results>[];
+
+  MyDocumentViewViewModel myDocumentViewViewModel = MyDocumentViewViewModel();
+  var _listener_page_num = 1;
   @override
   void initState() {
-    myDocumentViewViewModel.fetchDocumentsListApi();
+    myDocumentViewViewModel.fetchDocumentsListApi(_listener_page_num);
     super.initState();
+
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        _listener_page_num = _listener_page_num + 1;
+        print(_listener_page_num);
+        myDocumentViewViewModel.fetchDocumentsListApi(_listener_page_num);
+        print("call");
+      }
+    });
   }
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -88,6 +105,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
 
                 case Status.COMPLETED:
                   return ListView.builder(
+                    controller: scrollController,
                     itemCount: value.mydocumentList.data!.mydocuments!.length,
                     itemBuilder: (context, index) {
                       return Card(
@@ -100,8 +118,6 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => MyDocumentViewer(),
-                                  // Pass the arguments as part of the RouteSettings. The
-                                  // DetailScreen reads the arguments from these settings.
                                   settings: RouteSettings(
                                     arguments: value.mydocumentList.data!
                                         .mydocuments![index],
@@ -112,15 +128,13 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                             icon: Icon(Icons.picture_as_pdf),
                           ),
                           title: Text(
-                            value.mydocumentList.data!.mydocuments![index]
-                                .documentName
+                            value.mydocumentList.data!.mydocuments![index].title
                                 .toString(),
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w600),
                           ),
                           trailing: Text(
-                            value.mydocumentList.data!.mydocuments![index]
-                                .expiryDate
+                            value.mydocumentList.data!.mydocuments![index].id
                                 .toString(),
                             style: TextStyle(
                                 color: Colors.redAccent,
@@ -145,7 +159,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
 
   Future<void> refresh() async {
     setState(() {
-      myDocumentViewViewModel.fetchDocumentsListApi();
+      myDocumentViewViewModel.fetchDocumentsListApi(_listener_page_num = 1);
     });
   }
 }

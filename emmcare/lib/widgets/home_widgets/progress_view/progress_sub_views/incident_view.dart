@@ -93,20 +93,37 @@ class _IncidentViewState extends State<IncidentView> {
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      tileColor: Colors.white70,
-                      leading: CircleAvatar(
-                        radius: 30.0,
-                        backgroundImage: NetworkImage(cltAvatar!),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      subtitle: Text(
-                        "UPLOAD IMAGE",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700),
-                      ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: AppColors.buttonColor,
+                          radius: 30,
+                          child: ClipOval(
+                            child: Image.network(
+                                "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                    cltAvatar.toString(),
+                                width: 150,
+                                height: 200,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                              return Icon(
+                                Icons.person,
+                                color: Colors.white,
+                              );
+                            }),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "UPLOAD IMAGE",
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ],
                     ),
                   ),
                 ),

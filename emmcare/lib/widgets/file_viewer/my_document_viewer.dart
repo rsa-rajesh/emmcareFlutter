@@ -15,7 +15,7 @@ class _MyDocumentViewerState extends State<MyDocumentViewer> {
   @override
   Widget build(BuildContext context) {
     final newdocumentList =
-        ModalRoute.of(context)!.settings.arguments as Mydocuments;
+        ModalRoute.of(context)!.settings.arguments as Results;
 
     return Scaffold(
         appBar: AppBar(
@@ -25,7 +25,7 @@ class _MyDocumentViewerState extends State<MyDocumentViewer> {
         body: Stack(
           children: [
             PDF().cachedFromUrl(
-              newdocumentList.documentUrl.toString(),
+              newdocumentList.title.toString(),
               maxAgeCacheObject: Duration(days: 30), //duration of cache
               placeholder: (progress) => Center(child: Text('$progress %')),
               errorWidget: (error) => Center(child: Text(error.toString())),

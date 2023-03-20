@@ -3,8 +3,6 @@ import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../../model/client_profile_documents_model.dart';
 import '../../../../../view_model/client_profile_documents_view_view_model.dart';
 import '../../../../file_viewer/client_profile_documents_viewer.dart';
 
@@ -43,8 +41,6 @@ class ClientProfileDocumentsViewState
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-
-  List<Results>? results;
 
   @override
   Widget build(BuildContext context) {

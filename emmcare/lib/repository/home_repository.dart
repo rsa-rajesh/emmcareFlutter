@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:emmcare/data/network/BaseApiServices.dart';
 import 'package:emmcare/data/network/NetworkApiService.dart';
-import 'package:emmcare/model/client_model_v2.dart';
+import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/app_url.dart';
 import 'package:flutter/material.dart';
 import '../model/user_model.dart';

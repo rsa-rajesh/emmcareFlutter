@@ -1,4 +1,4 @@
-import 'package:emmcare/model/client_model_v2.dart';
+import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
@@ -112,9 +112,14 @@ class _DetailsViewState extends State<DetailsView> {
                 child: Row(
                   children: [
                     CircleAvatar(
+                      backgroundColor: AppColors.buttonColor,
                       child: ClipOval(
-                        child: Image.network(client_Detail.client.toString(),
-                            width: 100, height: 100, fit: BoxFit.cover,
+                        child: Image.network(
+                            "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                client_Detail.clientImg.toString(),
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                           return Icon(
                             // Icons.error,
@@ -256,38 +261,38 @@ class _DetailsViewState extends State<DetailsView> {
                     children: [
                       Text(
                         // client_Detail.address!.street.toString(),
-                        client_Detail.client.toString(),
+                        client_Detail.shiftFullAddress.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      Text(
-                        // client_Detail.address!.suite.toString(),
-                        client_Detail.client.toString(),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      Text(
-                        // client_Detail.address!.zipcode.toString(),
-                        client_Detail.client.toString(),
+                      // Text(
+                      //   // client_Detail.address!.suite.toString(),
+                      //   client_Detail.client.toString(),
+                      //   style: TextStyle(
+                      //     fontSize: 14,
+                      //     fontWeight: FontWeight.w900,
+                      //   ),
+                      // ),
+                      // Text(
+                      //   // client_Detail.address!.zipcode.toString(),
+                      //   client_Detail.client.toString(),
 
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      Text(
-                        // client_Detail.address!.city.toString(),
-                        client_Detail.client.toString(),
+                      //   style: TextStyle(
+                      //     fontSize: 14,
+                      //     fontWeight: FontWeight.w900,
+                      //   ),
+                      // ),
+                      // Text(
+                      //   // client_Detail.address!.city.toString(),
+                      //   client_Detail.client.toString(),
 
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
+                      //   style: TextStyle(
+                      //     fontSize: 14,
+                      //     fontWeight: FontWeight.w900,
+                      //   ),
+                      // ),
                     ],
                   ),
                 )

@@ -52,8 +52,6 @@ class HomeViewState extends State<HomeView> {
   static String KEYSHIFTID = "client_Id";
   static String KEYCLIENTNAME = "client_Name";
   static String KEYCLIENTAVATAR = "client_Avatar";
-  static String KEYCLIENTLAT = "client_Lat";
-  static String KEYCLIENTLog = "client_Log";
   // Shared prefs keys.
 
   // Calendar controller and event list.
@@ -251,11 +249,7 @@ class HomeViewState extends State<HomeView> {
                                               .clientList
                                               .data!
                                               .clients![index]
-                                              .client;
-                                          String? clientLat = value.clientList
-                                              .data!.clients![index].client!;
-                                          String? clientLog = value.clientList
-                                              .data!.clients![index].client!;
+                                              .clientImg;
 
                                           final sharedprefs =
                                               await SharedPreferences
@@ -279,18 +273,6 @@ class HomeViewState extends State<HomeView> {
                                           setState(() {
                                             sharedprefs
                                                 .getString(KEYCLIENTAVATAR);
-                                          });
-
-                                          sharedprefs.setString(
-                                              KEYCLIENTLAT, clientLat);
-                                          setState(() {
-                                            sharedprefs.getString(KEYCLIENTLAT);
-                                          });
-
-                                          sharedprefs.setString(
-                                              KEYCLIENTLog, clientLog);
-                                          setState(() {
-                                            sharedprefs.getString(KEYCLIENTLog);
                                           });
 
                                           Navigator.push(
@@ -372,32 +354,32 @@ class HomeViewState extends State<HomeView> {
                                                 ),
                                                 subtitle: Text(
                                                   value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .client!
-                                                          .toString() +
-                                                      "," +
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .client!
-                                                          .toString() +
-                                                      "," +
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .client
-                                                          .toString() +
-                                                      "," +
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .client!
-                                                          .toString(),
+                                                      .clientList
+                                                      .data!
+                                                      .clients![index]
+                                                      .shiftFullAddress
+                                                      .toString(),
+                                                  // "," +
+                                                  // value
+                                                  //     .clientList
+                                                  //     .data!
+                                                  //     .clients![index]
+                                                  //     .client!
+                                                  //     .toString() +
+                                                  // "," +
+                                                  // value
+                                                  //     .clientList
+                                                  //     .data!
+                                                  //     .clients![index]
+                                                  //     .client
+                                                  //     .toString() +
+                                                  // "," +
+                                                  // value
+                                                  //     .clientList
+                                                  //     .data!
+                                                  //     .clients![index]
+                                                  //     .client!
+                                                  //     .toString(),
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.black,
@@ -413,12 +395,13 @@ class HomeViewState extends State<HomeView> {
                                                       AppColors.buttonColor,
                                                   child: ClipOval(
                                                     child: Image.network(
-                                                        value
-                                                            .clientList
-                                                            .data!
-                                                            .clients![index]
-                                                            .client
-                                                            .toString(),
+                                                        "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                                            value
+                                                                .clientList
+                                                                .data!
+                                                                .clients![index]
+                                                                .clientImg
+                                                                .toString(),
                                                         width: 100,
                                                         height: 100,
                                                         fit: BoxFit.cover,

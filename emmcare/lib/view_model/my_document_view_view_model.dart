@@ -13,9 +13,9 @@ class MyDocumentViewViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchDocumentsListApi() async {
+  Future<void> fetchDocumentsListApi(int page_Num) async {
     setDocumentsList(ApiResponse.loading());
-    _myRepo.fetchMyDocumentList().then(
+    _myRepo.fetchMyDocumentList(page_Num).then(
       (value) {
         setDocumentsList(ApiResponse.completed(value));
       },

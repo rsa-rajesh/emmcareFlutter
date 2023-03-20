@@ -27,8 +27,8 @@ class AppUrl {
 //       baseUrl + "v1/api/document/document-list/?page=";
   static var eventsEndPoint = baseUrl + "v1/api/shift/shift-detail/";
 
-  static String getPersionalDocuments(pageno) {
-    const FETCH_LIMIT = 10;
+  static String getPersonalDocuments(pageno) {
+    const FETCH_LIMIT = 18;
     // return baseUrl + "v1/api/document/document-list/?page=" + pageno.toString();
     return "https://jsonplaceholder.typicode.com/posts?_limit=$FETCH_LIMIT&_page=${pageno.toString()}";
   }
