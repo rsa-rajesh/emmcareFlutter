@@ -89,26 +89,29 @@ class _ClientProfileDetailViewState extends State<ClientProfileDetailView> {
                           height: double.maxFinite,
                           child: Wrap(children: [
                             ListTile(
-                              title: Text(
-                                value
-                                    .clientProfileDetailList
-                                    .data!
-                                    .clientProfileDetail![index]
-                                    .generalInformation
-                                    .toString(),
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                              subtitle: Text(
-                                value.clientProfileDetailList.data!
-                                    .clientProfileDetail![index].detail
-                                    .toString(),
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                            ),
+                                title: RichText(
+                                  text: TextSpan(
+                                    text: value
+                                        .clientProfileDetailList
+                                        .data!
+                                        .clientProfileDetail![index]
+                                        .generalInformation
+                                        .toString(),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                subtitle: RichText(
+                                  text: TextSpan(
+                                      text: value.clientProfileDetailList.data!
+                                          .clientProfileDetail![index].detail
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 17, color: Colors.black)),
+                                )
+                                ),
                           ]),
                         ),
                       );

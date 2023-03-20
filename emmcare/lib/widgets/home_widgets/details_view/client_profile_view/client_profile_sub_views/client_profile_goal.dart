@@ -88,23 +88,25 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                           height: double.maxFinite,
                           child: Wrap(children: [
                             ListTile(
-                              title: Text(
-                                value.clientProfileGoalList.data!
-                                    .clientProfileGoal![index].goals
-                                    .toString(),
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                              subtitle: Text(
-                                value.clientProfileGoalList.data!
-                                    .clientProfileGoal![index].detail
-                                    .toString(),
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                            ),
+                                title: RichText(
+                                  text: TextSpan(
+                                    text: value.clientProfileGoalList.data!
+                                        .clientProfileGoal![index].goals
+                                        .toString(),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                subtitle: RichText(
+                                  text: TextSpan(
+                                      text: value.clientProfileGoalList.data!
+                                          .clientProfileGoal![index].detail
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 17, color: Colors.black)),
+                                )),
                           ]),
                         ),
                       );
