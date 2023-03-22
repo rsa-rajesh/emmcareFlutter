@@ -1,154 +1,141 @@
-import 'package:emmcare/data/response/status.dart';
-import 'package:emmcare/res/components/navigation_drawer.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import '../../../../../view_model/client_profile_documents_view_view_model.dart';
+import 'package:http/http.dart' as http;
+import '../../../../../model/client_profile_documents_model.dart';
+import '../../../../../res/colors.dart';
 import '../../../../file_viewer/client_profile_documents_viewer.dart';
 
 class ClientProfileDocumentsView extends StatefulWidget {
-  ClientProfileDocumentsView({super.key});
+  ClientProfileDocumentsView({Key? key}) : super(key: key);
+
   @override
   State<ClientProfileDocumentsView> createState() =>
-      ClientProfileDocumentsViewState();
+      _ClientProfileDocumentsViewState();
 }
 
-class ClientProfileDocumentsViewState
+class _ClientProfileDocumentsViewState
     extends State<ClientProfileDocumentsView> {
-  // Scroll down to refresh
-  final scrollController = ScrollController();
-  // Scroll down to refresh
-
-  ClientProfileDocumentsViewViewModel clientProfileDocumentsViewViewModel =
-      ClientProfileDocumentsViewViewModel();
-  var _listener_page_num = 1;
+  List<Result> result = [];
+  ScrollController scrollController = ScrollController();
+  bool loading = true;
+  int offset = 1;
   @override
   void initState() {
-    clientProfileDocumentsViewViewModel
-        .fetchClientProfileDocumentsListApi(_listener_page_num);
     super.initState();
+    fetchData(offset);
+    handleNext();
+  }
+
+  void fetchData(page) async {
+    setState(() {
+      loading = true;
+    });
+    var token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2MTk4Njg5LCJpYXQiOjE2Nzc1NTg2ODksImp0aSI6ImRhNGIyYTEwYTcyZjQ1MTM5MzUyYWQyMWJjNGM4NjA3IiwidXNlcl9pZCI6NjUsInVzZXJuYW1lIjoiRW1tY19BZG1pbkRSN1giLCJlbWFpbCI6Im5hYmFAZW1tYy5jb20uYXUiLCJyb2xlIjoib3duZXIiLCJwcm9maWxlX2lkIjo2NCwiaWQiOjY1LCJmY21fcmVnaXN0cmF0aW9uX2lkIjoiZFVmeEZJNVNSRk9xRURsVzdvZWh4QTpBUEE5MWJINlhhNzJubnJxZUpYVVo3OWpxZURyVXJTaWtCQUZ2WFJ2RnNMRTR4RDBfX25zbjJuTlRLamZ0QVpyTDFrUWhXTHh0S1BzTHVPT0lZeFMyNjJidlZRQ0RrM1hseENGZnlYNFVsMXY5ZlJCQ3gxSi1JSERscmV1REM3VmhjTkxQaVJDbWx4WCIsImVuZHNfaW4iOiIyMDI5LTAyLTA2In0.EwkcNKY0BJQzmq7OlVsKuJUqhTOx3ZElRvJRHk1TPnU";
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    var response = await http.get(
+        Uri.parse(
+            "http://pwnbot-agecare-backend.clouds.nepalicloud.com/v1/api/document/document-list/?page=${page}&page_size=2"),
+        headers: requestHeaders);
+    var data = json.decode(response.body);
+
+    ClientProfileDocumentsModel modelClass =
+        ClientProfileDocumentsModel.fromJson(data);
+    result = result + modelClass.results;
+    int localOffset = offset + 1;
+    setState(() {
+      result;
+      loading = false;
+      offset = localOffset;
+    });
+  }
+
+  void handleNext() {
     scrollController.addListener(() async {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        _listener_page_num = _listener_page_num + 1;
-        print(_listener_page_num);
-        clientProfileDocumentsViewViewModel
-            .fetchClientProfileDocumentsListApi(_listener_page_num);
-        print("call");
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.position.pixels) {
+        fetchData(offset);
       }
     });
   }
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        key: _refreshIndicatorKey,
-        onRefresh: () {
-          return refresh();
-        },
-        child: ChangeNotifierProvider<ClientProfileDocumentsViewViewModel>(
-          create: (BuildContext context) => clientProfileDocumentsViewViewModel,
-          child: Consumer<ClientProfileDocumentsViewViewModel>(
-            builder: (context, value, _) {
-              switch (value.clientProfiledocumentsList.status) {
-                case Status.LOADING:
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-
-                case Status.ERROR:
-                  return AlertDialog(
-                    icon: Icon(Icons.error_rounded, size: 30),
-                    title: Text(
-                      value.clientProfiledocumentsList.message.toString(),
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
-                    ),
-                    actions: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                shape: StadiumBorder()),
-                            onPressed: () {
-                              refresh();
-                            },
-                            child: Text(
-                              'Refresh',
+      body: ListView.builder(
+          controller: scrollController,
+          itemCount: result.length + 1,
+          itemBuilder: (context, index) {
+            if (index == result.length) {
+              return loading
+                  ? Container()
+                  : Container(
+                      height: 200,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 4,
+                        ),
+                      ),
+                    );
+            }
+            return Card(
+              child: Wrap(
+                children: [
+                  ListTile(
+                    leading: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ClientProfileDocumentsViewer(),
+                            settings: RouteSettings(
+                              arguments: result[index],
                             ),
                           ),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                shape: StadiumBorder()),
-                            onPressed: () {
-                              SystemChannels.platform
-                                  .invokeMethod('SystemNavigator.pop');
-                            },
-                            child: Text('Abort'),
-                          ),
-                        ],
-                      )
-                    ],
-                  );
-
-                case Status.COMPLETED:
-                  return ListView.builder(
-                    controller: scrollController,
-                    itemCount:
-                        value.clientProfiledocumentsList.data!.results!.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          leading: IconButton(
-                            iconSize: 30,
-                            splashColor: Colors.lightBlueAccent,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ClientProfileDocumentsViewer(),
-                                  settings: RouteSettings(
-                                    arguments: value.clientProfiledocumentsList
-                                        .data!.results![index],
-                                  ),
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.picture_as_pdf),
-                          ),
-                          title: Text(
-                            value.clientProfiledocumentsList.data!
-                                .results![index].id
-                                .toString(),
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-
-                default:
-                  return Container(); // just to satisfy flutter analyzer
-              }
-            },
-          ),
-        ),
-      ),
-      drawer: NavDrawer(),
+                        );
+                      },
+                      child: Icon(Icons.picture_as_pdf),
+                    ),
+                  ),
+                  Text(
+                    result[index].user,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 150,
+                  ),
+                  Text(
+                    result[index].file,
+                  ),
+                  SizedBox(
+                    height: 150,
+                  ),
+                  Text(
+                    result[index].docCategory,
+                  ),
+                  SizedBox(
+                    height: 150,
+                  ),
+                  Text(
+                    result[index].relatedUserType,
+                  ),
+                  SizedBox(
+                    height: 150,
+                  ),
+                  Text(
+                    result[index].contentType,
+                  ),
+                ],
+              ),
+            );
+          }),
     );
-  }
-
-  Future<void> refresh() async {
-    setState(() {
-      clientProfileDocumentsViewViewModel
-          .fetchClientProfileDocumentsListApi(_listener_page_num = 1);
-    });
   }
 }

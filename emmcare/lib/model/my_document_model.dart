@@ -1,139 +1,72 @@
-// class MyDocumentModel {
-//   int? totalCount;
-//   int? totalPageCount;
-//   int? countItemsOnPage;
-//   int? currentPage;
-//   String? nextPage;
-//   String? previousPage;
-//   List<Results>? mydocuments;
+// To parse this JSON data, do
+//
+//     final modelClass = modelClassFromJson(jsonString);
 
-//   MyDocumentModel(
-//       {this.totalCount,
-//       this.totalPageCount,
-//       this.countItemsOnPage,
-//       this.currentPage,
-//       this.nextPage,
-//       this.previousPage,
-//       this.mydocuments});
+import 'dart:convert';
 
-//   MyDocumentModel.fromJson(Map<String, dynamic> json) {
-//     totalCount = json['TotalCount'];
-//     totalPageCount = json['TotalPageCount'];
-//     countItemsOnPage = json['countItemsOnPage'];
-//     currentPage = json['CurrentPage'];
-//     nextPage = json['NextPage'];
-//     previousPage = json['PreviousPage'];
-//     if (json['Results'] != null) {
-//       mydocuments = <Results>[];
-//       json['Results'].forEach((v) {
-//         mydocuments!.add(new Results.fromJson(v));
-//       });
-//     }
-//   }
+MyDocumentModel modelClassFromJson(String str) =>
+    MyDocumentModel.fromJson(json.decode(str));
 
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['TotalCount'] = this.totalCount;
-//     data['TotalPageCount'] = this.totalPageCount;
-//     data['countItemsOnPage'] = this.countItemsOnPage;
-//     data['CurrentPage'] = this.currentPage;
-//     data['NextPage'] = this.nextPage;
-//     data['PreviousPage'] = this.previousPage;
-//     if (this.mydocuments != null) {
-//       data['Results'] = this.mydocuments!.map((v) => v.toJson()).toList();
-//     }
-//     return data;
-//   }
-// }
-
-// class Results {
-//   int? id;
-//   String? file;
-//   String? uploadDate;
-//   String? updateDate;
-//   String? expiryDate;
-//   String? contentType;
-//   String? docCategory;
-//   String? relatedUserType;
-//   int? relatedUserId;
-//   String? user;
-
-//   Results(
-//       {this.id,
-//       this.file,
-//       this.uploadDate,
-//       this.updateDate,
-//       this.expiryDate,
-//       this.contentType,
-//       this.docCategory,
-//       this.relatedUserType,
-//       this.relatedUserId,
-//       this.user});
-
-//   Results.fromJson(Map<String, dynamic> json) {
-//     id = json['id'];
-//     file = json['file'];
-//     uploadDate = json['upload_date'];
-//     updateDate = json['update_date'];
-//     expiryDate = json['expiry_date'];
-//     contentType = json['content_type'];
-//     docCategory = json['doc_category'];
-//     relatedUserType = json['related_user_type'];
-//     relatedUserId = json['related_user_id'];
-//     user = json['user'];
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['id'] = this.id;
-//     data['file'] = this.file;
-//     data['upload_date'] = this.uploadDate;
-//     data['update_date'] = this.updateDate;
-//     data['expiry_date'] = this.expiryDate;
-//     data['content_type'] = this.contentType;
-//     data['doc_category'] = this.docCategory;
-//     data['related_user_type'] = this.relatedUserType;
-//     data['related_user_id'] = this.relatedUserId;
-//     data['user'] = this.user;
-//     return data;
-//   }
-// }
+String modelClassToJson(MyDocumentModel data) => json.encode(data.toJson());
 
 class MyDocumentModel {
-  List<Results>? mydocuments;
+  MyDocumentModel({
+    required this.totalCount,
+    this.nextPage,
+    this.previousPage,
+    required this.results,
+  });
 
-  MyDocumentModel({this.mydocuments});
+  int totalCount;
+  String? nextPage;
+  String? previousPage;
+  List<Result> results;
 
-  MyDocumentModel.fromJson(List<dynamic> parsedJson) {
-    // List<Clients> mydocuments = <Clients>[];
-    mydocuments = parsedJson.map((i) => Results.fromJson(i)).toList();
-    // return new MyDocumentModel(
-    //   mydocuments: mydocuments
-    // );
-  }
+  factory MyDocumentModel.fromJson(Map<String, dynamic> json) =>
+      MyDocumentModel(
+        totalCount: json["TotalCount"],
+        nextPage: json["NextPage"],
+        previousPage: json["PreviousPage"],
+        results:
+            List<Result>.from(json["Results"].map((x) => Result.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "TotalCount": totalCount,
+        "NextPage": nextPage,
+        "PreviousPage": previousPage,
+        "Results": List<dynamic>.from(results.map((x) => x.toJson())),
+      };
 }
 
-class Results {
-  int? userId;
-  int? id;
-  String? title;
-  String? body;
+class Result {
+  Result({
+    required this.user,
+    required this.file,
+    required this.contentType,
+    required this.docCategory,
+    required this.relatedUserType,
+  });
 
-  Results({this.userId, this.id, this.title, this.body});
+  String user;
+  String file;
+  String contentType;
+  String docCategory;
+  String relatedUserType;
 
-  Results.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
-    id = json['id'];
-    title = json['title'];
-    body = json['body'];
-  }
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
+        user: json["user"],
+        file: json["file"],
+        contentType: json["content_type"],
+        docCategory: json["doc_category"],
+        relatedUserType: json["related_user_type"],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['body'] = this.body;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "user": user,
+        "file": file,
+        "content_type": contentType,
+        "doc_category": docCategory,
+        "related_user_type": relatedUserType,
+      };
 }

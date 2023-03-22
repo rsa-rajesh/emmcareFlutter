@@ -1,38 +1,73 @@
+// To parse this JSON data, do
+//
+//     final modelClass = modelClassFromJson(jsonString);
+
+import 'dart:convert';
+
+ClientProfileDocumentsModel modelClassFromJson(String str) =>
+    ClientProfileDocumentsModel.fromJson(json.decode(str));
+
+String modelClassToJson(ClientProfileDocumentsModel data) =>
+    json.encode(data.toJson());
+
 class ClientProfileDocumentsModel {
-  List<Results>? results;
+  ClientProfileDocumentsModel({
+    required this.totalCount,
+    this.nextPage,
+    this.previousPage,
+    required this.results,
+  });
 
-  ClientProfileDocumentsModel({this.results});
+  int totalCount;
+  String? nextPage;
+  String? previousPage;
+  List<Result> results;
 
-  ClientProfileDocumentsModel.fromJson(List<dynamic> parsedJson) {
-    // List<Clients> clients = <Clients>[];
-    results = parsedJson.map((i) => Results.fromJson(i)).toList();
-    // return new ClientProfileDocumentsModel(
-    //   clients: clients
-    // );
-  }
+  factory ClientProfileDocumentsModel.fromJson(Map<String, dynamic> json) =>
+      ClientProfileDocumentsModel(
+        totalCount: json["TotalCount"],
+        nextPage: json["NextPage"],
+        previousPage: json["PreviousPage"],
+        results:
+            List<Result>.from(json["Results"].map((x) => Result.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "TotalCount": totalCount,
+        "NextPage": nextPage,
+        "PreviousPage": previousPage,
+        "Results": List<dynamic>.from(results.map((x) => x.toJson())),
+      };
 }
 
-class Results {
-  int? userId;
-  int? id;
-  String? title;
-  String? body;
+class Result {
+  Result({
+    required this.user,
+    required this.file,
+    required this.contentType,
+    required this.docCategory,
+    required this.relatedUserType,
+  });
 
-  Results({this.userId, this.id, this.title, this.body});
+  String user;
+  String file;
+  String contentType;
+  String docCategory;
+  String relatedUserType;
 
-  Results.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
-    id = json['id'];
-    title = json['title'];
-    body = json['body'];
-  }
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
+        user: json["user"],
+        file: json["file"],
+        contentType: json["content_type"],
+        docCategory: json["doc_category"],
+        relatedUserType: json["related_user_type"],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['body'] = this.body;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "user": user,
+        "file": file,
+        "content_type": contentType,
+        "doc_category": docCategory,
+        "related_user_type": relatedUserType,
+      };
 }

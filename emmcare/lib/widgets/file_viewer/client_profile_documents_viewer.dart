@@ -15,7 +15,7 @@ class _ClientProfileDocumentsViewerState
   @override
   Widget build(BuildContext context) {
     final newclientProfielDocumentsList =
-        ModalRoute.of(context)!.settings.arguments as Results;
+        ModalRoute.of(context)!.settings.arguments as Result;
 
     return Scaffold(
         appBar: AppBar(
@@ -24,7 +24,7 @@ class _ClientProfileDocumentsViewerState
         body: Stack(
           children: [
             PDF().cachedFromUrl(
-              newclientProfielDocumentsList.title.toString(),
+              newclientProfielDocumentsList.file.toString(),
               maxAgeCacheObject: Duration(days: 30), //duration of cache
               placeholder: (progress) => Center(child: Text('$progress %')),
               errorWidget: (error) => Center(child: Text(error.toString())),

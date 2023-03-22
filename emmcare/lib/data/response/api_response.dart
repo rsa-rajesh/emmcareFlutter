@@ -1,5 +1,4 @@
 import 'package:emmcare/data/response/status.dart';
-import 'package:emmcare/model/my_document_model.dart';
 
 class ApiResponse<T> {
   Status? status;
