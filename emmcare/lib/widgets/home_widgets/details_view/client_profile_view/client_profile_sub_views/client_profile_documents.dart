@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../model/client_profile_documents_model.dart';
-import '../../../../../res/colors.dart';
 import '../../../../file_viewer/client_profile_documents_viewer.dart';
 
 class ClientProfileDocumentsView extends StatefulWidget {

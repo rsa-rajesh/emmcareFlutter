@@ -28,7 +28,6 @@ class _NavDrawerState extends State<NavDrawer> {
           // Header
           buildHeader(),
           //
-          //
           ListTile(
             leading: Icon(
               CupertinoIcons.bell_fill,
@@ -60,21 +59,6 @@ class _NavDrawerState extends State<NavDrawer> {
           ),
           ListTile(
             leading: Icon(
-              Icons.business_center_outlined,
-              color: Colors.black,
-            ),
-            title: Text(
-              "JOB BOARD",
-              textScaleFactor: 1.2,
-              style: TextStyle(color: Colors.black),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesName.job_board);
-            },
-          ),
-          ListTile(
-            leading: Icon(
               CupertinoIcons.doc,
               color: Colors.black,
             ),
@@ -86,21 +70,6 @@ class _NavDrawerState extends State<NavDrawer> {
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, RoutesName.my_document);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              CupertinoIcons.folder,
-              color: Colors.black,
-            ),
-            title: Text(
-              "DOCUMENT HUB",
-              textScaleFactor: 1.2,
-              style: TextStyle(color: Colors.black),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesName.document_hub);
             },
           ),
           ListTile(
@@ -182,7 +151,6 @@ class buildHeader extends StatefulWidget {
 class _buildHeaderState extends State<buildHeader> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getEmail();
   }
@@ -191,7 +159,6 @@ class _buildHeaderState extends State<buildHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Color.fromARGB(255, 23, 36, 59),
       color: AppColors.NavDrawerHeaderColor,
       padding: EdgeInsets.only(
           top: 35,
@@ -202,10 +169,6 @@ class _buildHeaderState extends State<buildHeader> {
           CircleAvatar(
             radius: 45,
             backgroundImage: ExactAssetImage('assets/images/pwnbot.png'),
-
-            // backgroundImage: NetworkImage(
-            //   "",
-            // ),
           ),
           SizedBox(
             height: 8,
@@ -215,7 +178,6 @@ class _buildHeaderState extends State<buildHeader> {
             style: TextStyle(fontSize: 17, color: Colors.white),
           ),
           Text(
-            // "rostermanagement@emmc.com.au",
             obtainEmail,
             style: TextStyle(fontSize: 13, color: Colors.white),
           )

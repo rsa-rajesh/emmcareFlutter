@@ -1,6 +1,5 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
-import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_detail.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_goal.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +18,6 @@ class ClientProfileViewState extends State<ClientProfileView> {
 
     // Step:1
     //
-
     getClientName();
     getClientAvatar();
   }
@@ -90,9 +88,6 @@ class ClientProfileViewState extends State<ClientProfileView> {
                   labelColor: Colors.black,
                   tabs: [
                     Tab(
-                      text: "DETAIL",
-                    ),
-                    Tab(
                       text: "DOCUMENTS",
                     ),
                     Tab(
@@ -107,13 +102,7 @@ class ClientProfileViewState extends State<ClientProfileView> {
             Expanded(
               child: TabBarView(
                 children: [
-                  // first tab bar view widget
-                  ClientProfileDetailView(),
-
-                  // second tab bar viiew widget
                   ClientProfileDocumentsView(),
-
-                  // second tab bar viiew widget
                   ClientProfileGoalView(),
                 ],
               ),

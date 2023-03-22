@@ -1,5 +1,4 @@
 import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
-import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_detail.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_documents.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_goal.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_view.dart';
@@ -15,8 +14,6 @@ import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/pr
 import 'package:emmcare/widgets/file_viewer/my_document_viewer.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view/about_view.dart';
-import 'package:emmcare/view/document_hub_view.dart';
-import 'package:emmcare/view/job_board_view.dart';
 import 'package:emmcare/view/login_view.dart';
 import 'package:emmcare/view/my_document_view.dart';
 import 'package:emmcare/view/home_view.dart';
@@ -48,14 +45,6 @@ class Routes {
       case RoutesName.about:
         return MaterialPageRoute(
           builder: (BuildContext context) => AboutView(),
-        );
-      case RoutesName.job_board:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => JobBoardView(),
-        );
-      case RoutesName.document_hub:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => DocumentHubView(),
         );
       case RoutesName.notification:
         return MaterialPageRoute(
@@ -120,12 +109,6 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => ClientProfileView(),
         );
-
-      case RoutesName.client_profile_detail:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => ClientProfileDetailView(),
-        );
-
       case RoutesName.client_profile_documents:
         return MaterialPageRoute(
           builder: (BuildContext context) => ClientProfileDocumentsView(),
