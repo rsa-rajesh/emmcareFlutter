@@ -1,4 +1,3 @@
-import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:emmcare/utils/routes/routes.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view_model/auth_view_view_model.dart';
@@ -45,7 +44,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HomeViewViewModel()),
       ],
       child: MaterialApp(
-        navigatorObservers: [ChuckerFlutter.navigatorObserver],
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
