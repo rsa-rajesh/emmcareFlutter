@@ -2,7 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../../../../model/client_profile_documents_model.dart';
+import '../../../../../model/user_model.dart';
+import '../../../../../res/app_url.dart';
+import '../../../../../view_model/user_view_view_model.dart';
 import '../../../../file_viewer/client_profile_documents_viewer.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ClientProfileDocumentsView extends StatefulWidget {
   ClientProfileDocumentsView({Key? key}) : super(key: key);
@@ -29,18 +33,34 @@ class _ClientProfileDocumentsViewState
     setState(() {
       loading = true;
     });
-    var token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg2MTk4Njg5LCJpYXQiOjE2Nzc1NTg2ODksImp0aSI6ImRhNGIyYTEwYTcyZjQ1MTM5MzUyYWQyMWJjNGM4NjA3IiwidXNlcl9pZCI6NjUsInVzZXJuYW1lIjoiRW1tY19BZG1pbkRSN1giLCJlbWFpbCI6Im5hYmFAZW1tYy5jb20uYXUiLCJyb2xlIjoib3duZXIiLCJwcm9maWxlX2lkIjo2NCwiaWQiOjY1LCJmY21fcmVnaXN0cmF0aW9uX2lkIjoiZFVmeEZJNVNSRk9xRURsVzdvZWh4QTpBUEE5MWJINlhhNzJubnJxZUpYVVo3OWpxZURyVXJTaWtCQUZ2WFJ2RnNMRTR4RDBfX25zbjJuTlRLamZ0QVpyTDFrUWhXTHh0S1BzTHVPT0lZeFMyNjJidlZRQ0RrM1hseENGZnlYNFVsMXY5ZlJCQ3gxSi1JSERscmV1REM3VmhjTkxQaVJDbWx4WCIsImVuZHNfaW4iOiIyMDI5LTAyLTA2In0.EwkcNKY0BJQzmq7OlVsKuJUqhTOx3ZElRvJRHk1TPnU";
+    var token = "";
+    Future<UserModel> getUserData() => UserViewViewModel().getUser();
+    getUserData().then((value) async {
+      setState(() {
+        token = value.access.toString();
+      });
+    });
+    await Future.delayed(Duration(microseconds: 1));
+
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
-    var response = await http.get(
-        Uri.parse(
-            "http://pwnbot-agecare-backend.clouds.nepalicloud.com/v1/api/document/document-list/?page=${page}&page_size=2"),
-        headers: requestHeaders);
-    var data = json.decode(response.body);
+    // Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    // var realtedUserType = decodedToken["role"];
+    // var realtedUserId = decodedToken["user_id"];
+    var realtedUserType = "";
+    var realtedUserId = "";
 
+    var response = await http.get(
+      Uri.parse(
+        AppUrl.getPersonalDocuments(page, realtedUserType, realtedUserId),
+      ),
+      headers: requestHeaders,
+    );
+    print(response);
+
+    var data = json.decode(response.body);
     ClientProfileDocumentsModel modelClass =
         ClientProfileDocumentsModel.fromJson(data);
     result = result + modelClass.results;
@@ -72,13 +92,13 @@ class _ClientProfileDocumentsViewState
               return loading
                   ? Container()
                   : Container(
-                      height: 200,
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 4,
-                        ),
-                      ),
-                    );
+                      // height: 200,
+                      // child: const Center(
+                      //   child: CircularProgressIndicator(
+                      //     strokeWidth: 4,
+                      //   ),
+                      // ),
+                      );
             }
             return Card(
               child: Wrap(

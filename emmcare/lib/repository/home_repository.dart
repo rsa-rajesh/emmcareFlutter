@@ -19,6 +19,7 @@ class HomeRepository {
   //     throw e;
   //   }
   // }
+
   Future<ClientModel> fetchClientList(BuildContext context) async {
     String token = "";
     Future<UserModel> getUserData() => UserViewViewModel().getUser();
