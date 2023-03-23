@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../model/client_profile_documents_model.dart';
 import '../../../../../model/user_model.dart';
 import '../../../../../res/app_url.dart';
+import '../../../../../res/colors.dart';
+import '../../../../../view/home_view.dart';
 import '../../../../../view_model/user_view_view_model.dart';
 import '../../../../file_viewer/client_profile_documents_viewer.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ClientProfileDocumentsView extends StatefulWidget {
   ClientProfileDocumentsView({Key? key}) : super(key: key);
@@ -25,8 +27,17 @@ class _ClientProfileDocumentsViewState
   @override
   void initState() {
     super.initState();
+    getClientId();
     fetchData(offset);
     handleNext();
+  }
+
+  int? cltId;
+  Future<void> getClientId() async {
+    final sharedpref = await SharedPreferences.getInstance();
+    setState(() {
+      cltId = sharedpref.getInt(HomeViewState.KEYCLIENTID)!;
+    });
   }
 
   void fetchData(page) async {
@@ -41,14 +52,13 @@ class _ClientProfileDocumentsViewState
       });
     });
     await Future.delayed(Duration(microseconds: 1));
-
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
-    // Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    // var realtedUserType = decodedToken["role"];
-    // var realtedUserId = decodedToken["user_id"];
+
+    // var realtedUserType = "client";
+    // var realtedUserId = cltId;
     var realtedUserType = "";
     var realtedUserId = "";
 
@@ -58,8 +68,14 @@ class _ClientProfileDocumentsViewState
       ),
       headers: requestHeaders,
     );
+    //
+    //
     print(response);
-
+    print(
+      AppUrl.getPersonalDocuments(page, realtedUserType, realtedUserId),
+    );
+    //
+    //
     var data = json.decode(response.body);
     ClientProfileDocumentsModel modelClass =
         ClientProfileDocumentsModel.fromJson(data);
@@ -101,10 +117,19 @@ class _ClientProfileDocumentsViewState
                       );
             }
             return Card(
-              child: Wrap(
+              child: Column(
                 children: [
                   ListTile(
-                    leading: InkWell(
+                    title: Text(result[index].docCategory.toString()),
+                    trailing: Text(
+                      result[index].expiryDate.toString(),
+                      style: TextStyle(color: Colors.redAccent),
+                    ),
+                  ),
+                  ListTile(
+                    iconColor: AppColors.buttonColor,
+                    subtitle: Text(result[index].file.toString()),
+                    trailing: InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -117,39 +142,8 @@ class _ClientProfileDocumentsViewState
                           ),
                         );
                       },
-                      child: Icon(Icons.picture_as_pdf),
+                      child: Icon(Icons.download),
                     ),
-                  ),
-                  Text(
-                    result[index].user,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Text(
-                    result[index].file,
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Text(
-                    result[index].docCategory,
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Text(
-                    result[index].relatedUserType,
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Text(
-                    result[index].contentType,
                   ),
                 ],
               ),

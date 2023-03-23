@@ -49,17 +49,16 @@ class HomeViewState extends State<HomeView> {
       GlobalKey<RefreshIndicatorState>();
 
   // Shared prefs keys.
-  static String KEYSHIFTID = "client_Id";
+  static String KEYSHIFTID = "shift_Id";
   static String KEYCLIENTNAME = "client_Name";
   static String KEYCLIENTAVATAR = "client_Avatar";
+  static String KEYCLIENTID = "client_Id";
   // Shared prefs keys.
 
   // Calendar controller and event list.
-
   final _calendarControllerCustom =
       AdvancedCalendarController.custom(DateTime.now());
   final List<DateTime> events = [DateTime.now(), DateTime(0000, 10, 10)];
-
   // Calendar controller and event list.
 
   @override
@@ -241,6 +240,7 @@ class HomeViewState extends State<HomeView> {
                                     flex: 7,
                                     child: InkWell(
                                         onTap: () async {
+                                          
                                           int? shiftId = value.clientList.data!
                                               .clients![index].id;
                                           String? clientName = value.clientList
@@ -250,10 +250,13 @@ class HomeViewState extends State<HomeView> {
                                               .data!
                                               .clients![index]
                                               .clientImg;
+                                          int? clientId = value.clientList.data!
+                                              .clients![index].clientId;
 
                                           final sharedprefs =
                                               await SharedPreferences
                                                   .getInstance();
+
                                           sharedprefs.setInt(
                                               KEYSHIFTID, shiftId!);
                                           setState(() {
@@ -272,6 +275,12 @@ class HomeViewState extends State<HomeView> {
                                           setState(() {
                                             sharedprefs
                                                 .getString(KEYCLIENTAVATAR);
+                                          });
+
+                                          sharedprefs.setInt(
+                                              KEYCLIENTID, clientId!);
+                                          setState(() {
+                                            sharedprefs.getInt(KEYCLIENTID);
                                           });
 
                                           Navigator.push(

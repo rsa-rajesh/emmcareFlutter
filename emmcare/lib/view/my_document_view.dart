@@ -45,10 +45,10 @@ class _MyDocumentViewState extends State<MyDocumentView> {
       'Authorization': 'Bearer $token',
     };
     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    var realtedUserType = decodedToken["role"];
-    var realtedUserId = decodedToken["user_id"];
-    // var realtedUserType = "";
-    // var realtedUserId = "";
+    // var realtedUserType = decodedToken["role"];
+    // var realtedUserId = decodedToken["user_id"];
+    var realtedUserType = "";
+    var realtedUserId = "";
 
     var response = await http.get(
       Uri.parse(
@@ -56,7 +56,12 @@ class _MyDocumentViewState extends State<MyDocumentView> {
       ),
       headers: requestHeaders,
     );
+    //
+    //
     print(response);
+    print(AppUrl.getPersonalDocuments(page, realtedUserType, realtedUserId));
+    //
+    //
 
     var data = json.decode(response.body);
     MyDocumentModel modelClass = MyDocumentModel.fromJson(data);
@@ -104,10 +109,21 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                       );
             }
             return Card(
-              child: Wrap(
+              child: Column(
                 children: [
                   ListTile(
-                    leading: InkWell(
+                    title: Text(result[index].docCategory.toString()),
+                    trailing: Text(
+                      result[index].expiryDate.toString(),
+                      style: TextStyle(color: Colors.redAccent),
+                    ),
+                  ),
+                  ListTile(
+                    iconColor: AppColors.buttonColor,
+                    subtitle: Text(
+                      splitFileName(result[index].file.toString()),
+                    ),
+                    trailing: InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -119,39 +135,8 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                           ),
                         );
                       },
-                      child: Icon(Icons.picture_as_pdf),
+                      child: Icon(Icons.download),
                     ),
-                  ),
-                  Text(
-                    result[index].user,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Text(
-                    result[index].file,
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Text(
-                    result[index].docCategory,
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Text(
-                    result[index].relatedUserType,
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Text(
-                    result[index].contentType,
                   ),
                 ],
               ),
@@ -159,4 +144,16 @@ class _MyDocumentViewState extends State<MyDocumentView> {
           }),
     );
   }
+
+//
+// Method for spliting the file name
+  String splitFileName(String fileName) {
+    String unSplittedFileName = fileName;
+    //split string
+    var splitteFileName = unSplittedFileName.split('/');
+    print(splitteFileName);
+    return splitteFileName[5];
+  }
+// Method for spliting the file name
+//
 }

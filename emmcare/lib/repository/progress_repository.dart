@@ -10,24 +10,13 @@ class ProgressRepository {
   // Base and Network api Services
   BaseApiServices _apiServices = NetworkApiService();
 
-
-  // Future<ProgressModel> fetchProgressList() async {
-  //   try {
-  //     dynamic response =
-  //         await _apiServices.getGetApiResponse(AppUrl.progressEndPoint);
-  //     return response = ProgressModel.fromJson(response);
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  // }
-
   Future<ProgressModel> fetchProgressList(BuildContext context) async {
     String token = "";
     Future<UserModel> getUserData() => UserViewViewModel().getUser();
     getUserData().then((value) async {
       token = value.access.toString();
     });
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(microseconds: 1));
     try {
       dynamic response = await _apiServices.getGetResponseWithAuth(
           AppUrl.progressEndPoint, token);

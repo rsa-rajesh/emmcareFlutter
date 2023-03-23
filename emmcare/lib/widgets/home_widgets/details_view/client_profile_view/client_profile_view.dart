@@ -23,8 +23,6 @@ class ClientProfileViewState extends State<ClientProfileView> {
   }
 
   // Step:2
-  //
-  int? cltId;
   String? cltName;
   String? cltAvatar;
 

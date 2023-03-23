@@ -17,7 +17,7 @@ class EventsRepository {
     getUserData().then((value) async {
       token = value.access.toString();
     });
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(microseconds: 1));
     final sharedpref = await SharedPreferences.getInstance();
     int? Id = sharedpref.getInt(HomeViewState.KEYSHIFTID);
     try {
