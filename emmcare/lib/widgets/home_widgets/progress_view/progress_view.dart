@@ -17,7 +17,7 @@ class ProgressView extends StatefulWidget {
 
 class ProgressViewState extends State<ProgressView> {
   ProgressViewViewModel progressViewViewModel = ProgressViewViewModel();
-  
+
   @override
   void initState() {
     progressViewViewModel.fetchProgressListApi(context);
@@ -215,69 +215,61 @@ class ProgressViewState extends State<ProgressView> {
                                       MainAxisAlignment.spaceAround,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Category:-" +
-                                          " " +
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Category:-" + " ",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        Text(
                                           value.progressList.data!
                                               .progress![index].category
                                               .toString(),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(height: 5),
-                                    Text(
-                                      "Summary:-" +
-                                          " " +
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Summary:-" + " ",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        Text(
                                           value.progressList.data!
                                               .progress![index].summary
                                               .toString(),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(height: 5),
-                                    Text(
-                                      "Message:-" +
-                                          " " +
+                                    Wrap(
+                                      direction: Axis.horizontal,
+                                      alignment: WrapAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Message:-" + " ",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        Text(
                                           value.progressList.data!
                                               .progress![index].msg
                                               .toString(),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
+                                          // style: TextStyle(
+                                          //   fontSize: 16,
+                                          // ),
+                                        ),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 0, 8, 8),
-                                    child: IconButton(
-                                      iconSize: 30,
-                                      color: Colors.redAccent,
-                                      splashColor: Colors.lightBlueAccent,
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProgressNoteViewer(),
-                                            settings: RouteSettings(
-                                              arguments: value.progressList
-                                                  .data!.progress![index],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      icon: Icon(Icons.picture_as_pdf),
-                                    ),
-                                  )
-                                ],
-                              )
                             ]),
                       );
                     },
@@ -297,21 +289,6 @@ class ProgressViewState extends State<ProgressView> {
       progressViewViewModel.fetchProgressListApi(context);
     });
   }
-
-  // String convertToAgo(DateTime input) {
-  //   Duration diff = DateTime.now().difference(input);
-  //   if (diff.inDays >= 1) {
-  //     return '${diff.inDays} day(s) ago';
-  //   } else if (diff.inHours >= 1) {
-  //     return '${diff.inHours} hour(s) ago';
-  //   } else if (diff.inMinutes >= 1) {
-  //     return '${diff.inMinutes} minute(s) ago';
-  //   } else if (diff.inSeconds >= 1) {
-  //     return '${diff.inSeconds} second(s) ago';
-  //   } else {
-  //     return 'just now';
-  //   }
-  // }
 
   String timeAgoCustom(DateTime d) {
     Duration diff = DateTime.now().difference(d);

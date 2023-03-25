@@ -21,8 +21,8 @@ class EventsRepository {
     final sharedpref = await SharedPreferences.getInstance();
     int? Id = sharedpref.getInt(HomeViewState.KEYSHIFTID);
     try {
-      dynamic response = await _apiServices.getGetResponseWithAuth(
-          AppUrl.eventsEndPoint + "$Id", token);
+      dynamic response =
+          await _apiServices.getGetApiResponse(AppUrl.eventsEndPoint);
       return response = EventsModel.fromJson(response);
     } catch (e) {
       throw e;

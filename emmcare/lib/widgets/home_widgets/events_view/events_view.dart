@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../model/client_model.dart';
-import '../../../res/colors.dart';
 import '../../../view_model/events_view_view_model.dart';
 import 'shift_report_view.dart';
 

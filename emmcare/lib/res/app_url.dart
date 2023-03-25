@@ -9,6 +9,7 @@ class AppUrl {
   static var clientProfileGoalEndPoint = pstmnbaseUrl + "client_profile_goal";
   static var instructionEndPoint = pstmnbaseUrl + "instruction";
   static var tasksEndPoint = pstmnbaseUrl + "tasks";
+  static var eventsEndPoint = pstmnbaseUrl + "events";
 
   // Real API'S
   //
@@ -19,7 +20,7 @@ class AppUrl {
   static var clientListEndPoint = baseUrl + "v2/api/shift/shift-list";
   static var progressEndPoint = baseUrl + "v2/api/events/progress-note-list";
   //
-  static var eventsEndPoint = baseUrl + "v1/api/shift/shift-detail/";
+  // static var eventsEndPoint = baseUrl + "v1/api/shift/shift-detail/";
   //
 
   static String getPersonalDocuments(page, realtedUserType, realtedUserId) {

@@ -240,7 +240,6 @@ class HomeViewState extends State<HomeView> {
                                     flex: 7,
                                     child: InkWell(
                                         onTap: () async {
-                                          
                                           int? shiftId = value.clientList.data!
                                               .clients![index].id;
                                           String? clientName = value.clientList
@@ -365,7 +364,8 @@ class HomeViewState extends State<HomeView> {
                                                       .clientList
                                                       .data!
                                                       .clients![index]
-                                                      .shiftFullAddress
+                                                      .location!
+                                                      .lat
                                                       .toString(),
                                                   // "," +
                                                   // value

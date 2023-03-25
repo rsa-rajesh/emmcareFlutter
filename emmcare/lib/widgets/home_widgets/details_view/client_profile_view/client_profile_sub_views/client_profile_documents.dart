@@ -128,19 +128,33 @@ class _ClientProfileDocumentsViewState
                   ),
                   ListTile(
                     iconColor: AppColors.buttonColor,
-                    subtitle: Text(result[index].file.toString()),
+                    subtitle: Text(
+                      splitFileName(result[index].file.toString()),
+                    ),
                     trailing: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ClientProfileDocumentsViewer(),
-                            settings: RouteSettings(
-                              arguments: result[index],
+                        String fileExtention =
+                            checkFileExtention(result[index].file.toString());
+                        String pdfExtension = "pdf";
+                        // String docExtension = "doc";
+                        // String docxExtension = "docx";
+                        // String pngExtension = "png";
+                        // String jpgExtension = "jpg";
+                        // String jpegExtension = "jpeg";
+                        if (fileExtention == pdfExtension) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ClientProfileDocumentsViewer(),
+                              settings: RouteSettings(
+                                arguments: result[index],
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          return null;
+                        }
                       },
                       child: Icon(Icons.download),
                     ),
@@ -150,5 +164,19 @@ class _ClientProfileDocumentsViewState
             );
           }),
     );
+  }
+
+  String splitFileName(String fileName) {
+    String unSplittedFileName = fileName;
+    //split string
+    var splitteFileName = unSplittedFileName.split('/');
+    return splitteFileName[5];
+  }
+
+  String checkFileExtention(String fileName) {
+    String unSplittedFileName = fileName;
+    //split string
+    var splitteFileName = unSplittedFileName.split('.');
+    return splitteFileName[4];
   }
 }

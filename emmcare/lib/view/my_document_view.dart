@@ -125,15 +125,27 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                     ),
                     trailing: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyDocumentViewer(),
-                            settings: RouteSettings(
-                              arguments: result[index],
+                        String fileExtention =
+                            checkFileExtention(result[index].file.toString());
+                        String pdfExtension = "pdf";
+                        // String docExtension = "doc";
+                        // String docxExtension = "docx";
+                        // String pngExtension = "png";
+                        // String jpgExtension = "jpg";
+                        // String jpegExtension = "jpeg";
+                        if (fileExtention == pdfExtension) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyDocumentViewer(),
+                              settings: RouteSettings(
+                                arguments: result[index],
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          return null;
+                        }
                       },
                       child: Icon(Icons.download),
                     ),
@@ -145,15 +157,17 @@ class _MyDocumentViewState extends State<MyDocumentView> {
     );
   }
 
-//
-// Method for spliting the file name
   String splitFileName(String fileName) {
     String unSplittedFileName = fileName;
     //split string
     var splitteFileName = unSplittedFileName.split('/');
-    print(splitteFileName);
     return splitteFileName[5];
   }
-// Method for spliting the file name
-//
+
+  String checkFileExtention(String fileName) {
+    String unSplittedFileName = fileName;
+    //split string
+    var splitteFileName = unSplittedFileName.split('.');
+    return splitteFileName[4];
+  }
 }

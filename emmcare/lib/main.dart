@@ -6,6 +6,7 @@ import 'package:emmcare/view_model/user_view_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'view_model/services/local_notification_services.dart';
@@ -29,6 +30,13 @@ Future<void> main() async {
   LocalNotificationService.initialize();
   //
   //
+  // Plugin must be initialized before using
+  await FlutterDownloader.initialize(
+      debug:
+          true, // optional: set to false to disable printing logs to console (default: true)
+      ignoreSsl:
+          true // option: set to false to disable working with http links (default: false)
+      );
   runApp(const MyApp());
 }
 
