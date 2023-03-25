@@ -364,9 +364,29 @@ class HomeViewState extends State<HomeView> {
                                                       .clientList
                                                       .data!
                                                       .clients![index]
-                                                      .location!
-                                                      .lat!
+                                                      .shiftFullAddress
                                                       .toString(),
+                                                  // "," +
+                                                  // value
+                                                  //     .clientList
+                                                  //     .data!
+                                                  //     .clients![index]
+                                                  //     .client!
+                                                  //     .toString() +
+                                                  // "," +
+                                                  // value
+                                                  //     .clientList
+                                                  //     .data!
+                                                  //     .clients![index]
+                                                  //     .client
+                                                  //     .toString() +
+                                                  // "," +
+                                                  // value
+                                                  //     .clientList
+                                                  //     .data!
+                                                  //     .clients![index]
+                                                  //     .client!
+                                                  //     .toString(),
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.black,

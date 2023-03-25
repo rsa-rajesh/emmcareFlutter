@@ -1,6 +1,5 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
-import 'package:emmcare/widgets/file_viewer/progress_note_list_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -29,7 +28,6 @@ class ProgressViewState extends State<ProgressView> {
 
   @override
   Widget build(BuildContext context) {
-    // final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
     return Scaffold(
       floatingActionButton: SpeedDial(
         icon: Icons.add, //icon on Floating action button

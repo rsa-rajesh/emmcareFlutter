@@ -7,7 +7,9 @@ import 'package:emmcare/widgets/home_widgets/tasks_view.dart';
 import 'package:flutter/material.dart';
 
 class ClientDetailView extends StatefulWidget {
-  const ClientDetailView({super.key});
+  const ClientDetailView({
+    super.key,
+  });
 
   @override
   State<ClientDetailView> createState() => ClientDetailViewState();

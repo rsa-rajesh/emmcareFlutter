@@ -6,7 +6,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
 class DetailsView extends StatefulWidget {
-  const DetailsView({super.key});
+  // receive data from the FirstScreen as a parameter
+  DetailsView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<DetailsView> createState() => _DetailsViewState();
@@ -17,7 +20,6 @@ class _DetailsViewState extends State<DetailsView> {
 
   GoogleMapController? mapController; //contrller for Google map
   Set<Marker> markers = Set(); //markers for google map
-  LatLng showLocation = LatLng(27.672576, 84.443136);
   //location to show in map
 
   /* Step:- 2 */
@@ -25,17 +27,6 @@ class _DetailsViewState extends State<DetailsView> {
   //
   @override
   void initState() {
-    markers.add(Marker(
-      //add marker on google map
-      markerId: MarkerId(showLocation.toString()),
-      position: showLocation, //position of marker
-      infoWindow: InfoWindow(
-        //popup info
-        title: 'My Custom Title ',
-      ),
-      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-    ));
-    //you can add more markers here
     super.initState();
   }
 
@@ -43,6 +34,20 @@ class _DetailsViewState extends State<DetailsView> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
+    // LatLng showLocation = LatLng(client_Detail.location!.lat!, client_Detail.location!.lng!);
+    // LatLng showLocation = LatLng(24.344, 32.3434);
+
+    //       markers.add(Marker(
+    //     //add marker on google map
+    //     markerId: MarkerId(showLocation.toString()),
+    //     position: showLocation, //position of marker
+    //     infoWindow: InfoWindow(
+    //       //popup info
+    //       title: client_Detail.shiftFullAddress.toString(),
+    //     ),
+    //     icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+    //   ));
+    //you can add more markers here
 
     return Scaffold(
       body: Column(
@@ -51,23 +56,25 @@ class _DetailsViewState extends State<DetailsView> {
           Container(
             height: height * .18,
             width: double.infinity,
-            child: GoogleMap(
-              //Map widget from google_maps_flutter package
-              zoomGesturesEnabled: true, //enable Zoom in, out on map
-              initialCameraPosition: CameraPosition(
-                //innital position in map
-                target: showLocation, //initial position
-                zoom: 15, //initial zoom level
-              ),
-              markers: markers, //markers to show on map
-              mapType: MapType.normal, //map type
-              onMapCreated: (controller) {
-                //method called when map is created
-                setState(() {
-                  mapController = controller;
-                });
-              },
-            ),
+            color: Colors.blueGrey.shade100,
+            child: getMap(client_Detail),
+            // child: GoogleMap(
+            //   //Map widget from google_maps_flutter package
+            //   zoomGesturesEnabled: true, //enable Zoom in, out on map
+            //   initialCameraPosition: CameraPosition(
+            //     //innital position in map
+            //     target: showLocation, //initial position
+            //     zoom: 15, //initial zoom level
+            //   ),
+            //   markers: markers, //markers to show on map
+            //   mapType: MapType.normal, //map type
+            //   onMapCreated: (controller) {
+            //     //method called when map is created
+            //     setState(() {
+            //       mapController = controller;
+            //     });
+            //   },
+            // ),
           ),
           // Google Map End.
 
@@ -260,39 +267,12 @@ class _DetailsViewState extends State<DetailsView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        // client_Detail.address!.street.toString(),
-                        client_Detail.location!.lat.toString(),
+                        client_Detail.shiftFullAddress.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      // Text(
-                      //   // client_Detail.address!.suite.toString(),
-                      //   client_Detail.client.toString(),
-                      //   style: TextStyle(
-                      //     fontSize: 14,
-                      //     fontWeight: FontWeight.w900,
-                      //   ),
-                      // ),
-                      // Text(
-                      //   // client_Detail.address!.zipcode.toString(),
-                      //   client_Detail.client.toString(),
-
-                      //   style: TextStyle(
-                      //     fontSize: 14,
-                      //     fontWeight: FontWeight.w900,
-                      //   ),
-                      // ),
-                      // Text(
-                      //   // client_Detail.address!.city.toString(),
-                      //   client_Detail.client.toString(),
-
-                      //   style: TextStyle(
-                      //     fontSize: 14,
-                      //     fontWeight: FontWeight.w900,
-                      //   ),
-                      // ),
                     ],
                   ),
                 )
@@ -359,5 +339,47 @@ class _DetailsViewState extends State<DetailsView> {
         ],
       ),
     );
+  }
+
+  getMap(Clients client_detail) {
+    if (client_detail.location != null) {
+      LatLng showLocation =
+          LatLng(client_detail.location!.lat!, client_detail.location!.lng!);
+
+      markers.add(Marker(
+        //add marker on google map
+        markerId: MarkerId(showLocation.toString()),
+        position: showLocation, //position of marker
+        infoWindow: InfoWindow(
+          //popup info
+          title: client_detail.shiftFullAddress.toString(),
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+
+      return GoogleMap(
+        //Map widget from google_maps_flutter package
+        zoomGesturesEnabled: true, //enable Zoom in, out on map
+        initialCameraPosition: CameraPosition(
+          //innital position in map
+          target: showLocation, //initial position
+          zoom: 15, //initial zoom level
+        ),
+        markers: markers, //markers to show on map
+        mapType: MapType.normal, //map type
+        onMapCreated: (controller) {
+          //method called when map is created
+          setState(() {
+            mapController = controller;
+          });
+        },
+      );
+    } else {
+      return Center(
+          child: Text(
+        "No Map Added",
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      ));
+    }
   }
 }
