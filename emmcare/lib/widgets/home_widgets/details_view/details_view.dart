@@ -261,7 +261,7 @@ class _DetailsViewState extends State<DetailsView> {
                     children: [
                       Text(
                         // client_Detail.address!.street.toString(),
-                        client_Detail.shiftFullAddress.toString(),
+                        client_Detail.location!.lat.toString(),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,

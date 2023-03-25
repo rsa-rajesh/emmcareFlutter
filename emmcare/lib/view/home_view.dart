@@ -365,29 +365,8 @@ class HomeViewState extends State<HomeView> {
                                                       .data!
                                                       .clients![index]
                                                       .location!
-                                                      .lat
+                                                      .lat!
                                                       .toString(),
-                                                  // "," +
-                                                  // value
-                                                  //     .clientList
-                                                  //     .data!
-                                                  //     .clients![index]
-                                                  //     .client!
-                                                  //     .toString() +
-                                                  // "," +
-                                                  // value
-                                                  //     .clientList
-                                                  //     .data!
-                                                  //     .clients![index]
-                                                  //     .client
-                                                  //     .toString() +
-                                                  // "," +
-                                                  // value
-                                                  //     .clientList
-                                                  //     .data!
-                                                  //     .clients![index]
-                                                  //     .client!
-                                                  //     .toString(),
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.black,

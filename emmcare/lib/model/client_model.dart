@@ -1,8 +1,6 @@
 class ClientModel {
   List<Clients>? clients;
-
   ClientModel({this.clients});
-
   ClientModel.fromJson(List<dynamic> parsedJson) {
     // List<Clients> clients = <Clients>[];
     clients = parsedJson.map((i) => Clients.fromJson(i)).toList();
@@ -95,7 +93,6 @@ class Clients {
     shiftEndDate = json['shift_end_date'];
     shiftStartTime = json['shift_start_time'];
     hasMultipleUser = json['has_multiple_user'];
-    location = json['location'];
     staffImg = json['staff_img'];
     clientImg = json['client_img'];
     shiftEndTime = json['shift_end_time'];
@@ -130,7 +127,6 @@ class Clients {
     data['shift_end_date'] = this.shiftEndDate;
     data['shift_start_time'] = this.shiftStartTime;
     data['has_multiple_user'] = this.hasMultipleUser;
-    data['location'] = this.location;
     data['staff_img'] = this.staffImg;
     data['client_img'] = this.clientImg;
     data['shift_end_time'] = this.shiftEndTime;
