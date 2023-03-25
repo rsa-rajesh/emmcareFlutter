@@ -42,18 +42,10 @@ class ClientDetailViewState extends State<ClientDetailView> {
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
-
-      // body: Center(
-
-      //   child: _pages.elementAt(_selectedIndex),
-
-      // ),
-
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blueAccent,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),

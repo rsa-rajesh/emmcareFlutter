@@ -20,34 +20,12 @@ class _DetailsViewState extends State<DetailsView> {
 
   GoogleMapController? mapController; //contrller for Google map
   Set<Marker> markers = Set(); //markers for google map
-  //location to show in map
-
-  /* Step:- 2 */
-  //
-  //
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
-    // LatLng showLocation = LatLng(client_Detail.location!.lat!, client_Detail.location!.lng!);
-    // LatLng showLocation = LatLng(24.344, 32.3434);
-
-    //       markers.add(Marker(
-    //     //add marker on google map
-    //     markerId: MarkerId(showLocation.toString()),
-    //     position: showLocation, //position of marker
-    //     infoWindow: InfoWindow(
-    //       //popup info
-    //       title: client_Detail.shiftFullAddress.toString(),
-    //     ),
-    //     icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-    //   ));
-    //you can add more markers here
+    final _screen = MediaQuery.of(context).size;
 
     return Scaffold(
       body: Column(
@@ -56,99 +34,134 @@ class _DetailsViewState extends State<DetailsView> {
           Container(
             height: height * .18,
             width: double.infinity,
-            color: Colors.blueGrey.shade100,
+            decoration: new BoxDecoration(
+              color: Color.fromARGB(255, 227, 232, 233),
+            ),
             child: getMap(client_Detail),
-            // child: GoogleMap(
-            //   //Map widget from google_maps_flutter package
-            //   zoomGesturesEnabled: true, //enable Zoom in, out on map
-            //   initialCameraPosition: CameraPosition(
-            //     //innital position in map
-            //     target: showLocation, //initial position
-            //     zoom: 15, //initial zoom level
-            //   ),
-            //   markers: markers, //markers to show on map
-            //   mapType: MapType.normal, //map type
-            //   onMapCreated: (controller) {
-            //     //method called when map is created
-            //     setState(() {
-            //       mapController = controller;
-            //     });
-            //   },
-            // ),
           ),
           // Google Map End.
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                "Staff",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "Client",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-
-          Row(
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: AppColors.buttonColor,
-                    backgroundImage:
-                        ExactAssetImage('assets/images/pwnbot.png'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "EMMC Support \n Services",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+                    child: Center(
+                      child: Wrap(children: [
+                        Center(
+                          child: Text(
+                            "Staff",
+                            style: TextStyle(
+                              fontSize: 20,
+                              foreground: Paint()
+                                ..style = PaintingStyle.fill
+                                ..strokeWidth = 1
+                                ..color = Color.fromARGB(255, 15, 15, 15),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            CircleAvatar(
+                              backgroundColor: AppColors.buttonColor,
+                              backgroundImage:
+                                  ExactAssetImage('assets/images/pwnbot.png'),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "EMMC Support Services",
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ]),
                     ),
                   ),
-                ],
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, RoutesName.client_profile);
-                },
-                splashColor: Colors.white70,
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: AppColors.buttonColor,
-                      child: ClipOval(
-                        child: Image.network(
-                            "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
-                                client_Detail.clientImg.toString(),
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                          return Icon(
-                            // Icons.error,
-                            Icons.person,
-                            color: Colors.white,
-                          );
-                        }),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        maxLines: null,
-                        client_Detail.client.toString(),
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
+                )),
+                VerticalDivider(
+                  width: 1,
+                  thickness: 2.0,
+                  endIndent: 4.0,
+                  indent: 4.0,
+                  color: Colors.black87,
                 ),
-              ),
-            ],
+                Expanded(
+                    child: InkWell(
+                  splashColor: Colors.white70,
+                  onTap: () {
+                    Navigator.pushNamed(context, RoutesName.client_profile);
+                  },
+                  child: Card(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+                      child: Center(
+                        child: Wrap(children: [
+                          Center(
+                            child: Text(
+                              "Client",
+                              style: TextStyle(
+                                fontSize: 20,
+                                foreground: Paint()
+                                  ..style = PaintingStyle.fill
+                                  ..strokeWidth = 1
+                                  ..color = Color.fromARGB(255, 15, 15, 15),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              CircleAvatar(
+                                backgroundColor: AppColors.buttonColor,
+                                child: ClipOval(
+                                  child: Image.network(
+                                      "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                          client_Detail.clientImg.toString(),
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover, errorBuilder:
+                                          (context, error, stackTrace) {
+                                    return Icon(
+                                      // Icons.error,
+                                      Icons.person,
+                                      color: Colors.white,
+                                    );
+                                  }),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  client_Detail.client.toString(),
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        ]),
+                      ),
+                    ),
+                  ),
+                )),
+              ],
+            ),
           ),
 
           Padding(
@@ -345,7 +358,6 @@ class _DetailsViewState extends State<DetailsView> {
     if (client_detail.location != null) {
       LatLng showLocation =
           LatLng(client_detail.location!.lat!, client_detail.location!.lng!);
-
       markers.add(Marker(
         //add marker on google map
         markerId: MarkerId(showLocation.toString()),
@@ -377,8 +389,15 @@ class _DetailsViewState extends State<DetailsView> {
     } else {
       return Center(
           child: Text(
-        "No Map Added",
-        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        "No Map Available!",
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          foreground: Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1
+            ..color = Color.fromARGB(255, 15, 15, 15),
+        ),
       ));
     }
   }
