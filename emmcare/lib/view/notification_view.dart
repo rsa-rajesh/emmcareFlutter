@@ -4,6 +4,9 @@ import 'package:emmcare/widgets/notification_widgets/read_notification_view.dart
 import 'package:emmcare/widgets/notification_widgets/unread_notification_view.dart';
 import 'package:flutter/material.dart';
 
+import '../res/components/alert_dialog_box.dart';
+import '../view_model/mark_notification_all_seen_view_model.dart';
+
 class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
 
@@ -12,6 +15,8 @@ class NotificationView extends StatefulWidget {
 }
 
 class _NotificationViewState extends State<NotificationView> {
+  MarkNotificationAllSeenViewModel homeViewViewModel =
+      MarkNotificationAllSeenViewModel();
   int _selectedIndex = 0;
 
   // List of Notificaiton Widgets.
@@ -34,7 +39,20 @@ class _NotificationViewState extends State<NotificationView> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // Show confirm dialog when clicked on widget
+              showConfirmDialog(
+                context,
+                "Mark Notification Seen",
+                "Do you want to mark all notification as seen?",
+                "Confirm",
+                "Cancel",
+                () {
+                  // do stuff when clicked on Confirm
+                  homeViewViewModel.markAllSeen(context);
+                },
+              );
+            },
             icon: Icon(Icons.check_box),
           ),
         ],

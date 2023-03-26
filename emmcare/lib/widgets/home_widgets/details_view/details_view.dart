@@ -209,7 +209,7 @@ class _DetailsViewState extends State<DetailsView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                DateFormat("E").format(
+                                DateFormat("EEEE").format(
                                   DateTime.parse(
                                       client_Detail.shiftStartDate.toString()),
                                 ),
@@ -316,13 +316,14 @@ class _DetailsViewState extends State<DetailsView> {
                         ),
                       )),
                       Expanded(
-                          child: Text(
-                        client_Detail.shiftFullAddress.toString(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
+                        child: Text(
+                          client_Detail.shiftFullAddress.toString(),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
-                      )),
+                      ),
                     ],
                   ),
                 ),

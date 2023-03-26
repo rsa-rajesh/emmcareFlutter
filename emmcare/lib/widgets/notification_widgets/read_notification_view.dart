@@ -42,22 +42,17 @@ class _ReadNotificationViewState extends State<ReadNotificationView> {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
-    // Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    // var realtedUserType = decodedToken["role"];
-    // var realtedUserId = decodedToken["user_id"];
-    // var realtedUserType = "";
-    // var realtedUserId = "";
-
+    bool is_seen = true;
     var response = await http.get(
       Uri.parse(
-        AppUrl.getReadNotification(page),
+        AppUrl.getNotification(page, is_seen),
       ),
       headers: requestHeaders,
     );
     //
     //
     print(response);
-    print(AppUrl.getReadNotification(page));
+    print(AppUrl.getNotification(page, is_seen));
     //
     //
 
@@ -81,8 +76,6 @@ class _ReadNotificationViewState extends State<ReadNotificationView> {
     });
   }
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,17 +98,46 @@ class _ReadNotificationViewState extends State<ReadNotificationView> {
             return Card(
               child: Column(
                 children: [
-                  ListTile(
-                    leading: Icon(Icons.check),
-                    title: Text(result[index].message.toString()),
-                    trailing: Text(
-                      timeAgoCustom(
-                        DateTime.parse(
-                          result[index].createdAt.toString(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        timeAgoCustom(
+                          DateTime.parse(
+                            result[index].createdAt.toString(),
+                          ),
                         ),
+                        style: TextStyle(color: Colors.redAccent),
                       ),
-                      style: TextStyle(color: Colors.redAccent),
-                    ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.check_circle),
+                      SizedBox(
+                        width: 7,
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              result[index].subject.toString(),
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                                result[index]
+                                    .message
+                                    .toString()
+                                    .replaceAll(RegExp(' +'), ' '),
+                                style: TextStyle(fontSize: 12)),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),

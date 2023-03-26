@@ -34,8 +34,9 @@ class AuthViewViewModel with ChangeNotifier {
       //
       //
 
-      Utils.flushBarErrorMessage('Login Successfully', context);
+      Navigator.of(context).pop();
       Navigator.pushReplacementNamed(context, RoutesName.home);
+      Utils.flushBarErrorMessage('You are logged in successfully.', context);
       if (kDebugMode) {
         print(value.toString());
       }

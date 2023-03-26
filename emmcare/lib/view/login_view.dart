@@ -86,9 +86,8 @@ class LoginViewState extends State<LoginView> {
                           fontWeight: FontWeight.normal, color: Colors.black),
                       autofocus: false,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 12),
+                        // contentPadding: EdgeInsets.symmetric(vertical: 12),
                         hintText: "Email",
-                        // labelText: "Email",
                         border: OutlineInputBorder(),
                       ),
                       onFieldSubmitted: (value) {
@@ -114,7 +113,7 @@ class LoginViewState extends State<LoginView> {
                           obscureText: _obsecurePassword.value,
                           obscuringCharacter: "*",
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 12),
+                            // contentPadding: EdgeInsets.symmetric(vertical: 12),
                             hintText: "Password",
                             // labelText: "Password",
                             suffixIcon: InkWell(
@@ -140,7 +139,9 @@ class LoginViewState extends State<LoginView> {
                       child: Text(
                         "Forgot your password?",
                         style: TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.bold),
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.redAccent),
                       ),
                     ),
 
