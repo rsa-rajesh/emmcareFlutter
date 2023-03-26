@@ -25,14 +25,13 @@ class _DetailsViewState extends State<DetailsView> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
-    final _screen = MediaQuery.of(context).size;
 
     return Scaffold(
       body: Column(
         children: [
           // Google Map Start.
           Container(
-            height: height * .18,
+            height: height * .22,
             width: double.infinity,
             decoration: new BoxDecoration(
               color: Color.fromARGB(255, 227, 232, 233),
@@ -47,46 +46,51 @@ class _DetailsViewState extends State<DetailsView> {
               children: [
                 Expanded(
                     child: Card(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-                    child: Center(
-                      child: Wrap(children: [
-                        Center(
-                          child: Text(
-                            "Staff",
-                            style: TextStyle(
-                              fontSize: 20,
-                              foreground: Paint()
-                                ..style = PaintingStyle.fill
-                                ..strokeWidth = 1
-                                ..color = Color.fromARGB(255, 15, 15, 15),
-                            ),
+                  child: Center(
+                    child: Wrap(children: [
+                      Center(
+                        child: Text(
+                          "STAFF",
+                          style: TextStyle(
+                            fontSize: 12,
+                            foreground: Paint()
+                              ..style = PaintingStyle.fill
+                              ..strokeWidth = 1
+                              ..color = Color.fromARGB(255, 15, 15, 15),
                           ),
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            CircleAvatar(
+                      ),
+                      SizedBox(
+                        width: 5,
+                        height: 5,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                            child: CircleAvatar(
                               backgroundColor: AppColors.buttonColor,
                               backgroundImage:
                                   ExactAssetImage('assets/images/pwnbot.png'),
                             ),
-                            SizedBox(
-                              width: 10,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "EMMC Support Services",
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w600),
                             ),
-                            Expanded(
-                              child: Text(
-                                "EMMC Support Services",
-                                style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ]),
-                    ),
+                          ),
+                        ],
+                      ),
+                    ]),
                   ),
                 )),
                 VerticalDivider(
@@ -94,7 +98,6 @@ class _DetailsViewState extends State<DetailsView> {
                   thickness: 2.0,
                   endIndent: 4.0,
                   indent: 4.0,
-                  color: Colors.black87,
                 ),
                 Expanded(
                     child: InkWell(
@@ -103,28 +106,33 @@ class _DetailsViewState extends State<DetailsView> {
                     Navigator.pushNamed(context, RoutesName.client_profile);
                   },
                   child: Card(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-                      child: Center(
-                        child: Wrap(children: [
-                          Center(
-                            child: Text(
-                              "Client",
-                              style: TextStyle(
-                                fontSize: 20,
-                                foreground: Paint()
-                                  ..style = PaintingStyle.fill
-                                  ..strokeWidth = 1
-                                  ..color = Color.fromARGB(255, 15, 15, 15),
-                              ),
+                    child: Center(
+                      child: Wrap(children: [
+                        Center(
+                          child: Text(
+                            "CLIENT",
+                            style: TextStyle(
+                              fontSize: 12,
+                              foreground: Paint()
+                                ..style = PaintingStyle.fill
+                                ..strokeWidth = 1
+                                ..color = Color.fromARGB(255, 15, 15, 15),
                             ),
                           ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              CircleAvatar(
+                        ),
+                        SizedBox(
+                          width: 5,
+                          height: 5,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                              child: CircleAvatar(
                                 backgroundColor: AppColors.buttonColor,
                                 child: ClipOval(
                                   child: Image.network(
@@ -142,21 +150,20 @@ class _DetailsViewState extends State<DetailsView> {
                                   }),
                                 ),
                               ),
-                              SizedBox(
-                                width: 10,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                client_Detail.client.toString(),
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w600),
                               ),
-                              Expanded(
-                                child: Text(
-                                  client_Detail.client.toString(),
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )
-                            ],
-                          ),
-                        ]),
-                      ),
+                            )
+                          ],
+                        ),
+                      ]),
                     ),
                   ),
                 )),
@@ -164,131 +171,161 @@ class _DetailsViewState extends State<DetailsView> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-            child: Row(
+          Card(
+            child: Column(
               children: [
-                Icon(
-                  Icons.date_range_outlined,
-                  color: Colors.black,
-                  size: 30,
-                ),
-                Text(
-                  "DATE",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        DateFormat("E").format(
-                          DateTime.parse(
-                              client_Detail.shiftStartDate.toString()),
+                      Expanded(
+                          child: Center(
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.date_range_outlined,
+                              color: Colors.black,
+                              size: 22,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "DATE",
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
                         ),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      Text(
-                        DateFormat("yMMMMd").format(
-                          DateTime.parse(
-                              client_Detail.shiftStartDate.toString()),
-                        ),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      )
+                      )),
+                      Expanded(
+                          child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                DateFormat("E").format(
+                                  DateTime.parse(
+                                      client_Detail.shiftStartDate.toString()),
+                                ),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              Text(
+                                DateFormat("yMMMMd").format(
+                                  DateTime.parse(
+                                      client_Detail.shiftStartDate.toString()),
+                                ),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      )),
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.access_time,
-                  color: Colors.black,
-                  size: 30,
                 ),
-                Text(
-                  "TIME",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: Center(
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.access_time,
+                              color: Colors.black,
+                              size: 22,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "TIME",
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            DateFormat.jm().format(DateFormat("hh:mm:ss").parse(
+                                client_Detail.shiftStartTime.toString())),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          Text("-"),
+                          Text(
+                            DateFormat.jm().format(DateFormat("hh:mm:ss")
+                                .parse(client_Detail.shiftEndTime.toString())),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ],
+                      )),
+                    ],
                   ),
                 ),
-                Expanded(
-                    child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      DateFormat.jm().format(DateFormat("hh:mm:ss")
-                          .parse(client_Detail.shiftStartTime.toString())),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    Text("-"),
-                    Text(
-                      DateFormat.jm().format(DateFormat("hh:mm:ss")
-                          .parse(client_Detail.shiftEndTime.toString())),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ],
-                ))
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.location_on_outlined,
-                      color: Colors.black,
-                      size: 30,
-                    ),
-                    Text(
-                      "LOCATION",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      Expanded(
+                          child: Center(
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: Colors.black,
+                              size: 22,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "LOCATION",
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Text(
                         client_Detail.shiftFullAddress.toString(),
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.w900,
                         ),
-                      ),
+                      )),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -308,20 +345,23 @@ class _DetailsViewState extends State<DetailsView> {
                       Icon(
                         Icons.list,
                         color: Colors.black,
-                        size: 30,
+                        size: 22,
+                      ),
+                      SizedBox(
+                        width: 10,
                       ),
                       Text(
-                        "INSTRUCTIONS",
+                        "INSTRUCTION",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 16,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
-                    size: 26,
+                    size: 13,
                   )
                 ],
               ),
