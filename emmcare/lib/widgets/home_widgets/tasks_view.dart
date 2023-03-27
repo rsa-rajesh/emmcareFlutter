@@ -79,15 +79,24 @@ class _TasksViewState extends State<TasksView> {
                   );
 
                 case Status.COMPLETED:
-                  return ListView.builder(
-                    itemCount: value.tasksList.data!.tasks!.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: Text(value.tasksList.data!.tasks![index].task
-                            .toString()),
-                      );
-                    },
-                  );
+                  if (value.tasksList.data!.tasks!.length == 0) {
+                    return Center(
+                        child: Text(
+                      "No Tasks!",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ));
+                  } else {
+                    return ListView.builder(
+                      itemCount: value.tasksList.data!.tasks!.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: Text(value.tasksList.data!.tasks![index].task
+                              .toString()),
+                        );
+                      },
+                    );
+                  }
 
                 default:
                   return Container();

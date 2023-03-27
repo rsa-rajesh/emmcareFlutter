@@ -17,7 +17,7 @@ class ProgressRepository {
     getUserData().then((value) async {
       token = value.access.toString();
     });
-    await Future.delayed(Duration(microseconds: 1));
+    await Future.delayed(Duration(microseconds: 0));
 
     //
     // Getting shift id from sharedpreference.

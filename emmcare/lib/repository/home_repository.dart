@@ -16,7 +16,7 @@ class HomeRepository {
     getUserData().then((value) async {
       token = value.access.toString();
     });
-    await Future.delayed(Duration(microseconds: 1));
+    await Future.delayed(Duration(microseconds: 0));
     try {
       dynamic response = await _apiServices.getGetResponseWithAuth(
           AppUrl.clientListEndPoint, token);

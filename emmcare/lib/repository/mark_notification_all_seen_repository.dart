@@ -14,7 +14,7 @@ class MarkNotificationAllSeenRepository {
     getUserData().then((value) async {
       token = value.access.toString();
     });
-    await Future.delayed(Duration(microseconds: 1));
+    await Future.delayed(Duration(microseconds: 0));
     try {
       dynamic response = await _apiServices.getPostResponseWithAuth(
           AppUrl.markNotificationAllSeen(), token);
