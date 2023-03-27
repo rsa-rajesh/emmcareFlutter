@@ -4,7 +4,6 @@ import '../model/progress_model.dart';
 import '../repository/progress_repository.dart';
 
 class ProgressViewViewModel with ChangeNotifier {
-  
   final _myRepo = ProgressRepository();
 
   ApiResponse<ProgressModel> progressList = ApiResponse.loading();
@@ -14,9 +13,10 @@ class ProgressViewViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchProgressListApi(BuildContext context) async {
+  Future<void> fetchProgressListApi() async {
     setProgressList(ApiResponse.loading());
-    _myRepo.fetchProgressList(context).then(
+
+    _myRepo.fetchProgressList().then(
       (value) {
         setProgressList(ApiResponse.completed(value));
       },

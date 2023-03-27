@@ -1,38 +1,33 @@
 class TasksModel {
   List<Tasks>? tasks;
-
   TasksModel({this.tasks});
 
-  TasksModel.fromJson(Map<String, dynamic> json) {
-    if (json['tasks'] != null) {
-      tasks = <Tasks>[];
-      json['tasks'].forEach((v) {
-        tasks!.add(new Tasks.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.tasks != null) {
-      data['tasks'] = this.tasks!.map((v) => v.toJson()).toList();
-    }
-    return data;
+  TasksModel.fromJson(List<dynamic> parsedJson) {
+    tasks = parsedJson.map((i) => Tasks.fromJson(i)).toList();
   }
 }
 
 class Tasks {
   int? id;
+  int? shift;
+  String? task;
+  bool? mandatory;
 
-  Tasks({this.id});
+  Tasks({this.id, this.shift, this.task, this.mandatory});
 
   Tasks.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    shift = json['shift'];
+    task = json['task'];
+    mandatory = json['mandatory'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['shift'] = this.shift;
+    data['task'] = this.task;
+    data['mandatory'] = this.mandatory;
     return data;
   }
 }

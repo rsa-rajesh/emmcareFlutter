@@ -1,6 +1,7 @@
 class ProgressModel {
   List<Progress>? progress;
   ProgressModel({this.progress});
+
   ProgressModel.fromJson(List<dynamic> parsedJson) {
     progress = parsedJson.map((i) => Progress.fromJson(i)).toList();
   }

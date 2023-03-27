@@ -5,9 +5,6 @@ import 'package:emmcare/res/app_url.dart';
 class AuthRepository {
   BaseApiServices _apiServices = NetworkApiService();
 
-
-  
-
   Future<dynamic> loginApi(dynamic data) async {
     try {
       dynamic response =
@@ -17,6 +14,4 @@ class AuthRepository {
       throw e;
     }
   }
-
-
 }

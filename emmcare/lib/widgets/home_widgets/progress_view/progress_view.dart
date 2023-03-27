@@ -19,7 +19,7 @@ class ProgressViewState extends State<ProgressView> {
 
   @override
   void initState() {
-    progressViewViewModel.fetchProgressListApi(context);
+    progressViewViewModel.fetchProgressListApi();
     super.initState();
   }
 
@@ -190,15 +190,13 @@ class ProgressViewState extends State<ProgressView> {
                                     padding:
                                         const EdgeInsets.fromLTRB(0, 8, 8, 0),
                                     child: Text(
-                                      "Date:-" +
-                                          " " +
-                                          timeAgoCustom(
-                                            DateTime.parse(
-                                              value.progressList.data!
-                                                  .progress![index].createdAt
-                                                  .toString(),
-                                            ),
-                                          ),
+                                      timeAgoCustom(
+                                        DateTime.parse(
+                                          value.progressList.data!
+                                              .progress![index].createdAt
+                                              .toString(),
+                                        ),
+                                      ),
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -216,12 +214,6 @@ class ProgressViewState extends State<ProgressView> {
                                     Row(
                                       children: [
                                         Text(
-                                          "Category:-" + " ",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        Text(
                                           value.progressList.data!
                                               .progress![index].category
                                               .toString(),
@@ -231,12 +223,6 @@ class ProgressViewState extends State<ProgressView> {
                                     SizedBox(height: 5),
                                     Row(
                                       children: [
-                                        Text(
-                                          "Summary:-" + " ",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
                                         Text(
                                           value.progressList.data!
                                               .progress![index].summary
@@ -250,18 +236,9 @@ class ProgressViewState extends State<ProgressView> {
                                       alignment: WrapAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Message:-" + " ",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        Text(
                                           value.progressList.data!
                                               .progress![index].msg
                                               .toString(),
-                                          // style: TextStyle(
-                                          //   fontSize: 16,
-                                          // ),
                                         ),
                                       ],
                                     )
@@ -284,7 +261,7 @@ class ProgressViewState extends State<ProgressView> {
 
   Future<void> refresh() async {
     setState(() {
-      progressViewViewModel.fetchProgressListApi(context);
+      progressViewViewModel.fetchProgressListApi();
     });
   }
 

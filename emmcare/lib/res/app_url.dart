@@ -8,7 +8,6 @@ class AppUrl {
   // End Points.
   static var clientProfileGoalEndPoint = pstmnbaseUrl + "client_profile_goal";
   static var instructionEndPoint = pstmnbaseUrl + "instruction";
-  static var tasksEndPoint = pstmnbaseUrl + "tasks";
   static var eventsEndPoint = pstmnbaseUrl + "events";
 
   // Real API'S
@@ -18,7 +17,6 @@ class AppUrl {
   // End Points.
   static var loginEndPoint = baseUrl + "v1/api/auth/login/";
   static var clientListEndPoint = baseUrl + "v2/api/shift/shift-list";
-  static var progressEndPoint = baseUrl + "v2/api/events/progress-note-list";
 
   static String getPersonalDocuments(page, realtedUserType, realtedUserId) {
     var pageSize = 30;
@@ -34,5 +32,14 @@ class AppUrl {
 
   static String markNotificationAllSeen() {
     return baseUrl + "v1/api/auth/notification-mark-all-seen/";
+  }
+
+  static String getProgressNoteList(obj_id) {
+    return baseUrl +
+        "v2/api/events/progress-note-list/?obj_id=${obj_id.toString()}";
+  }
+
+  static String getShiftTaskList(shift) {
+    return baseUrl + "v1/api/shift/shift-task-list/?shift=${shift.toString()}";
   }
 }

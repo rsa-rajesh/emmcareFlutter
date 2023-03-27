@@ -44,7 +44,8 @@ class _TasksViewState extends State<TasksView> {
                   return AlertDialog(
                     icon: Icon(Icons.error_rounded, size: 30),
                     title: Text(
-                      value.tasksList.message.toString(),
+                      // value.tasksList.message.toString(),
+                      "Oops Something Went Wrong!",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
                     ),
@@ -64,7 +65,8 @@ class _TasksViewState extends State<TasksView> {
                           ),
                           OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                                shape: StadiumBorder()),
+                              shape: StadiumBorder(),
+                            ),
                             onPressed: () {
                               SystemChannels.platform
                                   .invokeMethod('SystemNavigator.pop');
@@ -80,7 +82,10 @@ class _TasksViewState extends State<TasksView> {
                   return ListView.builder(
                     itemCount: value.tasksList.data!.tasks!.length,
                     itemBuilder: (context, index) {
-                      return Container();
+                      return Card(
+                        child: Text(value.tasksList.data!.tasks![index].task
+                            .toString()),
+                      );
                     },
                   );
 
