@@ -15,6 +15,7 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         title: Text("Unavailability"),
         centerTitle: true,

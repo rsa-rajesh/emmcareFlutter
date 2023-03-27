@@ -66,6 +66,7 @@ class HomeViewState extends State<HomeView> {
     getDeviceTokenToSendNotification();
 
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         title: Text(currentMonth + "\t" + currentYear),
         centerTitle: true,

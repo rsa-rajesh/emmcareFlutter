@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../model/client_model.dart';
+import '../../../res/colors.dart';
 import '../../../view_model/events_view_view_model.dart';
 import 'shift_report_view.dart';
 
@@ -27,6 +28,7 @@ class _EventsViewState extends State<EventsView> {
   Widget build(BuildContext context) {
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
         onRefresh: () {

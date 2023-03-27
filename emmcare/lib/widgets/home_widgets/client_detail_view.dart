@@ -32,6 +32,7 @@ class ClientDetailViewState extends State<ClientDetailView> {
     ];
 
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
         centerTitle: true,

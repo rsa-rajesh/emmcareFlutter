@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../../../data/response/status.dart';
+import '../../../../../res/colors.dart';
 import '../../../../../view_model/client_profile_goal_view_view_model.dart';
 
 class ClientProfileGoalView extends StatefulWidget {
@@ -26,6 +27,7 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
         onRefresh: () {

@@ -29,6 +29,7 @@ class ProgressViewState extends State<ProgressView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       floatingActionButton: SpeedDial(
         icon: Icons.add, //icon on Floating action button
         activeIcon: Icons.close, //icon when menu is expanded on button
@@ -186,76 +187,79 @@ class ProgressViewState extends State<ProgressView> {
                     return ListView.builder(
                       itemCount: value.progressList.data!.progress!.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 8, 8, 0),
-                                      child: Text(
-                                        timeAgoCustom(
-                                          DateTime.parse(
-                                            value.progressList.data!
-                                                .progress![index].createdAt
-                                                .toString(),
-                                          ),
-                                        ),
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          child: Card(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            value.progressList.data!
-                                                .progress![index].category
-                                                .toString(),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 8, 8, 0),
+                                        child: Text(
+                                          timeAgoCustom(
+                                            DateTime.parse(
+                                              value.progressList.data!
+                                                  .progress![index].createdAt
+                                                  .toString(),
+                                            ),
                                           ),
-                                        ],
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
-                                      SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            value.progressList.data!
-                                                .progress![index].summary
-                                                .toString(),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5),
-                                      Wrap(
-                                        direction: Axis.horizontal,
-                                        alignment: WrapAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            value.progressList.data!
-                                                .progress![index].msg
-                                                .toString(),
-                                          ),
-                                        ],
-                                      )
                                     ],
                                   ),
-                                ),
-                              ]),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              value.progressList.data!
+                                                  .progress![index].category
+                                                  .toString(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              value.progressList.data!
+                                                  .progress![index].summary
+                                                  .toString(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 5),
+                                        Wrap(
+                                          direction: Axis.horizontal,
+                                          alignment: WrapAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              value.progressList.data!
+                                                  .progress![index].msg
+                                                  .toString(),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          ),
                         );
                       },
                     );

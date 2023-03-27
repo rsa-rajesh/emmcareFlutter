@@ -32,6 +32,7 @@ class _InstructionViewState extends State<InstructionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         title: Text(cltName!),
         centerTitle: true,

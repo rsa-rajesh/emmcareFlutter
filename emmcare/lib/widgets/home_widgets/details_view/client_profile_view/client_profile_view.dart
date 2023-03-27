@@ -31,6 +31,7 @@ class ClientProfileViewState extends State<ClientProfileView> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             cltName!,

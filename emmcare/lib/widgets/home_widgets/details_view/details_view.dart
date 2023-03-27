@@ -27,6 +27,7 @@ class _DetailsViewState extends State<DetailsView> {
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
 
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       body: Column(
         children: [
           // Google Map Start.

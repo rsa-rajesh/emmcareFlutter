@@ -100,6 +100,7 @@ class _ClientProfileDocumentsViewState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       body: ListView.builder(
           controller: scrollController,
           itemCount: result.length + 1,
@@ -116,50 +117,53 @@ class _ClientProfileDocumentsViewState
                       // ),
                       );
             }
-            return Card(
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Text(result[index].docCategory.toString()),
-                    trailing: Text(
-                      result[index].expiryDate.toString(),
-                      style: TextStyle(color: Colors.redAccent),
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              child: Card(
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(result[index].docCategory.toString()),
+                      trailing: Text(
+                        result[index].expiryDate.toString(),
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    iconColor: AppColors.buttonColor,
-                    subtitle: Text(
-                      splitFileName(result[index].file.toString()),
-                    ),
-                    trailing: InkWell(
-                      onTap: () {
-                        String fileExtention =
-                            checkFileExtention(result[index].file.toString());
-                        String pdfExtension = "pdf";
-                        // String docExtension = "doc";
-                        // String docxExtension = "docx";
-                        // String pngExtension = "png";
-                        // String jpgExtension = "jpg";
-                        // String jpegExtension = "jpeg";
-                        if (fileExtention == pdfExtension) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ClientProfileDocumentsViewer(),
-                              settings: RouteSettings(
-                                arguments: result[index],
+                    ListTile(
+                      iconColor: AppColors.buttonColor,
+                      subtitle: Text(
+                        splitFileName(result[index].file.toString()),
+                      ),
+                      trailing: InkWell(
+                        onTap: () {
+                          String fileExtention =
+                              checkFileExtention(result[index].file.toString());
+                          String pdfExtension = "pdf";
+                          // String docExtension = "doc";
+                          // String docxExtension = "docx";
+                          // String pngExtension = "png";
+                          // String jpgExtension = "jpg";
+                          // String jpegExtension = "jpeg";
+                          if (fileExtention == pdfExtension) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ClientProfileDocumentsViewer(),
+                                settings: RouteSettings(
+                                  arguments: result[index],
+                                ),
                               ),
-                            ),
-                          );
-                        } else {
-                          return null;
-                        }
-                      },
-                      child: Icon(Icons.download),
+                            );
+                          } else {
+                            return null;
+                          }
+                        },
+                        child: Icon(Icons.download),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }),

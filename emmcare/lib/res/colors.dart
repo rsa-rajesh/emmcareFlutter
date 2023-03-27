@@ -12,4 +12,6 @@ class AppColors {
       Color.fromARGB(255, 11, 11, 11);
 
   static const Color NavDrawerHeaderColor = Color.fromARGB(255, 8, 77, 61);
+
+  static Color bodyBackgroudColor = Colors.grey.shade100;
 }
