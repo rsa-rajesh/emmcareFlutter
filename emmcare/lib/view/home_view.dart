@@ -367,27 +367,6 @@ class HomeViewState extends State<HomeView> {
                                                       .clients![index]
                                                       .shiftFullAddress
                                                       .toString(),
-                                                  // "," +
-                                                  // value
-                                                  //     .clientList
-                                                  //     .data!
-                                                  //     .clients![index]
-                                                  //     .client!
-                                                  //     .toString() +
-                                                  // "," +
-                                                  // value
-                                                  //     .clientList
-                                                  //     .data!
-                                                  //     .clients![index]
-                                                  //     .client
-                                                  //     .toString() +
-                                                  // "," +
-                                                  // value
-                                                  //     .clientList
-                                                  //     .data!
-                                                  //     .clients![index]
-                                                  //     .client!
-                                                  //     .toString(),
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.black,

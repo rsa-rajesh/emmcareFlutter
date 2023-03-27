@@ -19,7 +19,7 @@ class HomeRepository {
     await Future.delayed(Duration(microseconds: 0));
     try {
       dynamic response = await _apiServices.getGetResponseWithAuth(
-          AppUrl.clientListEndPoint, token);
+          AppUrl.getShiftList(), token);
       return response = ClientModel.fromJson(response);
     } catch (e) {
       throw e;

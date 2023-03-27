@@ -191,74 +191,57 @@ class ProgressViewState extends State<ProgressView> {
                           padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                           child: Card(
                             child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    // crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 8, 8, 0),
-                                        child: Text(
-                                          timeAgoCustom(
-                                            DateTime.parse(
-                                              value.progressList.data!
-                                                  .progress![index].createdAt
-                                                  .toString(),
-                                            ),
-                                          ),
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                      CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.blue[200],
+                                        child: ClipOval(
+                                            child: Icon(
+                                          Icons.star,
+                                          color: Colors.white,
+                                        )),
                                       ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              value.progressList.data!
-                                                  .progress![index].category
-                                                  .toString(),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 5),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              value.progressList.data!
-                                                  .progress![index].summary
-                                                  .toString(),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 5),
-                                        Wrap(
-                                          direction: Axis.horizontal,
-                                          alignment: WrapAlignment.spaceBetween,
+                                      SizedBox(
+                                        width: 7,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               value.progressList.data!
                                                   .progress![index].msg
                                                   .toString(),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
+                                            Text(
+                                                value.progressList.data!
+                                                    .progress![index].summary
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.blue[200])),
                                           ],
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                ]),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -281,26 +264,26 @@ class ProgressViewState extends State<ProgressView> {
     });
   }
 
-  String timeAgoCustom(DateTime d) {
-    Duration diff = DateTime.now().difference(d);
-    if (diff.inDays > 365) {
-      return "${(diff.inDays / 365).floor()} ${(diff.inDays / 365).floor() == 1 ? "year" : "years"} ago";
-    }
-    if (diff.inDays > 30) {
-      return "${(diff.inDays / 30).floor()} ${(diff.inDays / 30).floor() == 1 ? "month" : "months"} ago";
-    }
-    if (diff.inDays > 7) {
-      return "${(diff.inDays / 7).floor()} ${(diff.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
-    }
-    if (diff.inDays > 0) {
-      return "${DateFormat.E().add_jm().format(d)}";
-    }
-    if (diff.inHours > 0) {
-      return "Today ${DateFormat('jm').format(d)}";
-    }
-    if (diff.inMinutes > 0) {
-      return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
-    }
-    return "just now";
-  }
+  // String timeAgoCustom(DateTime d) {
+  //   Duration diff = DateTime.now().difference(d);
+  //   if (diff.inDays > 365) {
+  //     return "${(diff.inDays / 365).floor()} ${(diff.inDays / 365).floor() == 1 ? "year" : "years"} ago";
+  //   }
+  //   if (diff.inDays > 30) {
+  //     return "${(diff.inDays / 30).floor()} ${(diff.inDays / 30).floor() == 1 ? "month" : "months"} ago";
+  //   }
+  //   if (diff.inDays > 7) {
+  //     return "${(diff.inDays / 7).floor()} ${(diff.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
+  //   }
+  //   if (diff.inDays > 0) {
+  //     return "${DateFormat.E().add_jm().format(d)}";
+  //   }
+  //   if (diff.inHours > 0) {
+  //     return "Today ${DateFormat('jm').format(d)}";
+  //   }
+  //   if (diff.inMinutes > 0) {
+  //     return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
+  //   }
+  //   return "just now";
+  // }
 }

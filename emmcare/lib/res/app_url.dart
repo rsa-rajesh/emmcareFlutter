@@ -10,13 +10,21 @@ class AppUrl {
   static var instructionEndPoint = pstmnbaseUrl + "instruction";
   static var eventsEndPoint = pstmnbaseUrl + "events";
 
-  // Real API'S
-  //
+  // EMMC Care API'S
+
   // Base Url.
+
   static var baseUrl = "https://pwnbot-agecare-backend.clouds.nepalicloud.com/";
+
   // End Points.
-  static var loginEndPoint = baseUrl + "v1/api/auth/login/";
-  static var clientListEndPoint = baseUrl + "v2/api/shift/shift-list";
+
+  static String getLogin() {
+    return baseUrl + "v1/api/auth/login/";
+  }
+
+  static String getShiftList() {
+    return baseUrl + "v2/api/shift/shift-list";
+  }
 
   static String getPersonalDocuments(page, realtedUserType, realtedUserId) {
     var pageSize = 30;
