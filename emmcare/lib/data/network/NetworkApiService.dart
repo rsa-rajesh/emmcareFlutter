@@ -81,6 +81,29 @@ class NetworkApiService extends BaseApiServices {
   }
   // Post Api response with  Authentication
 
+  // Post Api response with  Authentication and Data
+  @override
+  Future getPostResponseWithAuthData(
+      String url, dynamic data, String token) async {
+    dynamic responseJson;
+    try {
+      Response response = await post(
+        Uri.parse(url),
+        body: data,
+        headers: {
+          'Accept': 'application/json',
+          'Connection': 'keep-alive',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ).timeout(Duration(seconds: 10));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return responseJson;
+  }
+  // Post Api response with  Authentication and Data
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:

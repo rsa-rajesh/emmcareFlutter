@@ -1,21 +1,26 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/unread_notification_model.dart';
 import '../../model/user_model.dart';
 import '../../res/app_url.dart';
+import '../../view_model/mark_notification_seen_view_model.dart';
 import '../../view_model/user_view_view_model.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class UnReadNotificationView extends StatefulWidget {
   UnReadNotificationView({Key? key}) : super(key: key);
 
   @override
-  State<UnReadNotificationView> createState() => _UnReadNotificationViewState();
+  State<UnReadNotificationView> createState() => UnReadNotificationViewState();
 }
 
-class _UnReadNotificationViewState extends State<UnReadNotificationView> {
+class UnReadNotificationViewState extends State<UnReadNotificationView> {
+  MarkNotificationSeenViewModel markNotificationSeenViewViewModel =
+      MarkNotificationSeenViewModel();
+  static String KEYNOTIFICATIONID = "notification_Id";
   List<Result> result = [];
   ScrollController scrollController = ScrollController();
   bool loading = true;
@@ -43,7 +48,7 @@ class _UnReadNotificationViewState extends State<UnReadNotificationView> {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
-    bool is_seen = true;
+    bool is_seen = false;
     var response = await http.get(
       Uri.parse(
         AppUrl.getNotification(page, is_seen),
@@ -57,9 +62,13 @@ class _UnReadNotificationViewState extends State<UnReadNotificationView> {
     //
     //
 
-    var data = json.decode(response.body);
-    UnReadNotificationModel modelClass = UnReadNotificationModel.fromJson(data);
-    result = result + modelClass.results;
+    setState(() {
+      var data = json.decode(response.body);
+      UnReadNotificationModel modelClass =
+          UnReadNotificationModel.fromJson(data);
+      result = result + modelClass.results;
+    });
+
     int localOffset = offset + 1;
     setState(() {
       result;
@@ -79,8 +88,15 @@ class _UnReadNotificationViewState extends State<UnReadNotificationView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
+    if (result.length == 0) {
+      return Center(
+          child: Text(
+        "No Unread Notifications!",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ));
+    } else {
+      return Scaffold(
+        body: ListView.builder(
           controller: scrollController,
           itemCount: result.length + 1,
           itemBuilder: (context, index) {
@@ -96,72 +112,98 @@ class _UnReadNotificationViewState extends State<UnReadNotificationView> {
                       // ),
                       );
             }
-            return Slidable(
-              key: ValueKey(0),
-              endActionPane: ActionPane(
-                motion: ScrollMotion(),
-                // A pane can dismiss the Slidable.
-                dismissible: DismissiblePane(onDismissed: () {}),
-                children: [
-                  SlidableAction(
-                    onPressed: (context) {},
-                    backgroundColor: Color(0xFFFE4A49),
-                    foregroundColor: Colors.white,
-                    icon: Icons.check_circle,
-                    label: 'Mark as read',
-                  ),
-                ],
-              ),
-              child: Card(
-                child: Column(
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              child: Slidable(
+                key: ValueKey(0),
+                endActionPane: ActionPane(
+                  motion: ScrollMotion(),
+                  // A pane can dismiss the Slidable.
+                  dismissible: DismissiblePane(onDismissed: () {}),
+                  dragDismissible: false,
+
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          timeAgoCustom(
-                            DateTime.parse(
-                              result[index].createdAt.toString(),
-                            ),
-                          ),
-                          style: TextStyle(color: Colors.redAccent),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(Icons.mark_as_unread),
-                        SizedBox(
-                          width: 7,
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                result[index].subject.toString(),
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                  result[index]
-                                      .message
-                                      .toString()
-                                      .replaceAll(RegExp(' +'), ' '),
-                                  style: TextStyle(fontSize: 12)),
-                            ],
-                          ),
-                        )
-                      ],
+                    SlidableAction(
+                      onPressed: (context) async {
+                        int? notificaionId = result[index].id;
+                        final sharedprefs =
+                            await SharedPreferences.getInstance();
+                        sharedprefs.setInt(KEYNOTIFICATIONID, notificaionId);
+                        setState(() {
+                          sharedprefs.getInt(KEYNOTIFICATIONID);
+                        });
+                        markNotificationSeenViewViewModel.markSeen(context);
+                        DismissiblePane(
+                          onDismissed: () {},
+                        );
+                      },
+                      backgroundColor: Color(0xFFFE4A49),
+                      foregroundColor: Colors.white,
+                      icon: Icons.check_circle,
+                      label: 'Mark as read',
                     ),
                   ],
                 ),
+                child: Card(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
+                            child: Text(
+                              timeAgoCustom(
+                                DateTime.parse(
+                                  result[index].createdAt.toString(),
+                                ),
+                              ),
+                              style: TextStyle(color: Colors.redAccent),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.mark_as_unread),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    result[index].subject.toString(),
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                      result[index]
+                                          .message
+                                          .toString()
+                                          .replaceAll(RegExp(' +'), ' '),
+                                      style: TextStyle(fontSize: 12)),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             );
-          }),
-    );
+          },
+        ),
+      );
+    }
   }
 
   String timeAgoCustom(DateTime d) {

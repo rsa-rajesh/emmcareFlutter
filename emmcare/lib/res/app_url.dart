@@ -18,7 +18,7 @@ class AppUrl {
 
   // End Points.
 
-  static String getLogin() {
+  static String postLogin() {
     return baseUrl + "v1/api/auth/login/";
   }
 
@@ -38,7 +38,7 @@ class AppUrl {
         "v1/api/auth/notification/?page=${page.toString()}&page_size=$pageSize&is_seen=${is_seen.toString()}";
   }
 
-  static String markNotificationAllSeen() {
+  static String postMarkNotificationAllSeen() {
     return baseUrl + "v1/api/auth/notification-mark-all-seen/";
   }
 
@@ -49,5 +49,9 @@ class AppUrl {
 
   static String getShiftTaskList(shift) {
     return baseUrl + "v1/api/shift/shift-task-list/?shift=${shift.toString()}";
+  }
+
+  static String postMarkNotificationSeen() {
+    return baseUrl + "v1/api/auth/notification-mark-seen/";
   }
 }

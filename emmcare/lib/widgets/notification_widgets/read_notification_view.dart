@@ -56,9 +56,12 @@ class _ReadNotificationViewState extends State<ReadNotificationView> {
     //
     //
 
-    var data = json.decode(response.body);
-    ReadNotificationModel modelClass = ReadNotificationModel.fromJson(data);
-    result = result + modelClass.results;
+    setState(() {
+      var data = json.decode(response.body);
+      ReadNotificationModel modelClass = ReadNotificationModel.fromJson(data);
+      result = result + modelClass.results;
+    });
+
     int localOffset = offset + 1;
     setState(() {
       result;
@@ -78,72 +81,90 @@ class _ReadNotificationViewState extends State<ReadNotificationView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-          controller: scrollController,
-          itemCount: result.length + 1,
-          itemBuilder: (context, index) {
-            if (index == result.length) {
-              return loading
-                  ? Container()
-                  : Container(
-                      // height: 200,
-                      // child: const Center(
-                      //   child: CircularProgressIndicator(
-                      //     strokeWidth: 4,
-                      //   ),
-                      // ),
-                      );
-            }
-            return Card(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+    if (result.length == 0) {
+      return Center(
+          child: Text(
+        "No Read Notifications!",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ));
+    } else {
+      return Scaffold(
+        body: ListView.builder(
+            controller: scrollController,
+            itemCount: result.length + 1,
+            itemBuilder: (context, index) {
+              if (index == result.length) {
+                return loading
+                    ? Container()
+                    : Container(
+                        // height: 200,
+                        // child: const Center(
+                        //   child: CircularProgressIndicator(
+                        //     strokeWidth: 4,
+                        //   ),
+                        // ),
+                        );
+              }
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: Card(
+                  child: Column(
                     children: [
-                      Text(
-                        timeAgoCustom(
-                          DateTime.parse(
-                            result[index].createdAt.toString(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
+                            child: Text(
+                              timeAgoCustom(
+                                DateTime.parse(
+                                  result[index].createdAt.toString(),
+                                ),
+                              ),
+                              style: TextStyle(color: Colors.redAccent),
+                            ),
                           ),
-                        ),
-                        style: TextStyle(color: Colors.redAccent),
+                        ],
                       ),
-                    ],
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(Icons.check_circle),
-                      SizedBox(
-                        width: 7,
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              result[index].subject.toString(),
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            Icon(Icons.check_circle),
+                            SizedBox(
+                              width: 7,
                             ),
-                            Text(
-                                result[index]
-                                    .message
-                                    .toString()
-                                    .replaceAll(RegExp(' +'), ' '),
-                                style: TextStyle(fontSize: 12)),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    result[index].subject.toString(),
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                      result[index]
+                                          .message
+                                          .toString()
+                                          .replaceAll(RegExp(' +'), ' '),
+                                      style: TextStyle(fontSize: 12)),
+                                ],
+                              ),
+                            )
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
-                ],
-              ),
-            );
-          }),
-    );
+                ),
+              );
+            }),
+      );
+    }
   }
 
   String timeAgoCustom(DateTime d) {

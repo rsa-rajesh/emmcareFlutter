@@ -15,7 +15,7 @@ class NotificationView extends StatefulWidget {
 }
 
 class _NotificationViewState extends State<NotificationView> {
-  MarkNotificationAllSeenViewModel homeViewViewModel =
+  MarkNotificationAllSeenViewModel markNotificationAllSeenViewViewModel =
       MarkNotificationAllSeenViewModel();
   int _selectedIndex = 0;
 
@@ -49,7 +49,7 @@ class _NotificationViewState extends State<NotificationView> {
                 "Cancel",
                 () {
                   // do stuff when clicked on Confirm
-                  homeViewViewModel.markAllSeen(context);
+                  markNotificationAllSeenViewViewModel.markAllSeen(context);
                 },
               );
             },

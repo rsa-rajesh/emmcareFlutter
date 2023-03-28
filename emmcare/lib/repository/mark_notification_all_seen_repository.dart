@@ -17,7 +17,7 @@ class MarkNotificationAllSeenRepository {
     await Future.delayed(Duration(microseconds: 0));
     try {
       dynamic response = await _apiServices.getPostResponseWithAuth(
-          AppUrl.markNotificationAllSeen(), token);
+          AppUrl.postMarkNotificationAllSeen(), token);
       return response = MarkNotificationAllSeenModel.fromJson(response);
     } catch (e) {
       throw e;

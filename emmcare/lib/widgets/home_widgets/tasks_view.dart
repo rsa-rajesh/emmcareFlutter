@@ -99,7 +99,7 @@ class _TasksViewState extends State<TasksView> {
                               children: [
                                 Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 8, 8),
+                                      const EdgeInsets.fromLTRB(0, 8, 8, 0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -112,7 +112,7 @@ class _TasksViewState extends State<TasksView> {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                                      const EdgeInsets.fromLTRB(8, 0, 8, 8),
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
