@@ -1,79 +1,88 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+// To parse this JSON data, do
+//
+//     final modelClass = modelClassFromJson(jsonString);
+
+import 'dart:convert';
+
+EventsModel modelClassFromJson(String str) =>
+    EventsModel.fromJson(json.decode(str));
+
+String modelClassToJson(EventsModel data) => json.encode(data.toJson());
+
 class EventsModel {
-  List<Events>? events;
+  EventsModel({
+    this.totalCount,
+    this.nextPage,
+    this.previousPage,
+    required this.results,
+  });
 
-  EventsModel({this.events});
+  int? totalCount;
+  String? nextPage;
+  String? previousPage;
+  List<Result> results;
 
-  EventsModel.fromJson(Map<String, dynamic> json) {
-    if (json['events'] != null) {
-      events = <Events>[];
-      json['events'].forEach((v) {
-        events!.add(new Events.fromJson(v));
-      });
-    }
-  }
+  factory EventsModel.fromJson(Map<String, dynamic> json) => EventsModel(
+        totalCount: json["TotalCount"],
+        nextPage: json["NextPage"],
+        previousPage: json["PreviousPage"],
+        results:
+            List<Result>.from(json["Results"].map((x) => Result.fromJson(x))),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.events != null) {
-      data['events'] = this.events!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "TotalCount": totalCount,
+        "NextPage": nextPage,
+        "PreviousPage": previousPage,
+        "Results": List<dynamic>.from(results.map((x) => x.toJson())),
+      };
 }
 
-class Events {
-  String? clientName;
-  String? heading;
-  String? supporter;
-  String? date;
-  String? title;
-  String? subtitle;
-  String? shiftImage;
-  String? time;
-  String? clientImage;
-  String? desc;
-  int? id;
+class Result {
+  int id;
+  String? attachment;
+  String? createdAt;
+  String? staff;
+  String? client;
+  String? category;
+  String? summary;
+  String? message;
+  bool? isPrivate;
 
-  Events(
-      {this.clientName,
-      this.heading,
-      this.supporter,
-      this.date,
-      this.title,
-      this.subtitle,
-      this.shiftImage,
-      this.time,
-      this.clientImage,
-      this.desc,
-      this.id});
+  Result({
+    required this.id,
+    required this.attachment,
+    required this.createdAt,
+    required this.staff,
+    required this.client,
+    required this.category,
+    required this.summary,
+    required this.message,
+    required this.isPrivate,
+  });
 
-  Events.fromJson(Map<String, dynamic> json) {
-    clientName = json['client_name'];
-    heading = json['heading'];
-    supporter = json['supporter'];
-    date = json['date'];
-    title = json['title'];
-    subtitle = json['subtitle'];
-    shiftImage = json['shift_image'];
-    time = json['time'];
-    clientImage = json['client_image'];
-    desc = json['desc'];
-    id = json['id'];
-  }
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
+        attachment: json["attachment"],
+        category: json["category"],
+        summary: json["summary"],
+        message: json["msg"],
+        client: json["client"],
+        createdAt: json["created_at"],
+        staff: json["staff"],
+        isPrivate: json["is_private"],
+        id: json["id"],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['client_name'] = this.clientName;
-    data['heading'] = this.heading;
-    data['supporter'] = this.supporter;
-    data['date'] = this.date;
-    data['title'] = this.title;
-    data['subtitle'] = this.subtitle;
-    data['shift_image'] = this.shiftImage;
-    data['time'] = this.time;
-    data['client_image'] = this.clientImage;
-    data['desc'] = this.desc;
-    data['id'] = this.id;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "attachment": attachment,
+        "category": category,
+        "summary": summary,
+        "msg": message,
+        "client": client,
+        "created_at": createdAt,
+        "staff": staff,
+        "is_private": isPrivate,
+        "id": id,
+      };
 }

@@ -15,7 +15,7 @@ class NavDrawer extends StatefulWidget {
 }
 
 class _NavDrawerState extends State<NavDrawer> {
-  bool light = true;
+  bool light = false;
 
   String obtainEmail = "";
   @override

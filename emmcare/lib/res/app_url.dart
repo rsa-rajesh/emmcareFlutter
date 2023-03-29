@@ -8,7 +8,6 @@ class AppUrl {
   // End Points.
   static var clientProfileGoalEndPoint = pstmnbaseUrl + "client_profile_goal";
   static var instructionEndPoint = pstmnbaseUrl + "instruction";
-  static var eventsEndPoint = pstmnbaseUrl + "events";
 
   // EMMC Care API'S
 
@@ -53,5 +52,15 @@ class AppUrl {
 
   static String postMarkNotificationSeen() {
     return baseUrl + "v1/api/auth/notification-mark-seen/";
+  }
+
+  static String postUnavailabilityCreate() {
+    return baseUrl + "v1/api/auth/staff-unavailability-create/";
+  }
+
+  static String getEventsList(page) {
+    var pageSize = 30;
+    return baseUrl +
+        "v1/api/events/event-list/?page=${page.toString()}&page_size=$pageSize";
   }
 }

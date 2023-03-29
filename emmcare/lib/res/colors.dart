@@ -13,5 +13,10 @@ class AppColors {
 
   static const Color NavDrawerHeaderColor = Color.fromARGB(255, 8, 77, 61);
 
-  static Color bodyBackgroudColor = Colors.grey.shade100;
+  // static Color bodyBackgroudColor = Colors.grey.shade100;
+
+  static Color bodyBackgroudColor = Color(0xFFFFFBFA);
+
+  static Color imageCircleAvatarBodyBackgroudColor =
+      Color.fromARGB(255, 125, 184, 211);
 }
