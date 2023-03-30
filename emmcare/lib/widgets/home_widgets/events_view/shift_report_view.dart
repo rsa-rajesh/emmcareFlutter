@@ -93,7 +93,7 @@ class _ShiftReportViewState extends State<ShiftReportView> {
                     child: Text(
                       event.message.toString(),
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],

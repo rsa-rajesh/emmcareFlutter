@@ -1,12 +1,15 @@
 class AppUrl {
   // Postman API'S.
-  //
-  //
+
   // Base Url.
+
   static var pstmnbaseUrl =
       'https://bd00a589-d8e2-4ed3-88ad-f0656f2eb2d2.mock.pstmn.io/';
+
   // End Points.
+
   static var clientProfileGoalEndPoint = pstmnbaseUrl + "client_profile_goal";
+
   static var instructionEndPoint = pstmnbaseUrl + "instruction";
 
   // EMMC Care API'S
@@ -61,6 +64,6 @@ class AppUrl {
   static String getEventsList(page) {
     var pageSize = 30;
     return baseUrl +
-        "v1/api/events/event-list/?page=${page.toString()}&page_size=$pageSize";
+        "v2/api/events/shift-event-list/?page=${page.toString()}&page_size=$pageSize";
   }
 }

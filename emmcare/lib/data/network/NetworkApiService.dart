@@ -92,6 +92,7 @@ class NetworkApiService extends BaseApiServices {
         body: data,
         headers: {
           'Accept': 'application/json',
+          'content-type': 'application/json',
           'Connection': 'keep-alive',
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },

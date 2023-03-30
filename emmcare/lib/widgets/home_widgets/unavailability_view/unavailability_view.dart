@@ -2,6 +2,7 @@ import 'package:emmcare/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../res/components/round_button.dart';
+import '../../../view_model/unavailability_create_view_view_model.dart';
 
 class UnavailabilityView extends StatefulWidget {
   const UnavailabilityView({Key? key}) : super(key: key);
@@ -41,7 +42,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
 
   bool _light = false;
   int _numberOfDays = 0;
-
   @override
   void initState() {
     _startTime =
@@ -216,6 +216,8 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                             child: RoundButton(
                               title: "Save\t" + "($_numberOfDays periods)",
                               onPress: () {
+                                UnavailabilityViewViewModel()
+                                    .unavailabilityCreate(context);
                                 FocusManager.instance.primaryFocus?.unfocus();
                               },
                             ),
