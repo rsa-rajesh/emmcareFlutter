@@ -81,37 +81,10 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
 
                 case Status.COMPLETED:
                   return ListView.builder(
-                    itemCount: value
-                        .clientProfileGoalList.data!.clientProfileGoal!.length,
+                    itemCount:
+                        value.clientProfileGoalList.data!.results!.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: double.maxFinite,
-                          child: Wrap(children: [
-                            ListTile(
-                                title: RichText(
-                                  text: TextSpan(
-                                    text: value.clientProfileGoalList.data!
-                                        .clientProfileGoal![index].goals
-                                        .toString(),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                subtitle: RichText(
-                                  text: TextSpan(
-                                      text: value.clientProfileGoalList.data!
-                                          .clientProfileGoal![index].detail
-                                          .toString(),
-                                      style: TextStyle(
-                                          fontSize: 17, color: Colors.black)),
-                                )),
-                          ]),
-                        ),
-                      );
+                      return Text("Goals");
                     },
                   );
 

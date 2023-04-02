@@ -6,7 +6,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 import '../../../data/response/status.dart';
 import '../../../view_model/progress_view_view_model.dart';
-import 'package:intl/intl.dart';
 
 class ProgressView extends StatefulWidget {
   ProgressView({super.key});
@@ -50,37 +49,17 @@ class ProgressViewState extends State<ProgressView> {
             label: 'Injury',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.goal);
+              Navigator.pushNamed(context, RoutesName.injury);
             },
           ),
           SpeedDialChild(
-            child: Icon(Icons.warning_amber_rounded),
+            child: Icon(Icons.event),
             backgroundColor: AppColors.floatingActionButtonColor,
             foregroundColor: Colors.white,
-            label: 'Warning',
+            label: 'Event',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.expense);
-            },
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.import_export),
-            backgroundColor: AppColors.floatingActionButtonColor,
-            foregroundColor: Colors.white,
-            label: 'Export',
-            labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
-            onTap: () {
-              Navigator.pushNamed(context, RoutesName.expense);
-            },
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.import_export),
-            backgroundColor: AppColors.floatingActionButtonColor,
-            foregroundColor: Colors.white,
-            label: 'Import',
-            labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
-            onTap: () {
-              Navigator.pushNamed(context, RoutesName.mileage);
+              Navigator.pushNamed(context, RoutesName.event);
             },
           ),
           SpeedDialChild(
@@ -102,6 +81,16 @@ class ProgressViewState extends State<ProgressView> {
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
               Navigator.pushNamed(context, RoutesName.incident);
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.warning_amber_rounded),
+            backgroundColor: AppColors.floatingActionButtonColor,
+            foregroundColor: Colors.white,
+            label: 'Warning',
+            labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
+            onTap: () {
+              Navigator.pushNamed(context, RoutesName.warning);
             },
           ),
           SpeedDialChild(

@@ -3,16 +3,15 @@
 <plist version="1.0">
 <dict>
 
-
-	 <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>https</string>
-    <string>http</string>
-  </array>
-
-
+    
 	<key>NSPhotoLibraryUsageDescription</key>
 	<key>NSCameraUsageDescription</key>
+	<key>NSMicrophoneUsageDescription</key>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+    	<string>https</string>
+    	<string>http</string>
+    </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

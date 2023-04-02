@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IncidentView extends StatefulWidget {
@@ -15,22 +17,34 @@ class _IncidentViewState extends State<IncidentView> {
   @override
   void initState() {
     super.initState();
-
-    // Step:1
-    //
-
     getClientName();
-    getClientAvatar();
   }
 
-  // Step:2
-  //
-
   String? cltName;
-  String? cltAvatar;
+
+  // This is the file that will be used to store the image
+  XFile? imgXFile;
+  // This is the image picker
+  final ImagePicker imagePicker = ImagePicker();
+
+  getImageFromGalley() async {
+    imgXFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imgXFile;
+    });
+  }
+
+  getImageFromCamera() async {
+    imgXFile = await imagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      imgXFile;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
         actions: [
@@ -76,13 +90,19 @@ class _IncidentViewState extends State<IncidentView> {
                             'Take Photo',
                             style: TextStyle(fontSize: 15),
                           ),
-                          onPressed: (context) {}),
+                          onPressed: (context) {
+                            getImageFromCamera();
+                            Navigator.pop(context);
+                          }),
                       BottomSheetAction(
                           title: const Text(
                             'Choose from Library',
                             style: TextStyle(fontSize: 15),
                           ),
-                          onPressed: (context) {}),
+                          onPressed: (context) {
+                            getImageFromGalley();
+                            Navigator.pop(context);
+                          }),
                     ],
                     cancelAction: CancelAction(
                       title: const Text('Cancel'),
@@ -95,22 +115,22 @@ class _IncidentViewState extends State<IncidentView> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        CircleAvatar(
-                          backgroundColor: AppColors.buttonColor,
-                          radius: 30,
-                          child: ClipOval(
-                            child: Image.network(
-                                "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
-                                    cltAvatar.toString(),
-                                width: 150,
-                                height: 200,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                Icons.person,
-                                color: Colors.white,
-                              );
-                            }),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey.shade300,
+                            radius: MediaQuery.of(context).size.width * 0.10,
+                            backgroundImage: imgXFile == null
+                                ? null
+                                : FileImage(File(imgXFile!.path)),
+                            child: imgXFile == null
+                                ? Icon(
+                                    Icons.add_photo_alternate,
+                                    color: Colors.white,
+                                    size: MediaQuery.of(context).size.width *
+                                        0.10,
+                                  )
+                                : null,
                           ),
                         ),
                         SizedBox(
@@ -128,10 +148,7 @@ class _IncidentViewState extends State<IncidentView> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Divider(),
-              ),
+              Divider(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -146,10 +163,7 @@ class _IncidentViewState extends State<IncidentView> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Divider(height: 5),
-              ),
+              Divider(height: 5),
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 0, 8),
                 child: TextFormField(
@@ -178,14 +192,6 @@ class _IncidentViewState extends State<IncidentView> {
 
     setState(() {
       cltName = sharedpref.getString(HomeViewState.KEYCLIENTNAME)!;
-    });
-  }
-
-  Future<void> getClientAvatar() async {
-    final sharedpref = await SharedPreferences.getInstance();
-
-    setState(() {
-      cltAvatar = sharedpref.getString(HomeViewState.KEYCLIENTAVATAR)!;
     });
   }
 }

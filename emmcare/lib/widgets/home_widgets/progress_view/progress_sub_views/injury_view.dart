@@ -1,35 +1,46 @@
 import 'dart:io';
+
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ExpenseView extends StatefulWidget {
-  const ExpenseView({super.key});
+class InjuryView extends StatefulWidget {
+  const InjuryView({super.key});
 
   @override
-  State<ExpenseView> createState() => _ExpenseViewState();
+  State<InjuryView> createState() => _InjuryViewState();
 }
 
-class _ExpenseViewState extends State<ExpenseView> {
+class _InjuryViewState extends State<InjuryView> {
   @override
   void initState() {
     super.initState();
-
-    // Step:1
-    //
     getClientName();
-    getClientAvatar();
   }
-  // Step:2
-  //
 
   String? cltName;
-  String? cltAvatar;
-  XFile? image;
+
+  // This is the file that will be used to store the image
+  XFile? imgXFile;
+  // This is the image picker
+  final ImagePicker imagePicker = ImagePicker();
+
+  getImageFromGalley() async {
+    imgXFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imgXFile;
+    });
+  }
+
+  getImageFromCamera() async {
+    imgXFile = await imagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      imgXFile;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +66,7 @@ class _ExpenseViewState extends State<ExpenseView> {
         ],
         automaticallyImplyLeading: true,
         title: Text(
-          "Add Expense",
+          "Add Injury",
         ),
         centerTitle: true,
       ),
@@ -79,33 +90,18 @@ class _ExpenseViewState extends State<ExpenseView> {
                             'Take Photo',
                             style: TextStyle(fontSize: 15),
                           ),
-                          onPressed: (context) async {
-                            try {
-                              final image = await ImagePicker()
-                                  .pickImage(source: ImageSource.camera);
-                              if (image == null) return;
-                              final imageTemp = File(image.path);
-                              setState(() => this.image = imageTemp as XFile?);
-                            } on PlatformException catch (e) {
-                              print('Failed to pick image: $e');
-                            }
+                          onPressed: (context) {
+                            getImageFromCamera();
+                            Navigator.pop(context);
                           }),
                       BottomSheetAction(
                           title: const Text(
                             'Choose from Library',
                             style: TextStyle(fontSize: 15),
                           ),
-                          onPressed: (context) async {
-                            try {
-                              final image = await ImagePicker()
-                                  .pickImage(source: ImageSource.gallery);
-                              if (image == null) return;
-                              print('Image picked successfully');
-                              final imageTemp = File(image.path);
-                              setState(() => this.image = imageTemp as XFile?);
-                            } on PlatformException catch (e) {
-                              print('Failed to pick image: $e');
-                            }
+                          onPressed: (context) {
+                            getImageFromGalley();
+                            Navigator.pop(context);
                           }),
                     ],
                     cancelAction: CancelAction(
@@ -119,22 +115,22 @@ class _ExpenseViewState extends State<ExpenseView> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        CircleAvatar(
-                          backgroundColor: AppColors.buttonColor,
-                          radius: 30,
-                          child: ClipOval(
-                            child: Image.network(
-                                "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
-                                    cltAvatar.toString(),
-                                width: 150,
-                                height: 200,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                Icons.person,
-                                color: Colors.white,
-                              );
-                            }),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey.shade300,
+                            radius: MediaQuery.of(context).size.width * 0.10,
+                            backgroundImage: imgXFile == null
+                                ? null
+                                : FileImage(File(imgXFile!.path)),
+                            child: imgXFile == null
+                                ? Icon(
+                                    Icons.add_photo_alternate,
+                                    color: Colors.white,
+                                    size: MediaQuery.of(context).size.width *
+                                        0.10,
+                                  )
+                                : null,
                           ),
                         ),
                         SizedBox(
@@ -152,37 +148,7 @@ class _ExpenseViewState extends State<ExpenseView> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                child: Divider(),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                child: TextField(
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    hintText: "Enter Expense",
-                    isDense: true,
-                    prefixIcon: Text(
-                      "\$" + "\$",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                    ),
-                    prefixIconConstraints:
-                        BoxConstraints(minWidth: 0, minHeight: 0),
-                    hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                    border: InputBorder.none,
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                child: Divider(),
-              ),
+              Divider(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -197,17 +163,14 @@ class _ExpenseViewState extends State<ExpenseView> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Divider(height: 5),
-              ),
+              Divider(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 0, 6),
                 child: TextFormField(
                   maxLines: null,
                   minLines: 1,
                   decoration: InputDecoration(
-                    hintText: "Your Note",
+                    hintText: "your notes",
                     hintStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -229,14 +192,6 @@ class _ExpenseViewState extends State<ExpenseView> {
 
     setState(() {
       cltName = sharedpref.getString(HomeViewState.KEYCLIENTNAME)!;
-    });
-  }
-
-  Future<void> getClientAvatar() async {
-    final sharedpref = await SharedPreferences.getInstance();
-
-    setState(() {
-      cltAvatar = sharedpref.getString(HomeViewState.KEYCLIENTAVATAR)!;
     });
   }
 }

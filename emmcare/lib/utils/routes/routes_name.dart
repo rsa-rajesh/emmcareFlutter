@@ -29,13 +29,13 @@ class RoutesName {
   static const String client_detail = "client_detail_view";
 
   //
-  static const String goal = "goal_view";
+  static const String injury = "injury_view";
 
   //
-  static const String expense = "expense_view";
+  static const String warning = "warning_view";
 
   //
-  static const String mileage = "mileage_view";
+  static const String event = "event_view";
 
   //
   static const String enquiry = "enquiry_view";

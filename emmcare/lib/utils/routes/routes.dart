@@ -5,11 +5,11 @@ import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/cl
 import 'package:emmcare/widgets/home_widgets/details_view/instructions_view.dart';
 import 'package:emmcare/widgets/home_widgets/events_view/shift_report_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/enquiry_view.dart';
-import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/expense_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/warning_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/feedback_view.dart';
-import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/goal_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/injury_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/incident_view.dart';
-import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/mileage_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/event_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/progress_notes_view.dart';
 import 'package:emmcare/widgets/file_viewer/my_document_viewer.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
@@ -60,19 +60,19 @@ class Routes {
           builder: (BuildContext context) => ClientDetailView(),
         );
 
-      case RoutesName.goal:
+      case RoutesName.injury:
         return MaterialPageRoute(
-          builder: (BuildContext context) => GoalView(),
+          builder: (BuildContext context) => InjuryView(),
         );
 
-      case RoutesName.expense:
+      case RoutesName.warning:
         return MaterialPageRoute(
-          builder: (BuildContext context) => ExpenseView(),
+          builder: (BuildContext context) => WarningView(),
         );
 
-      case RoutesName.mileage:
+      case RoutesName.event:
         return MaterialPageRoute(
-          builder: (BuildContext context) => MileageView(),
+          builder: (BuildContext context) => EventView(),
         );
 
       case RoutesName.enquiry:

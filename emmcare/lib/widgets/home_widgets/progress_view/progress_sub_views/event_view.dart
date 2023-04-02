@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FeedbackView extends StatefulWidget {
-  const FeedbackView({super.key});
+class EventView extends StatefulWidget {
+  const EventView({super.key});
 
   @override
-  State<FeedbackView> createState() => _FeedbackViewState();
+  State<EventView> createState() => _EventViewState();
 }
 
-class _FeedbackViewState extends State<FeedbackView> {
+class _EventViewState extends State<EventView> {
   @override
   void initState() {
     super.initState();
@@ -45,7 +45,6 @@ class _FeedbackViewState extends State<FeedbackView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
         actions: [
@@ -67,7 +66,7 @@ class _FeedbackViewState extends State<FeedbackView> {
         ],
         automaticallyImplyLeading: true,
         title: Text(
-          "Add Feedback",
+          "Add Event",
         ),
         centerTitle: true,
       ),
@@ -149,6 +148,28 @@ class _FeedbackViewState extends State<FeedbackView> {
                   ),
                 ),
               ),
+              // Padding(
+              //   padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+              //   child: TextField(
+              //     maxLines: null,
+              //     decoration: InputDecoration(
+              //       isDense: true,
+              //       prefixIcon: Text(
+              //         "KM",
+              //         style:
+              //             TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              //       ),
+              //       prefixIconConstraints:
+              //           BoxConstraints(minWidth: 0, minHeight: 0),
+              //       hintStyle: TextStyle(
+              //           fontSize: 16,
+              //           fontWeight: FontWeight.bold,
+              //           color: Colors.black),
+              //       border: InputBorder.none,
+              //     ),
+              //     keyboardType: TextInputType.number,
+              //   ),
+              // ),
               Divider(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -164,14 +185,14 @@ class _FeedbackViewState extends State<FeedbackView> {
                   ],
                 ),
               ),
-              Divider(height: 5),
+              Divider(),
               Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 0, 8),
+                padding: const EdgeInsets.fromLTRB(12, 0, 0, 6),
                 child: TextFormField(
                   maxLines: null,
                   minLines: 1,
                   decoration: InputDecoration(
-                    hintText: "Your Note",
+                    hintText: "your notes",
                     hintStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
