@@ -53,6 +53,8 @@ class HomeViewState extends State<HomeView> {
   static String KEYCLIENTNAME = "client_Name";
   static String KEYCLIENTAVATAR = "client_Avatar";
   static String KEYCLIENTID = "client_Id";
+  static String KEYSTAFFID = "staff_Id";
+  static String KEYSTAFFNAME = "staff_Name";
   // Shared prefs keys.
 
   // Calendar controller and event list.
@@ -252,6 +254,10 @@ class HomeViewState extends State<HomeView> {
                                               .clientImg;
                                           int? clientId = value.clientList.data!
                                               .clients![index].clientId;
+                                          int? staffId = value.clientList.data!
+                                              .clients![index].staffId;
+                                          String? staffName = value.clientList
+                                              .data!.clients![index].staff;
 
                                           final sharedprefs =
                                               await SharedPreferences
@@ -283,6 +289,17 @@ class HomeViewState extends State<HomeView> {
                                             sharedprefs.getInt(KEYCLIENTID);
                                           });
 
+                                          sharedprefs.setInt(
+                                              KEYSTAFFID, staffId!);
+                                          setState(() {
+                                            sharedprefs.getInt(KEYSTAFFID);
+                                          });
+
+                                          sharedprefs.setString(
+                                              KEYSTAFFNAME, staffName!);
+                                          setState(() {
+                                            sharedprefs.getString(KEYSTAFFNAME);
+                                          });
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(

@@ -440,6 +440,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  modal_bottom_sheet:
+    dependency: "direct main"
+    description:
+      name: modal_bottom_sheet
+      sha256: "3bba63c62d35c931bce7f8ae23a47f9a05836d8cb3c11122ada64e0b2f3d718f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0-pre"
   nested:
     dependency: transitive
     description:
@@ -697,18 +705,18 @@ packages:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: "6c704aa944ae5dfc4ae7c473d52eba551acfa39fff277bae3cb355cdb2457f76"
+      sha256: f23067e46b781d488abf8e22e5608ca9972b49562e95f9e46cb6134e968f721b
       url: "https://pub.dev"
     source: hosted
-    version: "21.1.35"
+    version: "21.1.37"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "7e7451c4154aaf22106ef22de323036b1a6f02c535c2def3d0d28af7b212e367"
+      sha256: c9c0b90c10aec611266432fe34640fc6a46afe41cdeea39564d002f6c43daf91
       url: "https://pub.dev"
     source: hosted
-    version: "21.1.35"
+    version: "21.1.37"
   synchronized:
     dependency: transitive
     description:
@@ -863,4 +871,4 @@ packages:
     version: "6.2.2"
 sdks:
   dart: ">=2.18.6 <3.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.7.0"

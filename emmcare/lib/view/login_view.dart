@@ -26,10 +26,8 @@ class LoginViewState extends State<LoginView> {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
-
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
-
     _obsecurePassword.dispose();
   }
 
@@ -145,7 +143,7 @@ class LoginViewState extends State<LoginView> {
                       ),
                     ),
 
-                    SizedBox(height: height * .17),
+                    SizedBox(height: height * .15),
 
                     // RoundButton
                     Container(

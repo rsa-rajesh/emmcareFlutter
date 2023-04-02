@@ -55,7 +55,8 @@ dependencies:
   package_info_plus: ^3.0.3
   jwt_decoder: ^2.0.1
   flutter_slidable: ^2.0.0
-  syncfusion_flutter_datepicker: ^21.1.35
+  syncfusion_flutter_datepicker: ^21.1.37
+  modal_bottom_sheet: ^3.0.0-pre
   
 
 dev_dependencies:

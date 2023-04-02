@@ -14,10 +14,10 @@ class UnavailabilityViewViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> unavailabilityCreate(BuildContext context) async {
+  Future<void> unavailabilityCreate(dynamic data, BuildContext context) async {
     setLoading(true);
 
-    _myRepo.unavailabilityCreate().then((value) {
+    _myRepo.unavailabilityCreate(data).then((value) {
       setLoading(false);
       // Utils.toastMessage("Unavailability Created!");
       Utils.flushBarErrorMessage('Unavailability Created!', context);

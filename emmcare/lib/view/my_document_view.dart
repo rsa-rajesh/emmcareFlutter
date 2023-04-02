@@ -11,7 +11,6 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class MyDocumentView extends StatefulWidget {
   MyDocumentView({Key? key}) : super(key: key);
-
   @override
   State<MyDocumentView> createState() => _MyDocumentViewState();
 }
@@ -86,6 +85,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         title: Text("MY Documents"),
         centerTitle: true,
@@ -108,49 +108,80 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                       // ),
                       );
             }
-            return Card(
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Text(result[index].docCategory.toString()),
-                    trailing: Text(
-                      result[index].expiryDate.toString(),
-                      style: TextStyle(color: Colors.redAccent),
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              child: Card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                          child: Text(
+                            result[index].docCategory.toString(),
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        )),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                          child: Text(
+                            result[index].expiryDate.toString(),
+                            style: TextStyle(color: Colors.redAccent),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  ListTile(
-                    iconColor: AppColors.buttonColor,
-                    subtitle: Text(
-                      splitFileName(result[index].file.toString()),
-                    ),
-                    trailing: InkWell(
-                      onTap: () {
-                        String fileExtention =
-                            checkFileExtention(result[index].file.toString());
-                        String pdfExtension = "pdf";
-                        // String docExtension = "doc";
-                        // String docxExtension = "docx";
-                        // String pngExtension = "png";
-                        // String jpgExtension = "jpg";
-                        // String jpegExtension = "jpeg";
-                        if (fileExtention == pdfExtension) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyDocumentViewer(),
-                              settings: RouteSettings(
-                                arguments: result[index],
-                              ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                            child: Text(
+                              splitFileName(result[index].file.toString()),
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  fontStyle: FontStyle.italic),
                             ),
-                          );
-                        } else {
-                          return null;
-                        }
-                      },
-                      child: Icon(Icons.download),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                          child: InkWell(
+                            onTap: () {
+                              String fileExtention = checkFileExtention(
+                                  result[index].file.toString());
+                              String pdfExtension = "pdf";
+                              // String docExtension = "doc";
+                              // String docxExtension = "docx";
+                              // String pngExtension = "png";
+                              // String jpgExtension = "jpg";
+                              // String jpegExtension = "jpeg";
+                              if (fileExtention == pdfExtension) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyDocumentViewer(),
+                                    settings: RouteSettings(
+                                      arguments: result[index],
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return null;
+                              }
+                            },
+                            child: Icon(Icons.download),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }),
