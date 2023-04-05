@@ -65,8 +65,9 @@ class AppUrl {
         "v2/api/events/shift-event-list/?page=${page.toString()}&page_size=$pageSize";
   }
 
-  static String getClientProfileGoalList() {
+  static String getClientProfileGoalList(page) {
     var pageSize = 30;
-    return baseUrl + "v1/api/auth/client-goal-list/";
+    return baseUrl +
+        "v1/api/auth/client-goal-list/?page=${page.toString()}&page_size=$pageSize";
   }
 }
