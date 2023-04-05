@@ -27,6 +27,7 @@ class _EventsViewState extends State<EventsView> {
   @override
   void initState() {
     super.initState();
+    getShiftId();
     fetchData(offset);
     getClientAvatar();
     handleNext();
@@ -37,6 +38,14 @@ class _EventsViewState extends State<EventsView> {
     final sharedpref = await SharedPreferences.getInstance();
     setState(() {
       cltAvatar = sharedpref.getString(HomeViewState.KEYCLIENTAVATAR)!;
+    });
+  }
+
+  int? obj_id;
+  Future<void> getShiftId() async {
+    final sharedpref = await SharedPreferences.getInstance();
+    setState(() {
+      obj_id = sharedpref.getInt(HomeViewState.KEYSHIFTID)!;
     });
   }
 
@@ -57,13 +66,13 @@ class _EventsViewState extends State<EventsView> {
 
     var response = await http.get(
       Uri.parse(
-        AppUrl.getEventsList(page),
+        AppUrl.getEventsList(page, obj_id),
       ),
       headers: requestHeaders,
     );
     //
     print(response);
-    print(AppUrl.getEventsList(page));
+    print(AppUrl.getEventsList(page, obj_id));
     //
     setState(() {
       var data = json.decode(response.body);

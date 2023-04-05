@@ -59,10 +59,10 @@ class AppUrl {
     return baseUrl + "v1/api/auth/staff-unavailability-create/";
   }
 
-  static String getEventsList(page) {
+  static String getEventsList(page, obj_id) {
     var pageSize = 30;
     return baseUrl +
-        "v2/api/events/shift-event-list/?page=${page.toString()}&page_size=$pageSize";
+        "v2/api/events/shift-event-list/?page=${page.toString()}&page_size=$pageSize&obj_id=${obj_id.toString()}";
   }
 
   static String getClientProfileGoalList(page) {
