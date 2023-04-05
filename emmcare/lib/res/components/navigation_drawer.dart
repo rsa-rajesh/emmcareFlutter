@@ -74,6 +74,21 @@ class _NavDrawerState extends State<NavDrawer> {
           ),
           ListTile(
             leading: Icon(
+              CupertinoIcons.folder,
+              color: Colors.black,
+            ),
+            title: Text(
+              "DOCUMENT HUB",
+              textScaleFactor: 1.2,
+              style: TextStyle(color: Colors.black),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, RoutesName.document_hub);
+            },
+          ),
+          ListTile(
+            leading: Icon(
               CupertinoIcons.info,
               color: Colors.black,
             ),

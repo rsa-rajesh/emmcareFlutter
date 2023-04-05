@@ -21,6 +21,7 @@ import 'package:emmcare/view/notification_view.dart';
 import 'package:emmcare/view/splash_view.dart';
 import 'package:flutter/material.dart';
 
+import '../../view/document_hub_view.dart';
 import '../../widgets/home_widgets/unavailability_view/unavailability_view.dart';
 
 class Routes {
@@ -41,6 +42,10 @@ class Routes {
       case RoutesName.my_document:
         return MaterialPageRoute(
           builder: (BuildContext context) => MyDocumentView(),
+        );
+      case RoutesName.document_hub:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => DocumentHubView(),
         );
       case RoutesName.about:
         return MaterialPageRoute(

@@ -70,4 +70,10 @@ class AppUrl {
     return baseUrl +
         "v1/api/auth/client-goal-list/?page=${page.toString()}&page_size=$pageSize";
   }
+
+  static String getDocumentHub(page, realtedUserType, realtedUserId) {
+    var pageSize = 30;
+    return baseUrl +
+        "v1/api/document/document-list/?page=${page.toString()}&page_size=$pageSize&related_user_id=${realtedUserId.toString()}&related_user_type=${realtedUserType.toString()}";
+  }
 }
