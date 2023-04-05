@@ -116,17 +116,8 @@ class _DocumentHubViewState extends State<DocumentHubView> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                          child: Text(
-                            result[index].docCategory.toString(),
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                        )),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
                           child: Text(
