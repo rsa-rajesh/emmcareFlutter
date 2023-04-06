@@ -55,6 +55,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
       ),
       headers: requestHeaders,
     );
+
     //
     //
     print(response);
@@ -63,8 +64,19 @@ class _MyDocumentViewState extends State<MyDocumentView> {
     //
 
     var data = json.decode(response.body);
+
     MyDocumentModel modelClass = MyDocumentModel.fromJson(data);
-    result = result + modelClass.results;
+
+    if (page == 1) {
+      setState(() {
+        result = modelClass.results;
+      });
+    } else {
+      setState(() {
+        result = result + modelClass.results;
+      });
+    }
+
     int localOffset = offset + 1;
     setState(() {
       result;
@@ -79,6 +91,12 @@ class _MyDocumentViewState extends State<MyDocumentView> {
           scrollController.position.pixels) {
         fetchData(offset);
       }
+    });
+  }
+
+  Future<void> refreshList(int i) async {
+    setState(() {
+      fetchData(1);
     });
   }
 
@@ -104,88 +122,97 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                       ),
                     ),
             )
-          : ListView.builder(
-              controller: scrollController,
-              itemCount: result.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  child: Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          : RefreshIndicator(
+              onRefresh: () => refreshList(1),
+              child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: result.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      child: Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Expanded(
-                                child: Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                              child: Text(
-                                result[index].docCategory.toString(),
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            )),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                              child: Text(
-                                result[index].expiryDate.toString(),
-                                style: TextStyle(color: Colors.redAccent),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                                child: Text(
-                                  splitFileName(result[index].file.toString()),
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      fontStyle: FontStyle.italic),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                    child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                                  child: Text(
+                                    result[index].docCategory.toString(),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                                  child: Text(
+                                    result[index].expiryDate.toString(),
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                              child: InkWell(
-                                onTap: () {
-                                  String fileExtention = checkFileExtention(
-                                      result[index].file.toString());
-                                  String pdfExtension = "pdf";
-                                  // String docExtension = "doc";
-                                  // String docxExtension = "docx";
-                                  // String pngExtension = "png";
-                                  // String jpgExtension = "jpg";
-                                  // String jpegExtension = "jpeg";
-                                  if (fileExtention == pdfExtension) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyDocumentViewer(),
-                                        settings: RouteSettings(
-                                          arguments: result[index],
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                child: Icon(Icons.download),
-                              ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                                    child: Text(
+                                      splitFileName(
+                                          result[index].file.toString()),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                                  child: InkWell(
+                                    onTap: () {
+                                      String fileExtention = checkFileExtention(
+                                          result[index].file.toString());
+                                      String pdfExtension = "pdf";
+                                      // String docExtension = "doc";
+                                      // String docxExtension = "docx";
+                                      // String pngExtension = "png";
+                                      // String jpgExtension = "jpg";
+                                      // String jpegExtension = "jpeg";
+                                      if (fileExtention == pdfExtension) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MyDocumentViewer(),
+                                            settings: RouteSettings(
+                                              arguments: result[index],
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    child: Icon(Icons.download),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+                      ),
+                    );
+                  }),
+            ),
     );
   }
 
