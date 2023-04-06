@@ -94,83 +94,83 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
-      body: ListView.builder(
-          controller: scrollController,
-          itemCount: result.length + 1,
-          itemBuilder: (context, index) {
-            if (index == result.length) {
-              return loading
-                  ? Container()
-                  : Container(
-                      // height: 200,
-                      // child: const Center(
-                      //   child: CircularProgressIndicator(
-                      //     strokeWidth: 4,
-                      //   ),
-                      // ),
-                      );
-            }
-
-            return Card(
-              color:
-                  widgetShowFlag ? AppColors.bodyBackgroudColor : Colors.white,
-              margin: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
-                    child: Text(
-                      result[index].name.toString(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+      body: result.length == 0
+          ? Center(
+              child: loading
+                  ? CircularProgressIndicator()
+                  : Center(
+                      child: Text(
+                        "No Goals!",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     ),
+            )
+          : ListView.builder(
+              controller: scrollController,
+              itemCount: result.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  color: widgetShowFlag
+                      ? AppColors.bodyBackgroudColor
+                      : Colors.white,
+                  margin: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
+                        child: Text(
+                          result[index].name.toString(),
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
+                        child: Text(
+                          result[index].description.toString(),
+                          maxLines: widgetShowFlag
+                              ? result[index].description!.length
+                              : 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                      ),
+                      showInternalList(result[index].goalStrategies!.length),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    widgetShowFlag = !widgetShowFlag;
+                                  });
+                                },
+                                child: widgetShowFlag
+                                    ? Text(
+                                        "Show Less",
+                                        style: TextStyle(color: Colors.blue),
+                                      )
+                                    : Text("Show More",
+                                        style: TextStyle(color: Colors.blue)))
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
-                    child: Text(
-                      result[index].description.toString(),
-                      maxLines: widgetShowFlag
-                          ? result[index].description!.length
-                          : 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                  ),
-                  showInternalList(result[index].goalStrategies!.length),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        TextButton(
-                            onPressed: () {
-                              setState(() {
-                                widgetShowFlag = !widgetShowFlag;
-                              });
-                            },
-                            child: widgetShowFlag
-                                ? Text(
-                                    "Show Less",
-                                    style: TextStyle(color: Colors.blue),
-                                  )
-                                : Text("Show More",
-                                    style: TextStyle(color: Colors.blue)))
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
+                );
+              }),
     );
   }
 

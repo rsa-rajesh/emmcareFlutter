@@ -55,13 +55,6 @@ class UnReadNotificationViewState extends State<UnReadNotificationView> {
       ),
       headers: requestHeaders,
     );
-    //
-    //
-    print(response);
-    print(AppUrl.getNotification(page, is_seen));
-    //
-    //
-
     setState(() {
       var data = json.decode(response.body);
       UnReadNotificationModel modelClass =
@@ -88,122 +81,116 @@ class UnReadNotificationViewState extends State<UnReadNotificationView> {
 
   @override
   Widget build(BuildContext context) {
-    if (result.length == 0) {
-      return Center(
-          child: Text(
-        "No Unread Notifications!",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ));
-    } else {
-      return Scaffold(
-        body: ListView.builder(
-          controller: scrollController,
-          itemCount: result.length + 1,
-          itemBuilder: (context, index) {
-            if (index == result.length) {
-              return loading
-                  ? Container()
-                  : Container(
-                      // height: 200,
-                      // child:  Center(
-                      //   child: CircularProgressIndicator(
-                      //     strokeWidth: 4,
-                      //   ),
-                      // ),
-                      );
-            }
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: Slidable(
-                key: ValueKey(0),
-                endActionPane: ActionPane(
-                  motion: ScrollMotion(),
-                  // A pane can dismiss the Slidable.
-                  dismissible: DismissiblePane(onDismissed: () {}),
-                  dragDismissible: false,
-
-                  children: [
-                    SlidableAction(
-                      onPressed: (context) async {
-                        int? notificaionId = result[index].id;
-                        final sharedprefs =
-                            await SharedPreferences.getInstance();
-                        sharedprefs.setInt(KEYNOTIFICATIONID, notificaionId);
-                        setState(() {
-                          sharedprefs.getInt(KEYNOTIFICATIONID);
-                        });
-                        markNotificationSeenViewViewModel.markSeen(context);
-                        DismissiblePane(
-                          onDismissed: () {},
-                        );
-                      },
-                      backgroundColor: Color(0xFFFE4A49),
-                      foregroundColor: Colors.white,
-                      icon: Icons.check_circle,
-                      label: 'Mark as read',
+    return Scaffold(
+      body: result.length == 0
+          ? Center(
+              child: loading
+                  ? CircularProgressIndicator()
+                  : Center(
+                      child: Text(
+                        "No Unread Notifications!",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ],
-                ),
-                child: Card(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+            )
+          : ListView.builder(
+              controller: scrollController,
+              itemCount: result.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: Slidable(
+                    key: ValueKey(0),
+                    endActionPane: ActionPane(
+                      motion: ScrollMotion(),
+                      // A pane can dismiss the Slidable.
+                      dismissible: DismissiblePane(onDismissed: () {}),
+                      dragDismissible: false,
+
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) async {
+                            int? notificaionId = result[index].id;
+                            final sharedprefs =
+                                await SharedPreferences.getInstance();
+                            sharedprefs.setInt(
+                                KEYNOTIFICATIONID, notificaionId);
+                            setState(() {
+                              sharedprefs.getInt(KEYNOTIFICATIONID);
+                            });
+                            markNotificationSeenViewViewModel.markSeen(context);
+                            DismissiblePane(
+                              onDismissed: () {},
+                            );
+                          },
+                          backgroundColor: Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.check_circle,
+                          label: 'Mark as read',
+                        ),
+                      ],
+                    ),
+                    child: Card(
+                      child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
-                            child: Text(
-                              timeAgoCustom(
-                                DateTime.parse(
-                                  result[index].createdAt.toString(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
+                                child: Text(
+                                  timeAgoCustom(
+                                    DateTime.parse(
+                                      result[index].createdAt.toString(),
+                                    ),
+                                  ),
+                                  style: TextStyle(color: Colors.redAccent),
                                 ),
                               ),
-                              style: TextStyle(color: Colors.redAccent),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.mark_as_unread),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        result[index].subject.toString(),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                          result[index]
+                                              .message
+                                              .toString()
+                                              .replaceAll(RegExp(' +'), ' '),
+                                          style: TextStyle(fontSize: 12)),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(Icons.mark_as_unread),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    result[index].subject.toString(),
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                      result[index]
-                                          .message
-                                          .toString()
-                                          .replaceAll(RegExp(' +'), ' '),
-                                      style: TextStyle(fontSize: 12)),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            );
-          },
-        ),
-      );
-    }
+                );
+              },
+            ),
+    );
   }
 
   String timeAgoCustom(DateTime d) {

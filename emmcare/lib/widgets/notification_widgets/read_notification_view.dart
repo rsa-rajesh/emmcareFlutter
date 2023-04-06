@@ -49,13 +49,6 @@ class _ReadNotificationViewState extends State<ReadNotificationView> {
       ),
       headers: requestHeaders,
     );
-    //
-    //
-    print(response);
-    print(AppUrl.getNotification(page, is_seen));
-    //
-    //
-
     setState(() {
       var data = json.decode(response.body);
       ReadNotificationModel modelClass = ReadNotificationModel.fromJson(data);
@@ -81,112 +74,104 @@ class _ReadNotificationViewState extends State<ReadNotificationView> {
 
   @override
   Widget build(BuildContext context) {
-    if (result.length == 0) {
-      return Center(
-          child: Text(
-        "No Read Notifications!",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ));
-    } else {
-      return Scaffold(
-        body: ListView.builder(
-            controller: scrollController,
-            itemCount: result.length + 1,
-            itemBuilder: (context, index) {
-              if (index == result.length) {
-                return loading
-                    ? Container()
-                    : Container(
-                        // height: 200,
-                        // child: const Center(
-                        //   child: CircularProgressIndicator(
-                        //     strokeWidth: 4,
-                        //   ),
-                        // ),
-                        );
-              }
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                child: Card(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
-                            child: Text(
-                              timeAgoCustom(
-                                DateTime.parse(
-                                  result[index].createdAt.toString(),
-                                ),
-                              ),
-                              style: TextStyle(color: Colors.redAccent),
-                            ),
-                          ),
-                        ],
+    return Scaffold(
+      body: result.length == 0
+          ? Center(
+              child: loading
+                  ? CircularProgressIndicator()
+                  : Center(
+                      child: Text(
+                        "No Read Notifications!",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+            )
+          : ListView.builder(
+              controller: scrollController,
+              itemCount: result.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: Card(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Icon(Icons.check_circle),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    result[index].subject.toString(),
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
+                              child: Text(
+                                timeAgoCustom(
+                                  DateTime.parse(
+                                    result[index].createdAt.toString(),
                                   ),
-                                  Text(
-                                      result[index]
-                                          .message
-                                          .toString()
-                                          .replaceAll(RegExp(' +'), ' '),
-                                      style: TextStyle(fontSize: 12)),
-                                ],
+                                ),
+                                style: TextStyle(color: Colors.redAccent),
                               ),
-                            )
+                            ),
                           ],
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(Icons.check_circle),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      result[index].subject.toString(),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                        result[index]
+                                            .message
+                                            .toString()
+                                            .replaceAll(RegExp(' +'), ' '),
+                                        style: TextStyle(fontSize: 12)),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            }),
-      );
-    }
+                );
+              }),
+    );
   }
+}
 
-  String timeAgoCustom(DateTime d) {
-    Duration diff = DateTime.now().difference(d);
-    if (diff.inDays > 365) {
-      return "${(diff.inDays / 365).floor()} ${(diff.inDays / 365).floor() == 1 ? "year" : "years"} ago";
-    }
-    if (diff.inDays > 30) {
-      return "${(diff.inDays / 30).floor()} ${(diff.inDays / 30).floor() == 1 ? "month" : "months"} ago";
-    }
-    if (diff.inDays > 7) {
-      return "${(diff.inDays / 7).floor()} ${(diff.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
-    }
-    if (diff.inDays > 0) {
-      return "${DateFormat.E().add_jm().format(d)}";
-    }
-    if (diff.inHours > 0) {
-      return "Today ${DateFormat('jm').format(d)}";
-    }
-    if (diff.inMinutes > 0) {
-      return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
-    }
-    return "just now";
+String timeAgoCustom(DateTime d) {
+  Duration diff = DateTime.now().difference(d);
+  if (diff.inDays > 365) {
+    return "${(diff.inDays / 365).floor()} ${(diff.inDays / 365).floor() == 1 ? "year" : "years"} ago";
   }
+  if (diff.inDays > 30) {
+    return "${(diff.inDays / 30).floor()} ${(diff.inDays / 30).floor() == 1 ? "month" : "months"} ago";
+  }
+  if (diff.inDays > 7) {
+    return "${(diff.inDays / 7).floor()} ${(diff.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
+  }
+  if (diff.inDays > 0) {
+    return "${DateFormat.E().add_jm().format(d)}";
+  }
+  if (diff.inHours > 0) {
+    return "Today ${DateFormat('jm').format(d)}";
+  }
+  if (diff.inMinutes > 0) {
+    return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
+  }
+  return "just now";
 }

@@ -52,14 +52,14 @@ class _DocumentHubViewState extends State<DocumentHubView> {
 
     var response = await http.get(
       Uri.parse(
-        AppUrl.getDocumentHub(page, realtedUserType, realtedUserId),
+        AppUrl.getDocumentHubList(page, realtedUserType, realtedUserId),
       ),
       headers: requestHeaders,
     );
     //
     //
     print(response);
-    print(AppUrl.getDocumentHub(page, realtedUserType, realtedUserId));
+    print(AppUrl.getDocumentHubList(page, realtedUserType, realtedUserId));
     //
     //
 
@@ -93,90 +93,100 @@ class _DocumentHubViewState extends State<DocumentHubView> {
         backgroundColor: AppColors.appBarColor,
         automaticallyImplyLeading: true,
       ),
-      body: ListView.builder(
-          controller: scrollController,
-          itemCount: result.length + 1,
-          itemBuilder: (context, index) {
-            if (index == result.length) {
-              return loading
-                  ? Container()
-                  : Container(
-                      // height: 200,
-                      // child: const Center(
-                      //   child: CircularProgressIndicator(
-                      //     strokeWidth: 4,
-                      //   ),
-                      // ),
-                      );
-            }
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: Card(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                          child: Text(
-                            result[index].expiryDate.toString(),
-                            style: TextStyle(color: Colors.redAccent),
-                          ),
-                        ),
-                      ],
+      body: result.length == 0
+          ? Center(
+              child: loading
+                  ? CircularProgressIndicator()
+                  : Center(
+                      child: Text(
+                        "No Documents Hub!",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    Row(
+            )
+          : ListView.builder(
+              controller: scrollController,
+              itemCount: result.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: Card(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                            child: Text(
-                              splitFileName(result[index].file.toString()),
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  fontStyle: FontStyle.italic),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                                child: Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                              child: Text(
+                                result[index].docCategory.toString(),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                              child: Text(
+                                result[index].expiryDate.toString(),
+                                style: TextStyle(color: Colors.redAccent),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                          child: InkWell(
-                            onTap: () {
-                              String fileExtention = checkFileExtention(
-                                  result[index].file.toString());
-                              String pdfExtension = "pdf";
-                              // String docExtension = "doc";
-                              // String docxExtension = "docx";
-                              // String pngExtension = "png";
-                              // String jpgExtension = "jpg";
-                              // String jpegExtension = "jpeg";
-                              if (fileExtention == pdfExtension) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DocumentHubViewer(),
-                                    settings: RouteSettings(
-                                      arguments: result[index],
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return null;
-                              }
-                            },
-                            child: Icon(Icons.download),
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                                child: Text(
+                                  splitFileName(result[index].file.toString()),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                      fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                              child: InkWell(
+                                onTap: () {
+                                  String fileExtention = checkFileExtention(
+                                      result[index].file.toString());
+                                  String pdfExtension = "pdf";
+                                  // String docExtension = "doc";
+                                  // String docxExtension = "docx";
+                                  // String pngExtension = "png";
+                                  // String jpgExtension = "jpg";
+                                  // String jpegExtension = "jpeg";
+                                  if (fileExtention == pdfExtension) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DocumentHubViewer(),
+                                        settings: RouteSettings(
+                                          arguments: result[index],
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                child: Icon(Icons.download),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            );
-          }),
+                  ),
+                );
+              }),
     );
   }
 

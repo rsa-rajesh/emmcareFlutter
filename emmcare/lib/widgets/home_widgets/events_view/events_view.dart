@@ -22,8 +22,6 @@ class _EventsViewState extends State<EventsView> {
   bool loading = true;
   int offset = 1;
 
-  bool _fetchingData = false;
-
   @override
   void initState() {
     super.initState();
@@ -99,105 +97,98 @@ class _EventsViewState extends State<EventsView> {
 
   @override
   Widget build(BuildContext context) {
-    if (result.length == 0) {
-      return Center(
-          child: Text(
-        "No Events!",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ));
-    } else {
-      return Scaffold(
-        body: ListView.builder(
-          controller: scrollController,
-          itemCount: result.length + 1,
-          itemBuilder: (context, index) {
-            if (index == result.length) {
-              return loading
-                  ? Container()
-                  : Container(
-                      // height: 200,
-                      // child: const Center(
-                      //   child: CircularProgressIndicator(
-                      //     strokeWidth: 4,
-                      //   ),
-                      // ),
-                      );
-            }
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ShiftReportView(),
-                      settings: RouteSettings(
-                        arguments: result[index],
+    return Scaffold(
+      body: result.length == 0
+          ? Center(
+              child: loading
+                  ? CircularProgressIndicator()
+                  : Center(
+                      child: Text(
+                        "No Events!",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  );
-                },
-                child: Card(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor:
-                                  AppColors.imageCircleAvatarBodyBackgroudColor,
-                              radius: 26,
-                              child: ClipOval(
-                                child: Image.network(
-                                    "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
-                                        cltAvatar!,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                  return Icon(
-                                    Icons.person,
-                                    color: Colors.white,
-                                  );
-                                }),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    result[index].message.toString(),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(result[index].category.toString(),
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.blue[200])),
-                                ],
-                              ),
-                            )
-                          ],
+            )
+          : ListView.builder(
+              controller: scrollController,
+              itemCount: result.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ShiftReportView(),
+                          settings: RouteSettings(
+                            arguments: result[index],
+                          ),
                         ),
+                      );
+                    },
+                    child: Card(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: AppColors
+                                      .imageCircleAvatarBodyBackgroudColor,
+                                  radius: 26,
+                                  child: ClipOval(
+                                    child: Image.network(
+                                        "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                            cltAvatar!,
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.cover, errorBuilder:
+                                            (context, error, stackTrace) {
+                                      return Icon(
+                                        Icons.person,
+                                        color: Colors.white,
+                                      );
+                                    }),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        result[index].message.toString(),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(result[index].category.toString(),
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontStyle: FontStyle.italic,
+                                              color: Colors.blue[200])),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            );
-          },
-        ),
-      );
-    }
+                );
+              },
+            ),
+    );
   }
 }
