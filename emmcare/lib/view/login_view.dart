@@ -170,6 +170,8 @@ class LoginViewState extends State<LoginView> {
                             setState(() {
                               sharedprefs.getString(KEYEMAIL);
                             });
+
+                            
                             Map data = {
                               "email": emailController.text.toString(),
                               "password": passwordController.text.toString(),

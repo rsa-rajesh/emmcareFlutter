@@ -7,7 +7,6 @@ class AppUrl {
       'https://bd00a589-d8e2-4ed3-88ad-f0656f2eb2d2.mock.pstmn.io/';
 
   // End Points.
-
   static var instructionEndPoint = pstmnbaseUrl + "instruction";
 
   // EMMC Care API'S
@@ -75,5 +74,9 @@ class AppUrl {
     var pageSize = 30;
     return baseUrl +
         "v1/api/document/document-hub-list/?page=${page.toString()}&page_size=$pageSize&related_user_id=${realtedUserId.toString()}&related_user_type=${realtedUserType.toString()}";
+  }
+
+  static String postProgressNotes() {
+    return baseUrl + "v2/api/events/progress-note-create/";
   }
 }

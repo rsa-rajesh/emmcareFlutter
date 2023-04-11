@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:emmcare/data/app_exceptions.dart';
 import 'package:emmcare/data/network/BaseApiServices.dart';
 import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -105,9 +106,38 @@ class NetworkApiService extends BaseApiServices {
   }
   // Post Api response with  Authentication and Data
 
+  // Post Api response with  Authentication and Multipart Data
+  @override
+  Future getPostResponseWithAuthMultipartData(String url, String _attachment,
+      String _category, String _msg, String token) async {
+    dynamic responseJson;
+    try {
+      var uri = Uri.parse(url);
+      var request = http.MultipartRequest('POST', uri);
+      request.headers.addAll({"Authorization": "Bearer $token"});
+      request.fields['msg'] = '$_msg';
+      request.fields['category'] = '$_category';
+      request.files.add(await http.MultipartFile.fromPath(
+        'attachment',
+        _attachment,
+        contentType: MediaType("Content-Type", "multipart/form-data"),
+      ).timeout(Duration(seconds: 10)));
+      var response = await request.send();
+      var responsed = await http.Response.fromStream(response);
+      responseJson = returnResponse(responsed);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return responseJson;
+  }
+  // Post Api response with  Authentication and Multipart Data
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
+      case 201:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 400:

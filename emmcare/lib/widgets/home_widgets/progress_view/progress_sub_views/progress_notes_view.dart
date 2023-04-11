@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../utils/utils.dart';
+import '../../../../view_model/progress_note_view_view_model.dart';
+
 class ProgressNotesView extends StatefulWidget {
   const ProgressNotesView({super.key});
 
@@ -42,6 +45,19 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
     });
   }
 
+  // Note Controllers
+  var _noteController = TextEditingController();
+
+  // Dispose
+  @override
+  void dispose() {
+    super.dispose();
+    _noteController.dispose();
+  }
+
+  String _attachment = "";
+  String _msg = "";
+  String _category = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +65,22 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
         backgroundColor: AppColors.appBarColor,
         actions: [
           InkWell(
-              onTap: () {},
+              onTap: () {
+                if (_noteController.text.isEmpty) {
+                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                } else {
+                  setState(() {
+                    _msg = _noteController.text.toString();
+                    _attachment = imgXFile!.path;
+                    _category = "note";
+                  });
+                  ProgressNoteViewModel()
+                      .progressNote(context, _attachment, _category, _msg);
+                  imgXFile = null;
+                  _noteController.clear();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                }
+              },
               splashColor: Colors.lightBlueAccent,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -176,6 +207,7 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
                 child: TextFormField(
+                  controller: _noteController,
                   maxLines: null,
                   minLines: 1,
                   decoration: InputDecoration(
