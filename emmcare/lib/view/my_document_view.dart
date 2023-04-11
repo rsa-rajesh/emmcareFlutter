@@ -56,7 +56,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                   itemCount: value.documents.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 200, 8, 200),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: Card(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
