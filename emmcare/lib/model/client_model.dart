@@ -1,6 +1,8 @@
 class ClientModel {
   List<Clients>? clients;
+
   ClientModel({this.clients});
+  
   ClientModel.fromJson(List<dynamic> parsedJson) {
     // List<Clients> clients = <Clients>[];
     clients = parsedJson.map((i) => Clients.fromJson(i)).toList();

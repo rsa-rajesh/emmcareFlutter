@@ -20,6 +20,7 @@ class HomeRepository {
     try {
       dynamic response = await _apiServices.getGetResponseWithAuth(
           AppUrl.getShiftList(), token);
+
       return response = ClientModel.fromJson(response);
     } catch (e) {
       throw e;

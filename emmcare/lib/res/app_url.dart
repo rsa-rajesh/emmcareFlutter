@@ -27,9 +27,9 @@ class AppUrl {
   }
 
   static String getPersonalDocuments(page, realtedUserType, realtedUserId) {
-    var pageSize = 30;
+    var pageSize = 2;
     return baseUrl +
-        "v1/api/document/document-list/?page=${page.toString()}&page_size=$pageSize&related_user_id=${realtedUserId.toString()}&related_user_type=${realtedUserType.toString()}";
+        "v1/api/document/document-list/?page=$page&page_size=$pageSize&related_user_id=${realtedUserId.toString()}&related_user_type=${realtedUserType.toString()}";
   }
 
   static String getNotification(page, is_seen) {

@@ -1,102 +1,36 @@
-import 'dart:convert';
-import 'package:emmcare/widgets/file_viewer/my_document_viewer.dart';
+import 'package:emmcare/view_model/my_document_view_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import '../model/my_document_model.dart';
-import '../model/user_model.dart';
-import '../res/app_url.dart';
+import 'package:provider/provider.dart';
 import '../res/colors.dart';
-import '../view_model/user_view_view_model.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+import '../widgets/file_viewer/my_document_viewer.dart';
 
 class MyDocumentView extends StatefulWidget {
-  MyDocumentView({Key? key}) : super(key: key);
   @override
-  State<MyDocumentView> createState() => _MyDocumentViewState();
+  _MyDocumentViewState createState() => _MyDocumentViewState();
 }
 
 class _MyDocumentViewState extends State<MyDocumentView> {
-  List<Result> result = [];
-  ScrollController scrollController = ScrollController();
-  bool loading = true;
-  int offset = 1;
-
+  MyDocumentViewViewModel _myDocumentViewViewModel = MyDocumentViewViewModel();
+  final ScrollController _controller = ScrollController();
+  bool _refresh = true;
   @override
   void initState() {
+    _myDocumentViewViewModel.fetchDocumentListApi(_refresh == false);
     super.initState();
-    fetchData(offset);
-    handleNext();
+    _controller.addListener(_scrollListener);
   }
 
-  void fetchData(page) async {
-    setState(() {
-      loading = true;
-    });
-    String token = "";
-    Future<UserModel> getUserData() => UserViewViewModel().getUser();
-    getUserData().then((value) async {
-      token = value.access.toString();
-    });
-    await Future.delayed(Duration(microseconds: 1));
-
-    Map<String, String> requestHeaders = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    // var realtedUserType = decodedToken["role"];
-    // var realtedUserId = decodedToken["user_id"];
-    var realtedUserType = "";
-    var realtedUserId = "";
-
-    var response = await http.get(
-      Uri.parse(
-        AppUrl.getPersonalDocuments(page, realtedUserType, realtedUserId),
-      ),
-      headers: requestHeaders,
-    );
-
-    //
-    //
-    print(response);
-    print(AppUrl.getPersonalDocuments(page, realtedUserType, realtedUserId));
-    //
-    //
-
-    var data = json.decode(response.body);
-
-    MyDocumentModel modelClass = MyDocumentModel.fromJson(data);
-
-    if (page == 1) {
-      setState(() {
-        result = modelClass.results;
-      });
-    } else {
-      setState(() {
-        result = result + modelClass.results;
-      });
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      _myDocumentViewViewModel.fetchDocumentListApi(_refresh == false);
     }
-
-    int localOffset = offset + 1;
-    setState(() {
-      result;
-      loading = false;
-      offset = localOffset;
-    });
   }
 
-  void handleNext() {
-    scrollController.addListener(() async {
-      if (scrollController.position.maxScrollExtent ==
-          scrollController.position.pixels) {
-        fetchData(offset);
-      }
-    });
-  }
-
-  Future<void> refreshList(int i) async {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+  Future<void> refresh() async {
     setState(() {
-      fetchData(1);
+      _myDocumentViewViewModel.fetchDocumentListApi(_refresh == true);
     });
   }
 
@@ -110,26 +44,19 @@ class _MyDocumentViewState extends State<MyDocumentView> {
         backgroundColor: AppColors.appBarColor,
         automaticallyImplyLeading: true,
       ),
-      body: result.length == 0
-          ? Center(
-              child: loading
-                  ? CircularProgressIndicator()
-                  : Center(
-                      child: Text(
-                        "No Documents!",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-            )
-          : RefreshIndicator(
-              onRefresh: () => refreshList(1),
-              child: ListView.builder(
-                  controller: scrollController,
-                  itemCount: result.length,
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: refresh,
+        child: ChangeNotifierProvider<MyDocumentViewViewModel>(
+            create: (BuildContext context) => _myDocumentViewViewModel,
+            child: Consumer<MyDocumentViewViewModel>(
+              builder: (context, value, child) {
+                return ListView.builder(
+                  controller: _controller,
+                  itemCount: value.documents.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 200, 8, 200),
                       child: Card(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -142,7 +69,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                                   padding:
                                       const EdgeInsets.fromLTRB(8, 6, 8, 6),
                                   child: Text(
-                                    result[index].docCategory.toString(),
+                                    value.documents[index].id.toString(),
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
@@ -152,7 +79,8 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                                   padding:
                                       const EdgeInsets.fromLTRB(8, 6, 8, 6),
                                   child: Text(
-                                    result[index].expiryDate.toString(),
+                                    value.documents[index].expiryDate
+                                        .toString(),
                                     style: TextStyle(color: Colors.redAccent),
                                   ),
                                 ),
@@ -165,8 +93,8 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                                     padding:
                                         const EdgeInsets.fromLTRB(8, 6, 8, 6),
                                     child: Text(
-                                      splitFileName(
-                                          result[index].file.toString()),
+                                      splitFileName(value.documents[index].file
+                                          .toString()),
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.normal,
@@ -180,7 +108,8 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                                   child: InkWell(
                                     onTap: () {
                                       String fileExtention = checkFileExtention(
-                                          result[index].file.toString());
+                                          value.documents[index].file
+                                              .toString());
                                       String pdfExtension = "pdf";
                                       // String docExtension = "doc";
                                       // String docxExtension = "docx";
@@ -194,7 +123,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                                             builder: (context) =>
                                                 MyDocumentViewer(),
                                             settings: RouteSettings(
-                                              arguments: result[index],
+                                              arguments: value.documents[index],
                                             ),
                                           ),
                                         );
@@ -211,8 +140,11 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                         ),
                       ),
                     );
-                  }),
-            ),
+                  },
+                );
+              },
+            )),
+      ),
     );
   }
 
