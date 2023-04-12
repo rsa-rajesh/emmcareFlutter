@@ -2,7 +2,8 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
-import '../../model/my_document_model.dart';
+
+import '../../model/document_hub_model.dart';
 
 class DocumentHubViewer extends StatefulWidget {
   const DocumentHubViewer({super.key});

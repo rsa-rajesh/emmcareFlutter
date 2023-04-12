@@ -2,13 +2,20 @@ import 'package:emmcare/utils/routes/routes.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view_model/Injury_view_view_model.dart';
 import 'package:emmcare/view_model/auth_view_view_model.dart';
+import 'package:emmcare/view_model/document_hub_view_view_model.dart';
 import 'package:emmcare/view_model/enquiry_view_view_model.dart';
 import 'package:emmcare/view_model/feedback_view_view_model.dart';
 import 'package:emmcare/view_model/home_view_view_model.dart';
 import 'package:emmcare/view_model/incident_view_view_model.dart';
+import 'package:emmcare/view_model/instruction_view_view_model.dart';
+import 'package:emmcare/view_model/mark_notification_all_seen_view_model.dart';
+import 'package:emmcare/view_model/mark_notification_seen_view_model.dart';
 import 'package:emmcare/view_model/my_document_view_view_model.dart';
 import 'package:emmcare/view_model/progress_note_view_view_model.dart';
+import 'package:emmcare/view_model/progress_view_view_model.dart';
 import 'package:emmcare/view_model/sub_event_view_view_model.dart';
+import 'package:emmcare/view_model/tasks_view_view_model.dart';
+import 'package:emmcare/view_model/unavailability_create_view_view_model.dart';
 import 'package:emmcare/view_model/user_view_view_model.dart';
 import 'package:emmcare/view_model/warning_view_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -51,6 +58,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EnquiryViewModel()),
         ChangeNotifierProvider(create: (_) => SubEventViewModel()),
         ChangeNotifierProvider(create: (_) => InjuryViewModel()),
+        ChangeNotifierProvider(create: (_) => InstructionViewViewModel()),
+        ChangeNotifierProvider(
+            create: (_) => MarkNotificationAllSeenViewModel()),
+        ChangeNotifierProvider(create: (_) => MarkNotificationSeenViewModel()),
+        ChangeNotifierProvider(create: (_) => ProgressViewViewModel()),
+        ChangeNotifierProvider(create: (_) => TasksViewViewModel()),
+        ChangeNotifierProvider(create: (_) => UnavailabilityViewViewModel()),
+        ChangeNotifierProvider(create: (_) => DocumentHubViewViewModel()),
       ],
       child: MaterialApp(
         theme: ThemeData(
