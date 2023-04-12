@@ -2,16 +2,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/network/BaseApiServices.dart';
 import '../data/network/NetworkApiService.dart';
-import '../model/progress_notes_model.dart';
+import '../model/feedback_model.dart';
 import '../model/user_model.dart';
 import '../res/app_url.dart';
 import '../view/home_view.dart';
 import '../view_model/user_view_view_model.dart';
 
-class ProgressNoteRepository {
+class FeedbackRepository {
   // Base and Network api Services
   BaseApiServices _apiServices = NetworkApiService();
-  Future<ProgressNotesModel> progressNote(_attachment, _category, _msg) async {
+  Future<FeedbackModel> feedback(_attachment, _category, _msg) async {
     String token = "";
     Future<UserModel> getUserData() => UserViewViewModel().getUser();
     getUserData().then((value) async {
@@ -30,8 +30,13 @@ class ProgressNoteRepository {
     try {
       dynamic response =
           await _apiServices.getPostResponseWithAuthMultipartData(
-              AppUrl.postProgressNotes(), _attachment, _category, _msg, obj_id, token);
-      return response = ProgressNotesModel.fromJson(response);
+              AppUrl.postFeedback(),
+              _attachment,
+              _category,
+              _msg,
+              obj_id,
+              token);
+      return response = FeedbackModel.fromJson(response);
     } catch (e) {
       throw e;
     }

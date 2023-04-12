@@ -109,13 +109,14 @@ class NetworkApiService extends BaseApiServices {
   // Post Api response with  Authentication and Multipart Data
   @override
   Future getPostResponseWithAuthMultipartData(String url, String _attachment,
-      String _category, String _msg, String token) async {
+      String _category, String _msg, int obj_id, String token) async {
     dynamic responseJson;
     try {
       var uri = Uri.parse(url);
       var request = http.MultipartRequest('POST', uri);
       request.headers.addAll({"Authorization": "Bearer $token"});
       request.fields['msg'] = '$_msg';
+      request.fields['obj_id'] = '$obj_id';
       request.fields['category'] = '$_category';
       request.files.add(await http.MultipartFile.fromPath(
         'attachment',

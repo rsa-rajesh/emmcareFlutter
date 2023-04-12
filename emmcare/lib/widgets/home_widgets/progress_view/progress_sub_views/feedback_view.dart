@@ -1,11 +1,13 @@
 import 'dart:io';
-
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../utils/utils.dart';
+import '../../../../view_model/feedback_view_view_model.dart';
 
 class FeedbackView extends StatefulWidget {
   const FeedbackView({super.key});
@@ -42,6 +44,20 @@ class _FeedbackViewState extends State<FeedbackView> {
     });
   }
 
+  // Feedback Controllers
+  var _feedbackController = TextEditingController();
+
+  // Dispose
+  @override
+  void dispose() {
+    super.dispose();
+    _feedbackController.dispose();
+  }
+
+  String _attachment = "";
+  String _msg = "";
+  String _category = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +66,22 @@ class _FeedbackViewState extends State<FeedbackView> {
         backgroundColor: AppColors.appBarColor,
         actions: [
           InkWell(
-              onTap: () {},
+              onTap: () {
+                if (_feedbackController.text.isEmpty) {
+                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                } else {
+                  setState(() {
+                    _msg = _feedbackController.text.toString();
+                    _attachment = imgXFile!.path;
+                    _category = "feedback";
+                  });
+                  FeedbackViewModel()
+                      .feedback(context, _attachment, _category, _msg);
+                  imgXFile = null;
+                  _feedbackController.clear();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                }
+              },
               splashColor: Colors.lightBlueAccent,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -168,6 +199,7 @@ class _FeedbackViewState extends State<FeedbackView> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 0, 8),
                 child: TextFormField(
+                  controller: _feedbackController,
                   maxLines: null,
                   minLines: 1,
                   decoration: InputDecoration(
