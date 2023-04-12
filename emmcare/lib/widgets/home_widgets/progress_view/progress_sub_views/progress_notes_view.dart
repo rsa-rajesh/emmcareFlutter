@@ -5,6 +5,7 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../utils/utils.dart';
@@ -58,6 +59,9 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
   String _attachment = "";
   String _msg = "";
   String _category = "";
+
+  ProgressNoteViewModel progressNoteViewModel = ProgressNoteViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,128 +107,138 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Card(
-          child: Wrap(
-            children: [
-              InkWell(
-                onTap: () {
-                  showAdaptiveActionSheet(
-                    context: context,
-                    title: const Text(
-                      'Select Image',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    androidBorderRadius: 15,
-                    actions: <BottomSheetAction>[
-                      BottomSheetAction(
-                          title: const Text(
-                            'Take Photo',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          onPressed: (context) {
-                            getImageFromCamera();
-                            Navigator.pop(context);
-                          }),
-                      BottomSheetAction(
-                          title: const Text(
-                            'Choose from Library',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          onPressed: (context) {
-                            getImageFromGalley();
-                            Navigator.pop(context);
-                          }),
-                    ],
-                    cancelAction: CancelAction(
-                      title: const Text('Cancel'),
-                    ),
-                  );
-                },
-                splashColor: Colors.lightBlueAccent,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey.shade300,
-                            radius: MediaQuery.of(context).size.width * 0.10,
-                            backgroundImage: imgXFile == null
-                                ? null
-                                : FileImage(File(imgXFile!.path)),
-                            child: imgXFile == null
-                                ? Icon(
-                                    Icons.add_photo_alternate,
-                                    color: Colors.white,
-                                    size: MediaQuery.of(context).size.width *
+      body: ChangeNotifierProvider<ProgressNoteViewModel>(
+          create: (BuildContext context) => progressNoteViewModel,
+          child: Consumer<ProgressNoteViewModel>(
+            builder: (context, value, child) {
+              return SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Card(
+                  child: Wrap(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          showAdaptiveActionSheet(
+                            context: context,
+                            title: const Text(
+                              'Select Image',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            androidBorderRadius: 15,
+                            actions: <BottomSheetAction>[
+                              BottomSheetAction(
+                                  title: const Text(
+                                    'Take Photo',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  onPressed: (context) {
+                                    getImageFromCamera();
+                                    Navigator.pop(context);
+                                  }),
+                              BottomSheetAction(
+                                  title: const Text(
+                                    'Choose from Library',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  onPressed: (context) {
+                                    getImageFromGalley();
+                                    Navigator.pop(context);
+                                  }),
+                            ],
+                            cancelAction: CancelAction(
+                              title: const Text('Cancel'),
+                            ),
+                          );
+                        },
+                        splashColor: Colors.lightBlueAccent,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.grey.shade300,
+                                    radius: MediaQuery.of(context).size.width *
                                         0.10,
-                                  )
-                                : null,
+                                    backgroundImage: imgXFile == null
+                                        ? null
+                                        : FileImage(File(imgXFile!.path)),
+                                    child: imgXFile == null
+                                        ? Icon(
+                                            Icons.add_photo_alternate,
+                                            color: Colors.white,
+                                            size: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.10,
+                                          )
+                                        : null,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "UPLOAD IMAGE",
+                                  style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "UPLOAD IMAGE",
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.notifications, size: 30),
-                    Text(
-                      cltName!,
-                      style: TextStyle(
-                        fontSize: 18,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(height: 5),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 8, 0, 0),
-                child: Text(
-                  "SHIFT REPORT .......*",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                child: TextFormField(
-                  controller: _noteController,
-                  maxLines: null,
-                  minLines: 1,
-                  decoration: InputDecoration(
-                    hintText: "your notes",
-                    hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                    hintMaxLines: 5,
-                    border: InputBorder.none,
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.notifications, size: 30),
+                            Text(
+                              cltName!,
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(height: 5),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 8, 0, 0),
+                        child: Text(
+                          "SHIFT REPORT .......*",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                        child: TextFormField(
+                          controller: _noteController,
+                          maxLines: null,
+                          minLines: 1,
+                          decoration: InputDecoration(
+                            hintText: "your notes",
+                            hintStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            hintMaxLines: 5,
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
+              );
+            },
+          )),
     );
   }
 

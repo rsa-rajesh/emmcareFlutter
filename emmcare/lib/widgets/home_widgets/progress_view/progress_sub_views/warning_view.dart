@@ -4,7 +4,11 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../utils/utils.dart';
+import '../../../../view_model/warning_view_view_model.dart';
 
 class WarningView extends StatefulWidget {
   const WarningView({super.key});
@@ -40,6 +44,22 @@ class _WarningViewState extends State<WarningView> {
     });
   }
 
+  // Warning Controllers
+  var _warningController = TextEditingController();
+
+  // Dispose
+  @override
+  void dispose() {
+    super.dispose();
+    _warningController.dispose();
+  }
+
+  String _attachment = "";
+  String _msg = "";
+  String _category = "";
+
+  WarningViewModel warningViewModel = WarningViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +68,22 @@ class _WarningViewState extends State<WarningView> {
         backgroundColor: AppColors.appBarColor,
         actions: [
           InkWell(
-              onTap: () {},
+              onTap: () {
+                if (_warningController.text.isEmpty) {
+                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                } else {
+                  setState(() {
+                    _msg = _warningController.text.toString();
+                    _attachment = imgXFile!.path;
+                    _category = "warning";
+                  });
+                  WarningViewModel()
+                      .warning(context, _attachment, _category, _msg);
+                  imgXFile = null;
+                  _warningController.clear();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                }
+              },
               splashColor: Colors.lightBlueAccent,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -69,138 +104,125 @@ class _WarningViewState extends State<WarningView> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Card(
-          child: Wrap(
-            children: [
-              InkWell(
-                onTap: () {
-                  showAdaptiveActionSheet(
-                    context: context,
-                    title: const Text(
-                      'Select Image',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    androidBorderRadius: 15,
-                    actions: <BottomSheetAction>[
-                      BottomSheetAction(
+      body: ChangeNotifierProvider<WarningViewModel>(
+        create: (BuildContext context) => warningViewModel,
+        child: Consumer<WarningViewModel>(
+          builder: (context, value, child) {
+            return SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Card(
+                child: Wrap(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        showAdaptiveActionSheet(
+                          context: context,
                           title: const Text(
-                            'Take Photo',
-                            style: TextStyle(fontSize: 15),
+                            'Select Image',
+                            style: TextStyle(fontSize: 18),
                           ),
-                          onPressed: (context) async {
-                            getImageFromCamera();
-                            Navigator.pop(context);
-                          }),
-                      BottomSheetAction(
-                          title: const Text(
-                            'Choose from Library',
-                            style: TextStyle(fontSize: 15),
+                          androidBorderRadius: 15,
+                          actions: <BottomSheetAction>[
+                            BottomSheetAction(
+                                title: const Text(
+                                  'Take Photo',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                onPressed: (context) async {
+                                  getImageFromCamera();
+                                  Navigator.pop(context);
+                                }),
+                            BottomSheetAction(
+                                title: const Text(
+                                  'Choose from Library',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                onPressed: (context) async {
+                                  getImageFromGalley();
+                                  Navigator.pop(context);
+                                }),
+                          ],
+                          cancelAction: CancelAction(
+                            title: const Text('Cancel'),
                           ),
-                          onPressed: (context) async {
-                            getImageFromGalley();
-                            Navigator.pop(context);
-                          }),
-                    ],
-                    cancelAction: CancelAction(
-                      title: const Text('Cancel'),
-                    ),
-                  );
-                },
-                splashColor: Colors.lightBlueAccent,
-                child: Center(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey.shade300,
-                          radius: MediaQuery.of(context).size.width * 0.10,
-                          backgroundImage: imgXFile == null
-                              ? null
-                              : FileImage(File(imgXFile!.path)),
-                          child: imgXFile == null
-                              ? Icon(
-                                  Icons.add_photo_alternate,
-                                  color: Colors.white,
-                                  size:
-                                      MediaQuery.of(context).size.width * 0.10,
-                                )
-                              : null,
+                        );
+                      },
+                      splashColor: Colors.lightBlueAccent,
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey.shade300,
+                                radius:
+                                    MediaQuery.of(context).size.width * 0.10,
+                                backgroundImage: imgXFile == null
+                                    ? null
+                                    : FileImage(File(imgXFile!.path)),
+                                child: imgXFile == null
+                                    ? Icon(
+                                        Icons.add_photo_alternate,
+                                        color: Colors.white,
+                                        size:
+                                            MediaQuery.of(context).size.width *
+                                                0.10,
+                                      )
+                                    : null,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "UPLOAD IMAGE",
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        width: 10,
+                    ),
+                    Divider(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.notifications, size: 30),
+                          Text(
+                            cltName!,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "UPLOAD IMAGE",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-              //   child: TextField(
-              //     maxLines: null,
-              //     decoration: InputDecoration(
-              //       hintText: "Enter Expense",
-              //       isDense: true,
-              //       prefixIcon: Text(
-              //         "\$" + "\$",
-              //         style:
-              //             TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-              //       ),
-              //       prefixIconConstraints:
-              //           BoxConstraints(minWidth: 0, minHeight: 0),
-              //       hintStyle: TextStyle(
-              //           fontSize: 16,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.black),
-              //       border: InputBorder.none,
-              //     ),
-              //     keyboardType: TextInputType.number,
-              //   ),
-              // ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.notifications, size: 30),
-                    Text(
-                      cltName!,
-                      style: TextStyle(
-                        fontSize: 18,
+                    ),
+                    Divider(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 0, 0, 6),
+                      child: TextFormField(
+                        controller: _warningController,
+                        maxLines: null,
+                        minLines: 1,
+                        decoration: InputDecoration(
+                          hintText: "Your Note",
+                          hintStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                          hintMaxLines: 5,
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Divider(height: 5),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 0, 6),
-                child: TextFormField(
-                  maxLines: null,
-                  minLines: 1,
-                  decoration: InputDecoration(
-                    hintText: "Your Note",
-                    hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                    hintMaxLines: 5,
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

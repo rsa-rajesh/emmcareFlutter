@@ -1,9 +1,16 @@
 import 'package:emmcare/utils/routes/routes.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
+import 'package:emmcare/view_model/Injury_view_view_model.dart';
 import 'package:emmcare/view_model/auth_view_view_model.dart';
+import 'package:emmcare/view_model/enquiry_view_view_model.dart';
+import 'package:emmcare/view_model/feedback_view_view_model.dart';
 import 'package:emmcare/view_model/home_view_view_model.dart';
+import 'package:emmcare/view_model/incident_view_view_model.dart';
 import 'package:emmcare/view_model/my_document_view_view_model.dart';
+import 'package:emmcare/view_model/progress_note_view_view_model.dart';
+import 'package:emmcare/view_model/sub_event_view_view_model.dart';
 import 'package:emmcare/view_model/user_view_view_model.dart';
+import 'package:emmcare/view_model/warning_view_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +44,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserViewViewModel()),
         ChangeNotifierProvider(create: (_) => HomeViewViewModel()),
         ChangeNotifierProvider(create: (_) => MyDocumentViewViewModel()),
+        ChangeNotifierProvider(create: (_) => ProgressNoteViewModel()),
+        ChangeNotifierProvider(create: (_) => FeedbackViewModel()),
+        ChangeNotifierProvider(create: (_) => WarningViewModel()),
+        ChangeNotifierProvider(create: (_) => IncidentViewModel()),
+        ChangeNotifierProvider(create: (_) => EnquiryViewModel()),
+        ChangeNotifierProvider(create: (_) => SubEventViewModel()),
+        ChangeNotifierProvider(create: (_) => InjuryViewModel()),
       ],
       child: MaterialApp(
         theme: ThemeData(

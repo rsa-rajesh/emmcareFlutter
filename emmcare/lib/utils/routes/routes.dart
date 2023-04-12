@@ -9,7 +9,7 @@ import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/wa
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/feedback_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/injury_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/incident_view.dart';
-import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/event_view.dart';
+import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/sub_event_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/progress_notes_view.dart';
 import 'package:emmcare/widgets/file_viewer/my_document_viewer.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';

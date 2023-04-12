@@ -83,4 +83,24 @@ class AppUrl {
   static String postFeedback() {
     return baseUrl + "v2/api/events/progress-note-create/";
   }
+
+  static String postWarning() {
+    return baseUrl + "v2/api/events/progress-note-create/";
+  }
+
+  static String postIncident() {
+    return baseUrl + "v2/api/events/progress-note-create/";
+  }
+
+  static String postEnquiry() {
+    return baseUrl + "v2/api/events/progress-note-create/";
+  }
+
+  static String postSubEvent() {
+    return baseUrl + "v2/api/events/progress-note-create/";
+  }
+
+  static String postInjury() {
+    return baseUrl + "v2/api/events/progress-note-create/";
+  }
 }

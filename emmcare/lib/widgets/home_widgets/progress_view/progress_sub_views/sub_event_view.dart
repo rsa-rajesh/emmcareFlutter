@@ -6,18 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../utils/utils.dart';
-import '../../../../view_model/feedback_view_view_model.dart';
+import '../../../../view_model/sub_event_view_view_model.dart';
 
-class FeedbackView extends StatefulWidget {
-  const FeedbackView({super.key});
+class EventView extends StatefulWidget {
+  const EventView({super.key});
 
   @override
-  State<FeedbackView> createState() => _FeedbackViewState();
+  State<EventView> createState() => _EventViewState();
 }
 
-class _FeedbackViewState extends State<FeedbackView> {
+class _EventViewState extends State<EventView> {
   @override
   void initState() {
     super.initState();
@@ -45,43 +44,41 @@ class _FeedbackViewState extends State<FeedbackView> {
     });
   }
 
-  // Feedback Controllers
-  var _feedbackController = TextEditingController();
+  var _subEventController = TextEditingController();
 
   // Dispose
   @override
   void dispose() {
     super.dispose();
-    _feedbackController.dispose();
+    _subEventController.dispose();
   }
 
   String _attachment = "";
   String _msg = "";
   String _category = "";
 
-  FeedbackViewModel feedbackViewModel = FeedbackViewModel();
+  SubEventViewModel subEventViewModel = SubEventViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
         actions: [
           InkWell(
               onTap: () {
-                if (_feedbackController.text.isEmpty) {
+                if (_subEventController.text.isEmpty) {
                   Utils.flushBarErrorMessage("Note Cannot be empty", context);
                 } else {
                   setState(() {
-                    _msg = _feedbackController.text.toString();
+                    _msg = _subEventController.text.toString();
                     _attachment = imgXFile!.path;
-                    _category = "feedback";
+                    _category = "event";
                   });
-                  FeedbackViewModel()
-                      .feedback(context, _attachment, _category, _msg);
+                  SubEventViewModel()
+                      .subEvent(context, _attachment, _category, _msg);
                   imgXFile = null;
-                  _feedbackController.clear();
+                  _subEventController.clear();
                   FocusManager.instance.primaryFocus?.unfocus();
                 }
               },
@@ -101,13 +98,13 @@ class _FeedbackViewState extends State<FeedbackView> {
         ],
         automaticallyImplyLeading: true,
         title: Text(
-          "Add Feedback",
+          "Add Event",
         ),
         centerTitle: true,
       ),
-      body: ChangeNotifierProvider<FeedbackViewModel>(
-          create: (BuildContext context) => feedbackViewModel,
-          child: Consumer<FeedbackViewModel>(
+      body: ChangeNotifierProvider<SubEventViewModel>(
+          create: (BuildContext context) => subEventViewModel,
+          child: Consumer<SubEventViewModel>(
             builder: (context, value, child) {
               return SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
@@ -205,15 +202,15 @@ class _FeedbackViewState extends State<FeedbackView> {
                           ],
                         ),
                       ),
-                      Divider(height: 5),
+                      Divider(),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 0, 0, 8),
+                        padding: const EdgeInsets.fromLTRB(12, 0, 0, 6),
                         child: TextFormField(
-                          controller: _feedbackController,
+                          controller: _subEventController,
                           maxLines: null,
                           minLines: 1,
                           decoration: InputDecoration(
-                            hintText: "Your Note",
+                            hintText: "your notes",
                             hintStyle: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
