@@ -1,11 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../model/client_profile_documents_model.dart';
 import '../../../../../model/user_model.dart';
 import '../../../../../res/app_url.dart';
 import '../../../../../res/colors.dart';
+import '../../../../../utils/utils.dart';
 import '../../../../../view/home_view.dart';
 import '../../../../../view_model/user_view_view_model.dart';
 import '../../../../file_viewer/client_profile_documents_viewer.dart';
@@ -164,12 +168,9 @@ class _ClientProfileDocumentsViewState
                                 onTap: () {
                                   String fileExtention = checkFileExtention(
                                       result[index].file.toString());
+                                  String fileName = splitFileName(
+                                      result[index].file.toString());
                                   String pdfExtension = "pdf";
-                                  // String docExtension = "doc";
-                                  // String docxExtension = "docx";
-                                  // String pngExtension = "png";
-                                  // String jpgExtension = "jpg";
-                                  // String jpegExtension = "jpeg";
                                   if (fileExtention == pdfExtension) {
                                     Navigator.push(
                                       context,
@@ -182,7 +183,10 @@ class _ClientProfileDocumentsViewState
                                       ),
                                     );
                                   } else {
-                                    return null;
+                                    _saveFile(
+                                        context,
+                                        result[index].file.toString(),
+                                        fileName);
                                   }
                                 },
                                 child: Icon(Icons.download),
@@ -210,5 +214,40 @@ class _ClientProfileDocumentsViewState
     //split string
     var splitteFileName = unSplittedFileName.split('.');
     return splitteFileName[4];
+  }
+
+  Future<void> _saveFile(BuildContext context, url, fileName) async {
+    String? message;
+
+    try {
+      // Download image
+      final http.Response response =
+          await http.get(Uri.parse(url)).timeout(Duration(seconds: 2));
+
+      // Get Application Documents
+      final Directory appDocumentsDir =
+          await getApplicationDocumentsDirectory();
+
+      // Create an image name
+      var filename = '${appDocumentsDir.path}/$fileName';
+
+      // Save to filesystem
+      final file = File(filename);
+      await file.writeAsBytes(response.bodyBytes);
+
+      // Ask the user to save it
+      final params = SaveFileDialogParams(sourceFilePath: file.path);
+      final finalPath = await FlutterFileDialog.saveFile(params: params);
+
+      if (finalPath != null) {
+        message = 'File downloaded to ${appDocumentsDir.path} successfully.';
+      }
+    } catch (e) {
+      message = 'An error occurred while downloading the file.';
+    }
+
+    if (message != null) {
+      Utils.toastMessage(message);
+    }
   }
 }

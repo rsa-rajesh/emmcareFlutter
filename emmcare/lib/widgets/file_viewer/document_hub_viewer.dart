@@ -1,14 +1,12 @@
 import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:emmcare/res/colors.dart';
-import 'package:emmcare/res/components/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import '../../model/document_hub_model.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
+import '../../utils/utils.dart';
 
 class DocumentHubViewer extends StatefulWidget {
   const DocumentHubViewer({super.key});
@@ -22,63 +20,75 @@ class _DocumentHubViewerState extends State<DocumentHubViewer> {
     final newdocumentList =
         ModalRoute.of(context)!.settings.arguments as Result;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.appBarColor,
-          automaticallyImplyLeading: true,
-        ),
-        body: Stack(
-          children: [
-            PDF().cachedFromUrl(
-              newdocumentList.file.toString(),
-              maxAgeCacheObject: Duration(days: 30), //duration of cache
-              placeholder: (progress) => Center(child: Text('$progress %')),
-              errorWidget: (error) => Center(child: Text(error.toString())),
-            ),
-            Positioned(
-                bottom: 37,
-                right: 105,
-                child: RoundButton(
-                  title: "Download",
-                  onPress: () async {
-                    // You can request multiple permissions at once.
-                    Map<Permission, PermissionStatus> statuses = await [
-                      Permission.storage,
-                    ].request();
+      appBar: AppBar(
+        backgroundColor: AppColors.appBarColor,
+        automaticallyImplyLeading: true,
+        actions: [
+          InkWell(
+              onTap: () {
+                String fileName =
+                    splitFileName(newdocumentList.file.toString());
+                _saveFile(context, newdocumentList.file.toString(), fileName);
+              },
+              splashColor: Colors.lightBlueAccent,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.download),
+                  ],
+                ),
+              ))
+        ],
+      ),
+      body: PDF().cachedFromUrl(
+        newdocumentList.file.toString(),
+        maxAgeCacheObject: Duration(days: 30), //duration of cache
+        placeholder: (progress) => Center(child: Text('$progress %')),
+        errorWidget: (error) => Center(child: Text(error.toString())),
+      ),
+    );
+  }
 
-                    print(statuses[Permission.storage]);
+  String splitFileName(String fileName) {
+    String unSplittedFileName = fileName;
+    //split string
+    var splitteFileName = unSplittedFileName.split('/');
+    return splitteFileName[5];
+  }
 
-                    if (statuses[Permission.storage]!.isGranted) {
-                      final Directory appDocumentsDir =
-                          await getApplicationDocumentsDirectory();
+  Future<void> _saveFile(BuildContext context, url, fileName) async {
+    String? message;
 
-                      if (appDocumentsDir != null) {
-                        String savename = "banner.pdf";
-                        String savePath = appDocumentsDir.path + "/$savename";
-                        print(savePath);
-                        //output:  /storage/emulated/0/Download/banner.png
+    try {
+      // Download image
+      final http.Response response =
+          await http.get(Uri.parse(url)).timeout(Duration(seconds: 2));
 
-                        try {
-                          await Dio().download(
-                              newdocumentList.file.toString(), savePath,
-                              onReceiveProgress: (received, total) {
-                            if (total != -1) {
-                              print(
-                                  (received / total * 100).toStringAsFixed(0) +
-                                      "%");
-                              //you can build progressbar feature too
-                            }
-                          });
-                          print("Image is saved to download folder.");
-                        } on DioError catch (e) {
-                          print(e.message);
-                        }
-                      }
-                    } else {
-                      print("No permission to read and write.");
-                    }
-                  },
-                ))
-          ],
-        ));
+      // Get Application Documents
+      final Directory appDocumentsDir =
+          await getApplicationDocumentsDirectory();
+
+      // Create an image name
+      var filename = '${appDocumentsDir.path}/$fileName';
+
+      // Save to filesystem
+      final file = File(filename);
+      await file.writeAsBytes(response.bodyBytes);
+
+      // Ask the user to save it
+      final params = SaveFileDialogParams(sourceFilePath: file.path);
+      final finalPath = await FlutterFileDialog.saveFile(params: params);
+
+      if (finalPath != null) {
+        message = 'File downloaded to ${appDocumentsDir.path} successfully.';
+      }
+    } catch (e) {
+      message = 'An error occurred while downloading the file.';
+    }
+
+    if (message != null) {
+      Utils.toastMessage(message);
+    }
   }
 }
