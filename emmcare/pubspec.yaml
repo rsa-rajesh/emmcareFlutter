@@ -57,6 +57,17 @@ dependencies:
   syncfusion_flutter_datepicker: ^21.1.37
   image_picker: ^0.8.7+1
   dio: ^5.1.1
+  path_provider: ^2.0.14 
+  permission_handler: ^10.2.0
+  flutter_downloader: ^1.10.2
+  flutter_native_splash: ^2.2.19
+
+flutter_native_splash:
+  android: true
+  ios: true
+  # background_image: "assets/images/pwnbot.png"
+  color: "#ffffff" # White color
+  image: "assets/images/pwnbot.png"
   
 
 dev_dependencies:

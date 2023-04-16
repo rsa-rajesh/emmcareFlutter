@@ -19,7 +19,6 @@ class UnavailabilityViewViewModel with ChangeNotifier {
 
     _myRepo.unavailabilityCreate(data).then((value) {
       setLoading(false);
-      // Utils.toastMessage("Unavailability Created!");
       Utils.flushBarErrorMessage('Unavailability Created!', context);
       if (kDebugMode) {
         print(value.toString());

@@ -1,6 +1,7 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../model/user_model.dart';
 import 'package:intl/intl.dart';
@@ -109,6 +110,9 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
 
+    UnavailabilityViewViewModel unavailabilityViewViewModel =
+        UnavailabilityViewViewModel();
+
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomInset: false,
@@ -118,108 +122,48 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
         centerTitle: true,
         backgroundColor: AppColors.appBarColor,
       ),
-      body: SfDateRangePicker(
-        navigationDirection: DateRangePickerNavigationDirection.vertical,
-        enableMultiView: true,
-        backgroundColor: Colors.white38,
-        navigationMode: DateRangePickerNavigationMode.scroll,
-        monthCellStyle: DateRangePickerMonthCellStyle(
-          textStyle: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black87),
-        ),
-        headerStyle: DateRangePickerHeaderStyle(
-          textAlign: TextAlign.center,
-          textStyle: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w900,
-              color: Colors.blue.shade600),
-        ),
-        monthViewSettings: const DateRangePickerMonthViewSettings(
-            dayFormat: "E",
-            viewHeaderHeight: 30,
-            numberOfWeeksInView: 6,
-            viewHeaderStyle: DateRangePickerViewHeaderStyle(
-              textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black87),
-            )),
-        onSelectionChanged: _onSelectionChanged,
-        selectionMode: DateRangePickerSelectionMode.multiple,
-        initialSelectedRange: PickerDateRange(
-            DateTime.now().subtract(const Duration(days: 4)),
-            DateTime.now().add(const Duration(days: 3))),
-      ),
+      body: ChangeNotifierProvider<UnavailabilityViewViewModel>(
+          create: (BuildContext context) => unavailabilityViewViewModel,
+          child: Consumer<UnavailabilityViewViewModel>(
+            builder: (context, value, child) {
+              return SfDateRangePicker(
+                navigationDirection:
+                    DateRangePickerNavigationDirection.vertical,
+                enableMultiView: true,
+                backgroundColor: Colors.white38,
+                navigationMode: DateRangePickerNavigationMode.scroll,
+                monthCellStyle: DateRangePickerMonthCellStyle(
+                  textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87),
+                ),
+                headerStyle: DateRangePickerHeaderStyle(
+                  textAlign: TextAlign.center,
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.blue.shade600),
+                ),
+                monthViewSettings: const DateRangePickerMonthViewSettings(
+                    dayFormat: "E",
+                    viewHeaderHeight: 30,
+                    numberOfWeeksInView: 6,
+                    viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black87),
+                    )),
+                onSelectionChanged: _onSelectionChanged,
+                selectionMode: DateRangePickerSelectionMode.multiple,
+                initialSelectedRange: PickerDateRange(
+                    DateTime.now().subtract(const Duration(days: 4)),
+                    DateTime.now().add(const Duration(days: 3))),
+              );
+            },
+          )),
     );
-  }
-
-  Widget showStartTime(bool allDay) {
-    if (_allDay == true) {
-      return Container();
-    } else {
-      return InkWell(
-        onTap: () => _selectStartTime(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //
-            //
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-              child: Text("Start Time",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-            //
-            //
-
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-              child: Container(
-                child: Text(
-                  _startTime.format(context),
-                  style: TextStyle(fontSize: 12),
-                ),
-              ),
-            ),
-            //
-            //
-          ],
-        ),
-      );
-    }
-  }
-
-  Widget showEndTime(bool allDay) {
-    if (_allDay == true) {
-      return Container();
-    } else {
-      return InkWell(
-        onTap: () => _selectEndTime(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-              child: Text("End Time",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-            //
-            //
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-              child: Container(
-                child: Text(
-                  _endTime.format(context),
-                  style: TextStyle(fontSize: 12),
-                ),
-              ),
-            ),
-            //
-            //
-          ],
-        ),
-      );
-    }
   }
 
   bsheet() {
@@ -316,8 +260,75 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                                 hintText: "Enter an unavailability description",
                               )),
 
-                          showStartTime(_allDay),
-                          showEndTime(_allDay),
+                          Visibility(
+                            visible: _allDay,
+                            child: InkWell(
+                              onTap: () => _selectStartTime(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //
+                                  //
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                    child: Text("Start Time",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16)),
+                                  ),
+                                  //
+                                  //
+
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                                    child: Container(
+                                      child: Text(
+                                        _startTime.format(context),
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ),
+                                  ),
+                                  //
+                                  //
+                                ],
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: _allDay,
+                            child: InkWell(
+                              onTap: () => _selectEndTime(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                    child: Text("End Time",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16)),
+                                  ),
+                                  //
+                                  //
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                                    child: Container(
+                                      child: Text(
+                                        _endTime.format(context),
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ),
+                                  ),
+                                  //
+                                  //
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(height: 5),
                           Text(
                               "Select all the days where you are unavailable to work. The star time and end time will be applied to each.",
