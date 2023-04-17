@@ -19,14 +19,13 @@ class WarningViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.warningWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      // Utils.toastMessage("Warning Created!");
-      Utils.flushBarErrorMessage('Warning created successfully.', context);
+      Utils.toastMessage('Warning created successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }
@@ -38,14 +37,13 @@ class WarningViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.warningWithoutImage(_category, _msg).then((value) {
       setLoading(false);
-      // Utils.toastMessage("Warning Created!");
-      Utils.flushBarErrorMessage('Warning created successfully.', context);
+      Utils.toastMessage('Warning created successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }

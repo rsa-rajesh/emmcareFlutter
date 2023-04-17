@@ -19,13 +19,13 @@ class SubEventViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.subEventWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Event added successfully.', context);
+      Utils.toastMessage('Event added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }
@@ -37,13 +37,13 @@ class SubEventViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.subEventWithoutImage(_category, _msg).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Event added successfully.', context);
+      Utils.toastMessage('Event added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }

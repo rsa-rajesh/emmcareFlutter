@@ -68,7 +68,7 @@ class _EventViewState extends State<EventView> {
           InkWell(
               onTap: () {
                 if (_subEventController.text.isEmpty) {
-                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                  Utils.toastMessage("Note Cannot be empty");
                 } else {
                   if (imgXFile == null) {
                     setState(() {

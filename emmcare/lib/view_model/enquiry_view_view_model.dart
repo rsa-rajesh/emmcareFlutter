@@ -19,13 +19,13 @@ class EnquiryViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.enquiryWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Enquiry added successfully.', context);
+      Utils.toastMessage('Enquiry added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }
@@ -37,13 +37,13 @@ class EnquiryViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.enquiryWithoutImage(_category, _msg).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Enquiry added successfully.', context);
+      Utils.toastMessage('Enquiry added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }

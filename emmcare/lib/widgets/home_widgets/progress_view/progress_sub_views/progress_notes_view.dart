@@ -64,7 +64,7 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
           InkWell(
               onTap: () {
                 if (_noteController.text.isEmpty) {
-                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                  Utils.toastMessage("Note Cannot be empty");
                 } else {
                   if (imgXFile == null) {
                     setState(() {

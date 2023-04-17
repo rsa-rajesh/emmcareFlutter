@@ -71,7 +71,7 @@ class _EnquiryViewState extends State<EnquiryView> {
           InkWell(
               onTap: () {
                 if (_enquiryController.text.isEmpty) {
-                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                  Utils.toastMessage("Note Cannot be empty");
                 } else {
                   if (imgXFile == null) {
                     setState(() {

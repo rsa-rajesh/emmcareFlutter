@@ -70,7 +70,7 @@ class _IncidentViewState extends State<IncidentView> {
           InkWell(
               onTap: () {
                 if (_incidentController.text.isEmpty) {
-                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                  Utils.toastMessage("Note Cannot be empty");
                 } else {
                   if (imgXFile == null) {
                     setState(() {

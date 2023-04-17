@@ -19,13 +19,13 @@ class IncidentViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.incidentWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Incident added successfully.', context);
+      Utils.toastMessage('Incident added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }
@@ -37,13 +37,13 @@ class IncidentViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.incidentWithoutImage(_category, _msg).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Incident added successfully.', context);
+      Utils.toastMessage('Incident added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }

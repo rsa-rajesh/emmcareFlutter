@@ -23,14 +23,13 @@ class ProgressNoteViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.progressNoteWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      // Utils.toastMessage("Progress note Created!");
-      Utils.flushBarErrorMessage('Progress note Created', context);
+      Utils.toastMessage('Progress note Created');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }
@@ -45,14 +44,13 @@ class ProgressNoteViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.progressNoteWithoutImage(_category, _msg).then((value) {
       setLoading(false);
-      // Utils.toastMessage("Progress note Created!");
-      Utils.flushBarErrorMessage('Progress note Created', context);
+      Utils.toastMessage('Progress note Created');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }

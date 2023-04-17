@@ -68,7 +68,7 @@ class _InjuryViewState extends State<InjuryView> {
           InkWell(
               onTap: () {
                 if (_injuryController.text.isEmpty) {
-                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                  Utils.toastMessage("Note Cannot be empty");
                 } else {
                   if (imgXFile == null) {
                     setState(() {

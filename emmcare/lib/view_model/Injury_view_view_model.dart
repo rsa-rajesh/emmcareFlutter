@@ -19,13 +19,13 @@ class InjuryViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.injuryWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Injury added successfully.', context);
+      Utils.toastMessage('Injury added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }
@@ -36,13 +36,13 @@ class InjuryViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.injuryWithoutImage(_category, _msg).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Injury added successfully.', context);
+      Utils.toastMessage('Injury added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }

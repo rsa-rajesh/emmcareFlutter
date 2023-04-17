@@ -19,14 +19,13 @@ class FeedbackViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.feedbackWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      // Utils.toastMessage("Progress note Created!");
-      Utils.flushBarErrorMessage('Feedback added successfully.', context);
+      Utils.toastMessage('Feedback added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }
@@ -38,14 +37,13 @@ class FeedbackViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.feedbackWithoutImage(_category, _msg).then((value) {
       setLoading(false);
-      // Utils.toastMessage("Progress note Created!");
-      Utils.flushBarErrorMessage('Feedback added successfully.', context);
+      Utils.toastMessage('Feedback added successfully.');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }

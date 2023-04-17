@@ -69,7 +69,7 @@ class _FeedbackViewState extends State<FeedbackView> {
           InkWell(
               onTap: () {
                 if (_feedbackController.text.isEmpty) {
-                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                  Utils.toastMessage("Note Cannot be empty");
                 } else {
                   if (imgXFile == null) {
                     setState(() {

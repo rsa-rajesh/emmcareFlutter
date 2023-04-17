@@ -69,7 +69,7 @@ class _WarningViewState extends State<WarningView> {
           InkWell(
               onTap: () {
                 if (_warningController.text.isEmpty) {
-                  Utils.flushBarErrorMessage("Note Cannot be empty", context);
+                  Utils.toastMessage("Note Cannot be empty");
                 } else {
                   if (imgXFile == null) {
                     setState(() {
