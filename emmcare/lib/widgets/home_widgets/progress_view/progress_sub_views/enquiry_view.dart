@@ -73,16 +73,28 @@ class _EnquiryViewState extends State<EnquiryView> {
                 if (_enquiryController.text.isEmpty) {
                   Utils.flushBarErrorMessage("Note Cannot be empty", context);
                 } else {
-                  setState(() {
-                    _msg = _enquiryController.text.toString();
-                    _attachment = imgXFile!.path;
-                    _category = "enquiry";
-                  });
-                  EnquiryViewModel()
-                      .enquiry(context, _attachment, _category, _msg);
-                  imgXFile = null;
-                  _enquiryController.clear();
-                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (imgXFile == null) {
+                    setState(() {
+                      _msg = _enquiryController.text.toString();
+                      _category = "enquiry";
+                    });
+                    EnquiryViewModel()
+                        .enquiryWithoutImage(context, _category, _msg);
+                    imgXFile = null;
+                    _enquiryController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  } else {
+                    setState(() {
+                      _msg = _enquiryController.text.toString();
+                      _attachment = imgXFile!.path;
+                      _category = "enquiry";
+                    });
+                    EnquiryViewModel().enquiryWithImage(
+                        context, _attachment, _category, _msg);
+                    imgXFile = null;
+                    _enquiryController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
                 }
               },
               splashColor: Colors.lightBlueAccent,
