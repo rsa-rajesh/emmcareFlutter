@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../utils/utils.dart';
 import '../../../../view_model/progress_note_view_view_model.dart';
 
@@ -26,12 +24,10 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
   }
 
   String? cltName;
-
   // This is the file that will be used to store the image
   XFile? imgXFile;
   // This is the image picker
   final ImagePicker imagePicker = ImagePicker();
-
   getImageFromGalley() async {
     imgXFile = await imagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -48,7 +44,6 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
 
   // Note Controllers
   var _noteController = TextEditingController();
-
   // Dispose
   @override
   void dispose() {
@@ -59,9 +54,7 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
   String _attachment = "";
   String _msg = "";
   String _category = "";
-
   ProgressNoteViewModel progressNoteViewModel = ProgressNoteViewModel();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,14 +66,31 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
                 if (_noteController.text.isEmpty) {
                   Utils.flushBarErrorMessage("Note Cannot be empty", context);
                 } else {
-                  setState(() {
-                    _msg = _noteController.text.toString();
-                    _attachment = imgXFile!.path;
-                    _category = "note";
-                  });
-                  ProgressNoteViewModel()
-                      .progressNote(context, _attachment, _category, _msg);
-                  imgXFile = null;
+                  if (imgXFile == null) {
+                    setState(() {
+                      _msg = _noteController.text.toString();
+                      _category = "note";
+                      ProgressNoteViewModel().progressNoteWithoutImage(
+                        context,
+                        _category,
+                        _msg,
+                      );
+                    });
+                  } else {
+                    setState(() {
+                      _attachment = imgXFile!.path;
+                      _msg = _noteController.text.toString();
+                      _category = "note";
+                    });
+                    ProgressNoteViewModel().progressNoteWithImage(
+                      context,
+                      _attachment,
+                      _category,
+                      _msg,
+                    );
+                  }
+
+                  imgXFile == null;
                   _noteController.clear();
                   FocusManager.instance.primaryFocus?.unfocus();
                 }

@@ -29,7 +29,7 @@ class WarningRepository {
 
     try {
       dynamic response =
-          await _apiServices.getPostResponseWithAuthMultipartData(
+          await _apiServices.getPostResponseWithAuthMultipartDataWithImage(
               AppUrl.postWarning(),
               _attachment,
               _category,

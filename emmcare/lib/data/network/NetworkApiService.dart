@@ -108,8 +108,13 @@ class NetworkApiService extends BaseApiServices {
 
   // Post Api response with  Authentication and Multipart Data
   @override
-  Future getPostResponseWithAuthMultipartData(String url, String _attachment,
-      String _category, String _msg, int obj_id, String token) async {
+  Future getPostResponseWithAuthMultipartDataWithImage(
+      String url,
+      String _attachment,
+      String _category,
+      String _msg,
+      int obj_id,
+      String token) async {
     dynamic responseJson;
     try {
       var uri = Uri.parse(url);
@@ -122,8 +127,30 @@ class NetworkApiService extends BaseApiServices {
         'attachment',
         _attachment,
         contentType: MediaType("Content-Type", "multipart/form-data"),
-      ).timeout(Duration(seconds: 10)));
-      var response = await request.send();
+      ));
+      var response = await request.send().timeout(Duration(seconds: 10));
+      var responsed = await http.Response.fromStream(response);
+      responseJson = returnResponse(responsed);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return responseJson;
+  }
+  // Post Api response with  Authentication and Multipart Data
+
+  // Post Api response with  Authentication and Multipart Data
+  @override
+  Future getPostResponseWithAuthMultipartDataWithoutImage(String url,
+      String _category, String _msg, int obj_id, String token) async {
+    dynamic responseJson;
+    try {
+      var uri = Uri.parse(url);
+      var request = http.MultipartRequest('POST', uri);
+      request.headers.addAll({"Authorization": "Bearer $token"});
+      request.fields['msg'] = '$_msg';
+      request.fields['obj_id'] = '$obj_id';
+      request.fields['category'] = '$_category';
+      var response = await request.send().timeout(Duration(seconds: 10));
       var responsed = await http.Response.fromStream(response);
       responseJson = returnResponse(responsed);
     } on SocketException {
@@ -147,7 +174,7 @@ class NetworkApiService extends BaseApiServices {
         throw UnauthorizedException(response.body.toString());
 
       case 500:
-        throw InernalServerException(response.body.toString());
+        throw InernalServerException("");
 
       default:
         throw FetchDataException(

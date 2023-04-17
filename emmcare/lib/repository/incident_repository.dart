@@ -29,7 +29,7 @@ class IncidentRepository {
 
     try {
       dynamic response =
-          await _apiServices.getPostResponseWithAuthMultipartData(
+          await _apiServices.getPostResponseWithAuthMultipartDataWithImage(
               AppUrl.postIncident(),
               _attachment,
               _category,

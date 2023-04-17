@@ -28,7 +28,7 @@ class EnquiryRepository {
 
     try {
       dynamic response =
-          await _apiServices.getPostResponseWithAuthMultipartData(
+          await _apiServices.getPostResponseWithAuthMultipartDataWithImage(
               AppUrl.postEnquiry(),
               _attachment,
               _category,

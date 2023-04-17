@@ -28,7 +28,7 @@ class SubEventRepository {
 
     try {
       dynamic response =
-          await _apiServices.getPostResponseWithAuthMultipartData(
+          await _apiServices.getPostResponseWithAuthMultipartDataWithImage(
               AppUrl.postSubEvent(),
               _attachment,
               _category,

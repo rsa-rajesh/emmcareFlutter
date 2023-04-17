@@ -28,7 +28,7 @@ class InjuryRepository {
 
     try {
       dynamic response =
-          await _apiServices.getPostResponseWithAuthMultipartData(
+          await _apiServices.getPostResponseWithAuthMultipartDataWithImage(
               AppUrl.postInjury(), _attachment, _category, _msg, obj_id, token);
       return response = InjuryModel.fromJson(response);
     } catch (e) {

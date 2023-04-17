@@ -29,7 +29,7 @@ class FeedbackRepository {
 
     try {
       dynamic response =
-          await _apiServices.getPostResponseWithAuthMultipartData(
+          await _apiServices.getPostResponseWithAuthMultipartDataWithImage(
               AppUrl.postFeedback(),
               _attachment,
               _category,
