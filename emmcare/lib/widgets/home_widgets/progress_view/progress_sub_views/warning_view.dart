@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../utils/utils.dart';
 import '../../../../view_model/warning_view_view_model.dart';
 
@@ -72,16 +71,28 @@ class _WarningViewState extends State<WarningView> {
                 if (_warningController.text.isEmpty) {
                   Utils.flushBarErrorMessage("Note Cannot be empty", context);
                 } else {
-                  setState(() {
-                    _msg = _warningController.text.toString();
-                    _attachment = imgXFile!.path;
-                    _category = "warning";
-                  });
-                  WarningViewModel()
-                      .warning(context, _attachment, _category, _msg);
-                  imgXFile = null;
-                  _warningController.clear();
-                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (imgXFile == null) {
+                    setState(() {
+                      _msg = _warningController.text.toString();
+                      _category = "warning";
+                    });
+                    WarningViewModel()
+                        .warningWithoutImage(context, _category, _msg);
+                    imgXFile = null;
+                    _warningController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  } else {
+                    setState(() {
+                      _msg = _warningController.text.toString();
+                      _attachment = imgXFile!.path;
+                      _category = "warning";
+                    });
+                    WarningViewModel().warningWithImage(
+                        context, _attachment, _category, _msg);
+                    imgXFile = null;
+                    _warningController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
                 }
               },
               splashColor: Colors.lightBlueAccent,

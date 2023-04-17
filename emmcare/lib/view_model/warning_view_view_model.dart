@@ -14,10 +14,29 @@ class WarningViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> warning(
+  Future<void> warningWithImage(
       BuildContext context, _attachment, _category, _msg) async {
     setLoading(true);
-    _myRepo.warning(_attachment, _category, _msg).then((value) {
+    _myRepo.warningWithImage(_attachment, _category, _msg).then((value) {
+      setLoading(false);
+      // Utils.toastMessage("Warning Created!");
+      Utils.flushBarErrorMessage('Warning created successfully.', context);
+      if (kDebugMode) {
+        print(value.toString());
+      }
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      Utils.flushBarErrorMessage(error.toString(), context);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+
+  Future<void> warningWithoutImage(
+      BuildContext context, _category, _msg) async {
+    setLoading(true);
+    _myRepo.warningWithoutImage(_category, _msg).then((value) {
       setLoading(false);
       // Utils.toastMessage("Warning Created!");
       Utils.flushBarErrorMessage('Warning created successfully.', context);
