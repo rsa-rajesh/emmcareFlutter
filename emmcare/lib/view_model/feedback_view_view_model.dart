@@ -14,10 +14,29 @@ class FeedbackViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> feedback(
+  Future<void> feedbackWithImage(
       BuildContext context, _attachment, _category, _msg) async {
     setLoading(true);
-    _myRepo.feedback(_attachment, _category, _msg).then((value) {
+    _myRepo.feedbackWithImage(_attachment, _category, _msg).then((value) {
+      setLoading(false);
+      // Utils.toastMessage("Progress note Created!");
+      Utils.flushBarErrorMessage('Feedback added successfully.', context);
+      if (kDebugMode) {
+        print(value.toString());
+      }
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      Utils.flushBarErrorMessage(error.toString(), context);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+
+  Future<void> feedbackWithoutImage(
+      BuildContext context, _category, _msg) async {
+    setLoading(true);
+    _myRepo.feedbackWithoutImage(_category, _msg).then((value) {
       setLoading(false);
       // Utils.toastMessage("Progress note Created!");
       Utils.flushBarErrorMessage('Feedback added successfully.', context);

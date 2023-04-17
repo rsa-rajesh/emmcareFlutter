@@ -75,6 +75,9 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
                         _category,
                         _msg,
                       );
+                      imgXFile == null;
+                      _noteController.clear();
+                      FocusManager.instance.primaryFocus?.unfocus();
                     });
                   } else {
                     setState(() {
@@ -88,11 +91,10 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
                       _category,
                       _msg,
                     );
+                    imgXFile == null;
+                    _noteController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
                   }
-
-                  imgXFile == null;
-                  _noteController.clear();
-                  FocusManager.instance.primaryFocus?.unfocus();
                 }
               },
               splashColor: Colors.lightBlueAccent,

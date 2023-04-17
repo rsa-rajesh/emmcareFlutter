@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../utils/utils.dart';
 import '../../../../view_model/feedback_view_view_model.dart';
 
 class FeedbackView extends StatefulWidget {
   const FeedbackView({super.key});
-
   @override
   State<FeedbackView> createState() => _FeedbackViewState();
 }
@@ -73,16 +71,28 @@ class _FeedbackViewState extends State<FeedbackView> {
                 if (_feedbackController.text.isEmpty) {
                   Utils.flushBarErrorMessage("Note Cannot be empty", context);
                 } else {
-                  setState(() {
-                    _msg = _feedbackController.text.toString();
-                    _attachment = imgXFile!.path;
-                    _category = "feedback";
-                  });
-                  FeedbackViewModel()
-                      .feedback(context, _attachment, _category, _msg);
-                  imgXFile = null;
-                  _feedbackController.clear();
-                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (imgXFile == null) {
+                    setState(() {
+                      _msg = _feedbackController.text.toString();
+                      _category = "feedback";
+                    });
+                    FeedbackViewModel()
+                        .feedbackWithoutImage(context, _category, _msg);
+                    imgXFile = null;
+                    _feedbackController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  } else {
+                    setState(() {
+                      _msg = _feedbackController.text.toString();
+                      _attachment = imgXFile!.path;
+                      _category = "feedback";
+                    });
+                    FeedbackViewModel().feedbackWithImage(
+                        context, _attachment, _category, _msg);
+                    imgXFile = null;
+                    _feedbackController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
                 }
               },
               splashColor: Colors.lightBlueAccent,

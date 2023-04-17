@@ -11,7 +11,7 @@ import '../view_model/user_view_view_model.dart';
 class FeedbackRepository {
   // Base and Network api Services
   BaseApiServices _apiServices = NetworkApiService();
-  Future<FeedbackModel> feedback(_attachment, _category, _msg) async {
+  Future<FeedbackModel> feedbackWithImage(_attachment, _category, _msg) async {
     String token = "";
     Future<UserModel> getUserData() => UserViewViewModel().getUser();
     getUserData().then((value) async {
@@ -36,6 +36,32 @@ class FeedbackRepository {
               _msg,
               obj_id,
               token);
+      return response = FeedbackModel.fromJson(response);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<FeedbackModel> feedbackWithoutImage(_category, _msg) async {
+    String token = "";
+    Future<UserModel> getUserData() => UserViewViewModel().getUser();
+    getUserData().then((value) async {
+      token = value.access.toString();
+    });
+    await Future.delayed(Duration(microseconds: 0));
+    //
+    // Getting notification id from sharedpreference.
+    int? obj_id;
+    final sharedpref = await SharedPreferences.getInstance();
+    obj_id = sharedpref.getInt(HomeViewState.KEYSHIFTID)!;
+    print(obj_id);
+    // Getting notification id from sharedpreference.
+    //
+
+    try {
+      dynamic response =
+          await _apiServices.getPostResponseWithAuthMultipartDataWithoutImage(
+              AppUrl.postFeedback(), _category, _msg, obj_id, token);
       return response = FeedbackModel.fromJson(response);
     } catch (e) {
       throw e;
