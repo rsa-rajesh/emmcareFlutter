@@ -72,16 +72,28 @@ class _IncidentViewState extends State<IncidentView> {
                 if (_incidentController.text.isEmpty) {
                   Utils.flushBarErrorMessage("Note Cannot be empty", context);
                 } else {
-                  setState(() {
-                    _msg = _incidentController.text.toString();
-                    _attachment = imgXFile!.path;
-                    _category = "incident";
-                  });
-                  IncidentViewModel()
-                      .incident(context, _attachment, _category, _msg);
-                  imgXFile = null;
-                  _incidentController.clear();
-                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (imgXFile == null) {
+                    setState(() {
+                      _msg = _incidentController.text.toString();
+                      _category = "incident";
+                    });
+                    IncidentViewModel()
+                        .incidentWithoutImage(context, _category, _msg);
+                    imgXFile = null;
+                    _incidentController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  } else {
+                    setState(() {
+                      _msg = _incidentController.text.toString();
+                      _attachment = imgXFile!.path;
+                      _category = "incident";
+                    });
+                    IncidentViewModel().incidentWithImage(
+                        context, _attachment, _category, _msg);
+                    imgXFile = null;
+                    _incidentController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
                 }
               },
               splashColor: Colors.lightBlueAccent,

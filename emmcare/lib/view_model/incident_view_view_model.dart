@@ -14,10 +14,28 @@ class IncidentViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> incident(
+  Future<void> incidentWithImage(
       BuildContext context, _attachment, _category, _msg) async {
     setLoading(true);
-    _myRepo.incident(_attachment, _category, _msg).then((value) {
+    _myRepo.incidentWithImage(_attachment, _category, _msg).then((value) {
+      setLoading(false);
+      Utils.flushBarErrorMessage('Incident added successfully.', context);
+      if (kDebugMode) {
+        print(value.toString());
+      }
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      Utils.flushBarErrorMessage(error.toString(), context);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+
+  Future<void> incidentWithoutImage(
+      BuildContext context, _category, _msg) async {
+    setLoading(true);
+    _myRepo.incidentWithoutImage(_category, _msg).then((value) {
       setLoading(false);
       Utils.flushBarErrorMessage('Incident added successfully.', context);
       if (kDebugMode) {
