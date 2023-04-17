@@ -14,10 +14,27 @@ class InjuryViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> injury(
+  Future<void> injuryWithImage(
       BuildContext context, _attachment, _category, _msg) async {
     setLoading(true);
-    _myRepo.injury(_attachment, _category, _msg).then((value) {
+    _myRepo.injuryWithImage(_attachment, _category, _msg).then((value) {
+      setLoading(false);
+      Utils.flushBarErrorMessage('Injury added successfully.', context);
+      if (kDebugMode) {
+        print(value.toString());
+      }
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      Utils.flushBarErrorMessage(error.toString(), context);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+
+  Future<void> injuryWithoutImage(BuildContext context, _category, _msg) async {
+    setLoading(true);
+    _myRepo.injuryWithoutImage(_category, _msg).then((value) {
       setLoading(false);
       Utils.flushBarErrorMessage('Injury added successfully.', context);
       if (kDebugMode) {

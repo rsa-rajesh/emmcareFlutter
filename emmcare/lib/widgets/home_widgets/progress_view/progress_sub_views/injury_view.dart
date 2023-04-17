@@ -70,16 +70,28 @@ class _InjuryViewState extends State<InjuryView> {
                 if (_injuryController.text.isEmpty) {
                   Utils.flushBarErrorMessage("Note Cannot be empty", context);
                 } else {
-                  setState(() {
-                    _msg = _injuryController.text.toString();
-                    _attachment = imgXFile!.path;
-                    _category = "injury";
-                  });
-                  InjuryViewModel()
-                      .injury(context, _attachment, _category, _msg);
-                  imgXFile = null;
-                  _injuryController.clear();
-                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (imgXFile == null) {
+                    setState(() {
+                      _msg = _injuryController.text.toString();
+                      _category = "injury";
+                    });
+                    InjuryViewModel()
+                        .injuryWithoutImage(context, _category, _msg);
+                    imgXFile = null;
+                    _injuryController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  } else {
+                    setState(() {
+                      _msg = _injuryController.text.toString();
+                      _attachment = imgXFile!.path;
+                      _category = "injury";
+                    });
+                    InjuryViewModel()
+                        .injuryWithImage(context, _attachment, _category, _msg);
+                    imgXFile = null;
+                    _injuryController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
                 }
               },
               splashColor: Colors.lightBlueAccent,
