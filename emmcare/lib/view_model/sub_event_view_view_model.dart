@@ -14,12 +14,30 @@ class SubEventViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> subEvent(
+  Future<void> subEventWithImage(
       BuildContext context, _attachment, _category, _msg) async {
     setLoading(true);
-    _myRepo.subEvent(_attachment, _category, _msg).then((value) {
+    _myRepo.subEventWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Sub event added successfully.', context);
+      Utils.flushBarErrorMessage('Event added successfully.', context);
+      if (kDebugMode) {
+        print(value.toString());
+      }
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      Utils.flushBarErrorMessage(error.toString(), context);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+
+  Future<void> subEventWithoutImage(
+      BuildContext context, _category, _msg) async {
+    setLoading(true);
+    _myRepo.subEventWithoutImage(_category, _msg).then((value) {
+      setLoading(false);
+      Utils.flushBarErrorMessage('Event added successfully.', context);
       if (kDebugMode) {
         print(value.toString());
       }

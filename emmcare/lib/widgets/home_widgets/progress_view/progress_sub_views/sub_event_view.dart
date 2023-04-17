@@ -70,16 +70,28 @@ class _EventViewState extends State<EventView> {
                 if (_subEventController.text.isEmpty) {
                   Utils.flushBarErrorMessage("Note Cannot be empty", context);
                 } else {
-                  setState(() {
-                    _msg = _subEventController.text.toString();
-                    _attachment = imgXFile!.path;
-                    _category = "event";
-                  });
-                  SubEventViewModel()
-                      .subEvent(context, _attachment, _category, _msg);
-                  imgXFile = null;
-                  _subEventController.clear();
-                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (imgXFile == null) {
+                    setState(() {
+                      _msg = _subEventController.text.toString();
+                      _category = "event";
+                    });
+                    SubEventViewModel()
+                        .subEventWithoutImage(context, _category, _msg);
+                    imgXFile = null;
+                    _subEventController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  } else {
+                    setState(() {
+                      _msg = _subEventController.text.toString();
+                      _attachment = imgXFile!.path;
+                      _category = "event";
+                    });
+                    SubEventViewModel().subEventWithImage(
+                        context, _attachment, _category, _msg);
+                    imgXFile = null;
+                    _subEventController.clear();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
                 }
               },
               splashColor: Colors.lightBlueAccent,
