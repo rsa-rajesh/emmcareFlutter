@@ -2,7 +2,7 @@ class ClientModel {
   List<Clients>? clients;
 
   ClientModel({this.clients});
-  
+
   ClientModel.fromJson(List<dynamic> parsedJson) {
     // List<Clients> clients = <Clients>[];
     clients = parsedJson.map((i) => Clients.fromJson(i)).toList();
@@ -41,6 +41,8 @@ class Clients {
   String? shiftEndTime;
   String? finalEndDate;
   int? staffTotalHrs;
+  String? clockIn;
+  String? clockOut;
 
   Clients(
       {this.id,
@@ -70,7 +72,9 @@ class Clients {
       this.clientImg,
       this.shiftEndTime,
       this.finalEndDate,
-      this.staffTotalHrs});
+      this.staffTotalHrs,
+      this.clockIn,
+      this.clockOut});
 
   Clients.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -103,6 +107,8 @@ class Clients {
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : null;
+    clockIn = json['clock_in'];
+    clockOut = json['clock_out'];
   }
 
   Map<String, dynamic> toJson() {
@@ -134,9 +140,12 @@ class Clients {
     data['shift_end_time'] = this.shiftEndTime;
     data['final_end_date'] = this.finalEndDate;
     data['staff_total_hrs'] = this.staffTotalHrs;
+    data['clock_in'] = this.clockIn;
+    data['clock_out'] = this.clockOut;
     if (this.location != null) {
       data['location'] = this.location!.toJson();
     }
+
     return data;
   }
 }

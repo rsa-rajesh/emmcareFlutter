@@ -136,6 +136,6 @@ class _ShiftReportViewState extends State<ShiftReportView> {
     String unSplittedFileName = fileName;
     //split string
     var splitteFileName = unSplittedFileName.split('.');
-    return splitteFileName[5];
+    return splitteFileName[4];
   }
 }

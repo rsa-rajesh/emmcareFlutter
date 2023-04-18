@@ -15,4 +15,7 @@ abstract class BaseApiServices {
 
   Future<dynamic> getPostResponseWithAuthMultipartDataWithoutImage(
       String url, String _category, String _msg, int obj_id, String token);
+
+  Future<dynamic> getPutResponseWithAuthData(
+      String url, dynamic data, String token);
 }

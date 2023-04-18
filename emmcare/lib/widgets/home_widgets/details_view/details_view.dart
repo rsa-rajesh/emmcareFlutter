@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
+import '../../../view_model/clock_in_view_model.dart';
+
 class DetailsView extends StatefulWidget {
   // receive data from the FirstScreen as a parameter
   DetailsView({
@@ -370,27 +372,7 @@ class _DetailsViewState extends State<DetailsView> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-            child: Container(
-              width: double.infinity,
-              color: AppColors.buttonColor,
-              child: TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.play_arrow,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  label: Text(
-                    "CLOCK IN",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  )),
-            ),
-          )
+          checkClockInAndOut(client_Detail.clockIn.toString()),
         ],
       ),
     );
@@ -441,6 +423,57 @@ class _DetailsViewState extends State<DetailsView> {
             ..color = Color.fromARGB(255, 15, 15, 15),
         ),
       ));
+    }
+  }
+
+  Widget checkClockInAndOut(String checkclock) {
+    if (checkclock == "null") {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        child: Container(
+          width: double.infinity,
+          color: AppColors.buttonColor,
+          child: TextButton.icon(
+              onPressed: () {
+                String datetime = DateFormat("HH:mm:ss").format(DateTime.now());
+                ClockInViewModel().clockIn(context, datetime);
+              },
+              icon: Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 30,
+              ),
+              label: Text(
+                "CLOCK IN",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              )),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        child: Container(
+          width: double.infinity,
+          color: AppColors.buttonColor,
+          child: TextButton.icon(
+              onPressed: () {},
+              icon: Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 30,
+              ),
+              label: Text(
+                "CLOCK OUT",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              )),
+        ),
+      );
     }
   }
 }

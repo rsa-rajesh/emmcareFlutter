@@ -103,4 +103,12 @@ class AppUrl {
   static String postInjury() {
     return baseUrl + "v2/api/events/progress-note-create/";
   }
+
+  static String putClockIn() {
+    return baseUrl + "v1/api/shift/shift-clockin/";
+  }
+
+  static String putClockOut() {
+    return baseUrl + "v1/api/shift/shift-clockout/";
+  }
 }

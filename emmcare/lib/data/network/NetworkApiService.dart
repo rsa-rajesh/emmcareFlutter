@@ -138,7 +138,7 @@ class NetworkApiService extends BaseApiServices {
   }
   // Post Api response with  Authentication and Multipart Data
 
-  // Post Api response with  Authentication and Multipart Data
+  // Post Api response with  Authentication and Multipart Data Without Image.
   @override
   Future getPostResponseWithAuthMultipartDataWithoutImage(String url,
       String _category, String _msg, int obj_id, String token) async {
@@ -158,7 +158,31 @@ class NetworkApiService extends BaseApiServices {
     }
     return responseJson;
   }
-  // Post Api response with  Authentication and Multipart Data
+  // Post Api response with  Authentication and Multipart Data Without Image.
+
+  // Put Api response with  Authentication and Data
+  @override
+  Future getPutResponseWithAuthData(
+      String url, dynamic data, String token) async {
+    dynamic responseJson;
+    try {
+      Response response = await put(
+        Uri.parse(url),
+        body: jsonEncode(data),
+        headers: {
+          'Accept': 'application/json',
+          'content-type': 'application/json',
+          'Connection': 'keep-alive',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ).timeout(Duration(seconds: 10));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return responseJson;
+  }
+  // Put Api response with  Authentication and Data
 
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
