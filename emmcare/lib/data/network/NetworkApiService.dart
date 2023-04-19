@@ -184,6 +184,30 @@ class NetworkApiService extends BaseApiServices {
   }
   // Put Api response with  Authentication and Data
 
+  // Patch Api response with  Authentication and Data
+  @override
+  Future getPatchResponseWithAuthData(
+      String url, dynamic data, String token) async {
+    dynamic responseJson;
+    try {
+      Response response = await patch(
+        Uri.parse(url),
+        body: jsonEncode(data),
+        headers: {
+          'Accept': 'application/json',
+          'content-type': 'application/json',
+          'Connection': 'keep-alive',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ).timeout(Duration(seconds: 10));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException("No Internet Connection");
+    }
+    return responseJson;
+  }
+  // Patch Api response with  Authentication and Data
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
@@ -198,7 +222,7 @@ class NetworkApiService extends BaseApiServices {
         throw UnauthorizedException(response.body.toString());
 
       case 500:
-        throw InernalServerException("");
+        throw InernalServerException("\t" + response.statusCode.toString());
 
       default:
         throw FetchDataException(

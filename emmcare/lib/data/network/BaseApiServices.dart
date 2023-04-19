@@ -18,4 +18,7 @@ abstract class BaseApiServices {
 
   Future<dynamic> getPutResponseWithAuthData(
       String url, dynamic data, String token);
+
+  Future<dynamic> getPatchResponseWithAuthData(
+      String url, dynamic data, String token);
 }

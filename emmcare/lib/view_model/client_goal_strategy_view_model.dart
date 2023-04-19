@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../repository/mark_notification_seen_repository.dart';
+import '../repository/client_goal_strategy_repository.dart';
 import '../utils/utils.dart';
 
-class MarkNotificationSeenViewModel with ChangeNotifier {
-  final _myRepo = MarkNotificationSeenRepository();
+class ClientGoalStrategyViewModel with ChangeNotifier {
+  final _myRepo = ClientGoalStrategyRepository();
 
   bool _loading = false;
   bool get loading => _loading;
@@ -14,18 +14,17 @@ class MarkNotificationSeenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> markSeen(BuildContext context) async {
+  Future<void> clientGoalStrategy(BuildContext context, star) async {
     setLoading(true);
-    _myRepo.markSeen().then((value) {
+    _myRepo.clientGoalStrategy(star).then((value) {
       setLoading(false);
-      Utils.toastMessage("Notification marked as seen!");
-      // Utils.flushBarErrorMessage('Notification marked as seen!', context);
+      Utils.toastMessage("Client goal strategy rated successfully.");
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }

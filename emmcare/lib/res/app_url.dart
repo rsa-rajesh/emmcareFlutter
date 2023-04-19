@@ -111,4 +111,8 @@ class AppUrl {
   static String putClockOut() {
     return baseUrl + "v1/api/shift/shift-clockout/";
   }
+
+  static String patchClientGoalStrategyUpdate() {
+    return baseUrl + "v1/api/auth/client-goal-strategy-update/1/";
+  }
 }

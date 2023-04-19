@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../model/client_profile_goal_model.dart';
 import '../../../../../res/colors.dart';
 import '../../../../../view/home_view.dart';
+import '../../../../../view_model/client_goal_strategy_view_model.dart';
 import '../../../../../view_model/client_profile_goal_view_view_model.dart';
 
 class ClientProfileGoalView extends StatefulWidget {
@@ -52,6 +53,9 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
   }
 
   bool widgetShowFlag = false;
+
+  // The rating value
+  double? _ratingValue;
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +155,7 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
             child: InkWell(
               onTap: () {
                 showDialog(
+                    barrierDismissible: true,
                     context: context,
                     builder: (_) => AlertDialog(
                           title: Text(
@@ -173,9 +178,12 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                                   Icons.star,
                                   color: Colors.amber,
                                 ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
+                                onRatingUpdate: (value) {
+                                  setState(() {
+                                    _ratingValue = value;
+                                  });
                                 },
+                                updateOnDrag: true,
                               ),
                             ),
                             SizedBox(
@@ -186,7 +194,10 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                               child: ElevatedButton(
                                 child: Text("Submit"),
                                 onPressed: () {
-                                  print(goalStrategies.length);
+                                  var star = _ratingValue;
+                                  ClientGoalStrategyViewModel()
+                                      .clientGoalStrategy(context, star);
+                                  Navigator.of(context).pop();
                                 },
                               ),
                             )
