@@ -137,7 +137,8 @@ class _DetailsViewState extends State<DetailsView> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                               child: CircleAvatar(
-                                backgroundColor: AppColors.buttonColor,
+                                backgroundColor: AppColors
+                                    .imageCircleAvatarBodyBackgroudColor,
                                 child: ClipOval(
                                   child: Image.network(
                                       "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +

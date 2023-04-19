@@ -57,6 +57,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
             child: Consumer<MyDocumentViewViewModel>(
               builder: (context, value, child) {
                 return ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
                   controller: _controller,
                   itemCount: value.documents.length,
                   itemBuilder: (context, index) {

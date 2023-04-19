@@ -1,33 +1,30 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../model/client_profile_goal_model.dart';
-import '../../../../../model/user_model.dart';
-import '../../../../../res/app_url.dart';
 import '../../../../../res/colors.dart';
 import '../../../../../view/home_view.dart';
-import '../../../../../view_model/user_view_view_model.dart';
+import '../../../../../view_model/client_profile_goal_view_view_model.dart';
 
 class ClientProfileGoalView extends StatefulWidget {
-  ClientProfileGoalView({Key? key}) : super(key: key);
-
   @override
-  State<ClientProfileGoalView> createState() => _ClientProfileGoalViewState();
+  _ClientProfileGoalViewState createState() => _ClientProfileGoalViewState();
 }
 
 class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
-  List<Result> result = [];
-  ScrollController scrollController = ScrollController();
-  bool loading = true;
-  int offset = 1;
+  ClientProfileGoalViewViewModel _clientProfileGoalViewViewModel =
+      ClientProfileGoalViewViewModel();
+  final ScrollController _controller = ScrollController();
+  bool _refresh = true;
+
   @override
   void initState() {
+    _clientProfileGoalViewViewModel
+        .fetchClientProfileGoalListApi(_refresh == false);
     super.initState();
     getClientId();
-    fetchData(offset);
-    handleNext();
+    _controller.addListener(_scrollListener);
   }
 
   int? cltId;
@@ -38,146 +35,114 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
     });
   }
 
-  void fetchData(page) async {
-    setState(() {
-      loading = true;
-    });
-    var token = "";
-    Future<UserModel> getUserData() => UserViewViewModel().getUser();
-    getUserData().then((value) async {
-      setState(() {
-        token = value.access.toString();
-      });
-    });
-    await Future.delayed(Duration(microseconds: 1));
-    Map<String, String> requestHeaders = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-
-    var response = await http.get(
-      Uri.parse(
-        AppUrl.getClientProfileGoalList(page),
-      ),
-      headers: requestHeaders,
-    );
-    //
-    //
-    print(response);
-    print(
-      AppUrl.getClientProfileGoalList(page),
-    );
-    //
-    //
-    var data = json.decode(response.body);
-    ClientProfileGoalModel modelClass = ClientProfileGoalModel.fromJson(data);
-    result = result + modelClass.results!;
-    int localOffset = offset + 1;
-    setState(() {
-      result;
-      loading = false;
-      offset = localOffset;
-    });
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      _clientProfileGoalViewViewModel
+          .fetchClientProfileGoalListApi(_refresh == false);
+    }
   }
 
-  void handleNext() {
-    scrollController.addListener(() async {
-      if (scrollController.position.maxScrollExtent ==
-          scrollController.position.pixels) {
-        fetchData(offset);
-      }
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+  Future<void> refresh() async {
+    setState(() {
+      _clientProfileGoalViewViewModel
+          .fetchClientProfileGoalListApi(_refresh == true);
     });
   }
 
   bool widgetShowFlag = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
-      body: result.length == 0
-          ? Center(
-              child: loading
-                  ? CircularProgressIndicator()
-                  : Center(
-                      child: Text(
-                        "No Goals!",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: refresh,
+        child: ChangeNotifierProvider<ClientProfileGoalViewViewModel>(
+            create: (BuildContext context) => _clientProfileGoalViewViewModel,
+            child: Consumer<ClientProfileGoalViewViewModel>(
+              builder: (context, value, child) {
+                return ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  controller: _controller,
+                  itemCount: value.goals.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      color: widgetShowFlag
+                          ? AppColors.bodyBackgroudColor
+                          : Colors.white,
+                      margin: EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
+                            child: Text(
+                              value.goals[index].name.toString(),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
+                            child: Text(
+                              value.goals[index].description.toString(),
+                              maxLines: widgetShowFlag
+                                  ? value.goals[index].description!.length
+                                  : 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          showInternalList(value.goals[index].goalStrategies),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        widgetShowFlag = !widgetShowFlag;
+                                      });
+                                    },
+                                    child: widgetShowFlag
+                                        ? Text(
+                                            "Show Less",
+                                            style:
+                                                TextStyle(color: Colors.blue),
+                                          )
+                                        : Text("Show More",
+                                            style:
+                                                TextStyle(color: Colors.blue)))
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-            )
-          : ListView.builder(
-              controller: scrollController,
-              itemCount: result.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  color: widgetShowFlag
-                      ? AppColors.bodyBackgroudColor
-                      : Colors.white,
-                  margin: EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
-                        child: Text(
-                          result[index].name.toString(),
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
-                        child: Text(
-                          result[index].description.toString(),
-                          maxLines: widgetShowFlag
-                              ? result[index].description!.length
-                              : 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
-                      ),
-                      showInternalList(result[index].goalStrategies!.length),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    widgetShowFlag = !widgetShowFlag;
-                                  });
-                                },
-                                child: widgetShowFlag
-                                    ? Text(
-                                        "Show Less",
-                                        style: TextStyle(color: Colors.blue),
-                                      )
-                                    : Text("Show More",
-                                        style: TextStyle(color: Colors.blue)))
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 );
-              }),
+              },
+            )),
+      ),
     );
   }
 
-  Widget showInternalList(int internalList) {
+  Widget showInternalList(List<GoalStrategy>? goalStrategies) {
     if (widgetShowFlag) {
       return ListView.builder(
-        itemCount: internalList,
+        itemCount: goalStrategies!.length,
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         itemBuilder: (context, index) {
@@ -196,10 +161,8 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                             Container(
                               alignment: Alignment.center,
                               child: RatingBar.builder(
-                                initialRating: result[index]
-                                    .goalStrategies![index]
-                                    .rating!
-                                    .toDouble(),
+                                initialRating:
+                                    goalStrategies[index].rating!.toDouble(),
                                 minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: false,
@@ -223,7 +186,7 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                               child: ElevatedButton(
                                 child: Text("Submit"),
                                 onPressed: () {
-                                  print(result[index].goalStrategies!.length);
+                                  print(goalStrategies.length);
                                 },
                               ),
                             )
@@ -238,16 +201,10 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                     children: [
                       Expanded(
                         child: Text(
-                          result[index]
-                              .goalStrategies![index]
-                              .description
-                              .toString(),
+                          goalStrategies[index].description.toString(),
                         ),
                       ),
-                      Text(result[index]
-                          .goalStrategies![index]
-                          .rating
-                          .toString()),
+                      Text(goalStrategies[index].rating.toString()),
                       Icon(
                         Icons.star,
                         color: Colors.amber,

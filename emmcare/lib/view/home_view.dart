@@ -395,8 +395,8 @@ class HomeViewState extends State<HomeView> {
                                                     EdgeInsets.fromLTRB(
                                                         12, 0, 12, 0),
                                                 leading: CircleAvatar(
-                                                  backgroundColor:
-                                                      AppColors.buttonColor,
+                                                  backgroundColor: AppColors
+                                                      .imageCircleAvatarBodyBackgroudColor,
                                                   child: ClipOval(
                                                     child: Image.network(
                                                         "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +

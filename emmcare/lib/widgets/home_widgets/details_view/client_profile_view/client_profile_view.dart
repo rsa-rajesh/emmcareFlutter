@@ -29,7 +29,7 @@ class ClientProfileViewState extends State<ClientProfileView> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -48,7 +48,8 @@ class ClientProfileViewState extends State<ClientProfileView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    backgroundColor: AppColors.buttonColor,
+                    backgroundColor:
+                        AppColors.imageCircleAvatarBodyBackgroudColor,
                     radius: 30,
                     child: ClipOval(
                       child: Image.network(

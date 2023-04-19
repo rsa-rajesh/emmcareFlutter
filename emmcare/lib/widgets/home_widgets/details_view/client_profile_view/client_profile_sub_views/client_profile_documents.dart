@@ -1,103 +1,47 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
-import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../../model/client_profile_documents_model.dart';
-import '../../../../../model/user_model.dart';
-import '../../../../../res/app_url.dart';
+import 'package:provider/provider.dart';
 import '../../../../../res/colors.dart';
 import '../../../../../utils/utils.dart';
-import '../../../../../view/home_view.dart';
-import '../../../../../view_model/user_view_view_model.dart';
-import '../../../../file_viewer/client_profile_documents_viewer.dart';
+import '../../../../../view_model/client_profile_document_view_view_model.dart';
+import '../../../../file_viewer/document_hub_viewer.dart';
+import 'package:http/http.dart' as http;
 
 class ClientProfileDocumentsView extends StatefulWidget {
-  ClientProfileDocumentsView({Key? key}) : super(key: key);
-
   @override
-  State<ClientProfileDocumentsView> createState() =>
+  _ClientProfileDocumentsViewState createState() =>
       _ClientProfileDocumentsViewState();
 }
 
 class _ClientProfileDocumentsViewState
     extends State<ClientProfileDocumentsView> {
-  List<Result> result = [];
-  ScrollController scrollController = ScrollController();
-  bool loading = true;
-  int offset = 1;
+  ClientProfileDocumentViewViewModel _clientProfileDocumentViewViewModel =
+      ClientProfileDocumentViewViewModel();
+  final ScrollController _controller = ScrollController();
+  bool _refresh = true;
   @override
   void initState() {
+    _clientProfileDocumentViewViewModel
+        .fetchClientProfileDocumentListApi(_refresh == false);
     super.initState();
-    getClientId();
-    fetchData(offset);
-    handleNext();
+    _controller.addListener(_scrollListener);
   }
 
-  int? cltId;
-  Future<void> getClientId() async {
-    final sharedpref = await SharedPreferences.getInstance();
-    setState(() {
-      cltId = sharedpref.getInt(HomeViewState.KEYCLIENTID)!;
-    });
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      _clientProfileDocumentViewViewModel
+          .fetchClientProfileDocumentListApi(_refresh == false);
+    }
   }
 
-  void fetchData(page) async {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+  Future<void> refresh() async {
     setState(() {
-      loading = true;
-    });
-    var token = "";
-    Future<UserModel> getUserData() => UserViewViewModel().getUser();
-    getUserData().then((value) async {
-      setState(() {
-        token = value.access.toString();
-      });
-    });
-    await Future.delayed(Duration(microseconds: 1));
-    Map<String, String> requestHeaders = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-
-    // var realtedUserType = "client";
-    // var realtedUserId = cltId;
-    var realtedUserType = "";
-    var realtedUserId = "";
-
-    var response = await http.get(
-      Uri.parse(
-        AppUrl.getPersonalDocuments(page, realtedUserType, realtedUserId),
-      ),
-      headers: requestHeaders,
-    );
-    //
-    //
-    print(response);
-    print(
-      AppUrl.getPersonalDocuments(page, realtedUserType, realtedUserId),
-    );
-    //
-    //
-    var data = json.decode(response.body);
-    ClientProfileDocumentsModel modelClass =
-        ClientProfileDocumentsModel.fromJson(data);
-    result = result + modelClass.results;
-    int localOffset = offset + 1;
-    setState(() {
-      result;
-      loading = false;
-      offset = localOffset;
-    });
-  }
-
-  void handleNext() {
-    scrollController.addListener(() async {
-      if (scrollController.position.maxScrollExtent ==
-          scrollController.position.pixels) {
-        fetchData(offset);
-      }
+      _clientProfileDocumentViewViewModel
+          .fetchClientProfileDocumentListApi(_refresh == true);
     });
   }
 
@@ -105,100 +49,111 @@ class _ClientProfileDocumentsViewState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
-      body: result.length == 0
-          ? Center(
-              child: loading
-                  ? CircularProgressIndicator()
-                  : Center(
-                      child: Text(
-                        "No Documents!",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-            )
-          : ListView.builder(
-              controller: scrollController,
-              itemCount: result.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  child: Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: refresh,
+        child: ChangeNotifierProvider<ClientProfileDocumentViewViewModel>(
+            create: (BuildContext context) =>
+                _clientProfileDocumentViewViewModel,
+            child: Consumer<ClientProfileDocumentViewViewModel>(
+              builder: (context, value, child) {
+                return ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  controller: _controller,
+                  itemCount: value.documents.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      child: Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Expanded(
-                                child: Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                              child: Text(
-                                result[index].docCategory.toString(),
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            )),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                              child: Text(
-                                result[index].expiryDate.toString(),
-                                style: TextStyle(color: Colors.redAccent),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                                child: Text(
-                                  splitFileName(result[index].file.toString()),
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      fontStyle: FontStyle.italic),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                    child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                                  child: Text(
+                                    value.documents[index].id.toString(),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                                  child: Text(
+                                    value.documents[index].expiryDate
+                                        .toString(),
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                              child: InkWell(
-                                onTap: () {
-                                  String fileExtention = checkFileExtention(
-                                      result[index].file.toString());
-                                  String fileName = splitFileName(
-                                      result[index].file.toString());
-                                  String pdfExtension = "pdf";
-                                  if (fileExtention == pdfExtension) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ClientProfileDocumentsViewer(),
-                                        settings: RouteSettings(
-                                          arguments: result[index],
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    _saveFile(
-                                        context,
-                                        result[index].file.toString(),
-                                        fileName);
-                                  }
-                                },
-                                child: Icon(Icons.download),
-                              ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                                    child: Text(
+                                      splitFileName(value.documents[index].file
+                                          .toString()),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 6, 8, 6),
+                                  child: InkWell(
+                                    onTap: () {
+                                      String fileExtention = checkFileExtention(
+                                          value.documents[index].file
+                                              .toString());
+                                      String fileName = splitFileName(value
+                                          .documents[index].file
+                                          .toString());
+                                      String pdfExtension = "pdf";
+                                      if (fileExtention == pdfExtension) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                DocumentHubViewer(),
+                                            settings: RouteSettings(
+                                              arguments: value.documents[index],
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        _saveFile(
+                                            context,
+                                            value.documents[index].file
+                                                .toString(),
+                                            fileName);
+                                      }
+                                    },
+                                    child: Icon(Icons.download),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 );
-              }),
+              },
+            )),
+      ),
     );
   }
 

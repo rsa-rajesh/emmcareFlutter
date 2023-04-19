@@ -28,7 +28,8 @@ class DocumentHubViewViewModel extends ChangeNotifier {
           .then((response) {
         _page = _page + 1;
         var data = DocumentHubModel.fromJson(response);
-        addDocumentHubToList(data.results!);
+        _documents.clear();
+        _documents = data.results!;
       });
       notifyListeners();
     } else if (_refresh == false) {

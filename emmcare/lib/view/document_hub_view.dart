@@ -58,6 +58,7 @@ class _DocumentHubViewState extends State<DocumentHubView> {
             child: Consumer<DocumentHubViewViewModel>(
               builder: (context, value, child) {
                 return ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
                   controller: _controller,
                   itemCount: value.documents.length,
                   itemBuilder: (context, index) {

@@ -1,8 +1,8 @@
-import 'package:emmcare/model/my_document_model.dart';
 import 'package:flutter/material.dart';
-import '../repository/my_document_repository.dart';
+import '../model/client_profile_documents_model.dart';
+import '../repository/client_profile_document_repository.dart';
 
-class MyDocumentViewViewModel extends ChangeNotifier {
+class ClientProfileDocumentViewViewModel extends ChangeNotifier {
   int _page = 1;
   int get page => _page;
   set page(int value) {
@@ -19,21 +19,25 @@ class MyDocumentViewViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  fetchDocumentListApi(_refresh) async {
+  fetchClientProfileDocumentListApi(_refresh) async {
     if (_refresh == true) {
       _documents.clear();
       _page = 1;
-      await MyDocumentRepository().fetchDocumentList(_page).then((response) {
+      await ClientProfileDocumentRepository()
+          .fetchClientProfileDocumentList(_page)
+          .then((response) {
         _page = _page + 1;
-        var data = MyDocumentModel.fromJson(response);
+        var data = ClientProfileDocumentsModel.fromJson(response);
         _documents.clear();
         _documents = data.results;
       });
       notifyListeners();
     } else if (_refresh == false) {
-      await MyDocumentRepository().fetchDocumentList(_page).then((response) {
+      await ClientProfileDocumentRepository()
+          .fetchClientProfileDocumentList(_page)
+          .then((response) {
         _page = _page + 1;
-        var data = MyDocumentModel.fromJson(response);
+        var data = ClientProfileDocumentsModel.fromJson(response);
         addDocumentsToList(data.results);
       });
       notifyListeners();

@@ -2,6 +2,10 @@ import 'package:emmcare/utils/routes/routes.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view_model/Injury_view_view_model.dart';
 import 'package:emmcare/view_model/auth_view_view_model.dart';
+import 'package:emmcare/view_model/client_profile_document_view_view_model.dart';
+import 'package:emmcare/view_model/client_profile_goal_view_view_model.dart';
+import 'package:emmcare/view_model/clock_in_view_model.dart';
+import 'package:emmcare/view_model/clock_out_view_model.dart';
 import 'package:emmcare/view_model/document_hub_view_view_model.dart';
 import 'package:emmcare/view_model/enquiry_view_view_model.dart';
 import 'package:emmcare/view_model/feedback_view_view_model.dart';
@@ -21,7 +25,6 @@ import 'package:emmcare/view_model/warning_view_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'view_model/services/local_notification_services.dart';
@@ -41,7 +44,6 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   LocalNotificationService.initialize();
 
-  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   runApp(const MyApp());
 }
 
@@ -70,6 +72,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TasksViewViewModel()),
         ChangeNotifierProvider(create: (_) => UnavailabilityViewViewModel()),
         ChangeNotifierProvider(create: (_) => DocumentHubViewViewModel()),
+        ChangeNotifierProvider(create: (_) => ClockInViewModel()),
+        ChangeNotifierProvider(create: (_) => ClockOutViewModel()),
+        ChangeNotifierProvider(
+            create: (_) => ClientProfileDocumentViewViewModel()),
+        ChangeNotifierProvider(create: (_) => ClientProfileGoalViewViewModel()),
       ],
       child: MaterialApp(
         theme: ThemeData(
