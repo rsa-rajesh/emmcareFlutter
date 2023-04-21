@@ -1,10 +1,11 @@
 import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/details_view.dart';
-import 'package:emmcare/widgets/home_widgets/events_view/events_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_view.dart';
 import 'package:emmcare/widgets/home_widgets/tasks_view.dart';
 import 'package:flutter/material.dart';
+
+import 'events_view/events_view.dart';
 
 class ClientDetailView extends StatefulWidget {
   const ClientDetailView({

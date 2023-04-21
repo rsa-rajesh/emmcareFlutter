@@ -1,8 +1,11 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../data/network/BaseApiServices.dart';
 import '../data/network/NetworkApiService.dart';
 import '../model/clock_out_model.dart';
 import '../model/user_model.dart';
 import '../res/app_url.dart';
+import '../view/home_view.dart';
 import '../view_model/user_view_view_model.dart';
 
 class ClockOutRepository {
@@ -15,13 +18,17 @@ class ClockOutRepository {
       token = value.access.toString();
     });
     await Future.delayed(Duration(microseconds: 0));
+    int? shiftId;
+
+    final sharedpref = await SharedPreferences.getInstance();
+    shiftId = sharedpref.getInt(HomeViewState.KEYSHIFTID)!;
     Map data = {
       "clock_out": datetime,
     };
 
     try {
       dynamic response = await _apiServices.getPutResponseWithAuthData(
-          AppUrl.putClockOut(), data, token);
+          AppUrl.putClockOut(shiftId), data, token);
       return response = ClockOutModel.fromJson(response);
     } catch (e) {
       throw e;

@@ -63,7 +63,7 @@ class _MyDocumentViewerState extends State<MyDocumentViewer> {
     try {
       // Download image
       final http.Response response =
-          await http.get(Uri.parse(url)).timeout(Duration(seconds: 2));
+          await http.get(Uri.parse(url)).timeout(Duration(seconds: 5));
 
       // Get Application Documents
       final Directory appDocumentsDir =

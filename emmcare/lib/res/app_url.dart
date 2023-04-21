@@ -104,12 +104,12 @@ class AppUrl {
     return baseUrl + "v2/api/events/progress-note-create/";
   }
 
-  static String putClockIn() {
-    return baseUrl + "v1/api/shift/shift-clockin/";
+  static String putClockIn(shiftId) {
+    return baseUrl + "v1/api/shift/shift-clockin/$shiftId/";
   }
 
-  static String putClockOut() {
-    return baseUrl + "v1/api/shift/shift-clockout/";
+  static String putClockOut(shiftId) {
+    return baseUrl + "v1/api/shift/shift-clockout/$shiftId/";
   }
 
   static String patchClientGoalStrategyUpdate() {
