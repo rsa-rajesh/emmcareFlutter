@@ -1,4 +1,5 @@
 import 'package:emmcare/data/response/status.dart';
+import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
@@ -149,6 +150,7 @@ class HomeViewState extends State<HomeView> {
                   );
 
                 case Status.COMPLETED:
+                  addEvents(value.clientList.data);
                   return Column(
                     children: [
                       Theme(
@@ -175,9 +177,9 @@ class HomeViewState extends State<HomeView> {
                                       color: Colors.black87,
                                     ),
                               ),
-                          primaryColor: Colors.blueAccent,
-                          highlightColor: Colors.yellow,
-                          disabledColor: Colors.green,
+                          primaryColor: Colors.green[900],
+                          highlightColor: Colors.green[200],
+                          disabledColor: Colors.grey[300],
                         ),
                         child: AdvancedCalendar(
                           controller: _calendarControllerCustom,
@@ -456,5 +458,11 @@ class HomeViewState extends State<HomeView> {
     setState(() {
       homeViewViewModel.fetchClientListApi(context);
     });
+  }
+
+  void addEvents(ClientModel? data) {
+    for (var date in data!.clients!) {
+      events.add(DateTime.parse(date.shiftStartDate!));
+    }
   }
 }

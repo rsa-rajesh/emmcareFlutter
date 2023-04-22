@@ -62,6 +62,8 @@ dependencies:
   flutter_native_splash: ^2.2.19
   flutter_launcher_icons: ^0.13.0
   flutter_file_dialog: ^3.0.0
+  chucker_flutter: ^1.5.1
+  flutter_widget_from_html: ^0.10.0
 
 flutter_native_splash:
   android: true

@@ -180,7 +180,8 @@ class ProgressViewState extends State<ProgressView> {
                                   children: [
                                     CircleAvatar(
                                       radius: 25,
-                                      backgroundColor: Colors.blue[200],
+                                      backgroundColor: AppColors
+                                          .imageCircleAvatarBodyBackgroudColor,
                                       child: ClipOval(
                                           child: Icon(
                                         Icons.star,

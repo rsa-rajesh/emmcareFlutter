@@ -43,6 +43,7 @@ class Clients {
   int? staffTotalHrs;
   String? clockIn;
   String? clockOut;
+  String? instruction;
 
   Clients(
       {this.id,
@@ -74,7 +75,8 @@ class Clients {
       this.finalEndDate,
       this.staffTotalHrs,
       this.clockIn,
-      this.clockOut});
+      this.clockOut,
+      this.instruction});
 
   Clients.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -109,6 +111,7 @@ class Clients {
         : null;
     clockIn = json['clock_in'];
     clockOut = json['clock_out'];
+    instruction = json['instruction'];
   }
 
   Map<String, dynamic> toJson() {
@@ -142,6 +145,7 @@ class Clients {
     data['staff_total_hrs'] = this.staffTotalHrs;
     data['clock_in'] = this.clockIn;
     data['clock_out'] = this.clockOut;
+    data['instruction'] = this.instruction;
     if (this.location != null) {
       data['location'] = this.location!.toJson();
     }

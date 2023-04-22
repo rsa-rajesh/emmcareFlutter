@@ -1,3 +1,4 @@
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:emmcare/utils/routes/routes.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view_model/Injury_view_view_model.dart';
@@ -8,10 +9,10 @@ import 'package:emmcare/view_model/clock_in_view_model.dart';
 import 'package:emmcare/view_model/clock_out_view_model.dart';
 import 'package:emmcare/view_model/document_hub_view_view_model.dart';
 import 'package:emmcare/view_model/enquiry_view_view_model.dart';
+import 'package:emmcare/view_model/events_view_view_moel.dart';
 import 'package:emmcare/view_model/feedback_view_view_model.dart';
 import 'package:emmcare/view_model/home_view_view_model.dart';
 import 'package:emmcare/view_model/incident_view_view_model.dart';
-import 'package:emmcare/view_model/instruction_view_view_model.dart';
 import 'package:emmcare/view_model/mark_notification_all_seen_view_model.dart';
 import 'package:emmcare/view_model/mark_notification_seen_view_model.dart';
 import 'package:emmcare/view_model/my_document_view_view_model.dart';
@@ -64,7 +65,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EnquiryViewModel()),
         ChangeNotifierProvider(create: (_) => SubEventViewModel()),
         ChangeNotifierProvider(create: (_) => InjuryViewModel()),
-        ChangeNotifierProvider(create: (_) => InstructionViewViewModel()),
         ChangeNotifierProvider(
             create: (_) => MarkNotificationAllSeenViewModel()),
         ChangeNotifierProvider(create: (_) => MarkNotificationSeenViewModel()),
@@ -77,10 +77,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => ClientProfileDocumentViewViewModel()),
         ChangeNotifierProvider(create: (_) => ClientProfileGoalViewViewModel()),
+        ChangeNotifierProvider(create: (_) => EventsViewViewModel()),
       ],
       child: MaterialApp(
+        navigatorObservers: [ChuckerFlutter.navigatorObserver],
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.green,
         ),
         initialRoute: RoutesName.splash,
         onGenerateRoute: Routes.generateRoute,

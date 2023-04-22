@@ -1,10 +1,10 @@
 import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
+import 'package:emmcare/widgets/home_widgets/details_view/instructions_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-
 import '../../../view_model/clock_in_view_model.dart';
 import '../../../view_model/clock_out_view_model.dart';
 
@@ -23,6 +23,7 @@ class _DetailsViewState extends State<DetailsView> {
 
   GoogleMapController? mapController; //contrller for Google map
   Set<Marker> markers = Set(); //markers for google map
+  String _instruction = "";
 
   @override
   Widget build(BuildContext context) {
@@ -338,7 +339,12 @@ class _DetailsViewState extends State<DetailsView> {
 
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.instruction);
+              _instruction = client_Detail.instruction.toString();
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => InstructionView(
+                  instructionReceived: _instruction,
+                ),
+              ));
             },
             splashColor: AppColors.whiteColor,
             child: Padding(
@@ -437,8 +443,8 @@ class _DetailsViewState extends State<DetailsView> {
           color: AppColors.buttonColor,
           child: TextButton.icon(
             onPressed: () {
-              String datetime = DateFormat("HH:mm:ss").format(DateTime.now());
-              ClockInViewModel().clockIn(context, datetime);
+              // String datetime = DateFormat("HH:mm:ss").format(DateTime.now());
+              ClockInViewModel().clockIn(context);
             },
             icon: Icon(
               Icons.play_arrow,
@@ -463,8 +469,8 @@ class _DetailsViewState extends State<DetailsView> {
           color: AppColors.buttonColor,
           child: TextButton.icon(
               onPressed: () {
-                String datetime = DateFormat("HH:mm:ss").format(DateTime.now());
-                ClockOutViewModel().clockOut(context, datetime);
+                // String datetime = DateFormat("HH:mm:ss").format(DateTime.now());
+                ClockOutViewModel().clockOut(context);
               },
               icon: Icon(
                 Icons.play_arrow,

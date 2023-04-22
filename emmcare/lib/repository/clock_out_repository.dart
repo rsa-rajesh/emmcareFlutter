@@ -11,7 +11,7 @@ import '../view_model/user_view_view_model.dart';
 class ClockOutRepository {
   // Base and Network api Services
   BaseApiServices _apiServices = NetworkApiService();
-  Future<ClockOutModel> clockOut(String datetime) async {
+  Future<ClockOutModel> clockOut() async {
     String token = "";
     Future<UserModel> getUserData() => UserViewViewModel().getUser();
     getUserData().then((value) async {
@@ -22,13 +22,10 @@ class ClockOutRepository {
 
     final sharedpref = await SharedPreferences.getInstance();
     shiftId = sharedpref.getInt(HomeViewState.KEYSHIFTID)!;
-    Map data = {
-      "clock_out": datetime,
-    };
 
     try {
-      dynamic response = await _apiServices.getPutResponseWithAuthData(
-          AppUrl.putClockOut(shiftId), data, token);
+      dynamic response = await _apiServices.getPutResponseWithAuth(
+          AppUrl.putClockOut(shiftId), token);
       return response = ClockOutModel.fromJson(response);
     } catch (e) {
       throw e;

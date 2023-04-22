@@ -10,7 +10,7 @@ import '../view_model/user_view_view_model.dart';
 class UnavailabilityRepository {
   // Base and Network api Services
   BaseApiServices _apiServices = NetworkApiService();
-  Future unavailabilityCreate(dynamic data) async {
+  Future unavailabilityCreate(dynamic datas) async {
     String token = "";
     Future<UserModel> getUserData() => UserViewViewModel().getUser();
     getUserData().then((value) async {
@@ -21,7 +21,7 @@ class UnavailabilityRepository {
     try {
       dynamic response = await _apiServices.getPostResponseWithAuthData(
           AppUrl.postUnavailabilityCreate(),
-          json.encode(data).toString(),
+          json.encode(datas).toString(),
           token);
       return response = UnavailabilityModel.fromJson(response);
     } catch (e) {

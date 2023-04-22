@@ -28,6 +28,21 @@ class _NavDrawerState extends State<NavDrawer> {
           // Header
           buildHeader(),
           //
+
+          ListTile(
+            leading: Icon(
+              CupertinoIcons.home,
+              color: Colors.black,
+            ),
+            title: Text(
+              "MY SCHEDULE",
+              textScaleFactor: 1.2,
+              style: TextStyle(color: Colors.black),
+            ),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, RoutesName.home);
+            },
+          ),
           ListTile(
             leading: Icon(
               CupertinoIcons.bell_fill,
@@ -41,20 +56,6 @@ class _NavDrawerState extends State<NavDrawer> {
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, RoutesName.notification);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              CupertinoIcons.home,
-              color: Colors.black,
-            ),
-            title: Text(
-              "MY SCHEDULE",
-              textScaleFactor: 1.2,
-              style: TextStyle(color: Colors.black),
-            ),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, RoutesName.home);
             },
           ),
           ListTile(
@@ -106,7 +107,7 @@ class _NavDrawerState extends State<NavDrawer> {
             contentPadding: EdgeInsets.zero,
             leading: Switch(
               value: light,
-              activeColor: Colors.blue,
+              // activeColor: Colors.blue,
               thumbColor: MaterialStatePropertyAll<Color>(Colors.white),
               onChanged: (bool value) {
                 // This is called when the user toggles the switch.
@@ -116,7 +117,7 @@ class _NavDrawerState extends State<NavDrawer> {
               },
             ),
             title: Text(
-              "SHIFT REMINDER",
+              "ENABLE NOTIFICATION",
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
@@ -175,22 +176,22 @@ class _buildHeaderState extends State<buildHeader> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.NavDrawerHeaderColor,
-      padding: EdgeInsets.only(
-          top: 35,
-          // top: MediaQuery.of(context).padding.top,
-          bottom: 10),
+      padding: EdgeInsets.only(top: 50, bottom: 50),
       child: Column(
         children: [
           CircleAvatar(
-            radius: 45,
+            radius: 65,
             backgroundImage: ExactAssetImage('assets/images/pwnbot.png'),
           ),
           SizedBox(
             height: 8,
           ),
-          Text(
-            "EMMC Support Services",
-            style: TextStyle(fontSize: 17, color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Text(
+              "EMMC Support Services",
+              style: TextStyle(fontSize: 17, color: Colors.white),
+            ),
           ),
           Text(
             obtainEmail,

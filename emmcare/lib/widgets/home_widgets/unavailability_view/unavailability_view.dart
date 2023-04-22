@@ -63,10 +63,10 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
     });
   }
 
-  String _selectedDate = '';
-  String _dateCount = '';
+  List<DateTime> _selectedDate = [];
+  int _dateCount = 0;
   String _range = '';
-  String _rangeCount = '';
+  int _rangeCount = 0;
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     bsheet();
@@ -90,11 +90,15 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
             // ignore: lines_longer_than_80_chars
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       } else if (args.value is DateTime) {
-        _selectedDate = args.value.toString();
+        _selectedDate = args.value;
+        print(_selectedDate);
       } else if (args.value is List<DateTime>) {
-        _dateCount = args.value.length.toString();
+        _selectedDate = args.value;
+        _dateCount = args.value.length;
+        print(args.value);
+        print(_dateCount);
       } else {
-        _rangeCount = args.value.length.toString();
+        _rangeCount = args.value.length;
       }
     });
   }
@@ -363,26 +367,14 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                                   var userName = decodedToken["username"];
                                   var profileId = decodedToken["profile_id"];
 
-                                  List<dynamic> data = [
-                                    {
-                                      // "unavailable_date": "2023-08-01",
-                                      "unavailable_date":
-                                          _selectedDate.toString(),
-
-                                      "all_day": _allDay,
-                                      "start_time":
-                                          startFormattedTime.toString(),
-                                      "end_time": endFormattedTime.toString(),
-                                      "unavailable_reason":
-                                          _unavailabilityController.text
-                                              .toString(),
-                                      "added_by": userName.toString(),
-                                      "staff": profileId
-                                    }
-                                  ];
-
+                                  List<dynamic> datas = getJsonData(
+                                      _selectedDate,
+                                      startFormattedTime.toString(),
+                                      endFormattedTime.toString(),
+                                      userName.toString(),
+                                      profileId);
                                   UnavailabilityViewViewModel()
-                                      .unavailabilityCreate(data, context);
+                                      .unavailabilityCreate(datas, context);
                                   FocusManager.instance.primaryFocus?.unfocus();
                                 },
                               ),
@@ -399,5 +391,25 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
         },
       );
     }
+  }
+
+  List getJsonData(List<DateTime> selectedDate, String stime, String etime,
+      String uname, int id) {
+    List<dynamic> data = [];
+
+    for (var date in selectedDate) {
+      dynamic date1 = {
+        "unavailable_date": date.toString().split(" ")[0],
+        "all_day": _allDay,
+        "start_time": stime,
+        "end_time": etime,
+        "unavailable_reason": _unavailabilityController.text.toString(),
+        "added_by": uname,
+        "staff": id
+      };
+      data.add(date1);
+    }
+
+    return data;
   }
 }

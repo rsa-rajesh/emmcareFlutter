@@ -100,10 +100,10 @@ class Routes {
           builder: (BuildContext context) => ProgressNotesView(),
         );
 
-      case RoutesName.instruction:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => InstructionView(),
-        );
+      // case RoutesName.instruction:
+      //   return MaterialPageRoute(
+      //     builder: (BuildContext context) => InstructionView(),
+      //   );
 
       case RoutesName.shif_report:
         return MaterialPageRoute(

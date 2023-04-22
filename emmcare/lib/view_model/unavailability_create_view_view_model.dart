@@ -14,18 +14,18 @@ class UnavailabilityViewViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> unavailabilityCreate(dynamic data, BuildContext context) async {
+  Future<void> unavailabilityCreate(dynamic datas, BuildContext context) async {
     setLoading(true);
 
-    _myRepo.unavailabilityCreate(data).then((value) {
+    _myRepo.unavailabilityCreate(datas).then((value) {
       setLoading(false);
-      Utils.flushBarErrorMessage('Unavailability Created!', context);
+      Utils.toastMessage('Unavailability Created!');
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
       }

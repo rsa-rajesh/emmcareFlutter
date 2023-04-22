@@ -12,10 +12,10 @@ class SplashServices {
       print(value.access.toString());
 
       if (value.access.toString() == "null" || value.access.toString() == "") {
-        await Future.delayed(Duration(seconds: 3));
+        // await Future.delayed(Duration(seconds: 3));
         Navigator.pushReplacementNamed(context, RoutesName.login);
       } else {
-        await Future.delayed(Duration(seconds: 3));
+        // await Future.delayed(Duration(seconds: 3));
         Navigator.pushReplacementNamed(context, RoutesName.home);
       }
     }).onError(

@@ -1,3 +1,4 @@
+import 'package:emmcare/data/app_exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/network/BaseApiServices.dart';
@@ -11,7 +12,7 @@ import '../view_model/user_view_view_model.dart';
 class ClockInRepository {
   // Base and Network api Services
   BaseApiServices _apiServices = NetworkApiService();
-  Future<ClockInModel> clockIn(String datetime) async {
+  Future<ClockInModel> clockIn() async {
     String token = "";
     Future<UserModel> getUserData() => UserViewViewModel().getUser();
     getUserData().then((value) async {
@@ -23,16 +24,12 @@ class ClockInRepository {
     final sharedpref = await SharedPreferences.getInstance();
     shiftId = sharedpref.getInt(HomeViewState.KEYSHIFTID)!;
 
-    Map data = {
-      "clock_in": datetime,
-    };
-
     try {
-      dynamic response = await _apiServices.getPutResponseWithAuthData(
-          AppUrl.putClockIn(shiftId), data, token);
+      dynamic response = await _apiServices.getPutResponseWithAuth(
+          AppUrl.putClockIn(shiftId), token);
       return response = ClockInModel.fromJson(response);
     } catch (e) {
-      throw e;
+      throw e.toString();
     }
   }
 }

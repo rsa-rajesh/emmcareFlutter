@@ -23,7 +23,17 @@ class ProgressNoteViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.progressNoteWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      Utils.toastMessage('Progress note Created');
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text("Progress note Created!"),
+                icon: Icon(
+                  Icons.done,
+                  size: 45,
+                ),
+                iconColor: Colors.green[400],
+              ));
+      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
@@ -44,7 +54,17 @@ class ProgressNoteViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.progressNoteWithoutImage(_category, _msg).then((value) {
       setLoading(false);
-      Utils.toastMessage('Progress note Created');
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text("Progress note Created!"),
+                icon: Icon(
+                  Icons.done,
+                  size: 45,
+                ),
+                iconColor: Colors.green[400],
+              ));
+      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }

@@ -1,22 +1,8 @@
 class AppUrl {
-  // Postman API'S.
-
   // Base Url.
-
-  static var pstmnbaseUrl =
-      'https://bd00a589-d8e2-4ed3-88ad-f0656f2eb2d2.mock.pstmn.io/';
-
-  // End Points.
-  static var instructionEndPoint = pstmnbaseUrl + "instruction";
-
-  // EMMC Care API'S
-
-  // Base Url.
-
   static var baseUrl = "https://pwnbot-agecare-backend.clouds.nepalicloud.com/";
 
   // End Points.
-
   static String postLogin() {
     return baseUrl + "v1/api/auth/login/";
   }
