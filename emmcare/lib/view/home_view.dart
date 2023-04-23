@@ -60,9 +60,11 @@ class HomeViewState extends State<HomeView> {
 
   // Calendar controller and event list.
   final _calendarControllerCustom =
-      AdvancedCalendarController.custom(DateTime.now());
-  final List<DateTime> events = [DateTime.now(), DateTime(0000, 10, 10)];
+      AdvancedCalendarController.today();
+  final List<DateTime> events = [];
   // Calendar controller and event list.
+
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -182,8 +184,16 @@ class HomeViewState extends State<HomeView> {
                           disabledColor: Colors.grey[300],
                         ),
                         child: AdvancedCalendar(
+                          onHorizontalDrag:(p0) {
+  // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("calender Slide")));
+},
+onDateChanged: (p0) {
+  _scrollToIndex(getIndex(p0,value.clientList.data!.clients!));
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(p0.toString())));
+},
                           controller: _calendarControllerCustom,
                           events: events,
+                          preloadWeekViewAmount: 20,
                           weekLineHeight: 48.0,
                           startWeekDay: 0,
                           innerDot: true,
@@ -201,6 +211,7 @@ class HomeViewState extends State<HomeView> {
 
                       Expanded(
                         child: ListView.builder(
+                                                    controller: _scrollController,
                           itemCount: value.clientList.data!.clients!.length,
                           itemBuilder: (context, index) {
                             return Row(
@@ -477,4 +488,24 @@ class HomeViewState extends State<HomeView> {
       events.add(DateTime.parse(date.shiftStartDate!));
     }
   }
+
+    // Define the function that scroll to an item
+  void _scrollToIndex(index) {
+    double height=200;
+    _scrollController.animateTo(height * index,
+        duration: const Duration(seconds: 2), curve: Curves.easeIn);
+  }
+  
+  getIndex(DateTime p0, List<Clients> clients) {
+int index=0;
+for (var element in clients) {
+  if(element.shiftStartDate==p0.toString().split(" ")[0]){
+return index;
+  }
+  index++;
+}
+return 0;
+  }
+
+
 }
