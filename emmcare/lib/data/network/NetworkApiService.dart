@@ -240,8 +240,14 @@ class NetworkApiService extends BaseApiServices {
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 201:
-        dynamic responseJson = jsonDecode(response.body);
-        return responseJson;
+        if (response.body.isNotEmpty) {
+          dynamic responseJson = jsonDecode(response.body);
+          return responseJson;
+        } else {
+          dynamic responseJson = response;
+          return responseJson;
+        }
+
       case 400:
         throw BadRequestException(response.body);
       case 404:

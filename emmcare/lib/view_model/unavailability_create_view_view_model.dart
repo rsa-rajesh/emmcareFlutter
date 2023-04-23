@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../repository/unavailability_repository.dart';
-import '../utils/utils.dart';
 
 class UnavailabilityViewViewModel with ChangeNotifier {
   final _myRepo = UnavailabilityRepository();
@@ -19,16 +18,47 @@ class UnavailabilityViewViewModel with ChangeNotifier {
 
     _myRepo.unavailabilityCreate(datas).then((value) {
       setLoading(false);
-      Utils.toastMessage('Unavailability Created!');
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text("Unavailabilitysuccessfully."),
+                icon: Icon(
+                  Icons.done,
+                  size: 45,
+                ),
+                iconColor: Colors.green[400],
+              ));
+      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.toastMessage(error.toString());
+      Future.delayed(Duration.zero, () => showAlert(context, error.toString()));
+      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(error.toString());
       }
     });
+  }
+
+  showAlert(BuildContext context, String error) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: Text(splitError(error.toString())),
+              icon: Icon(
+                Icons.error,
+                size: 45,
+              ),
+              iconColor: Colors.red[400],
+            ));
+  }
+
+  String splitError(String errorString) {
+    String unSplittedString = errorString;
+    //split string
+    var splitteString = unSplittedString.split('"');
+    return splitteString[3];
   }
 }

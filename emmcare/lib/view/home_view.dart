@@ -317,122 +317,134 @@ class HomeViewState extends State<HomeView> {
                                         child: Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               0.0, 8.0, 12.0, 0.0),
-                                          child: Card(
-                                            child: Column(children: [
-                                              ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.fromLTRB(
-                                                        12, 0, 12, 0),
-                                                leading: Wrap(
-                                                  children: [
-                                                    Text(
-                                                      DateFormat.jm().format(
-                                                        DateFormat("hh:mm:ss")
-                                                            .parse(value
-                                                                .clientList
-                                                                .data!
-                                                                .clients![index]
-                                                                .shiftStartTime
-                                                                .toString()),
+                                          child: Container(
+                                            height: 200,
+                                            child: Card(
+                                              child: Column(children: [
+                                                ListTile(
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          12, 0, 12, 0),
+                                                  leading: Wrap(
+                                                    children: [
+                                                      Text(
+                                                        DateFormat.jm().format(
+                                                          DateFormat("hh:mm:ss")
+                                                              .parse(value
+                                                                  .clientList
+                                                                  .data!
+                                                                  .clients![
+                                                                      index]
+                                                                  .shiftStartTime
+                                                                  .toString()),
+                                                        ),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
                                                       ),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700),
-                                                    ),
-                                                    Text("-"),
-                                                    Text(
-                                                      DateFormat.jm().format(
-                                                        DateFormat("hh:mm:ss")
-                                                            .parse(value
-                                                                .clientList
-                                                                .data!
-                                                                .clients![index]
-                                                                .shiftEndTime
-                                                                .toString()),
+                                                      Text("-"),
+                                                      Text(
+                                                        DateFormat.jm().format(
+                                                          DateFormat("hh:mm:ss")
+                                                              .parse(value
+                                                                  .clientList
+                                                                  .data!
+                                                                  .clients![
+                                                                      index]
+                                                                  .shiftEndTime
+                                                                  .toString()),
+                                                        ),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
                                                       ),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700),
-                                                    ),
-                                                  ],
-                                                ),
-                                                trailing: Text(
-                                                  value.clientList.data!
-                                                      .clients![index].shiftType
-                                                      .toString(),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                              ),
-                                              ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.fromLTRB(
-                                                        12, 0, 12, 0),
-                                                title: Text(
-                                                  value.clientList.data!
-                                                      .clients![index].client
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w900),
-                                                ),
-                                                subtitle: Text(
-                                                  value
-                                                      .clientList
-                                                      .data!
-                                                      .clients![index]
-                                                      .shiftFullAddress
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.black,
+                                                    ],
+                                                  ),
+                                                  trailing: Text(
+                                                    value
+                                                        .clientList
+                                                        .data!
+                                                        .clients![index]
+                                                        .shiftType
+                                                        .toString(),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700),
                                                   ),
                                                 ),
-                                              ),
-                                              ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.fromLTRB(
-                                                        12, 0, 12, 0),
-                                                leading: CircleAvatar(
-                                                  backgroundColor: AppColors
-                                                      .imageCircleAvatarBodyBackgroudColor,
-                                                  child: ClipOval(
-                                                    child: Image.network(
-                                                        "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
-                                                            value
-                                                                .clientList
-                                                                .data!
-                                                                .clients![index]
-                                                                .clientImg
-                                                                .toString(),
-                                                        width: 100,
-                                                        height: 100,
-                                                        fit: BoxFit.cover,
-                                                        errorBuilder: (context,
-                                                            error, stackTrace) {
-                                                      return Icon(
-                                                        Icons.person,
-                                                        color: Colors.white,
-                                                      );
-                                                    }),
+                                                ListTile(
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          12, 0, 12, 0),
+                                                  title: Text(
+                                                    value.clientList.data!
+                                                        .clients![index].client
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                  subtitle: Text(
+                                                    value
+                                                        .clientList
+                                                        .data!
+                                                        .clients![index]
+                                                        .shiftFullAddress
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
                                                 ),
-                                                trailing: Text(
-                                                  value
-                                                      .clientList
-                                                      .data!
-                                                      .clients![index]
-                                                      .shiftStatus
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                              )
-                                            ]),
+                                                ListTile(
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          12, 0, 12, 0),
+                                                  leading: CircleAvatar(
+                                                    backgroundColor: AppColors
+                                                        .imageCircleAvatarBodyBackgroudColor,
+                                                    child: ClipOval(
+                                                      child: Image.network(
+                                                          "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                                              value
+                                                                  .clientList
+                                                                  .data!
+                                                                  .clients![
+                                                                      index]
+                                                                  .clientImg
+                                                                  .toString(),
+                                                          width: 100,
+                                                          height: 100,
+                                                          fit: BoxFit.cover,
+                                                          errorBuilder:
+                                                              (context, error,
+                                                                  stackTrace) {
+                                                        return Icon(
+                                                          Icons.person,
+                                                          color: Colors.white,
+                                                        );
+                                                      }),
+                                                    ),
+                                                  ),
+                                                  trailing: Text(
+                                                    value
+                                                        .clientList
+                                                        .data!
+                                                        .clients![index]
+                                                        .shiftStatus
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ),
+                                                )
+                                              ]),
+                                            ),
                                           ),
                                         ))),
                               ],

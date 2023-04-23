@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:emmcare/model/unavailability_model.dart';
 
 import '../data/network/BaseApiServices.dart';
 import '../data/network/NetworkApiService.dart';
@@ -23,7 +22,7 @@ class UnavailabilityRepository {
           AppUrl.postUnavailabilityCreate(),
           json.encode(datas).toString(),
           token);
-      return response = UnavailabilityModel.fromJson(response);
+      return response;
     } catch (e) {
       throw e;
     }

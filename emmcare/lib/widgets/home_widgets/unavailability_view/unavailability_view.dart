@@ -48,7 +48,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
 
   bool _light = true;
   bool _allDay = true;
-  int _numberOfDays = 0;
   @override
   void initState() {
     _startTime =
@@ -64,42 +63,18 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
   }
 
   List<DateTime> _selectedDate = [];
-  int _dateCount = 0;
-  String _range = '';
-  int _rangeCount = 0;
+  int? _dateCount;
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     bsheet();
-
-    /// The argument value will return the changed date as [DateTime] when the
-    /// widget [SfDateRangeSelectionMode] set as single.
-    ///
-    /// The argument value will return the changed dates as [List<DateTime>]
-    /// when the widget [SfDateRangeSelectionMode] set as multiple.
-    ///
-    /// The argument value will return the changed range as [PickerDateRange]
-    /// when the widget [SfDateRangeSelectionMode] set as range.
-    ///
-    /// The argument value will return the changed ranges as
-    /// [List<PickerDateRange] when the widget [SfDateRangeSelectionMode] set as
-    /// multi range.
-    ///
     setState(() {
       if (args.value is PickerDateRange) {
-        _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
-            // ignore: lines_longer_than_80_chars
-            ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       } else if (args.value is DateTime) {
         _selectedDate = args.value;
-        print(_selectedDate);
       } else if (args.value is List<DateTime>) {
         _selectedDate = args.value;
         _dateCount = args.value.length;
-        print(args.value);
-        print(_dateCount);
-      } else {
-        _rangeCount = args.value.length;
-      }
+      } else {}
     });
   }
 
@@ -112,14 +87,12 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * 1;
-
     UnavailabilityViewViewModel unavailabilityViewViewModel =
         UnavailabilityViewViewModel();
 
     return Scaffold(
       key: scaffoldKey,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         title: Text("Unavailability"),
@@ -227,8 +200,7 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600)),
                           Switch(
-                            value: _light,
-                            activeColor: Colors.blue,
+                            value: _allDay,
                             thumbColor:
                                 MaterialStatePropertyAll<Color>(Colors.white),
                             onChanged: (bool value) {
@@ -265,7 +237,7 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                               )),
 
                           Visibility(
-                            visible: _allDay,
+                            visible: !_allDay,
                             child: InkWell(
                               onTap: () => _selectStartTime(),
                               child: Column(
@@ -301,7 +273,7 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                             ),
                           ),
                           Visibility(
-                            visible: _allDay,
+                            visible: !_allDay,
                             child: InkWell(
                               onTap: () => _selectEndTime(),
                               child: Column(
