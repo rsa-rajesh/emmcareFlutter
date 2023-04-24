@@ -176,18 +176,9 @@ class ProgressViewState extends State<ProgressView> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor: AppColors
-                                          .imageCircleAvatarBodyBackgroudColor,
-                                      child: ClipOval(
-                                          child: Icon(
-                                        Icons.star,
-                                        color: Colors.white,
-                                      )),
-                                    ),
+                                    Avatar(value.progressList.data!
+                                        .progress![index].category!),
                                     SizedBox(
                                       width: 7,
                                     ),
@@ -245,26 +236,77 @@ class ProgressViewState extends State<ProgressView> {
     });
   }
 
-  // String timeAgoCustom(DateTime d) {
-  //   Duration diff = DateTime.now().difference(d);
-  //   if (diff.inDays > 365) {
-  //     return "${(diff.inDays / 365).floor()} ${(diff.inDays / 365).floor() == 1 ? "year" : "years"} ago";
-  //   }
-  //   if (diff.inDays > 30) {
-  //     return "${(diff.inDays / 30).floor()} ${(diff.inDays / 30).floor() == 1 ? "month" : "months"} ago";
-  //   }
-  //   if (diff.inDays > 7) {
-  //     return "${(diff.inDays / 7).floor()} ${(diff.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
-  //   }
-  //   if (diff.inDays > 0) {
-  //     return "${DateFormat.E().add_jm().format(d)}";
-  //   }
-  //   if (diff.inHours > 0) {
-  //     return "Today ${DateFormat('jm').format(d)}";
-  //   }
-  //   if (diff.inMinutes > 0) {
-  //     return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
-  //   }
-  //   return "just now";
-  // }
+  Avatar(String _category) {
+    if (_category == "note") {
+      return CircleAvatar(
+        radius: 25,
+        backgroundColor: AppColors.imageCircleAvatarBodyBackgroudColor,
+        child: ClipOval(
+            child: Icon(
+          Icons.star,
+          color: Colors.white,
+        )),
+      );
+    } else if (_category == "feedback") {
+      return CircleAvatar(
+        radius: 25,
+        backgroundColor: AppColors.imageCircleAvatarBodyBackgroudColor,
+        child: ClipOval(
+            child: Icon(
+          Icons.error_outline,
+          color: Colors.white,
+        )),
+      );
+    } else if (_category == "warning") {
+      return CircleAvatar(
+        radius: 25,
+        backgroundColor: AppColors.imageCircleAvatarBodyBackgroudColor,
+        child: ClipOval(
+            child: Icon(
+          Icons.warning_amber_rounded,
+          color: Colors.white,
+        )),
+      );
+    } else if (_category == "incident") {
+      return CircleAvatar(
+        radius: 25,
+        backgroundColor: AppColors.imageCircleAvatarBodyBackgroudColor,
+        child: ClipOval(
+            child: Icon(
+          Icons.brush,
+          color: Colors.white,
+        )),
+      );
+    } else if (_category == "enquiry") {
+      return CircleAvatar(
+        radius: 25,
+        backgroundColor: AppColors.imageCircleAvatarBodyBackgroudColor,
+        child: ClipOval(
+            child: Icon(
+          Icons.search,
+          color: Colors.white,
+        )),
+      );
+    } else if (_category == "event") {
+      return CircleAvatar(
+        radius: 25,
+        backgroundColor: AppColors.imageCircleAvatarBodyBackgroudColor,
+        child: ClipOval(
+            child: Icon(
+          Icons.event,
+          color: Colors.white,
+        )),
+      );
+    } else {
+      return CircleAvatar(
+        radius: 25,
+        backgroundColor: AppColors.imageCircleAvatarBodyBackgroudColor,
+        child: ClipOval(
+            child: Icon(
+          Icons.personal_injury_outlined,
+          color: Colors.white,
+        )),
+      );
+    }
+  }
 }

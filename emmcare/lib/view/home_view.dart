@@ -59,8 +59,7 @@ class HomeViewState extends State<HomeView> {
   // Shared prefs keys.
 
   // Calendar controller and event list.
-  final _calendarControllerCustom =
-      AdvancedCalendarController.today();
+  final _calendarControllerCustom = AdvancedCalendarController.today();
   final List<DateTime> events = [];
   // Calendar controller and event list.
 
@@ -73,7 +72,7 @@ class HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
-        title: Text(currentMonth + "\t" + currentYear),
+        title: Text("Shift List"),
         centerTitle: true,
         backgroundColor: AppColors.appBarColor,
       ),
@@ -184,13 +183,14 @@ class HomeViewState extends State<HomeView> {
                           disabledColor: Colors.grey[300],
                         ),
                         child: AdvancedCalendar(
-                          onHorizontalDrag:(p0) {
-  // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("calender Slide")));
-},
-onDateChanged: (p0) {
-  _scrollToIndex(getIndex(p0,value.clientList.data!.clients!));
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(p0.toString())));
-},
+                          onHorizontalDrag: (p0) {
+                            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("calender Slide")));
+                          },
+                          onDateChanged: (p0) {
+                            _scrollToIndex(
+                                getIndex(p0, value.clientList.data!.clients!));
+                            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(p0.toString())));
+                          },
                           controller: _calendarControllerCustom,
                           events: events,
                           preloadWeekViewAmount: 20,
@@ -211,7 +211,7 @@ onDateChanged: (p0) {
 
                       Expanded(
                         child: ListView.builder(
-                                                    controller: _scrollController,
+                          controller: _scrollController,
                           itemCount: value.clientList.data!.clients!.length,
                           itemBuilder: (context, index) {
                             return Row(
@@ -489,23 +489,21 @@ onDateChanged: (p0) {
     }
   }
 
-    // Define the function that scroll to an item
+  // Define the function that scroll to an item
   void _scrollToIndex(index) {
-    double height=200;
+    double height = 200;
     _scrollController.animateTo(height * index,
-        duration: const Duration(seconds: 2), curve: Curves.easeIn);
+        duration: const Duration(milliseconds: 800), curve: Curves.easeIn);
   }
-  
+
   getIndex(DateTime p0, List<Clients> clients) {
-int index=0;
-for (var element in clients) {
-  if(element.shiftStartDate==p0.toString().split(" ")[0]){
-return index;
+    int index = 0;
+    for (var element in clients) {
+      if (element.shiftStartDate == p0.toString().split(" ")[0]) {
+        return index;
+      }
+      index++;
+    }
+    return 0;
   }
-  index++;
-}
-return 0;
-  }
-
-
 }
