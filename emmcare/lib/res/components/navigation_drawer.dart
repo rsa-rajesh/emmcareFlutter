@@ -11,15 +11,34 @@ class NavDrawer extends StatefulWidget {
   const NavDrawer({super.key});
 
   @override
-  State<NavDrawer> createState() => _NavDrawerState();
+  State<NavDrawer> createState() => NavDrawerState();
 }
 
-class _NavDrawerState extends State<NavDrawer> {
-  bool light = false;
-
+class NavDrawerState extends State<NavDrawer> {
+  bool? isChecked;
   String obtainEmail = "";
   @override
+  void initState() {
+    loadBool();
+    super.initState();
+  }
+
+  loadBool() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      isChecked = preferences.getBool('isChecked');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    @override
+    saveBool() async {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.setBool('isChecked', isChecked!);
+      print(isChecked);
+    }
+
     final userPreference = Provider.of<UserViewViewModel>(context);
     return Drawer(
       child: Column(
@@ -28,7 +47,6 @@ class _NavDrawerState extends State<NavDrawer> {
           // Header
           buildHeader(),
           //
-
           ListTile(
             leading: Icon(
               CupertinoIcons.home,
@@ -106,18 +124,20 @@ class _NavDrawerState extends State<NavDrawer> {
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: Switch(
-              value: light,
-              // activeColor: Colors.blue,
+              value: isChecked != null ? isChecked! : false,
+              activeColor: Colors.green,
               thumbColor: MaterialStatePropertyAll<Color>(Colors.white),
-              onChanged: (bool value) {
-                // This is called when the user toggles the switch.
+              onChanged: (value) {
                 setState(() {
-                  light = value;
+                  isChecked = value;
                 });
+                saveBool();
               },
             ),
             title: Text(
-              "ENABLE NOTIFICATION",
+              isChecked == true
+                  ? "DISABLE NOTIFICATION"
+                  : "ENABLE NOTIFICATION",
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),

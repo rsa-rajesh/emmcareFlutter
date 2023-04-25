@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../widgets/forgot_password/forgot_password_view.dart';
+
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -84,7 +86,6 @@ class LoginViewState extends State<LoginView> {
                           fontWeight: FontWeight.normal, color: Colors.black),
                       autofocus: false,
                       decoration: InputDecoration(
-                        // contentPadding: EdgeInsets.symmetric(vertical: 12),
                         hintText: "Email",
                         border: OutlineInputBorder(),
                       ),
@@ -111,9 +112,7 @@ class LoginViewState extends State<LoginView> {
                           obscureText: _obsecurePassword.value,
                           obscuringCharacter: "*",
                           decoration: InputDecoration(
-                            // contentPadding: EdgeInsets.symmetric(vertical: 12),
                             hintText: "Password",
-                            // labelText: "Password",
                             suffixIcon: InkWell(
                               onTap: () {
                                 _obsecurePassword.value =
@@ -133,7 +132,13 @@ class LoginViewState extends State<LoginView> {
                     ),
                     SizedBox(height: height * .04),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordView()),
+                        );
+                      },
                       child: Text(
                         "Forgot your password?",
                         style: TextStyle(
@@ -171,16 +176,11 @@ class LoginViewState extends State<LoginView> {
                               sharedprefs.getString(KEYEMAIL);
                             });
 
-                            
                             Map data = {
                               "email": emailController.text.toString(),
                               "password": passwordController.text.toString(),
                             };
 
-                            // Map data = {
-                            //   'email' : 'atishghimire21000@gmail.com',
-                            //   'password' : 'Admin@12345',
-                            // };
                             authViewModel.loginApi(data, context);
                             print("api hit");
                             FocusManager.instance.primaryFocus?.unfocus();
