@@ -12,6 +12,10 @@ class RoutesName {
 
   //
   static const String notification = "notification_view";
+  //
+  static const String unreadnotification = "unread_notification_view";
+  //
+  static const String readnotification = "read_notification_view";
 
   //
   static const String about = "about_view";

@@ -27,23 +27,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'firebase_options.dart';
-import 'view_model/services/local_notification_services.dart';
 
-Future<void> backgroundHandler(RemoteMessage message) async {
-  print(message.data.toString());
-  print(message.notification!.title);
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  FirebaseMessaging.instance.subscribeToTopic('emmccare');
-  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-  LocalNotificationService.initialize();
+  await Firebase.initializeApp();
+  FirebaseMessaging.instance.subscribeToTopic('push_notification_test');
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(const MyApp());
 }

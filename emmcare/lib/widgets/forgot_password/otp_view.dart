@@ -56,9 +56,10 @@ class _OTPViewState extends State<OTPView> {
                 child: Text(
                   "Reset Password",
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             )

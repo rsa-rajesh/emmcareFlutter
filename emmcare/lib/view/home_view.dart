@@ -2,10 +2,10 @@ import 'package:emmcare/data/response/status.dart';
 import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
+import 'package:emmcare/view_model/services/notification_services.dart';
 import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
 import 'package:emmcare/view_model/home_view_view_model.dart';
 import 'package:emmcare/res/components/navigation_drawer.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
@@ -27,27 +27,6 @@ class HomeViewState extends State<HomeView> {
   // App bar current Month and year.
   String currentMonth = DateFormat.LLL().format(DateTime.now());
   String currentYear = DateFormat("yyyy").format(DateTime.now());
-  HomeViewViewModel homeViewViewModel = HomeViewViewModel();
-
-  // Device Token to send push notification
-  String deviceTokenToSendPushNotification = "";
-  // Device Token to send push notification
-
-  @override
-  void initState() {
-    homeViewViewModel.fetchClientListApi(context);
-    super.initState();
-  }
-
-  Future<void> getDeviceTokenToSendNotification() async {
-    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-    final token = await _fcm.getToken();
-    deviceTokenToSendPushNotification = token.toString();
-    print("Token Value $deviceTokenToSendPushNotification");
-  }
-
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
 
   // Shared prefs keys.
   static String KEYSHIFTID = "shift_Id";
@@ -64,11 +43,20 @@ class HomeViewState extends State<HomeView> {
   // Calendar controller and event list.
 
   final _scrollController = ScrollController();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+  HomeViewViewModel homeViewViewModel = HomeViewViewModel();
+  NotificationServices notificationServices = NotificationServices();
+
+  @override
+  void initState() {
+    homeViewViewModel.fetchClientListApi(context);
+    super.initState();
+    notificationServices.requestNotificationPermission();
+  }
 
   @override
   Widget build(BuildContext context) {
-    getDeviceTokenToSendNotification();
-
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(

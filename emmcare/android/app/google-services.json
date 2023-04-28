@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "628428852056",
-    "project_id": "emmca-375605",
-    "storage_bucket": "emmca-375605.appspot.com"
+    "project_number": "855347666858",
+    "project_id": "emmc-care",
+    "storage_bucket": "emmc-care.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:628428852056:android:f61e4b3a2436fbd4eeb32d",
+        "mobilesdk_app_id": "1:855347666858:android:72f0330b58685c1a1f15d3",
         "android_client_info": {
           "package_name": "com.example.emmcare"
         }
       },
       "oauth_client": [
         {
-          "client_id": "628428852056-aeqlhddo8064l0l4cp6raj6qot2k31bf.apps.googleusercontent.com",
+          "client_id": "855347666858-iogrmsnlmo1ul3b5ko51h17rqvsm148q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAu6aWJtKc1z1CF0R21Rsg3ZBiKoMHXJuc"
+          "current_key": "AIzaSyBYGbVVtAeCyRDTmLKFw1rhULO3RNAFH78"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "628428852056-aeqlhddo8064l0l4cp6raj6qot2k31bf.apps.googleusercontent.com",
+              "client_id": "855347666858-iogrmsnlmo1ul3b5ko51h17rqvsm148q.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
