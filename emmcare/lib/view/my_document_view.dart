@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:emmcare/view_model/my_document_view_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
@@ -153,6 +154,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
               },
             )),
       ),
+      drawer: NavDrawer(),
     );
   }
 
@@ -174,7 +176,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
     String? message;
 
     try {
-      // Download image
+      // Download file
       final http.Response response =
           await http.get(Uri.parse(url)).timeout(Duration(seconds: 2));
 
@@ -182,7 +184,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
       final Directory appDocumentsDir =
           await getApplicationDocumentsDirectory();
 
-      // Create an image name
+      // Create a file name.
       var filename = '${appDocumentsDir.path}/$fileName';
 
       // Save to filesystem

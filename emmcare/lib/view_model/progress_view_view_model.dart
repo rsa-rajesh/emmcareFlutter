@@ -13,10 +13,10 @@ class ProgressViewViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchProgressListApi() async {
+  Future<void> fetchProgressListApi(BuildContext context) async {
     setProgressList(ApiResponse.loading());
 
-    _myRepo.fetchProgressList().then(
+    _myRepo.fetchProgressList(context).then(
       (value) {
         setProgressList(ApiResponse.completed(value));
       },

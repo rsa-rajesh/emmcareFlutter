@@ -2,6 +2,7 @@ import 'package:emmcare/repository/progress_note_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../utils/utils.dart';
+import '../widgets/home_widgets/progress_view/progress_view.dart';
 
 class ProgressNoteViewModel with ChangeNotifier {
   final _myRepo = ProgressNoteRepository();
@@ -33,6 +34,9 @@ class ProgressNoteViewModel with ChangeNotifier {
                 ),
                 iconColor: Colors.green[400],
               ));
+
+      Future.delayed(
+          Duration(milliseconds: 1), () => ProgressViewState().refresh);
       Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
@@ -64,6 +68,8 @@ class ProgressNoteViewModel with ChangeNotifier {
                 ),
                 iconColor: Colors.green[400],
               ));
+      Future.delayed(
+          Duration(milliseconds: 1), () => ProgressViewState().refresh);
       Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());

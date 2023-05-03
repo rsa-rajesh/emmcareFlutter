@@ -11,7 +11,7 @@ class ProgressRepository {
   // Base and Network api Services
   BaseApiServices _apiServices = NetworkApiService();
 
-  Future<ProgressModel> fetchProgressList() async {
+  Future<ProgressModel> fetchProgressList(context) async {
     String token = "";
     Future<UserModel> getUserData() => UserViewViewModel().getUser();
     getUserData().then((value) async {

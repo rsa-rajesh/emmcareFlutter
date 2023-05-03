@@ -14,19 +14,19 @@ class ProgressView extends StatefulWidget {
 }
 
 class ProgressViewState extends State<ProgressView> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
   ProgressViewViewModel progressViewViewModel = ProgressViewViewModel();
 
   @override
   void initState() {
-    progressViewViewModel.fetchProgressListApi();
+    progressViewViewModel.fetchProgressListApi(context);
     super.initState();
   }
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
-
   @override
   Widget build(BuildContext context) {
+    refresh();
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       floatingActionButton: SpeedDial(
@@ -49,7 +49,12 @@ class ProgressViewState extends State<ProgressView> {
             label: 'Injury',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.injury);
+              Navigator.pushNamed(context, RoutesName.injury).then((_) {
+                // This block runs when you have returned back to the 1st Page from 2nd.
+                setState(() {
+                  // Call setState to refresh the page.
+                });
+              });
             },
           ),
           SpeedDialChild(
@@ -59,7 +64,12 @@ class ProgressViewState extends State<ProgressView> {
             label: 'Event',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.event);
+              Navigator.pushNamed(context, RoutesName.event).then((_) {
+                // This block runs when you have returned back to the 1st Page from 2nd.
+                setState(() {
+                  // Call setState to refresh the page.
+                });
+              });
             },
           ),
           SpeedDialChild(
@@ -70,7 +80,12 @@ class ProgressViewState extends State<ProgressView> {
             label: 'Enquiry',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.enquiry);
+              Navigator.pushNamed(context, RoutesName.enquiry).then((_) {
+                // This block runs when you have returned back to the 1st Page from 2nd.
+                setState(() {
+                  // Call setState to refresh the page.
+                });
+              });
             },
           ),
           SpeedDialChild(
@@ -80,7 +95,12 @@ class ProgressViewState extends State<ProgressView> {
             label: 'Incident',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.incident);
+              Navigator.pushNamed(context, RoutesName.incident).then((_) {
+                // This block runs when you have returned back to the 1st Page from 2nd.
+                setState(() {
+                  // Call setState to refresh the page.
+                });
+              });
             },
           ),
           SpeedDialChild(
@@ -90,7 +110,12 @@ class ProgressViewState extends State<ProgressView> {
             label: 'Warning',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.warning);
+              Navigator.pushNamed(context, RoutesName.warning).then((_) {
+                // This block runs when you have returned back to the 1st Page from 2nd.
+                setState(() {
+                  // Call setState to refresh the page.
+                });
+              });
             },
           ),
           SpeedDialChild(
@@ -100,7 +125,12 @@ class ProgressViewState extends State<ProgressView> {
             label: 'Feedback',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.feedback);
+              Navigator.pushNamed(context, RoutesName.feedback).then((_) {
+                // This block runs when you have returned back to the 1st Page from 2nd.
+                setState(() {
+                  // Call setState to refresh the page.
+                });
+              });
             },
           ),
           SpeedDialChild(
@@ -110,7 +140,12 @@ class ProgressViewState extends State<ProgressView> {
             label: 'Progress Notes',
             labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
             onTap: () {
-              Navigator.pushNamed(context, RoutesName.progress_notes);
+              Navigator.pushNamed(context, RoutesName.progress_notes).then((_) {
+                // This block runs when you have returned back to the 1st Page from 2nd.
+                setState(() {
+                  // Call setState to refresh the page.
+                });
+              });
             },
           ),
         ],
@@ -232,7 +267,7 @@ class ProgressViewState extends State<ProgressView> {
 
   Future<void> refresh() async {
     setState(() {
-      progressViewViewModel.fetchProgressListApi();
+      progressViewViewModel.fetchProgressListApi(context);
     });
   }
 

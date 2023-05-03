@@ -25,6 +25,7 @@ class _TasksViewState extends State<TasksView> {
 
   @override
   Widget build(BuildContext context) {
+    refresh();
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       body: RefreshIndicator(

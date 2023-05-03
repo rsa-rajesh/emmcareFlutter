@@ -18,16 +18,11 @@ class HomeView extends StatefulWidget {
   HomeView({
     super.key,
   });
-
   @override
   State<HomeView> createState() => HomeViewState();
 }
 
 class HomeViewState extends State<HomeView> {
-  // App bar current Month and year.
-  String currentMonth = DateFormat.LLL().format(DateTime.now());
-  String currentYear = DateFormat("yyyy").format(DateTime.now());
-
   // Shared prefs keys.
   static String KEYSHIFTID = "shift_Id";
   static String KEYCLIENTNAME = "client_Name";

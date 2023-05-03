@@ -48,6 +48,7 @@ class _EventsViewState extends State<EventsView> {
 
   @override
   Widget build(BuildContext context) {
+    refresh();
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       body: RefreshIndicator(

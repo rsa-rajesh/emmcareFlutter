@@ -1,3 +1,4 @@
+import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../res/colors.dart';
@@ -155,6 +156,7 @@ class _DocumentHubViewState extends State<DocumentHubView> {
               },
             )),
       ),
+      drawer: NavDrawer(),
     );
   }
 
@@ -176,7 +178,7 @@ class _DocumentHubViewState extends State<DocumentHubView> {
     String? message;
 
     try {
-      // Download image
+      // Download file
       final http.Response response =
           await http.get(Uri.parse(url)).timeout(Duration(seconds: 2));
 
@@ -184,7 +186,7 @@ class _DocumentHubViewState extends State<DocumentHubView> {
       final Directory appDocumentsDir =
           await getApplicationDocumentsDirectory();
 
-      // Create an image name
+      // Create a file name
       var filename = '${appDocumentsDir.path}/$fileName';
 
       // Save to filesystem
