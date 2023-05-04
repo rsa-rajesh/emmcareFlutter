@@ -5,7 +5,6 @@ import '../utils/utils.dart';
 
 class ClientGoalStrategyViewModel with ChangeNotifier {
   final _myRepo = ClientGoalStrategyRepository();
-
   bool _loading = false;
   bool get loading => _loading;
 

@@ -52,7 +52,13 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
     });
   }
 
-  bool widgetShowFlag = false;
+  // For External list
+  bool _externalWidgetShowFlag = false;
+  int? _externalSelectedIndex;
+
+  // For inner list
+  bool internalWidgetShowFlag = false;
+  int? _internalSelectedIndex;
 
   // The rating value
   double? _ratingValue;
@@ -74,7 +80,7 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                   itemCount: value.goals.length,
                   itemBuilder: (context, index) {
                     return Card(
-                      color: widgetShowFlag
+                      color: _externalWidgetShowFlag
                           ? AppColors.bodyBackgroudColor
                           : Colors.white,
                       margin: EdgeInsets.all(16.0),
@@ -98,7 +104,8 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                             padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
                             child: Text(
                               value.goals[index].description.toString(),
-                              maxLines: widgetShowFlag
+                              maxLines: _externalWidgetShowFlag &&
+                                      _externalSelectedIndex == index
                                   ? value.goals[index].description!.length
                                   : 2,
                               overflow: TextOverflow.ellipsis,
@@ -115,20 +122,24 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        widgetShowFlag = !widgetShowFlag;
-                                      });
-                                    },
-                                    child: widgetShowFlag
-                                        ? Text(
-                                            "Show Less",
-                                            style:
-                                                TextStyle(color: Colors.blue),
-                                          )
-                                        : Text("Show More",
-                                            style:
-                                                TextStyle(color: Colors.blue)))
+                                  onPressed: () {
+                                    setState(() {
+                                      _externalSelectedIndex = index;
+                                      _externalWidgetShowFlag =
+                                          !_externalWidgetShowFlag;
+                                    });
+                                  },
+                                  child: _externalWidgetShowFlag &&
+                                          _externalSelectedIndex == index
+                                      ? Text(
+                                          "Show Less",
+                                          style: TextStyle(color: Colors.blue),
+                                        )
+                                      : Text(
+                                          "Show More",
+                                          style: TextStyle(color: Colors.blue),
+                                        ),
+                                ),
                               ],
                             ),
                           ),
@@ -144,7 +155,7 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
   }
 
   Widget showInternalList(List<GoalStrategy>? goalStrategies) {
-    if (widgetShowFlag) {
+    if (_externalWidgetShowFlag) {
       return ListView.builder(
         itemCount: goalStrategies!.length,
         physics: ClampingScrollPhysics(),
@@ -153,7 +164,9 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
           return Padding(
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
             child: InkWell(
-              onTap: () {
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setInt('internalId', goalStrategies[index].id!);
                 showDialog(
                     barrierDismissible: true,
                     context: context,
@@ -193,10 +206,12 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                               alignment: Alignment.bottomCenter,
                               child: ElevatedButton(
                                 child: Text("Submit"),
-                                onPressed: () {
+                                onPressed: () async {
                                   var star = _ratingValue;
+
                                   ClientGoalStrategyViewModel()
                                       .clientGoalStrategy(context, star);
+                                  refresh();
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -205,23 +220,56 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                         ));
               },
               child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          goalStrategies[index].description.toString(),
-                        ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              goalStrategies[index].description.toString(),
+                              maxLines: internalWidgetShowFlag &&
+                                      _internalSelectedIndex == index
+                                  ? goalStrategies[index].description!.length
+                                  : 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Text(goalStrategies[index].rating.toString()),
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          )
+                        ],
                       ),
-                      Text(goalStrategies[index].rating.toString()),
-                      Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      )
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  _internalSelectedIndex = index;
+                                  internalWidgetShowFlag =
+                                      !internalWidgetShowFlag;
+                                });
+                              },
+                              child: internalWidgetShowFlag &&
+                                      _internalSelectedIndex == index
+                                  ? Text(
+                                      "Show Less",
+                                      style: TextStyle(color: Colors.blue),
+                                    )
+                                  : Text("Show More",
+                                      style: TextStyle(color: Colors.blue)))
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

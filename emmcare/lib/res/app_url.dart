@@ -98,7 +98,8 @@ class AppUrl {
     return baseUrl + "v1/api/shift/shift-clockout/$shiftId/";
   }
 
-  static String patchClientGoalStrategyUpdate() {
-    return baseUrl + "v1/api/auth/client-goal-strategy-update/1/";
+  static String patchClientGoalStrategyUpdate(int internalId) {
+    return baseUrl +
+        "v1/api/auth/client-goal-strategy-update/${internalId.toString()}/";
   }
 }
