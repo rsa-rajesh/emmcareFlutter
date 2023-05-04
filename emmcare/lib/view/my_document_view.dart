@@ -76,7 +76,8 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                                   padding:
                                       const EdgeInsets.fromLTRB(8, 6, 8, 6),
                                   child: Text(
-                                    value.documents[index].id.toString(),
+                                    value.documents[index].docCategory
+                                        .toString(),
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
@@ -178,7 +179,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
     try {
       // Download file
       final http.Response response =
-          await http.get(Uri.parse(url)).timeout(Duration(seconds: 2));
+          await http.get(Uri.parse(url)).timeout(Duration(seconds: 20));
 
       // Get Application Documents
       final Directory appDocumentsDir =

@@ -16,13 +16,13 @@ class ClientProfileDocumentsModel {
     this.totalCount,
     this.nextPage,
     this.previousPage,
-    required this.results,
+    this.results,
   });
 
   int? totalCount;
   String? nextPage;
   String? previousPage;
-  List<Result> results;
+  List<Result>? results;
 
   factory ClientProfileDocumentsModel.fromJson(Map<String, dynamic> json) =>
       ClientProfileDocumentsModel(
@@ -37,32 +37,32 @@ class ClientProfileDocumentsModel {
         "TotalCount": totalCount,
         "NextPage": nextPage,
         "PreviousPage": previousPage,
-        "Results": List<dynamic>.from(results.map((x) => x.toJson())),
+        "Results": List<dynamic>.from(results!.map((x) => x.toJson())),
       };
 }
 
 class Result {
-  int id;
-  String file;
-  String uploadDate;
-  String updateDate;
-  String expiryDate;
-  String contentType;
-  String docCategory;
-  String relatedUserType;
-  int realtedUserId;
-  String user;
+  int? id;
+  String? file;
+  String? uploadDate;
+  String? updateDate;
+  String? expiryDate;
+  String? contentType;
+  String? docCategory;
+  String? relatedUserType;
+  int? realtedUserId;
+  String? user;
   Result({
-    required this.id,
-    required this.file,
-    required this.uploadDate,
-    required this.updateDate,
-    required this.expiryDate,
-    required this.contentType,
-    required this.docCategory,
-    required this.relatedUserType,
-    required this.realtedUserId,
-    required this.user,
+    this.id,
+    this.file,
+    this.uploadDate,
+    this.updateDate,
+    this.expiryDate,
+    this.contentType,
+    this.docCategory,
+    this.relatedUserType,
+    this.realtedUserId,
+    this.user,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(

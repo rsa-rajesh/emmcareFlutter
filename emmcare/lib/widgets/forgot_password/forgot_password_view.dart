@@ -8,7 +8,7 @@ class ForgotPasswordView extends StatefulWidget {
 }
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
-  // Email and password Controllers
+  // Email Controllers
   var emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {

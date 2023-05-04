@@ -27,14 +27,14 @@ class MyDocumentViewViewModel extends ChangeNotifier {
         _page = _page + 1;
         var data = MyDocumentModel.fromJson(response);
         _documents.clear();
-        _documents = data.results;
+        _documents = data.results!;
       });
       notifyListeners();
     } else if (_refresh == false) {
       await MyDocumentRepository().fetchDocumentList(_page).then((response) {
         _page = _page + 1;
         var data = MyDocumentModel.fromJson(response);
-        addDocumentsToList(data.results);
+        addDocumentsToList(data.results!);
       });
       notifyListeners();
     }

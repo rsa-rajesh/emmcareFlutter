@@ -76,7 +76,8 @@ class _ClientProfileDocumentsViewState
                                   padding:
                                       const EdgeInsets.fromLTRB(8, 6, 8, 6),
                                   child: Text(
-                                    value.documents[index].id.toString(),
+                                    value.documents[index].docCategory
+                                        .toString(),
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),

@@ -180,7 +180,7 @@ class _DocumentHubViewState extends State<DocumentHubView> {
     try {
       // Download file
       final http.Response response =
-          await http.get(Uri.parse(url)).timeout(Duration(seconds: 2));
+          await http.get(Uri.parse(url)).timeout(Duration(seconds: 20));
 
       // Get Application Documents
       final Directory appDocumentsDir =

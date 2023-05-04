@@ -29,7 +29,7 @@ class ClientProfileDocumentViewViewModel extends ChangeNotifier {
         _page = _page + 1;
         var data = ClientProfileDocumentsModel.fromJson(response);
         _documents.clear();
-        _documents = data.results;
+        _documents = data.results!;
       });
       notifyListeners();
     } else if (_refresh == false) {
@@ -38,7 +38,7 @@ class ClientProfileDocumentViewViewModel extends ChangeNotifier {
           .then((response) {
         _page = _page + 1;
         var data = ClientProfileDocumentsModel.fromJson(response);
-        addDocumentsToList(data.results);
+        addDocumentsToList(data.results!);
       });
       notifyListeners();
     }

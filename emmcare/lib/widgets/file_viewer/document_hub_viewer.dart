@@ -63,7 +63,7 @@ class _DocumentHubViewerState extends State<DocumentHubViewer> {
     try {
       // Download image
       final http.Response response =
-          await http.get(Uri.parse(url)).timeout(Duration(seconds: 5));
+          await http.get(Uri.parse(url)).timeout(Duration(seconds: 20));
 
       // Get Application Documents
       final Directory appDocumentsDir =
