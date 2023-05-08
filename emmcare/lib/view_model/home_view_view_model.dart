@@ -15,7 +15,7 @@ class HomeViewViewModel with ChangeNotifier {
   }
 
   Future<void> fetchClientListApi(BuildContext context) async {
-    setClientList(ApiResponse.loading());
+    setClientList(ApiResponse.loading()); 
     _myRepo.fetchClientList(context).then(
       (value) {
         setClientList(ApiResponse.completed(value));

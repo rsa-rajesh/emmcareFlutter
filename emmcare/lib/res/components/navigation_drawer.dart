@@ -153,6 +153,7 @@ class NavDrawerState extends State<NavDrawer> {
                       onPressed: () {
                         userPreference.remove().then(
                           (value) {
+                            Navigator.pop(context);
                             Navigator.pushNamed(context, RoutesName.login);
                           },
                         );

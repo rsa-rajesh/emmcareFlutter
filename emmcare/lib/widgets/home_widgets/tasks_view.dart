@@ -1,6 +1,5 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../data/response/status.dart';
 import '../../view_model/tasks_view_view_model.dart';
@@ -47,14 +46,13 @@ class _TasksViewState extends State<TasksView> {
                   return AlertDialog(
                     icon: Icon(Icons.error_rounded, size: 30),
                     title: Text(
-                      // value.tasksList.message.toString(),
                       "Oops Something Went Wrong!",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
                     ),
                     actions: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           OutlinedButton(
                             style: OutlinedButton.styleFrom(
@@ -66,74 +64,96 @@ class _TasksViewState extends State<TasksView> {
                               'Refresh',
                             ),
                           ),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              shape: StadiumBorder(),
-                            ),
-                            onPressed: () {
-                              SystemChannels.platform
-                                  .invokeMethod('SystemNavigator.pop');
-                            },
-                            child: Text('Abort'),
-                          ),
                         ],
                       )
                     ],
                   );
 
                 case Status.COMPLETED:
-                  return ListView.builder(
-                    itemCount: value.tasksList.data!.tasks!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                  return value.tasksList.data!.tasks!.isEmpty
+                      ? AlertDialog(
+                          title: Center(
+                            child: Text(
+                              "No Task",
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w900),
+                            ),
+                          ),
+                          actions: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                      shape: StadiumBorder()),
+                                  onPressed: () {
+                                    refresh();
+                                  },
+                                  child: Text(
+                                    'Refresh',
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                      : ListView.builder(
+                          itemCount: value.tasksList.data!.tasks!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                              child: Card(
+                                child: Column(
                                   children: [
-                                    getIcon(
-                                      value.tasksList.data!.tasks![index]
-                                          .mandatory!,
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 8, 8, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          getIcon(
+                                            value.tasksList.data!.tasks![index]
+                                                .mandatory!,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  value.tasksList.data!
+                                                      .tasks![index].task
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            value.tasksList.data!.tasks![index]
-                                                .task
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
+                            );
+                          },
+                        );
 
                 default:
                   return Container();

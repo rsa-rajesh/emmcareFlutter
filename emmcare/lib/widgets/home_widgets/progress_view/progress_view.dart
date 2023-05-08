@@ -167,13 +167,13 @@ class ProgressViewState extends State<ProgressView> {
                   return AlertDialog(
                     icon: Icon(Icons.error_rounded, size: 30),
                     title: Text(
-                      value.progressList.message.toString(),
+                      "Oops Something Went Wrong!",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
                     ),
                     actions: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           OutlinedButton(
                             style: OutlinedButton.styleFrom(
@@ -185,75 +185,100 @@ class ProgressViewState extends State<ProgressView> {
                               'Refresh',
                             ),
                           ),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                shape: StadiumBorder()),
-                            onPressed: () {
-                              SystemChannels.platform
-                                  .invokeMethod('SystemNavigator.pop');
-                            },
-                            child: Text('Abort'),
-                          ),
                         ],
                       )
                     ],
                   );
 
                 case Status.COMPLETED:
-                  return ListView.builder(
-                    itemCount: value.progressList.data!.progress!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
+                  return value.progressList.data!.progress!.isEmpty
+                      ? AlertDialog(
+                          title: Center(
+                            child: Text(
+                              "No Progress",
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w900),
+                            ),
+                          ),
+                          actions: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                      shape: StadiumBorder()),
+                                  onPressed: () {
+                                    refresh();
+                                  },
+                                  child: Text(
+                                    'Refresh',
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                      : ListView.builder(
+                          itemCount: value.progressList.data!.progress!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                              child: Card(
+                                child: Column(
                                   children: [
-                                    Avatar(value.progressList.data!
-                                        .progress![index].category!),
-                                    SizedBox(
-                                      width: 7,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
                                         children: [
-                                          Text(
-                                            value.progressList.data!
-                                                .progress![index].msg
-                                                .toString(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
+                                          Avatar(value.progressList.data!
+                                              .progress![index].category!),
+                                          SizedBox(
+                                            width: 7,
                                           ),
-                                          Text(
-                                              value.progressList.data!
-                                                  .progress![index].summary
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.blue[200])),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  value.progressList.data!
+                                                      .progress![index].msg
+                                                      .toString(),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(
+                                                    value
+                                                        .progressList
+                                                        .data!
+                                                        .progress![index]
+                                                        .summary
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                        color:
+                                                            Colors.blue[200])),
+                                              ],
+                                            ),
+                                          )
                                         ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
+                            );
+                          },
+                        );
 
                 default:
                   return Container();

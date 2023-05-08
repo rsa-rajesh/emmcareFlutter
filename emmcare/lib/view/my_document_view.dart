@@ -57,101 +57,115 @@ class _MyDocumentViewState extends State<MyDocumentView> {
             create: (BuildContext context) => _myDocumentViewViewModel,
             child: Consumer<MyDocumentViewViewModel>(
               builder: (context, value, child) {
-                return ListView.builder(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  controller: _controller,
-                  itemCount: value.documents.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                      child: Card(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                    child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                                  child: Text(
-                                    value.documents[index].docCategory
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                )),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                                  child: Text(
-                                    value.documents[index].expiryDate
-                                        .toString(),
-                                    style: TextStyle(color: Colors.redAccent),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                                    child: Text(
-                                      splitFileName(value.documents[index].file
-                                          .toString()),
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                                  child: InkWell(
-                                    onTap: () {
-                                      String fileExtention = checkFileExtention(
-                                          value.documents[index].file
-                                              .toString());
-                                      String fileName = splitFileName(value
-                                          .documents[index].file
-                                          .toString());
-                                      String pdfExtension = "pdf";
-                                      if (fileExtention == pdfExtension) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                MyDocumentViewer(),
-                                            settings: RouteSettings(
-                                              arguments: value.documents[index],
-                                            ),
-                                          ),
-                                        );
-                                      } else {
-                                        _saveFile(
-                                            context,
-                                            value.documents[index].file
+                return value.documents.length == 0
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        controller: _controller,
+                        itemCount: value.documents.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: Card(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                          child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 6, 8, 6),
+                                        child: Text(
+                                          checkDocCat(
+                                            value.documents[index].docCategory
                                                 .toString(),
-                                            fileName);
-                                      }
-                                    },
-                                    child: Icon(Icons.download),
+                                          ),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 6, 8, 6),
+                                        child: Text(
+                                          checkExpiry(value
+                                              .documents[index].expiryDate
+                                              .toString()),
+                                          style: TextStyle(
+                                              color: Colors.redAccent),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 6, 8, 6),
+                                          child: Text(
+                                            splitFileName(value
+                                                .documents[index].file
+                                                .toString()),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 6, 8, 6),
+                                        child: InkWell(
+                                          onTap: () {
+                                            String fileExtention =
+                                                checkFileExtention(value
+                                                    .documents[index].file
+                                                    .toString());
+                                            String fileName = splitFileName(
+                                                value.documents[index].file
+                                                    .toString());
+                                            String pdfExtension = "pdf";
+                                            if (fileExtention == pdfExtension) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MyDocumentViewer(),
+                                                  settings: RouteSettings(
+                                                    arguments:
+                                                        value.documents[index],
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              _saveFile(
+                                                  context,
+                                                  value.documents[index].file
+                                                      .toString(),
+                                                  fileName);
+                                            }
+                                          },
+                                          child: Icon(Icons.download),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
+                          );
+                        },
+                      );
               },
             )),
       ),
@@ -205,6 +219,22 @@ class _MyDocumentViewState extends State<MyDocumentView> {
 
     if (message != null) {
       Utils.toastMessage(message);
+    }
+  }
+
+  String checkDocCat(String _docCategory) {
+    if (_docCategory == "null") {
+      return "";
+    } else {
+      return _docCategory;
+    }
+  }
+
+  String checkExpiry(String _expiry) {
+    if (_expiry == "null") {
+      return "";
+    } else {
+      return _expiry;
     }
   }
 }

@@ -15,6 +15,7 @@ class _EventsViewState extends State<EventsView> {
   EventsViewViewModel _eventsViewViewModel = EventsViewViewModel();
   final ScrollController _controller = ScrollController();
   bool _refresh = true;
+  late bool _isloading;
 
   @override
   void initState() {
@@ -58,90 +59,97 @@ class _EventsViewState extends State<EventsView> {
             create: (BuildContext context) => _eventsViewViewModel,
             child: Consumer<EventsViewViewModel>(
               builder: (context, value, child) {
-                return ListView.builder(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  controller: _controller,
-                  itemCount: value.events.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ShiftReportView(),
-                              settings: RouteSettings(
-                                arguments: value.events[index],
+                return value.events.length == 0
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        controller: _controller,
+                        itemCount: value.events.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ShiftReportView(),
+                                    settings: RouteSettings(
+                                      arguments: value.events[index],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Card(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: AppColors
+                                                .imageCircleAvatarBodyBackgroudColor,
+                                            radius: 26,
+                                            child: ClipOval(
+                                              child: Image.network(
+                                                  "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                                      cltAvatar!,
+                                                  width: 100,
+                                                  height: 100,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error,
+                                                      stackTrace) {
+                                                return Icon(
+                                                  Icons.person,
+                                                  color: Colors.white,
+                                                );
+                                              }),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 7,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  value.events[index].message
+                                                      .toString(),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(
+                                                    value.events[index].category
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                        color:
+                                                            Colors.blue[200])),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );
                         },
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor: AppColors
-                                          .imageCircleAvatarBodyBackgroudColor,
-                                      radius: 26,
-                                      child: ClipOval(
-                                        child: Image.network(
-                                            "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
-                                                cltAvatar!,
-                                            width: 100,
-                                            height: 100,
-                                            fit: BoxFit.cover, errorBuilder:
-                                                (context, error, stackTrace) {
-                                          return Icon(
-                                            Icons.person,
-                                            color: Colors.white,
-                                          );
-                                        }),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 7,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            value.events[index].message
-                                                .toString(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                              value.events[index].category
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.blue[200])),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
+                      );
               },
             )),
       ),

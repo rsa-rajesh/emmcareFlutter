@@ -1,5 +1,7 @@
+import 'package:emmcare/view_model/forgotpassword_view_view_model.dart';
 import 'package:flutter/material.dart';
 import '../../res/colors.dart';
+import '../../utils/utils.dart';
 import 'otp_view.dart';
 
 class ForgotPasswordView extends StatefulWidget {
@@ -67,12 +69,21 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               color: AppColors.buttonColor,
               child: TextButton.icon(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OTPView(),
-                    ),
-                  );
+                  if (emailController.text.isEmpty) {
+                    Utils.flushBarErrorMessage("Please enter email", context);
+                  } else {
+                    Map data = {
+                      "email": [emailController.text.toString()],
+                    };
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OTPView(),
+                      ),
+                    );
+                    ForgotPasswordViewModel().forgotPasswordApi(data, context);
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
                 },
                 icon: Icon(
                   Icons.send_rounded,

@@ -247,8 +247,9 @@ class NetworkApiService extends BaseApiServices {
           dynamic responseJson = response;
           return responseJson;
         }
-
       case 400:
+        throw BadRequestException(response.body);
+      case 401:
         throw BadRequestException(response.body);
       case 404:
         throw UnauthorizedException("\t" + response.statusCode.toString());
@@ -258,7 +259,6 @@ class NetworkApiService extends BaseApiServices {
       default:
         throw FetchDataException(
             "Error occurred while communicating with server" +
-                "with status code" +
                 response.statusCode.toString());
     }
   }

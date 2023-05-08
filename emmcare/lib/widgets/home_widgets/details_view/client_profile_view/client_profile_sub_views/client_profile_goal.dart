@@ -74,80 +74,90 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
             create: (BuildContext context) => _clientProfileGoalViewViewModel,
             child: Consumer<ClientProfileGoalViewViewModel>(
               builder: (context, value, child) {
-                return ListView.builder(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  controller: _controller,
-                  itemCount: value.goals.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      color: _externalWidgetShowFlag
-                          ? AppColors.bodyBackgroudColor
-                          : Colors.white,
-                      margin: EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
-                            child: Text(
-                              value.goals[index].name.toString(),
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
-                            child: Text(
-                              value.goals[index].description.toString(),
-                              maxLines: _externalWidgetShowFlag &&
-                                      _externalSelectedIndex == index
-                                  ? value.goals[index].description!.length
-                                  : 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ),
-                          showInternalList(value.goals[index].goalStrategies),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                return value.goals.length == 0
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        controller: _controller,
+                        itemCount: value.goals.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            color: _externalWidgetShowFlag
+                                ? AppColors.bodyBackgroudColor
+                                : Colors.white,
+                            margin: EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _externalSelectedIndex = index;
-                                      _externalWidgetShowFlag =
-                                          !_externalWidgetShowFlag;
-                                    });
-                                  },
-                                  child: _externalWidgetShowFlag &&
-                                          _externalSelectedIndex == index
-                                      ? Text(
-                                          "Show Less",
-                                          style: TextStyle(color: Colors.blue),
-                                        )
-                                      : Text(
-                                          "Show More",
-                                          style: TextStyle(color: Colors.blue),
-                                        ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(12, 6, 12, 0),
+                                  child: Text(
+                                    value.goals[index].name.toString(),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(12, 6, 12, 0),
+                                  child: Text(
+                                    value.goals[index].description.toString(),
+                                    maxLines: _externalWidgetShowFlag &&
+                                            _externalSelectedIndex == index
+                                        ? value.goals[index].description!.length
+                                        : 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                                showInternalList(
+                                    value.goals[index].goalStrategies),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _externalSelectedIndex = index;
+                                            _externalWidgetShowFlag =
+                                                !_externalWidgetShowFlag;
+                                          });
+                                        },
+                                        child: _externalWidgetShowFlag &&
+                                                _externalSelectedIndex == index
+                                            ? Text(
+                                                "Show Less",
+                                                style: TextStyle(
+                                                    color: Colors.blue),
+                                              )
+                                            : Text(
+                                                "Show More",
+                                                style: TextStyle(
+                                                    color: Colors.blue),
+                                              ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
+                          );
+                        },
+                      );
               },
             )),
       ),

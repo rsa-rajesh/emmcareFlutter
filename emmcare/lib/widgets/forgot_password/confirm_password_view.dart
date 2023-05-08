@@ -1,6 +1,7 @@
 import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/utils/utils.dart';
 import 'package:flutter/material.dart';
-import '../../view/login_view.dart';
+import '../../view_model/confirm_password_view_view_model.dart';
 
 class ConfirmPasswordView extends StatefulWidget {
   const ConfirmPasswordView({super.key});
@@ -9,6 +10,10 @@ class ConfirmPasswordView extends StatefulWidget {
 }
 
 class _ConfirmPasswordViewState extends State<ConfirmPasswordView> {
+  // Password Controllers
+  var newPasswordController = TextEditingController();
+  var confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +36,8 @@ class _ConfirmPasswordViewState extends State<ConfirmPasswordView> {
               height: 10,
             ),
             TextFormField(
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.visiblePassword,
+              controller: newPasswordController,
               style: new TextStyle(
                   fontWeight: FontWeight.normal, color: Colors.black),
               autofocus: false,
@@ -56,7 +62,8 @@ class _ConfirmPasswordViewState extends State<ConfirmPasswordView> {
               height: 10,
             ),
             TextFormField(
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.visiblePassword,
+              controller: confirmPasswordController,
               style: new TextStyle(
                   fontWeight: FontWeight.normal, color: Colors.black),
               autofocus: false,
@@ -73,12 +80,26 @@ class _ConfirmPasswordViewState extends State<ConfirmPasswordView> {
               color: AppColors.buttonColor,
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginView(),
-                    ),
-                  );
+                  if (newPasswordController.text.isEmpty) {
+                    Utils.flushBarErrorMessage("Enter new password.", context);
+                  } else if (newPasswordController.text.isEmpty) {
+                    Utils.flushBarErrorMessage(
+                        "Enter confirm password", context);
+                  } else {
+                    if (newPasswordController.text.toString() !=
+                        confirmPasswordController.text.toString()) {
+                      Utils.flushBarErrorMessage(
+                          "Password does not matches.", context);
+                    } else {
+                      Map data = {
+                        "password": newPasswordController.text.toString(),
+                      };
+
+                      ConfirmPasswordViewModel()
+                          .confirmPasswordapi(data, context);
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    }
+                  }
                 },
                 child: Text(
                   "Save",

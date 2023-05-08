@@ -1,7 +1,9 @@
 import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/widgets/forgot_password/confirm_password_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'confirm_password_view.dart';
+
+import '../../view_model/Otp_view_view_model.dart';
 
 class OTPView extends StatefulWidget {
   const OTPView({super.key});
@@ -31,11 +33,14 @@ class _OTPViewState extends State<OTPView> {
             ),
             OtpTextField(
               numberOfFields: 6,
+              showFieldAsBox: true,
+              showCursor: true,
+              textStyle: TextField.materialMisspelledTextStyle,
               fillColor: Colors.black.withOpacity(0.1),
               filled: true,
               keyboardType: TextInputType.numberWithOptions(),
               onSubmit: (value) {
-                print("OTP is => $value");
+                OtpViewModel().otpApi(value, context);
               },
             ),
             SizedBox(
@@ -52,6 +57,8 @@ class _OTPViewState extends State<OTPView> {
                       builder: (context) => ConfirmPasswordView(),
                     ),
                   );
+                  int data = 123456;
+                  OtpViewModel().otpApi(data, context);
                 },
                 child: Text(
                   "Reset Password",

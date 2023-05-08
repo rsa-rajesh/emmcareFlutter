@@ -68,8 +68,6 @@ class ProgressNoteViewModel with ChangeNotifier {
                 ),
                 iconColor: Colors.green[400],
               ));
-      Future.delayed(
-          Duration(milliseconds: 1), () => ProgressViewState().refresh);
       Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
