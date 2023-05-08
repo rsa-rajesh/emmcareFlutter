@@ -19,7 +19,18 @@ class SubEventViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.subEventWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
-      Utils.toastMessage('Event added successfully.');
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text("Event added successfully!"),
+                icon: Icon(
+                  Icons.done,
+                  size: 45,
+                ),
+                iconColor: Colors.green[400],
+              ));
+
+      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
@@ -37,7 +48,18 @@ class SubEventViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.subEventWithoutImage(_category, _msg).then((value) {
       setLoading(false);
-      Utils.toastMessage('Event added successfully.');
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text("Event added successfully!"),
+                icon: Icon(
+                  Icons.done,
+                  size: 45,
+                ),
+                iconColor: Colors.green[400],
+              ));
+
+      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
