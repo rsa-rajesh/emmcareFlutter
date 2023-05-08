@@ -57,7 +57,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
             create: (BuildContext context) => _myDocumentViewViewModel,
             child: Consumer<MyDocumentViewViewModel>(
               builder: (context, value, child) {
-                return value.documents.length == 0
+                return _myDocumentViewViewModel.apiLoading
                     ? Center(
                         child: CircularProgressIndicator(),
                       )

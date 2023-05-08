@@ -66,12 +66,15 @@ class ClientProfileViewState extends State<ClientProfileView> {
                       }),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      cltName!,
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        cltName!,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w900),
+                      ),
                     ),
                   ),
                 ],

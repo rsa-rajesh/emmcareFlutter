@@ -15,7 +15,6 @@ class _EventsViewState extends State<EventsView> {
   EventsViewViewModel _eventsViewViewModel = EventsViewViewModel();
   final ScrollController _controller = ScrollController();
   bool _refresh = true;
-  late bool _isloading;
 
   @override
   void initState() {
@@ -59,7 +58,7 @@ class _EventsViewState extends State<EventsView> {
             create: (BuildContext context) => _eventsViewViewModel,
             child: Consumer<EventsViewViewModel>(
               builder: (context, value, child) {
-                return value.events.length == 0
+                return _eventsViewViewModel.apiLoading
                     ? Center(child: CircularProgressIndicator())
                     : ListView.builder(
                         physics: AlwaysScrollableScrollPhysics(),

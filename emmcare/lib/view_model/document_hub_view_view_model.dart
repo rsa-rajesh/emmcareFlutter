@@ -5,6 +5,10 @@ import '../repository/document_hub_repository.dart';
 class DocumentHubViewViewModel extends ChangeNotifier {
   int _page = 1;
   int get page => _page;
+
+  bool _apiLoading = false;
+  bool get apiLoading => _apiLoading;
+
   set page(int value) {
     _page = value;
     notifyListeners();
@@ -23,6 +27,8 @@ class DocumentHubViewViewModel extends ChangeNotifier {
     if (_refresh == true) {
       _documents.clear();
       _page = 1;
+
+      _apiLoading = true;
       await DocumentHubRepository()
           .fetchDocumentHubList(_page)
           .then((response) {
@@ -31,8 +37,11 @@ class DocumentHubViewViewModel extends ChangeNotifier {
         _documents.clear();
         _documents = data.results!;
       });
+
+      _apiLoading = false;
       notifyListeners();
     } else if (_refresh == false) {
+      _apiLoading = true;
       await DocumentHubRepository()
           .fetchDocumentHubList(_page)
           .then((response) {
@@ -40,12 +49,14 @@ class DocumentHubViewViewModel extends ChangeNotifier {
         var data = DocumentHubModel.fromJson(response);
         addDocumentHubToList(data.results!);
       });
+      _apiLoading = false;
       notifyListeners();
     }
   }
 
   void addDocumentHubToList(List<Result> documentData) {
     _documents.addAll(documentData);
+    _apiLoading = false;
     notifyListeners();
   }
 }

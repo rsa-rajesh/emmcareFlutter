@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 import '../../../../../res/colors.dart';
 import '../../../../../utils/utils.dart';
 import '../../../../../view_model/client_profile_document_view_view_model.dart';
-import '../../../../file_viewer/document_hub_viewer.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../../file_viewer/client_profile_documents_viewer.dart';
 
 class ClientProfileDocumentsView extends StatefulWidget {
   @override
@@ -57,7 +58,7 @@ class _ClientProfileDocumentsViewState
                 _clientProfileDocumentViewViewModel,
             child: Consumer<ClientProfileDocumentViewViewModel>(
               builder: (context, value, child) {
-                return value.documents.length == 0
+                return _clientProfileDocumentViewViewModel.apiLoading
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
@@ -139,7 +140,7 @@ class _ClientProfileDocumentsViewState
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      DocumentHubViewer(),
+                                                      ClientProfileDocumentsViewer(),
                                                   settings: RouteSettings(
                                                     arguments:
                                                         value.documents[index],

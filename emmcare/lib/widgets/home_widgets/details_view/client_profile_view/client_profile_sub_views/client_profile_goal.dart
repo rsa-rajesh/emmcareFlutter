@@ -74,7 +74,7 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
             create: (BuildContext context) => _clientProfileGoalViewViewModel,
             child: Consumer<ClientProfileGoalViewViewModel>(
               builder: (context, value, child) {
-                return value.goals.length == 0
+                return _clientProfileGoalViewViewModel.apiLoading
                     ? Center(
                         child: CircularProgressIndicator(),
                       )

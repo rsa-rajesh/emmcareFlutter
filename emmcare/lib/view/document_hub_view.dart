@@ -58,101 +58,100 @@ class _DocumentHubViewState extends State<DocumentHubView> {
             create: (BuildContext context) => _DocumentHubViewViewModel,
             child: Consumer<DocumentHubViewViewModel>(
               builder: (context, value, child) {
-                if (value.documents.length == 0) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  return ListView.builder(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    controller: _controller,
-                    itemCount: value.documents.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Card(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                return _DocumentHubViewViewModel.apiLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        controller: _controller,
+                        itemCount: value.documents.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: Card(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                                    child: Text(
-                                      checkExpiry(value
-                                          .documents[index].expiryDate
-                                          .toString()),
-                                      style: TextStyle(color: Colors.redAccent),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                                      child: Text(
-                                        splitFileName(value
-                                            .documents[index].file
-                                            .toString()),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                            fontStyle: FontStyle.italic),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 6, 8, 6),
+                                        child: Text(
+                                          checkExpiry(value
+                                              .documents[index].expiryDate
+                                              .toString()),
+                                          style: TextStyle(
+                                              color: Colors.redAccent),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                                    child: InkWell(
-                                      onTap: () {
-                                        String fileExtention =
-                                            checkFileExtention(value
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 6, 8, 6),
+                                          child: Text(
+                                            splitFileName(value
                                                 .documents[index].file
-                                                .toString());
-                                        String fileName = splitFileName(value
-                                            .documents[index].file
-                                            .toString());
-                                        String pdfExtension = "pdf";
-                                        if (fileExtention == pdfExtension) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DocumentHubViewer(),
-                                              settings: RouteSettings(
-                                                arguments:
-                                                    value.documents[index],
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          _saveFile(
-                                              context,
-                                              value.documents[index].file
-                                                  .toString(),
-                                              fileName);
-                                        }
-                                      },
-                                      child: Icon(Icons.download),
-                                    ),
+                                                .toString()),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle: FontStyle.italic),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 6, 8, 6),
+                                        child: InkWell(
+                                          onTap: () {
+                                            String fileExtention =
+                                                checkFileExtention(value
+                                                    .documents[index].file
+                                                    .toString());
+                                            String fileName = splitFileName(
+                                                value.documents[index].file
+                                                    .toString());
+                                            String pdfExtension = "pdf";
+                                            if (fileExtention == pdfExtension) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DocumentHubViewer(),
+                                                  settings: RouteSettings(
+                                                    arguments:
+                                                        value.documents[index],
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              _saveFile(
+                                                  context,
+                                                  value.documents[index].file
+                                                      .toString(),
+                                                  fileName);
+                                            }
+                                          },
+                                          child: Icon(Icons.download),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        },
                       );
-                    },
-                  );
-                }
               },
             )),
       ),

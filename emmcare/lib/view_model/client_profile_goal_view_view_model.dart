@@ -5,6 +5,8 @@ import '../repository/client_profile_goal_repository.dart';
 class ClientProfileGoalViewViewModel extends ChangeNotifier {
   int _page = 1;
   int get page => _page;
+  bool _apiLoading = false;
+  bool get apiLoading => _apiLoading;
   set page(int value) {
     _page = value;
     notifyListeners();
@@ -23,6 +25,7 @@ class ClientProfileGoalViewViewModel extends ChangeNotifier {
     if (_refresh == true) {
       _goals.clear();
       _page = 1;
+      _apiLoading = true;
       await ClientProfileGoalRepository()
           .fetchClientProfileGoalList(_page)
           .then((response) {
@@ -31,8 +34,10 @@ class ClientProfileGoalViewViewModel extends ChangeNotifier {
         _goals.clear();
         _goals = data.results!;
       });
+      _apiLoading = false;
       notifyListeners();
     } else if (_refresh == false) {
+      _apiLoading = true;
       await ClientProfileGoalRepository()
           .fetchClientProfileGoalList(_page)
           .then((response) {
@@ -40,12 +45,14 @@ class ClientProfileGoalViewViewModel extends ChangeNotifier {
         var data = ClientProfileGoalModel.fromJson(response);
         addGoalsToList(data.results!);
       });
+      _apiLoading = false;
       notifyListeners();
     }
   }
 
   void addGoalsToList(List<Result> goalData) {
     _goals.addAll(goalData);
+    _apiLoading = false;
     notifyListeners();
   }
 }
