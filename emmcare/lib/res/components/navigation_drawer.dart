@@ -150,22 +150,28 @@ class NavDrawerState extends State<NavDrawer> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton.icon(
-                      onPressed: () {
-                        userPreference.remove().then(
-                          (value) {
-                            Navigator.pop(context);
-                            Navigator.pushNamed(context, RoutesName.login);
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.logout,
-                        color: Colors.black,
-                      ),
-                      label: Text(
-                        "LOG OUT",
-                        style: TextStyle(color: Colors.black),
-                      ))
+                    onPressed: () {
+                      userPreference.remove().then(
+                        (value) {
+                          Navigator.pushAndRemoveUntil(context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                            return LoginView();
+                          }), (r) {
+                            return false;
+                          });
+                        },
+                      );
+                    },
+                    icon: Icon(
+                      Icons.logout,
+                      color: Colors.black,
+                    ),
+                    label: Text(
+                      "LOG OUT",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  )
                 ],
               ),
             ),
