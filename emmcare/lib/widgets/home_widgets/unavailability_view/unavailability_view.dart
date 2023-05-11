@@ -46,7 +46,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
     }
   }
 
-  bool _light = true;
   bool _allDay = true;
   @override
   void initState() {
@@ -206,7 +205,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                             onChanged: (bool value) {
                               // This is called when the user toggles the switch.
                               setState(() {
-                                _light = value;
                                 _allDay = value;
                               });
                             },

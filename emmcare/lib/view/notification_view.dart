@@ -3,7 +3,6 @@ import 'package:emmcare/res/components/navigation_drawer.dart';
 import 'package:emmcare/widgets/notification_widgets/read_notification_view.dart';
 import 'package:emmcare/widgets/notification_widgets/unread_notification_view.dart';
 import 'package:flutter/material.dart';
-
 import '../res/components/alert_dialog_box.dart';
 import '../view_model/mark_notification_all_seen_view_model.dart';
 

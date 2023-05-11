@@ -1,4 +1,4 @@
-import 'package:emmcare/view_model/forgotpassword_view_view_model.dart';
+import 'package:emmcare/view_model/forgot_password_view_view_model.dart';
 import 'package:flutter/material.dart';
 import '../../res/colors.dart';
 import '../../utils/utils.dart';
@@ -73,7 +73,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     Utils.flushBarErrorMessage("Please enter email", context);
                   } else {
                     Map data = {
-                      "email": [emailController.text.toString()],
+                      "email": emailController.text.toString(),
                     };
                     Navigator.push(
                       context,

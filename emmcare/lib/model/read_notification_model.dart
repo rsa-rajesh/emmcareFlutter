@@ -16,13 +16,13 @@ class ReadNotificationModel {
     this.totalCount,
     this.nextPage,
     this.previousPage,
-    required this.results,
+    this.results,
   });
 
   int? totalCount;
   String? nextPage;
   String? previousPage;
-  List<Result> results;
+  List<Result>? results;
 
   factory ReadNotificationModel.fromJson(Map<String, dynamic> json) =>
       ReadNotificationModel(
@@ -37,7 +37,7 @@ class ReadNotificationModel {
         "TotalCount": totalCount,
         "NextPage": nextPage,
         "PreviousPage": previousPage,
-        "Results": List<dynamic>.from(results.map((x) => x.toJson())),
+        "Results": List<dynamic>.from(results!.map((x) => x.toJson())),
       };
 }
 

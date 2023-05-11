@@ -1,92 +1,104 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-// To parse this JSON data, do
-//
-//     final modelClass = modelClassFromJson(jsonString);
-
-import 'dart:convert';
-
-MyDocumentModel modelClassFromJson(String str) =>
-    MyDocumentModel.fromJson(json.decode(str));
-
-String modelClassToJson(MyDocumentModel data) => json.encode(data.toJson());
-
 class MyDocumentModel {
-  MyDocumentModel({
-    this.totalCount,
-    this.nextPage,
-    this.previousPage,
-    this.results,
-  });
-
   int? totalCount;
+  int? totalPageCount;
+  int? countItemsOnPage;
+  int? currentPage;
   String? nextPage;
   String? previousPage;
-  List<Result>? results;
+  List<Results>? results;
 
-  factory MyDocumentModel.fromJson(Map<String, dynamic> json) =>
-      MyDocumentModel(
-        totalCount: json["TotalCount"],
-        nextPage: json["NextPage"],
-        previousPage: json["PreviousPage"],
-        results:
-            List<Result>.from(json["Results"].map((x) => Result.fromJson(x))),
-      );
+  MyDocumentModel(
+      {this.totalCount,
+      this.totalPageCount,
+      this.countItemsOnPage,
+      this.currentPage,
+      this.nextPage,
+      this.previousPage,
+      this.results});
 
-  Map<String, dynamic> toJson() => {
-        "TotalCount": totalCount,
-        "NextPage": nextPage,
-        "PreviousPage": previousPage,
-        "Results": List<dynamic>.from(results!.map((x) => x.toJson())),
-      };
+  MyDocumentModel.fromJson(Map<String, dynamic> json) {
+    totalCount = json['TotalCount'];
+    totalPageCount = json['TotalPageCount'];
+    countItemsOnPage = json['countItemsOnPage'];
+    currentPage = json['CurrentPage'];
+    nextPage = json['NextPage'];
+    previousPage = json['PreviousPage'];
+    if (json['Results'] != null) {
+      results = <Results>[];
+      json['Results'].forEach((v) {
+        results!.add(new Results.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['TotalCount'] = this.totalCount;
+    data['TotalPageCount'] = this.totalPageCount;
+    data['countItemsOnPage'] = this.countItemsOnPage;
+    data['CurrentPage'] = this.currentPage;
+    data['NextPage'] = this.nextPage;
+    data['PreviousPage'] = this.previousPage;
+    if (this.results != null) {
+      data['Results'] = this.results!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class Result {
+class Results {
   int? id;
   String? file;
   String? uploadDate;
   String? updateDate;
   String? expiryDate;
   String? contentType;
+  bool? staffVisibility;
   String? docCategory;
   String? relatedUserType;
-  int? realtedUserId;
+  int? relatedUserId;
   String? user;
-  Result({
-    this.id,
-    this.file,
-    this.uploadDate,
-    this.updateDate,
-    this.expiryDate,
-    this.contentType,
-    this.docCategory,
-    this.relatedUserType,
-    this.realtedUserId,
-    this.user,
-  });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
-        user: json["user"],
-        file: json["file"],
-        contentType: json["content_type"],
-        docCategory: json["doc_category"],
-        relatedUserType: json["related_user_type"],
-        expiryDate: json["expiry_date"],
-        uploadDate: json["upload_date"],
-        updateDate: json["update_date"],
-        realtedUserId: json["related_user_id"],
-        id: json["id"],
-      );
+  Results(
+      {this.id,
+      this.file,
+      this.uploadDate,
+      this.updateDate,
+      this.expiryDate,
+      this.contentType,
+      this.staffVisibility,
+      this.docCategory,
+      this.relatedUserType,
+      this.relatedUserId,
+      this.user});
 
-  Map<String, dynamic> toJson() => {
-        "user": user,
-        "file": file,
-        "content_type": contentType,
-        "doc_category": docCategory,
-        "related_user_type": relatedUserType,
-        "expiry_date": expiryDate,
-        "upload_date": uploadDate,
-        "update_date": updateDate,
-        "related_user_id": realtedUserId,
-        "id": id,
-      };
+  Results.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    file = json['file'];
+    uploadDate = json['upload_date'];
+    updateDate = json['update_date'];
+    expiryDate = json['expiry_date'];
+    contentType = json['content_type'];
+    staffVisibility = json['staff_visibility'];
+    docCategory = json['doc_category'];
+    relatedUserType = json['related_user_type'];
+    relatedUserId = json['related_user_id'];
+    user = json['user'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['file'] = this.file;
+    data['upload_date'] = this.uploadDate;
+    data['update_date'] = this.updateDate;
+    data['expiry_date'] = this.expiryDate;
+    data['content_type'] = this.contentType;
+    data['staff_visibility'] = this.staffVisibility;
+    data['doc_category'] = this.docCategory;
+    data['related_user_type'] = this.relatedUserType;
+    data['related_user_id'] = this.relatedUserId;
+    data['user'] = this.user;
+    return data;
+  }
 }

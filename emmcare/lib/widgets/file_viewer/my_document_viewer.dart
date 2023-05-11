@@ -18,7 +18,7 @@ class _MyDocumentViewerState extends State<MyDocumentViewer> {
   @override
   Widget build(BuildContext context) {
     final newdocumentList =
-        ModalRoute.of(context)!.settings.arguments as Result;
+        ModalRoute.of(context)!.settings.arguments as Results;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,

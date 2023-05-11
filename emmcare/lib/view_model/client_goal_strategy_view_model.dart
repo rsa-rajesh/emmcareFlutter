@@ -17,13 +17,33 @@ class ClientGoalStrategyViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.clientGoalStrategy(star).then((value) {
       setLoading(false);
-      Utils.toastMessage("Client goal strategy rated successfully.");
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text("Client goal strategy rated successfully!"),
+                icon: Icon(
+                  Icons.done,
+                  size: 45,
+                ),
+                iconColor: Colors.green[400],
+              ));
+      Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.toastMessage(error.toString());
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text(error.toString()),
+                icon: Icon(
+                  Icons.error,
+                  size: 45,
+                ),
+                iconColor: Colors.red[400],
+              ));
+      Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(error.toString());
       }

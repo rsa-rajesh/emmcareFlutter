@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/network/BaseApiServices.dart';
 import '../data/network/NetworkApiService.dart';
@@ -31,7 +33,7 @@ class MarkNotificationSeenRepository {
     };
     try {
       dynamic response = await _apiServices.getPostResponseWithAuthData(
-          AppUrl.postMarkNotificationSeen(), data, token);
+          AppUrl.postMarkNotificationSeen(), jsonEncode(data), token);
       return response = MarkNotificationSeenModel.fromJson(response);
     } catch (e) {
       throw e;

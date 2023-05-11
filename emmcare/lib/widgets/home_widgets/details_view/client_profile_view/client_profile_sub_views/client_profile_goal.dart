@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../../data/response/status.dart';
+import '../../../../../main.dart';
 import '../../../../../model/client_profile_goal_model.dart';
 import '../../../../../res/colors.dart';
 import '../../../../../view/home_view.dart';
@@ -10,22 +12,21 @@ import '../../../../../view_model/client_profile_goal_view_view_model.dart';
 
 class ClientProfileGoalView extends StatefulWidget {
   @override
-  _ClientProfileGoalViewState createState() => _ClientProfileGoalViewState();
+  ClientProfileGoalViewState createState() => ClientProfileGoalViewState();
 }
 
-class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
-  ClientProfileGoalViewViewModel _clientProfileGoalViewViewModel =
+class ClientProfileGoalViewState extends State<ClientProfileGoalView> {
+  int page = 1;
+  ClientProfileGoalViewViewModel clientProfileGoalViewViewModel =
       ClientProfileGoalViewViewModel();
-  final ScrollController _controller = ScrollController();
-  bool _refresh = true;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
-    _clientProfileGoalViewViewModel
-        .fetchClientProfileGoalListApi(_refresh == false);
+    clientProfileGoalViewViewModel.fetchClientProfileGoalListApi(page);
     super.initState();
     getClientId();
-    _controller.addListener(_scrollListener);
   }
 
   int? cltId;
@@ -36,19 +37,9 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
     });
   }
 
-  void _scrollListener() {
-    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
-      _clientProfileGoalViewViewModel
-          .fetchClientProfileGoalListApi(_refresh == false);
-    }
-  }
-
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
   Future<void> refresh() async {
     setState(() {
-      _clientProfileGoalViewViewModel
-          .fetchClientProfileGoalListApi(_refresh == true);
+      clientProfileGoalViewViewModel.fetchClientProfileGoalListApi(page);
     });
   }
 
@@ -69,97 +60,194 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
       backgroundColor: AppColors.bodyBackgroudColor,
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
-        onRefresh: refresh,
+        onRefresh: () {
+          return refresh();
+        },
         child: ChangeNotifierProvider<ClientProfileGoalViewViewModel>(
-            create: (BuildContext context) => _clientProfileGoalViewViewModel,
-            child: Consumer<ClientProfileGoalViewViewModel>(
-              builder: (context, value, child) {
-                return _clientProfileGoalViewViewModel.apiLoading
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : ListView.builder(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        controller: _controller,
-                        itemCount: value.goals.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            color: _externalWidgetShowFlag
-                                ? AppColors.bodyBackgroudColor
-                                : Colors.white,
-                            margin: EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(12, 6, 12, 0),
-                                  child: Text(
-                                    value.goals[index].name.toString(),
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
+          create: (BuildContext context) => clientProfileGoalViewViewModel,
+          child: Consumer<ClientProfileGoalViewViewModel>(
+            builder: (context, value, _) {
+              switch (value.clientProfileGoalList.status) {
+                case Status.LOADING:
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+
+                case Status.ERROR:
+                  return Stack(
+                    children: [
+                      Image.asset(
+                        'assets/images/something_went_wrong.png',
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                      const Positioned(
+                        bottom: 230,
+                        left: 150,
+                        child: Text(
+                          'Oh no!',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 40),
+                        ),
+                      ),
+                      const Positioned(
+                        bottom: 170,
+                        left: 100,
+                        child: Text(
+                          'Something went wrong,\nplease try again.',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 100,
+                        left: 130,
+                        right: 130,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: StadiumBorder(),
+                          ),
+                          onPressed: () {
+                            refresh();
+                          },
+                          child: Text(
+                            'Try Again',
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+
+                case Status.COMPLETED:
+                  return value.clientProfileGoalList.data!.results!.isEmpty
+                      ? Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "No Goals!",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  shape: StadiumBorder(),
+                                ),
+                                onPressed: () {
+                                  refresh();
+                                },
+                                child: Text(
+                                  'Refresh',
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount:
+                              value.clientProfileGoalList.data!.results!.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              color: _externalWidgetShowFlag
+                                  ? AppColors.bodyBackgroudColor
+                                  : Colors.white,
+                              margin: EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(12, 6, 12, 0),
+                                    child: Text(
+                                      value.clientProfileGoalList.data!
+                                          .results![index].name
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(12, 6, 12, 0),
-                                  child: Text(
-                                    value.goals[index].description.toString(),
-                                    maxLines: _externalWidgetShowFlag &&
-                                            _externalSelectedIndex == index
-                                        ? value.goals[index].description!.length
-                                        : 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
+                                  SizedBox(
+                                    height: 3,
                                   ),
-                                ),
-                                showInternalList(
-                                    value.goals[index].goalStrategies),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _externalSelectedIndex = index;
-                                            _externalWidgetShowFlag =
-                                                !_externalWidgetShowFlag;
-                                          });
-                                        },
-                                        child: _externalWidgetShowFlag &&
-                                                _externalSelectedIndex == index
-                                            ? Text(
-                                                "Show Less",
-                                                style: TextStyle(
-                                                    color: Colors.blue),
-                                              )
-                                            : Text(
-                                                "Show More",
-                                                style: TextStyle(
-                                                    color: Colors.blue),
-                                              ),
-                                      ),
-                                    ],
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(12, 6, 12, 0),
+                                    child: Text(
+                                      value.clientProfileGoalList.data!
+                                          .results![index].description
+                                          .toString(),
+                                      maxLines: _externalWidgetShowFlag &&
+                                              _externalSelectedIndex == index
+                                          ? value
+                                              .clientProfileGoalList
+                                              .data!
+                                              .results![index]
+                                              .description!
+                                              .length
+                                          : 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-              },
-            )),
+                                  showInternalList(value.clientProfileGoalList
+                                      .data!.results![index].goalStrategies),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _externalSelectedIndex = index;
+                                              _externalWidgetShowFlag =
+                                                  !_externalWidgetShowFlag;
+                                            });
+                                          },
+                                          child: _externalWidgetShowFlag &&
+                                                  _externalSelectedIndex ==
+                                                      index
+                                              ? Text(
+                                                  "Show Less",
+                                                  style: TextStyle(
+                                                      color: Colors.blue),
+                                                )
+                                              : Text(
+                                                  "Show More",
+                                                  style: TextStyle(
+                                                      color: Colors.blue),
+                                                ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+
+                default:
+                  return Container(); // just to satisfy flutter analyzer
+              }
+            },
+          ),
+        ),
       ),
     );
   }
@@ -179,7 +267,7 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                 prefs.setInt('internalId', goalStrategies[index].id!);
                 showDialog(
                     barrierDismissible: true,
-                    context: context,
+                    context: navigatorKey.currentContext!,
                     builder: (_) => AlertDialog(
                           title: Text(
                             'Rate Strategies',
@@ -216,13 +304,15 @@ class _ClientProfileGoalViewState extends State<ClientProfileGoalView> {
                               alignment: Alignment.bottomCenter,
                               child: ElevatedButton(
                                 child: Text("Submit"),
-                                onPressed: () async {
+                                onPressed: () {
                                   var star = _ratingValue;
-
                                   ClientGoalStrategyViewModel()
-                                      .clientGoalStrategy(context, star);
-                                  refresh();
-                                  Navigator.of(context).pop();
+                                      .clientGoalStrategy(
+                                          navigatorKey.currentContext!, star);
+                                  Future.delayed(
+                                      Duration(seconds: 1), () => refresh());
+                                  Navigator.of(navigatorKey.currentContext!)
+                                      .pop();
                                 },
                               ),
                             )

@@ -12,6 +12,7 @@ class OTPView extends StatefulWidget {
 }
 
 class _OTPViewState extends State<OTPView> {
+  String? finalOTP;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,12 +36,16 @@ class _OTPViewState extends State<OTPView> {
               numberOfFields: 6,
               showFieldAsBox: true,
               showCursor: true,
+              autoFocus: true,
+              borderColor: Colors.black,
+              clearText: true,
+              enabled: true,
               textStyle: TextField.materialMisspelledTextStyle,
               fillColor: Colors.black.withOpacity(0.1),
               filled: true,
               keyboardType: TextInputType.numberWithOptions(),
               onSubmit: (value) {
-                OtpViewModel().otpApi(value, context);
+                finalOTP = value;
               },
             ),
             SizedBox(
@@ -57,7 +62,8 @@ class _OTPViewState extends State<OTPView> {
                       builder: (context) => ConfirmPasswordView(),
                     ),
                   );
-                  int data = 123456;
+                  dynamic data = finalOTP;
+
                   OtpViewModel().otpApi(data, context);
                 },
                 child: Text(

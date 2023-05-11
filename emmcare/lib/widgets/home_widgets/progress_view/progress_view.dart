@@ -1,7 +1,6 @@
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 import '../../../data/response/status.dart';
@@ -164,59 +163,82 @@ class ProgressViewState extends State<ProgressView> {
                   );
 
                 case Status.ERROR:
-                  return AlertDialog(
-                    icon: Icon(Icons.error_rounded, size: 30),
-                    title: Text(
-                      "Oops Something Went Wrong!",
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
-                    ),
-                    actions: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                shape: StadiumBorder()),
-                            onPressed: () {
-                              refresh();
-                            },
-                            child: Text(
-                              'Refresh',
-                            ),
+                  return Stack(
+                    children: [
+                      Image.asset(
+                        'assets/images/something_went_wrong.png',
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                      const Positioned(
+                        bottom: 230,
+                        left: 150,
+                        child: Text(
+                          'Oh no!',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 40),
+                        ),
+                      ),
+                      const Positioned(
+                        bottom: 170,
+                        left: 100,
+                        child: Text(
+                          'Something went wrong,\nplease try again.',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 100,
+                        left: 130,
+                        right: 130,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: StadiumBorder(),
                           ),
-                        ],
-                      )
+                          onPressed: () {
+                            refresh();
+                          },
+                          child: Text(
+                            'Try Again',
+                          ),
+                        ),
+                      ),
                     ],
                   );
 
                 case Status.COMPLETED:
                   return value.progressList.data!.progress!.isEmpty
-                      ? AlertDialog(
-                          title: Center(
-                            child: Text(
-                              "No Progress",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                          actions: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                      shape: StadiumBorder()),
-                                  onPressed: () {
-                                    refresh();
-                                  },
-                                  child: Text(
-                                    'Refresh',
-                                  ),
+                      ? Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "No Progress!",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  shape: StadiumBorder(),
                                 ),
-                              ],
-                            )
-                          ],
+                                onPressed: () {
+                                  refresh();
+                                },
+                                child: Text(
+                                  'Refresh',
+                                ),
+                              )
+                            ],
+                          ),
                         )
                       : ListView.builder(
                           itemCount: value.progressList.data!.progress!.length,

@@ -15,13 +15,13 @@ class EventsModel {
     this.totalCount,
     this.nextPage,
     this.previousPage,
-    required this.results,
+    this.results,
   });
 
   int? totalCount;
   String? nextPage;
   String? previousPage;
-  List<Result> results;
+  List<Result>? results;
 
   factory EventsModel.fromJson(Map<String, dynamic> json) => EventsModel(
         totalCount: json["TotalCount"],
@@ -35,7 +35,7 @@ class EventsModel {
         "TotalCount": totalCount,
         "NextPage": nextPage,
         "PreviousPage": previousPage,
-        "Results": List<dynamic>.from(results.map((x) => x.toJson())),
+        "Results": List<dynamic>.from(results!.map((x) => x.toJson())),
       };
 }
 
@@ -52,14 +52,14 @@ class Result {
 
   Result({
     required this.id,
-    required this.attachment,
-    required this.createdAt,
-    required this.staff,
-    required this.client,
-    required this.category,
-    required this.summary,
-    required this.message,
-    required this.isPrivate,
+    this.attachment,
+    this.createdAt,
+    this.staff,
+    this.client,
+    this.category,
+    this.summary,
+    this.message,
+    this.isPrivate,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(

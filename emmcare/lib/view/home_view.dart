@@ -52,6 +52,7 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    // refresh();
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
@@ -98,38 +99,73 @@ class HomeViewState extends State<HomeView> {
                     child: CircularProgressIndicator(),
                   );
                 case Status.ERROR:
-                  return AlertDialog(
-                    icon: Icon(Icons.error_rounded, size: 30),
-                    title: Text(
-                      value.clientList.message.toString(),
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
-                    ),
-                    actions: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                shape: StadiumBorder()),
-                            onPressed: () {
-                              refresh();
-                            },
-                            child: Text(
-                              'Refresh',
+                  return Stack(
+                    children: [
+                      Image.asset(
+                        'assets/images/something_went_wrong.png',
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                      const Positioned(
+                        bottom: 230,
+                        left: 150,
+                        child: Text(
+                          'Oh no!',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 40),
+                        ),
+                      ),
+                      const Positioned(
+                        bottom: 170,
+                        left: 100,
+                        child: Text(
+                          'Something went wrong,\nplease try again.',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 100,
+                        left: 50,
+                        right: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  shape: StadiumBorder(),
+                                ),
+                                onPressed: () {
+                                  refresh();
+                                },
+                                child: Text(
+                                  'Try Again',
+                                ),
+                              ),
                             ),
-                          ),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                shape: StadiumBorder()),
-                            onPressed: () {
-                              SystemChannels.platform
-                                  .invokeMethod('SystemNavigator.pop');
-                            },
-                            child: Text('Abort'),
-                          ),
-                        ],
-                      )
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                    shape: StadiumBorder()),
+                                onPressed: () {
+                                  SystemChannels.platform
+                                      .invokeMethod('SystemNavigator.pop');
+                                },
+                                child: Text('Abort'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   );
 
@@ -192,278 +228,319 @@ class HomeViewState extends State<HomeView> {
                       //
                       //
 
-                      Expanded(
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          itemCount: value.clientList.data!.clients!.length,
-                          itemBuilder: (context, index) {
-                            if (value.clientList.data!.clients!.length == 0) {
-                              return Center(child: Text("No Shift."));
-                            } else {
-                              return Row(
+                      value.clientList.data!.clients!.isEmpty
+                          ? Container(
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      height: 40,
-                                      width: 40,
-                                      child: Center(
-                                        child: Wrap(
-                                          direction: Axis.vertical,
-                                          children: [
-                                            Text(
-                                                DateFormat.d().format(
-                                                    DateTime.parse(value
-                                                        .clientList
-                                                        .data!
-                                                        .clients![index]
-                                                        .shiftStartDate
-                                                        .toString())),
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            Text(
-                                                DateFormat.E().format(
-                                                    DateTime.parse(value
-                                                        .clientList
-                                                        .data!
-                                                        .clients![index]
-                                                        .shiftStartDate
-                                                        .toString())),
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ],
+                                  Text(
+                                    "No Shift!",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      shape: StadiumBorder(),
+                                    ),
+                                    onPressed: () {
+                                      refresh();
+                                    },
+                                    child: Text(
+                                      'Refresh',
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                controller: _scrollController,
+                                itemCount:
+                                    value.clientList.data!.clients!.length,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          height: 40,
+                                          width: 40,
+                                          child: Center(
+                                            child: Wrap(
+                                              direction: Axis.vertical,
+                                              children: [
+                                                Text(
+                                                    DateFormat.d().format(
+                                                        DateTime.parse(value
+                                                            .clientList
+                                                            .data!
+                                                            .clients![index]
+                                                            .shiftStartDate
+                                                            .toString())),
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                Text(
+                                                    DateFormat.E().format(
+                                                        DateTime.parse(value
+                                                            .clientList
+                                                            .data!
+                                                            .clients![index]
+                                                            .shiftStartDate
+                                                            .toString())),
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                      flex: 7,
-                                      child: InkWell(
-                                          onTap: () async {
-                                            int? shiftId = value.clientList
-                                                .data!.clients![index].id;
-                                            String? clientName = value
-                                                .clientList
-                                                .data!
-                                                .clients![index]
-                                                .client;
-                                            String? clientAvatar = value
-                                                .clientList
-                                                .data!
-                                                .clients![index]
-                                                .clientImg;
-                                            int? clientId = value.clientList
-                                                .data!.clients![index].clientId;
-                                            int? staffId = value.clientList
-                                                .data!.clients![index].staffId;
-                                            String? staffName = value.clientList
-                                                .data!.clients![index].staff;
+                                      Expanded(
+                                          flex: 7,
+                                          child: InkWell(
+                                              onTap: () async {
+                                                int? shiftId = value.clientList
+                                                    .data!.clients![index].id;
+                                                String? clientName = value
+                                                    .clientList
+                                                    .data!
+                                                    .clients![index]
+                                                    .client;
+                                                String? clientAvatar = value
+                                                    .clientList
+                                                    .data!
+                                                    .clients![index]
+                                                    .clientImg;
+                                                int? clientId = value
+                                                    .clientList
+                                                    .data!
+                                                    .clients![index]
+                                                    .clientId;
+                                                int? staffId = value
+                                                    .clientList
+                                                    .data!
+                                                    .clients![index]
+                                                    .staffId;
+                                                String? staffName = value
+                                                    .clientList
+                                                    .data!
+                                                    .clients![index]
+                                                    .staff;
 
-                                            final sharedprefs =
-                                                await SharedPreferences
-                                                    .getInstance();
+                                                final sharedprefs =
+                                                    await SharedPreferences
+                                                        .getInstance();
 
-                                            sharedprefs.setInt(
-                                                KEYSHIFTID, shiftId!);
-                                            setState(() {
-                                              sharedprefs.getInt(KEYSHIFTID);
-                                            });
+                                                sharedprefs.setInt(
+                                                    KEYSHIFTID, shiftId!);
+                                                setState(() {
+                                                  sharedprefs
+                                                      .getInt(KEYSHIFTID);
+                                                });
 
-                                            sharedprefs.setString(
-                                                KEYCLIENTNAME, clientName!);
-                                            setState(() {
-                                              sharedprefs
-                                                  .getString(KEYCLIENTNAME);
-                                            });
+                                                sharedprefs.setString(
+                                                    KEYCLIENTNAME, clientName!);
+                                                setState(() {
+                                                  sharedprefs
+                                                      .getString(KEYCLIENTNAME);
+                                                });
 
-                                            sharedprefs.setString(
-                                                KEYCLIENTAVATAR,
-                                                clientAvatar.toString());
-                                            setState(() {
-                                              sharedprefs
-                                                  .getString(KEYCLIENTAVATAR);
-                                            });
+                                                sharedprefs.setString(
+                                                    KEYCLIENTAVATAR,
+                                                    clientAvatar.toString());
+                                                setState(() {
+                                                  sharedprefs.getString(
+                                                      KEYCLIENTAVATAR);
+                                                });
 
-                                            sharedprefs.setInt(
-                                                KEYCLIENTID, clientId!);
-                                            setState(() {
-                                              sharedprefs.getInt(KEYCLIENTID);
-                                            });
+                                                sharedprefs.setInt(
+                                                    KEYCLIENTID, clientId!);
+                                                setState(() {
+                                                  sharedprefs
+                                                      .getInt(KEYCLIENTID);
+                                                });
 
-                                            sharedprefs.setInt(
-                                                KEYSTAFFID, staffId!);
-                                            setState(() {
-                                              sharedprefs.getInt(KEYSTAFFID);
-                                            });
+                                                sharedprefs.setInt(
+                                                    KEYSTAFFID, staffId!);
+                                                setState(() {
+                                                  sharedprefs
+                                                      .getInt(KEYSTAFFID);
+                                                });
 
-                                            sharedprefs.setString(
-                                                KEYSTAFFNAME, staffName!);
-                                            setState(() {
-                                              sharedprefs
-                                                  .getString(KEYSTAFFNAME);
-                                            });
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ClientDetailView(),
-                                                settings: RouteSettings(
-                                                  arguments: value.clientList
-                                                      .data!.clients![index],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0.0, 8.0, 12.0, 0.0),
-                                            child: Container(
-                                              height: 200,
-                                              child: Card(
-                                                child: Column(children: [
-                                                  ListTile(
-                                                    contentPadding:
-                                                        EdgeInsets.fromLTRB(
-                                                            12, 0, 12, 0),
-                                                    leading: Wrap(
-                                                      children: [
-                                                        Text(
-                                                          DateFormat.jm()
-                                                              .format(
-                                                            DateFormat(
-                                                                    "hh:mm:ss")
-                                                                .parse(value
+                                                sharedprefs.setString(
+                                                    KEYSTAFFNAME, staffName!);
+                                                setState(() {
+                                                  sharedprefs
+                                                      .getString(KEYSTAFFNAME);
+                                                });
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ClientDetailView(),
+                                                    settings: RouteSettings(
+                                                      arguments: value
+                                                          .clientList
+                                                          .data!
+                                                          .clients![index],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0.0, 8.0, 12.0, 0.0),
+                                                child: Container(
+                                                  height: 200,
+                                                  child: Card(
+                                                    child: Column(children: [
+                                                      ListTile(
+                                                        contentPadding:
+                                                            EdgeInsets.fromLTRB(
+                                                                12, 0, 12, 0),
+                                                        leading: Wrap(
+                                                          children: [
+                                                            Text(
+                                                              DateFormat.jm()
+                                                                  .format(
+                                                                DateFormat("hh:mm:ss").parse(value
                                                                     .clientList
                                                                     .data!
                                                                     .clients![
                                                                         index]
                                                                     .shiftStartTime
                                                                     .toString()),
-                                                          ),
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700),
-                                                        ),
-                                                        Text("-"),
-                                                        Text(
-                                                          DateFormat.jm()
-                                                              .format(
-                                                            DateFormat(
-                                                                    "hh:mm:ss")
-                                                                .parse(value
+                                                              ),
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700),
+                                                            ),
+                                                            Text("-"),
+                                                            Text(
+                                                              DateFormat.jm()
+                                                                  .format(
+                                                                DateFormat("hh:mm:ss").parse(value
                                                                     .clientList
                                                                     .data!
                                                                     .clients![
                                                                         index]
                                                                     .shiftEndTime
                                                                     .toString()),
-                                                          ),
+                                                              ),
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        trailing: Text(
+                                                          value
+                                                              .clientList
+                                                              .data!
+                                                              .clients![index]
+                                                              .shiftType
+                                                              .toString(),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w700),
                                                         ),
-                                                      ],
-                                                    ),
-                                                    trailing: Text(
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .shiftType
-                                                          .toString(),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700),
-                                                    ),
-                                                  ),
-                                                  ListTile(
-                                                    contentPadding:
-                                                        EdgeInsets.fromLTRB(
-                                                            12, 0, 12, 0),
-                                                    title: Text(
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .client
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w900),
-                                                    ),
-                                                    subtitle: Text(
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .shiftFullAddress
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black,
                                                       ),
-                                                    ),
-                                                  ),
-                                                  ListTile(
-                                                    contentPadding:
-                                                        EdgeInsets.fromLTRB(
-                                                            12, 0, 12, 0),
-                                                    leading: CircleAvatar(
-                                                      backgroundColor: AppColors
-                                                          .imageCircleAvatarBodyBackgroudColor,
-                                                      child: ClipOval(
-                                                        child: Image.network(
-                                                            "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
-                                                                value
-                                                                    .clientList
-                                                                    .data!
-                                                                    .clients![
-                                                                        index]
-                                                                    .clientImg
-                                                                    .toString(),
-                                                            width: 100,
-                                                            height: 100,
-                                                            fit: BoxFit.cover,
-                                                            errorBuilder:
-                                                                (context, error,
-                                                                    stackTrace) {
-                                                          return Icon(
-                                                            Icons.person,
-                                                            color: Colors.white,
-                                                          );
-                                                        }),
+                                                      ListTile(
+                                                        contentPadding:
+                                                            EdgeInsets.fromLTRB(
+                                                                12, 0, 12, 0),
+                                                        title: Text(
+                                                          value
+                                                              .clientList
+                                                              .data!
+                                                              .clients![index]
+                                                              .client
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w900),
+                                                        ),
+                                                        subtitle: Text(
+                                                          value
+                                                              .clientList
+                                                              .data!
+                                                              .clients![index]
+                                                              .shiftFullAddress
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    trailing: Text(
-                                                      value
-                                                          .clientList
-                                                          .data!
-                                                          .clients![index]
-                                                          .shiftStatus
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700),
-                                                    ),
-                                                  )
-                                                ]),
-                                              ),
-                                            ),
-                                          ))),
-                                ],
-                              );
-                            }
-                          },
-                        ),
-                      ),
+                                                      ListTile(
+                                                        contentPadding:
+                                                            EdgeInsets.fromLTRB(
+                                                                12, 0, 12, 0),
+                                                        leading: CircleAvatar(
+                                                          backgroundColor: AppColors
+                                                              .imageCircleAvatarBodyBackgroudColor,
+                                                          child: ClipOval(
+                                                            child: Image.network(
+                                                                "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                                                    value
+                                                                        .clientList
+                                                                        .data!
+                                                                        .clients![
+                                                                            index]
+                                                                        .clientImg
+                                                                        .toString(),
+                                                                width: 100,
+                                                                height: 100,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                errorBuilder:
+                                                                    (context,
+                                                                        error,
+                                                                        stackTrace) {
+                                                              return Icon(
+                                                                Icons.person,
+                                                                color: Colors
+                                                                    .white,
+                                                              );
+                                                            }),
+                                                          ),
+                                                        ),
+                                                        trailing: Text(
+                                                          value
+                                                              .clientList
+                                                              .data!
+                                                              .clients![index]
+                                                              .shiftStatus
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                      )
+                                                    ]),
+                                                  ),
+                                                ),
+                                              ))),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
                     ],
                   );
 

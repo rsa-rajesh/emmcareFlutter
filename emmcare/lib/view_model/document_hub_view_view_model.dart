@@ -1,62 +1,28 @@
 import 'package:flutter/material.dart';
+import '../data/response/api_response.dart';
 import '../model/document_hub_model.dart';
 import '../repository/document_hub_repository.dart';
 
 class DocumentHubViewViewModel extends ChangeNotifier {
-  int _page = 1;
-  int get page => _page;
+  final _myRepo = DocumentHubRepository();
 
-  bool _apiLoading = false;
-  bool get apiLoading => _apiLoading;
+  ApiResponse<DocumentHubModel> documentHubList = ApiResponse.loading();
 
-  set page(int value) {
-    _page = value;
+  setDocumentHubList(ApiResponse<DocumentHubModel> response) {
+    documentHubList = response;
     notifyListeners();
   }
 
-  List<Result> _documents = <Result>[];
-
-  List<Result> get documents => _documents;
-
-  set documents(List<Result> value) {
-    _documents = value;
-    notifyListeners();
-  }
-
-  fetchDocumentHubListApi(_refresh) async {
-    if (_refresh == true) {
-      _documents.clear();
-      _page = 1;
-
-      _apiLoading = true;
-      await DocumentHubRepository()
-          .fetchDocumentHubList(_page)
-          .then((response) {
-        _page = _page + 1;
-        var data = DocumentHubModel.fromJson(response);
-        _documents.clear();
-        _documents = data.results!;
-      });
-
-      _apiLoading = false;
-      notifyListeners();
-    } else if (_refresh == false) {
-      _apiLoading = true;
-      await DocumentHubRepository()
-          .fetchDocumentHubList(_page)
-          .then((response) {
-        _page = _page + 1;
-        var data = DocumentHubModel.fromJson(response);
-        addDocumentHubToList(data.results!);
-      });
-      _apiLoading = false;
-      notifyListeners();
-    }
-  }
-
-  void addDocumentHubToList(List<Result> documentData) {
-    _documents.addAll(documentData);
-    _apiLoading = false;
-    notifyListeners();
+  Future<void> fetchDocumentHubListApi(int page) async {
+    setDocumentHubList(ApiResponse.loading());
+    _myRepo.fetchMyDocumentList(page).then(
+      (value) {
+        setDocumentHubList(ApiResponse.completed(value));
+      },
+    ).onError(
+      (error, stackTrace) {
+        setDocumentHubList(ApiResponse.error(error.toString()));
+      },
+    );
   }
 }

@@ -17,6 +17,7 @@ class TasksRepository {
     getUserData().then((value) async {
       token = value.access.toString();
     });
+
     await Future.delayed(Duration(microseconds: 0));
 
     //
@@ -27,8 +28,6 @@ class TasksRepository {
     print(shift);
     // Getting shift id from sharedpreference.
     //
-
-    // int shift = 18;
 
     try {
       dynamic response = await _apiServices.getGetResponseWithAuth(
