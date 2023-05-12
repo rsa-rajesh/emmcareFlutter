@@ -205,10 +205,13 @@ class _InjuryViewState extends State<InjuryView> {
                         child: Row(
                           children: [
                             Icon(Icons.notifications, size: 30),
-                            Text(
-                              cltName!,
-                              style: TextStyle(
-                                fontSize: 18,
+                            Expanded(
+                              child: Text(
+                                cltName!,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                           ],
