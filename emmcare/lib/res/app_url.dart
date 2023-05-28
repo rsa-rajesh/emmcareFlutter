@@ -1,6 +1,6 @@
 class AppUrl {
   // Base Url.
-  static var baseUrl = "https://pwnbot-agecare-backend.clouds.nepalicloud.com/";
+  static var baseUrl = "https://api.emmcare.pwnbot.io/";
 
   // End Points.
   static String postLogin() {

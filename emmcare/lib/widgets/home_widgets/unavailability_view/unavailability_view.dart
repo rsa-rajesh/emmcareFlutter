@@ -67,7 +67,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
   int? _dateCount;
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    bsheet();
     setState(() {
       if (args.value is PickerDateRange) {
       } else if (args.value is DateTime) {
@@ -75,6 +74,7 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
       } else if (args.value is List<DateTime>) {
         _selectedDate = args.value;
         _dateCount = args.value.length;
+        bsheet();
       } else {}
     });
   }
@@ -267,6 +267,7 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                             ),
                           ),
                         ),
+                        
                         Visibility(
                           visible: !_allDay,
                           child: InkWell(

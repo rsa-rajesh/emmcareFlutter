@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../repository/mark_notification_seen_repository.dart';
-import '../utils/utils.dart';
 import '../widgets/notification_widgets/unread_notification_view.dart';
 
 class MarkNotificationSeenViewModel with ChangeNotifier {

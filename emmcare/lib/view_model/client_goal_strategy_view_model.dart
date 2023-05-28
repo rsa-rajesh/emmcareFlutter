@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../repository/client_goal_strategy_repository.dart';
-import '../utils/utils.dart';
 
 class ClientGoalStrategyViewModel with ChangeNotifier {
   final _myRepo = ClientGoalStrategyRepository();
