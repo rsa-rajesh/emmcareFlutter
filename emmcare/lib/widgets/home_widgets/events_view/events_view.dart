@@ -170,7 +170,7 @@ class _EventsViewState extends State<EventsView> {
                                               radius: 26,
                                               child: ClipOval(
                                                 child: Image.network(
-                                                    "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                                    "https://api.emmcare.pwnbot.io" +
                                                         cltAvatar!,
                                                     width: 100,
                                                     height: 100,

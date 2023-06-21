@@ -53,8 +53,7 @@ class ClientProfileViewState extends State<ClientProfileView> {
                     radius: 30,
                     child: ClipOval(
                       child: Image.network(
-                          "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
-                              cltAvatar!,
+                          "https://api.emmcare.pwnbot.io" + cltAvatar!,
                           width: 100,
                           height: 100,
                           fit: BoxFit.cover,

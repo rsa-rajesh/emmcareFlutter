@@ -40,7 +40,7 @@ class _DocumentHubViewState extends State<DocumentHubView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Document Hub"),
+        title: Text("Company Profile"),
         centerTitle: true,
         backgroundColor: AppColors.appBarColor,
         automaticallyImplyLeading: true,
@@ -108,32 +108,31 @@ class _DocumentHubViewState extends State<DocumentHubView> {
 
                 case Status.COMPLETED:
                   return value.documentHubList.data!.results!.isEmpty
-                      ? Column(
-                          children: [
-                            Text(
-                              "No Document Hub!",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    shape: StadiumBorder(),
-                                  ),
-                                  onPressed: () {
-                                    refresh();
-                                  },
-                                  child: Text(
-                                    'Refresh',
-                                  ),
+                      ? Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "No Company Profile!",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  shape: StadiumBorder(),
                                 ),
-                              ],
-                            )
-                          ],
+                                onPressed: () {
+                                  refresh();
+                                },
+                                child: Text(
+                                  'Refresh',
+                                ),
+                              )
+                            ],
+                          ),
                         )
                       : ListView.builder(
                           itemCount:

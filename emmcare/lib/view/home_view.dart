@@ -495,7 +495,7 @@ class HomeViewState extends State<HomeView> {
                                                               .imageCircleAvatarBodyBackgroudColor,
                                                           child: ClipOval(
                                                             child: Image.network(
-                                                                "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                                                "https://api.emmcare.pwnbot.io" +
                                                                     value
                                                                         .clientList
                                                                         .data!

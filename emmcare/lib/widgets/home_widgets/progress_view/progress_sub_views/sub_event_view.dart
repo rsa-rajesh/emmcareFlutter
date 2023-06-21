@@ -31,17 +31,23 @@ class _EventViewState extends State<EventView> {
   final ImagePicker imagePicker = ImagePicker();
 
   getImageFromGalley() async {
-    imgXFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    imgXFile = await imagePicker.pickImage(
+        source: ImageSource.gallery, maxHeight: 200, maxWidth: 200);
+
     setState(() {
       imgXFile;
     });
   }
 
   getImageFromCamera() async {
-    imgXFile = await imagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      imgXFile;
-    });
+    imgXFile = await imagePicker.pickImage(
+      source: ImageSource.camera,
+    );
+    setState(
+      () {
+        imgXFile;
+      },
+    );
   }
 
   var _subEventController = TextEditingController();
@@ -219,7 +225,7 @@ class _EventViewState extends State<EventView> {
                       ),
                       Divider(),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 0, 0, 6),
+                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
                         child: TextFormField(
                           controller: _subEventController,
                           maxLines: null,
@@ -229,9 +235,24 @@ class _EventViewState extends State<EventView> {
                             hintStyle: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black),
+                                color: Colors.black38),
                             hintMaxLines: 5,
-                            border: InputBorder.none,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 2),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 1.5),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              gapPadding: 0.0,
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide:
+                                  BorderSide(color: Colors.green, width: 1.5),
+                            ),
                           ),
                         ),
                       ),

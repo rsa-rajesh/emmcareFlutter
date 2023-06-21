@@ -214,9 +214,9 @@ class _WarningViewState extends State<WarningView> {
                         ],
                       ),
                     ),
-                    Divider(height: 5),
+                    Divider(),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 0, 0, 6),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 6),
                       child: TextFormField(
                         controller: _warningController,
                         maxLines: null,
@@ -226,9 +226,24 @@ class _WarningViewState extends State<WarningView> {
                           hintStyle: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black),
+                              color: Colors.black38),
                           hintMaxLines: 5,
-                          border: InputBorder.none,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 2),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1.5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            gapPadding: 0.0,
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                BorderSide(color: Colors.green, width: 1.5),
+                          ),
                         ),
                       ),
                     ),

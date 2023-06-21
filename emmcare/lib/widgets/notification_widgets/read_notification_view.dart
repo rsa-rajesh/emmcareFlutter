@@ -99,7 +99,7 @@ class ReadNotificationViewState extends State<ReadNotificationView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "No Read Notifications!",
+                                "No Read Alerts!",
                                 style: TextStyle(fontSize: 20),
                               ),
                               SizedBox(

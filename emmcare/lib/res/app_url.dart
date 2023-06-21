@@ -17,6 +17,12 @@ class AppUrl {
         "v1/api/document/document-list/?page=$page&page_size=$pageSize&related_user_id=${realtedUserId.toString()}&related_user_type=${realtedUserType.toString()}";
   }
 
+  static String getClientDocuments(page, realtedUserType, realtedUserId) {
+    var pageSize = 999999999999999999;
+    return baseUrl +
+        "v1/api/document/app-client-document-list/?page=$page&page_size=$pageSize&related_user_id=${realtedUserId.toString()}&related_user_type=${realtedUserType.toString()}";
+  }
+
   static String getNotification(page, is_seen) {
     var pageSize = 999999999999999999;
     return baseUrl +

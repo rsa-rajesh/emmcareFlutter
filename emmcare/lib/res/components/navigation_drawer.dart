@@ -53,7 +53,7 @@ class NavDrawerState extends State<NavDrawer> {
               color: Colors.black,
             ),
             title: Text(
-              "MY SCHEDULE",
+              "ROSTER",
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
@@ -67,7 +67,7 @@ class NavDrawerState extends State<NavDrawer> {
               color: Colors.black,
             ),
             title: Text(
-              "NOTIFICATION",
+              "ALERT",
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
@@ -82,7 +82,7 @@ class NavDrawerState extends State<NavDrawer> {
               color: Colors.black,
             ),
             title: Text(
-              "MY DOCUMENTS",
+              "MY RECORDS",
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
@@ -97,7 +97,7 @@ class NavDrawerState extends State<NavDrawer> {
               color: Colors.black,
             ),
             title: Text(
-              "DOCUMENT HUB",
+              "COMPANY PROFILE",
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),
@@ -135,9 +135,7 @@ class NavDrawerState extends State<NavDrawer> {
               },
             ),
             title: Text(
-              isChecked == true
-                  ? "DISABLE NOTIFICATION"
-                  : "ENABLE NOTIFICATION",
+              isChecked == true ? "DISABLE ALERT" : "ENABLE ALERT",
               textScaleFactor: 1.2,
               style: TextStyle(color: Colors.black),
             ),

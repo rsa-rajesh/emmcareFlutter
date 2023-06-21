@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,20 +26,15 @@ class _InstructionViewState extends State<InstructionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.bodyBackgroudColor,
-        appBar: AppBar(
-          title: Text(cltName!),
-          centerTitle: true,
-          backgroundColor: AppColors.appBarColor,
-          automaticallyImplyLeading: true,
-        ),
-        body: Card(
-          child: ListTile(
-            title: HtmlWidget(
-              widget.instructionReceived,
-            ),
-          ),
-        ));
+      backgroundColor: AppColors.bodyBackgroudColor,
+      appBar: AppBar(
+        title: Text(cltName!),
+        centerTitle: true,
+        backgroundColor: AppColors.appBarColor,
+        automaticallyImplyLeading: true,
+      ),
+      body: checkInstruction(widget.instructionReceived),
+    );
   }
 
   Future<void> getClientName() async {
@@ -49,5 +43,23 @@ class _InstructionViewState extends State<InstructionView> {
     setState(() {
       cltName = sharedpref.getString(HomeViewState.KEYCLIENTNAME)!;
     });
+  }
+
+  checkInstruction(instru) {
+    if (instru == null) {
+      return Center(
+          child: Text(
+        "No Instruction Available!",
+        style: TextStyle(fontSize: 20),
+      ));
+    } else {
+      return Card(
+        child: ListTile(
+          title: HtmlWidget(
+            instru,
+          ),
+        ),
+      );
+    }
   }
 }

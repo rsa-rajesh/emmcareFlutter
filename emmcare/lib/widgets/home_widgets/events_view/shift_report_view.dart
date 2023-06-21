@@ -53,8 +53,7 @@ class _ShiftReportViewState extends State<ShiftReportView> {
                       radius: 28,
                       child: ClipOval(
                         child: Image.network(
-                            "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
-                                cltAvatar!,
+                            "https://api.emmcare.pwnbot.io" + cltAvatar!,
                             width: 100,
                             height: 100,
                             fit: BoxFit.cover,

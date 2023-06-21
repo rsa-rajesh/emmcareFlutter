@@ -33,7 +33,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
-        title: Text("My Document"),
+        title: Text("My Records"),
         centerTitle: true,
         automaticallyImplyLeading: true,
       ),
@@ -110,7 +110,7 @@ class _MyDocumentViewState extends State<MyDocumentView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "No Documents!",
+                                "No Records!",
                                 style: TextStyle(fontSize: 20),
                               ),
                               SizedBox(

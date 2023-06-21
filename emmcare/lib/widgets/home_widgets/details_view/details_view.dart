@@ -55,7 +55,7 @@ class _DetailsViewState extends State<DetailsView> {
                     child: Wrap(children: [
                       Center(
                         child: Text(
-                          "STAFF",
+                          "MEMBER",
                           style: TextStyle(
                             fontSize: 12,
                             foreground: Paint()
@@ -76,11 +76,25 @@ class _DetailsViewState extends State<DetailsView> {
                             width: 15,
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                             child: CircleAvatar(
-                              backgroundColor: AppColors.buttonColor,
-                              backgroundImage:
-                                  ExactAssetImage('assets/images/pwnbot.png'),
+                              backgroundColor:
+                                  AppColors.imageCircleAvatarBodyBackgroudColor,
+                              child: ClipOval(
+                                child: Image.network(
+                                    "https://api.emmcare.pwnbot.io" +
+                                        client_Detail.staffImg.toString(),
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                  return Icon(
+                                    // Icons.error,
+                                    Icons.person,
+                                    color: Colors.white,
+                                  );
+                                }),
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -88,7 +102,7 @@ class _DetailsViewState extends State<DetailsView> {
                           ),
                           Expanded(
                             child: Text(
-                              "EMMC Support Services",
+                              client_Detail.staff.toString(),
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w600),
                             ),
@@ -115,7 +129,7 @@ class _DetailsViewState extends State<DetailsView> {
                       child: Wrap(children: [
                         Center(
                           child: Text(
-                            "CLIENT",
+                            "PARTICIPANT",
                             style: TextStyle(
                               fontSize: 12,
                               foreground: Paint()
@@ -142,7 +156,7 @@ class _DetailsViewState extends State<DetailsView> {
                                     .imageCircleAvatarBodyBackgroudColor,
                                 child: ClipOval(
                                   child: Image.network(
-                                      "http://pwnbot-agecare-backend.clouds.nepalicloud.com" +
+                                      "https://api.emmcare.pwnbot.io" +
                                           client_Detail.clientImg.toString(),
                                       width: 100,
                                       height: 100,

@@ -33,7 +33,7 @@ class _NotificationViewState extends State<NotificationView> {
         backgroundColor: AppColors.appBarColor,
         centerTitle: true,
         title: Text(
-          "My Notification",
+          "My Alert",
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
         actions: [
