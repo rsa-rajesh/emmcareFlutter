@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../utils/utils.dart';
 import '../../../../view_model/incident_view_view_model.dart';
 
@@ -32,14 +31,24 @@ class _IncidentViewState extends State<IncidentView> {
   final ImagePicker imagePicker = ImagePicker();
 
   getImageFromGalley() async {
-    imgXFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    imgXFile = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 200,
+      maxWidth: 200,
+      requestFullMetadata: true,
+    );
     setState(() {
       imgXFile;
     });
   }
 
   getImageFromCamera() async {
-    imgXFile = await imagePicker.pickImage(source: ImageSource.camera);
+    imgXFile = await imagePicker.pickImage(
+      source: ImageSource.camera,
+      maxHeight: 200,
+      maxWidth: 200,
+      requestFullMetadata: true,
+    );
     setState(() {
       imgXFile;
     });

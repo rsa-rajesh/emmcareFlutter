@@ -33,14 +33,24 @@ class _EnquiryViewState extends State<EnquiryView> {
   final ImagePicker imagePicker = ImagePicker();
 
   getImageFromGalley() async {
-    imgXFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    imgXFile = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 200,
+      maxWidth: 200,
+      requestFullMetadata: true,
+    );
     setState(() {
       imgXFile;
     });
   }
 
   getImageFromCamera() async {
-    imgXFile = await imagePicker.pickImage(source: ImageSource.camera);
+    imgXFile = await imagePicker.pickImage(
+      source: ImageSource.camera,
+      maxHeight: 200,
+      maxWidth: 200,
+      requestFullMetadata: true,
+    );
     setState(() {
       imgXFile;
     });

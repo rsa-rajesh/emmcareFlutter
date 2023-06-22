@@ -35,6 +35,7 @@ class SubEventRepository {
               _msg,
               obj_id,
               token);
+      print(_attachment);
       return response = SubEventModel.fromJson(response);
     } catch (e) {
       throw e;

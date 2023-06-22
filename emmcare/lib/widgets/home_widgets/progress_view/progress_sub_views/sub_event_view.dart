@@ -32,7 +32,11 @@ class _EventViewState extends State<EventView> {
 
   getImageFromGalley() async {
     imgXFile = await imagePicker.pickImage(
-        source: ImageSource.gallery, maxHeight: 200, maxWidth: 200);
+      source: ImageSource.gallery,
+      maxHeight: 200,
+      maxWidth: 200,
+      requestFullMetadata: true,
+    );
 
     setState(() {
       imgXFile;
@@ -42,6 +46,9 @@ class _EventViewState extends State<EventView> {
   getImageFromCamera() async {
     imgXFile = await imagePicker.pickImage(
       source: ImageSource.camera,
+      maxHeight: 200,
+      maxWidth: 200,
+      requestFullMetadata: true,
     );
     setState(
       () {
@@ -81,8 +88,11 @@ class _EventViewState extends State<EventView> {
                       _msg = _subEventController.text.toString();
                       _category = "event";
                     });
-                    SubEventViewModel()
-                        .subEventWithoutImage(context, _category, _msg);
+                    SubEventViewModel().subEventWithoutImage(
+                      context,
+                      _category,
+                      _msg,
+                    );
                     imgXFile = null;
                     _subEventController.clear();
                     FocusManager.instance.primaryFocus?.unfocus();
@@ -93,7 +103,11 @@ class _EventViewState extends State<EventView> {
                       _category = "event";
                     });
                     SubEventViewModel().subEventWithImage(
-                        context, _attachment, _category, _msg);
+                      context,
+                      _attachment,
+                      _category,
+                      _msg,
+                    );
                     imgXFile = null;
                     _subEventController.clear();
                     FocusManager.instance.primaryFocus?.unfocus();

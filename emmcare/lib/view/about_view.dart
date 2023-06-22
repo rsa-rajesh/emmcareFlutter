@@ -218,7 +218,7 @@ class _AboutViewState extends State<AboutView> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Copyright @ EmmCare Pvt.Ltd.",
+                  "Copyright @ Emmc Care Pvt.Ltd.",
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
                 ),
               ),

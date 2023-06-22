@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../utils/utils.dart';
 import '../../../../view_model/progress_note_view_view_model.dart';
-
 class ProgressNotesView extends StatefulWidget {
   const ProgressNotesView({super.key});
 
@@ -29,7 +28,12 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
   // This is the image picker
   final ImagePicker imagePicker = ImagePicker();
   getImageFromGalley() async {
-    imgXFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    imgXFile = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 200,
+      maxWidth: 200,
+      requestFullMetadata: true,
+    );
     setState(() {
       imgXFile;
     });
@@ -37,7 +41,11 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
 
   getImageFromCamera() async {
     imgXFile = await imagePicker.pickImage(
-        source: ImageSource.camera, maxHeight: 200, maxWidth: 200);
+      source: ImageSource.camera,
+      maxHeight: 200,
+      maxWidth: 200,
+      requestFullMetadata: true,
+    );
     setState(() {
       imgXFile;
     });
@@ -82,8 +90,8 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
                     });
                   } else {
                     setState(() {
-                      _attachment = imgXFile!.path;
                       _msg = _noteController.text.toString();
+                      _attachment = imgXFile!.path;
                       _category = "note";
                     });
                     ProgressNoteViewModel().progressNoteWithImage(

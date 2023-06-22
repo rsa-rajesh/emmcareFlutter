@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../widgets/forgot_password/forgot_password_view.dart';
 
 class LoginView extends StatefulWidget {
@@ -78,6 +77,9 @@ class LoginViewState extends State<LoginView> {
                 padding: const EdgeInsets.symmetric(
                     vertical: 19.0, horizontal: 16.0),
                 child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,9 +247,28 @@ class LoginViewState extends State<LoginView> {
                 ),
               ),
               Spacer(),
-              Text(
-                "Version\t" + _appVersion,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
+              IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Version\t" + _appVersion,
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
+                    ),
+                    VerticalDivider(
+                      endIndent: 3,
+                      indent: 1,
+                      color: Colors.black,
+                      thickness: 2,
+                    ), //thickness of divier line
+                    Text(
+                      "Powered by @ pwnbot system.",
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
