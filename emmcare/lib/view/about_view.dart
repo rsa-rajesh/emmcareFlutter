@@ -46,7 +46,7 @@ class _AboutViewState extends State<AboutView> {
                   Padding(
                     padding: const EdgeInsets.all(25),
                     child: Image.asset(
-                      "assets/images/pwnbot.png",
+                      "assets/images/emmc_care_icon.jpg",
                       height: 100,
                       width: 100,
                     ),

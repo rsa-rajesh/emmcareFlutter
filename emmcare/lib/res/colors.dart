@@ -16,6 +16,8 @@ class AppColors {
 
   static Color bodyBackgroudColor = Color(0xFFFFFBFA);
 
+  static Color loginBodyBackgroudColor = Color.fromARGB(255, 217, 246, 239);
+
   static Color imageCircleAvatarBodyBackgroudColor =
       Color.fromARGB(255, 8, 77, 61);
 

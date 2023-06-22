@@ -206,7 +206,8 @@ class _buildHeaderState extends State<buildHeader> {
         children: [
           CircleAvatar(
             radius: 65,
-            backgroundImage: ExactAssetImage('assets/images/pwnbot.png'),
+            backgroundImage:
+                ExactAssetImage("assets/images/emmc_care_icon.jpg"),
           ),
           SizedBox(
             height: 8,

@@ -34,12 +34,18 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.appBarColor,
-      body: Center(
-        child: Text(
-          "Pwnbot",
-          style: TextStyle(
-              fontSize: 30, color: Colors.white, fontWeight: FontWeight.w900),
-        ),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Align(
+            alignment: Alignment.center,
+            child: Image.asset(
+              "assets/images/emmc_care_logo-white_bg.png",
+              height: 80,
+            ),
+          ),
+        ],
       ),
     );
   }
