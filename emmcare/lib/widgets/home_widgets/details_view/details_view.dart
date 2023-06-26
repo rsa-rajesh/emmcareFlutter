@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
@@ -7,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import '../../../view_model/clock_in_view_model.dart';
 import '../../../view_model/clock_out_view_model.dart';
+import 'package:geolocator/geolocator.dart';
 
 class DetailsView extends StatefulWidget {
   // receive data from the FirstScreen as a parameter
@@ -19,11 +22,84 @@ class DetailsView extends StatefulWidget {
 }
 
 class _DetailsViewState extends State<DetailsView> {
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+  String long = "", lat = "";
+  late StreamSubscription<Position> positionStream;
   /* Step:- 1 */
-
   GoogleMapController? mapController; //contrller for Google map
   Set<Marker> markers = Set(); //markers for google map
   String _instruction = "";
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          print('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          print("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+
+        getLocation();
+      }
+    } else {
+      print("GPS Service is not enabled, turn on GPS location");
+    }
+
+    setState(() {
+      //refresh the UI
+    });
+  }
+
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    print(position.longitude); //Output: 80.24599079
+    print(position.latitude); //Output: 29.6593457
+
+    long = position.longitude.toString();
+    lat = position.latitude.toString();
+
+    setState(() {
+      //refresh UI
+    });
+
+    LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high, //accuracy of the location data
+      distanceFilter: 100, //minimum distance (measured in meters) a
+      //device must move horizontally before an update event is generated;
+    );
+
+    StreamSubscription<Position> positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position position) {
+      print(position.longitude); //Output: 80.24599079
+      print(position.latitude); //Output: 29.6593457
+
+      long = position.longitude.toString();
+      lat = position.latitude.toString();
+
+      setState(() {
+        //refresh UI on update
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +173,7 @@ class _DetailsViewState extends State<DetailsView> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          SizedBox(width: 10),
                           Expanded(
                             child: Text(
                               client_Detail.staff.toString(),
@@ -120,73 +194,71 @@ class _DetailsViewState extends State<DetailsView> {
                 ),
                 Expanded(
                     child: InkWell(
-                  splashColor: Colors.white70,
-                  onTap: () {
-                    Navigator.pushNamed(context, RoutesName.client_profile);
-                  },
-                  child: Card(
-                    child: Center(
-                      child: Wrap(children: [
-                        Center(
-                          child: Text(
-                            "PARTICIPANT",
-                            style: TextStyle(
-                              fontSize: 12,
-                              foreground: Paint()
-                                ..style = PaintingStyle.fill
-                                ..strokeWidth = 1
-                                ..color = Color.fromARGB(255, 15, 15, 15),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                          height: 5,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                              child: CircleAvatar(
-                                backgroundColor: AppColors
-                                    .imageCircleAvatarBodyBackgroudColor,
-                                child: ClipOval(
-                                  child: Image.network(
-                                      "https://api.emmcare.pwnbot.io" +
-                                          client_Detail.clientImg.toString(),
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover, errorBuilder:
-                                          (context, error, stackTrace) {
-                                    return Icon(
-                                      // Icons.error,
-                                      Icons.person,
-                                      color: Colors.white,
-                                    );
-                                  }),
+                        splashColor: Colors.white70,
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RoutesName.client_profile);
+                        },
+                        child: Card(
+                          child: Center(
+                              child: Wrap(children: [
+                            Center(
+                              child: Text(
+                                "PARTICIPANT",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.fill
+                                    ..strokeWidth = 1
+                                    ..color = Color.fromARGB(255, 15, 15, 15),
                                 ),
                               ),
                             ),
                             SizedBox(
-                              width: 10,
+                              width: 5,
+                              height: 5,
                             ),
-                            Expanded(
-                              child: Text(
-                                client_Detail.client.toString(),
-                                style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w600),
-                              ),
-                            )
-                          ],
-                        ),
-                      ]),
-                    ),
-                  ),
-                )),
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                    child: CircleAvatar(
+                                      backgroundColor: AppColors
+                                          .imageCircleAvatarBodyBackgroudColor,
+                                      child: ClipOval(
+                                        child: Image.network(
+                                            "https://api.emmcare.pwnbot.io" +
+                                                client_Detail.clientImg
+                                                    .toString(),
+                                            width: 100,
+                                            height: 100,
+                                            fit: BoxFit.cover, errorBuilder:
+                                                (context, error, stackTrace) {
+                                          return Icon(
+                                              // Icons.error,
+                                              Icons.person,
+                                              color: Colors.white);
+                                        }),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                      child: Text(
+                                          client_Detail.client.toString(),
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600)))
+                                ])
+                          ])),
+                        ))),
               ],
             ),
           ),
@@ -201,26 +273,16 @@ class _DetailsViewState extends State<DetailsView> {
                     children: [
                       Expanded(
                           child: Center(
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.date_range_outlined,
-                              color: Colors.black,
-                              size: 22,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "DATE",
+                              child: Row(
+                        children: [
+                          Icon(Icons.date_range_outlined,
+                              color: Colors.black, size: 22),
+                          SizedBox(width: 10),
+                          Text("DATE",
                               style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
+                                  fontSize: 13, fontWeight: FontWeight.w900)),
+                        ],
+                      ))),
                       Expanded(
                           child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,25 +291,21 @@ class _DetailsViewState extends State<DetailsView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                DateFormat("EEEE").format(
-                                  DateTime.parse(
-                                      client_Detail.shiftStartDate.toString()),
-                                ),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ),
+                                  DateFormat("EEEE").format(
+                                    DateTime.parse(client_Detail.shiftStartDate
+                                        .toString()),
+                                  ),
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w900)),
                               Text(
-                                DateFormat("yMMMMd").format(
-                                  DateTime.parse(
-                                      client_Detail.shiftStartDate.toString()),
-                                ),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              )
+                                  DateFormat("yMMMMd").format(
+                                    DateTime.parse(client_Detail.shiftStartDate
+                                        .toString()),
+                                  ),
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w900))
                             ],
                           ),
                         ],
@@ -264,21 +322,12 @@ class _DetailsViewState extends State<DetailsView> {
                           child: Center(
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.access_time,
-                              color: Colors.black,
-                              size: 22,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "TIME",
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
+                            Icon(Icons.access_time,
+                                color: Colors.black, size: 22),
+                            SizedBox(width: 10),
+                            Text("TIME",
+                                style: TextStyle(
+                                    fontSize: 13, fontWeight: FontWeight.w900)),
                           ],
                         ),
                       )),
@@ -287,21 +336,17 @@ class _DetailsViewState extends State<DetailsView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            DateFormat.jm().format(DateFormat("hh:mm:ss").parse(
-                                client_Detail.shiftStartTime.toString())),
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
+                              DateFormat.jm().format(DateFormat("hh:mm:ss")
+                                  .parse(
+                                      client_Detail.shiftStartTime.toString())),
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w900)),
                           Text("-"),
                           Text(
                             DateFormat.jm().format(DateFormat("hh:mm:ss")
                                 .parse(client_Detail.shiftEndTime.toString())),
                             style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w900,
-                            ),
+                                fontSize: 12, fontWeight: FontWeight.w900),
                           ),
                         ],
                       )),
@@ -317,32 +362,19 @@ class _DetailsViewState extends State<DetailsView> {
                           child: Center(
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.location_on_outlined,
-                              color: Colors.black,
-                              size: 22,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "LOCATION",
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
+                            Icon(Icons.location_on_outlined,
+                                color: Colors.black, size: 22),
+                            SizedBox(width: 10),
+                            Text("LOCATION",
+                                style: TextStyle(
+                                    fontSize: 13, fontWeight: FontWeight.w900)),
                           ],
                         ),
                       )),
                       Expanded(
-                        child: Text(
-                          client_Detail.shiftFullAddress.toString(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
+                        child: Text(client_Detail.shiftFullAddress.toString(),
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w900)),
                       ),
                     ],
                   ),
@@ -355,10 +387,8 @@ class _DetailsViewState extends State<DetailsView> {
             onTap: () {
               _instruction = client_Detail.instruction.toString();
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => InstructionView(
-                  instructionReceived: _instruction,
-                ),
-              ));
+                  builder: (context) =>
+                      InstructionView(instructionReceived: _instruction)));
             },
             splashColor: AppColors.whiteColor,
             child: Padding(
@@ -394,7 +424,7 @@ class _DetailsViewState extends State<DetailsView> {
             ),
           ),
 
-          checkClockInAndOut(client_Detail.clockIn.toString()),
+          checkClockInAndOut(client_Detail.clockIn.toString(), client_Detail),
         ],
       ),
     );
@@ -419,10 +449,10 @@ class _DetailsViewState extends State<DetailsView> {
         //Map widget from google_maps_flutter package
         zoomGesturesEnabled: true, //enable Zoom in, out on map
         initialCameraPosition: CameraPosition(
-          //innital position in map
-          target: showLocation, //initial position
-          zoom: 15, //initial zoom level
-        ),
+            //innital position in map
+            target: showLocation, //initial position
+            zoom: 15 //initial zoom level
+            ),
         markers: markers, //markers to show on map
         mapType: MapType.normal, //map type
         onMapCreated: (controller) {
@@ -448,7 +478,7 @@ class _DetailsViewState extends State<DetailsView> {
     }
   }
 
-  Widget checkClockInAndOut(String checkclock) {
+  Widget checkClockInAndOut(String checkclock, Clients client_detail) {
     if (checkclock == "null") {
       return Padding(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -456,23 +486,26 @@ class _DetailsViewState extends State<DetailsView> {
           width: double.infinity,
           color: AppColors.buttonColor,
           child: TextButton.icon(
-            onPressed: () {
-              // String datetime = DateFormat("HH:mm:ss").format(DateTime.now());
-              ClockInViewModel().clockIn(context);
-            },
-            icon: Icon(
-              Icons.play_arrow,
-              color: Colors.white,
-              size: 30,
-            ),
-            label: Text(
-              "CLOCK IN",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
+              onPressed: () {
+                // checkGps();
+                // var distanceInMeters = Geolocator.distanceBetween(
+                //   client_detail.location!.lat!,
+                //   client_detail.location!.lng!,
+                //   double.parse(lat),
+                //   double.parse(long),
+                // );
+                ClockInViewModel().clockIn(context);
+              },
+              icon: Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 30,
+              ),
+              label: Text("CLOCK IN",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold))),
         ),
       );
     } else {
@@ -483,14 +516,16 @@ class _DetailsViewState extends State<DetailsView> {
           color: AppColors.buttonColor,
           child: TextButton.icon(
               onPressed: () {
-                // String datetime = DateFormat("HH:mm:ss").format(DateTime.now());
+                // checkGps();
+                // var distanceInMeters = Geolocator.distanceBetween(
+                //   client_detail.location!.lat!,
+                //   client_detail.location!.lng!,
+                //   double.parse(lat),
+                //   double.parse(long),
+                // );
                 ClockOutViewModel().clockOut(context);
               },
-              icon: Icon(
-                Icons.play_arrow,
-                color: Colors.white,
-                size: 30,
-              ),
+              icon: Icon(Icons.play_arrow, color: Colors.white, size: 30),
               label: Text(
                 "CLOCK OUT",
                 style: TextStyle(

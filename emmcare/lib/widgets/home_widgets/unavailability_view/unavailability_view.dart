@@ -267,7 +267,7 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                             ),
                           ),
                         ),
-                        
+
                         Visibility(
                           visible: !_allDay,
                           child: InkWell(

@@ -24,7 +24,6 @@ class _EventViewState extends State<EventView> {
   }
 
   String? cltName;
-
   // This is the file that will be used to store the image
   XFile? imgXFile;
   // This is the image picker
@@ -37,10 +36,11 @@ class _EventViewState extends State<EventView> {
       maxWidth: 200,
       requestFullMetadata: true,
     );
-
-    setState(() {
-      imgXFile;
-    });
+    setState(
+      () {
+        imgXFile;
+      },
+    );
   }
 
   getImageFromCamera() async {
