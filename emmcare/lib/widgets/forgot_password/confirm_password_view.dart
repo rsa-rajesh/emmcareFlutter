@@ -21,8 +21,11 @@ class _ConfirmPasswordViewState extends State<ConfirmPasswordView> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -73,11 +76,14 @@ class _ConfirmPasswordViewState extends State<ConfirmPasswordView> {
               ),
             ),
             SizedBox(
-              height: 30,
+              height: 50,
             ),
             Container(
               width: double.infinity,
-              color: AppColors.buttonColor,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: AppColors.buttonColor,
+              ),
               child: TextButton(
                 onPressed: () {
                   if (newPasswordController.text.isEmpty) {

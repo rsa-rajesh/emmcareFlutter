@@ -2,6 +2,8 @@ import 'package:emmcare/repository/forgot_Password_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/forgot_password/otp_view.dart';
+
 class ForgotPasswordViewModel with ChangeNotifier {
   final _myRepo = ForgotPasswordRepository();
 
@@ -18,6 +20,12 @@ class ForgotPasswordViewModel with ChangeNotifier {
 
     _myRepo.forgotPasswordApi(data).then((value) {
       setLoading(false);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OTPView(),
+        ),
+      );
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -52,7 +60,6 @@ class ForgotPasswordViewModel with ChangeNotifier {
       }
     });
   }
-
   String splitError(String errorString) {
     String unSplittedString = errorString;
     //split string

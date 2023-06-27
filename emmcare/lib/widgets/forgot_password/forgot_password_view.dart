@@ -67,7 +67,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             ),
             Container(
               width: double.infinity,
-              color: AppColors.buttonColor,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: AppColors.buttonColor,
+              ),
               child: TextButton.icon(
                 onPressed: () {
                   if (emailController.text.isEmpty) {
@@ -76,12 +79,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     Map data = {
                       "email": emailController.text.toString(),
                     };
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OTPView(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => OTPView(),
+                    //   ),
+                    // );
                     ForgotPasswordViewModel().forgotPasswordApi(data, context);
                     FocusManager.instance.primaryFocus?.unfocus();
                   }

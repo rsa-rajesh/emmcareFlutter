@@ -2,7 +2,6 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/widgets/forgot_password/confirm_password_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-
 import '../../view_model/Otp_view_view_model.dart';
 
 class OTPView extends StatefulWidget {
@@ -22,21 +21,24 @@ class _OTPViewState extends State<OTPView> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 10.0,
+            ),
             Text(
               "Enter the OTP verification code.",
               style: TextStyle(color: Colors.black87, fontSize: 20),
             ),
             SizedBox(
-              height: 30.0,
+              height: 50.0,
             ),
             OtpTextField(
               numberOfFields: 6,
               showFieldAsBox: true,
               showCursor: true,
-              autoFocus: true,
+              autoFocus: false,
               borderColor: Colors.black,
               clearText: true,
               enabled: true,
@@ -49,11 +51,14 @@ class _OTPViewState extends State<OTPView> {
               },
             ),
             SizedBox(
-              height: 50,
+              height: 100,
             ),
             Container(
               width: double.infinity,
-              color: AppColors.buttonColor,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: AppColors.buttonColor,
+              ),
               child: TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -62,9 +67,9 @@ class _OTPViewState extends State<OTPView> {
                       builder: (context) => ConfirmPasswordView(),
                     ),
                   );
-                  dynamic data = finalOTP;
-
-                  OtpViewModel().otpApi(data, context);
+                  // dynamic data = finalOTP;
+                  // print(data);
+                  // OtpViewModel().otpApi(data, context);
                 },
                 child: Text(
                   "Reset Password",
