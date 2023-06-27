@@ -29,6 +29,8 @@ class _InjuryViewState extends State<InjuryView> {
   XFile? imgXFile;
   // This is the image picker
   final ImagePicker imagePicker = ImagePicker();
+  //
+  late bool imageAccepted;
 
   getImageFromGalley() async {
     imgXFile = await imagePicker.pickImage(
@@ -37,9 +39,35 @@ class _InjuryViewState extends State<InjuryView> {
       maxWidth: 200,
       requestFullMetadata: true,
     );
-    setState(() {
-      imgXFile;
-    });
+    if (imgXFile!.path.endsWith("pdf")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("doc")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docx")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docs")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpeg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("png")) {
+      imageAccepted = true;
+    } else {
+      imageAccepted = false;
+    }
+    if (imageAccepted) {
+      if (imgXFile != null) {
+        setState(() {
+          imgXFile;
+        });
+      }
+    } else {
+      Utils.toastMessage('This image extension is not allowed.');
+      setState(() {
+        imgXFile = null;
+      });
+    }
   }
 
   getImageFromCamera() async {
@@ -49,9 +77,35 @@ class _InjuryViewState extends State<InjuryView> {
       maxWidth: 200,
       requestFullMetadata: true,
     );
-    setState(() {
-      imgXFile;
-    });
+    if (imgXFile!.path.endsWith("pdf")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("doc")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docx")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docs")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpeg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("png")) {
+      imageAccepted = true;
+    } else {
+      imageAccepted = false;
+    }
+    if (imageAccepted) {
+      if (imgXFile != null) {
+        setState(() {
+          imgXFile;
+        });
+      }
+    } else {
+      Utils.toastMessage('This image extension is not allowed.');
+      setState(() {
+        imgXFile = null;
+      });
+    }
   }
 
   var _injuryController = TextEditingController();

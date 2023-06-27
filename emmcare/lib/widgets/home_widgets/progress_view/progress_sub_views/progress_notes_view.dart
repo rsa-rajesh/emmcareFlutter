@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../utils/utils.dart';
 import '../../../../view_model/progress_note_view_view_model.dart';
+
 class ProgressNotesView extends StatefulWidget {
   const ProgressNotesView({super.key});
 
@@ -27,6 +28,8 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
   XFile? imgXFile;
   // This is the image picker
   final ImagePicker imagePicker = ImagePicker();
+  //
+  late bool imageAccepted;
   getImageFromGalley() async {
     imgXFile = await imagePicker.pickImage(
       source: ImageSource.gallery,
@@ -34,9 +37,35 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
       maxWidth: 200,
       requestFullMetadata: true,
     );
-    setState(() {
-      imgXFile;
-    });
+    if (imgXFile!.path.endsWith("pdf")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("doc")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docx")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docs")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpeg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("png")) {
+      imageAccepted = true;
+    } else {
+      imageAccepted = false;
+    }
+    if (imageAccepted) {
+      if (imgXFile != null) {
+        setState(() {
+          imgXFile;
+        });
+      }
+    } else {
+      Utils.toastMessage('This image extension is not allowed.');
+      setState(() {
+        imgXFile = null;
+      });
+    }
   }
 
   getImageFromCamera() async {
@@ -46,9 +75,35 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
       maxWidth: 200,
       requestFullMetadata: true,
     );
-    setState(() {
-      imgXFile;
-    });
+    if (imgXFile!.path.endsWith("pdf")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("doc")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docx")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docs")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpeg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("png")) {
+      imageAccepted = true;
+    } else {
+      imageAccepted = false;
+    }
+    if (imageAccepted) {
+      if (imgXFile != null) {
+        setState(() {
+          imgXFile;
+        });
+      }
+    } else {
+      Utils.toastMessage('This image extension is not allowed.');
+      setState(() {
+        imgXFile = null;
+      });
+    }
   }
 
   // Note Controllers

@@ -7,13 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../utils/utils.dart';
 import '../../../../view_model/enquiry_view_view_model.dart';
 
 class EnquiryView extends StatefulWidget {
   const EnquiryView({super.key});
-
   @override
   State<EnquiryView> createState() => _EnquiryViewState();
 }
@@ -26,11 +24,12 @@ class _EnquiryViewState extends State<EnquiryView> {
   }
 
   String? cltName;
-
   // This is the file that will be used to store the image
   XFile? imgXFile;
   // This is the image picker
   final ImagePicker imagePicker = ImagePicker();
+  //
+  late bool imageAccepted;
 
   getImageFromGalley() async {
     imgXFile = await imagePicker.pickImage(
@@ -39,9 +38,35 @@ class _EnquiryViewState extends State<EnquiryView> {
       maxWidth: 200,
       requestFullMetadata: true,
     );
-    setState(() {
-      imgXFile;
-    });
+    if (imgXFile!.path.endsWith("pdf")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("doc")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docx")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docs")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpeg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("png")) {
+      imageAccepted = true;
+    } else {
+      imageAccepted = false;
+    }
+    if (imageAccepted) {
+      if (imgXFile != null) {
+        setState(() {
+          imgXFile;
+        });
+      }
+    } else {
+      Utils.toastMessage('This image extension is not allowed.');
+      setState(() {
+        imgXFile = null;
+      });
+    }
   }
 
   getImageFromCamera() async {
@@ -51,9 +76,35 @@ class _EnquiryViewState extends State<EnquiryView> {
       maxWidth: 200,
       requestFullMetadata: true,
     );
-    setState(() {
-      imgXFile;
-    });
+    if (imgXFile!.path.endsWith("pdf")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("doc")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docx")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("docs")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("jpeg")) {
+      imageAccepted = true;
+    } else if (imgXFile!.path.endsWith("png")) {
+      imageAccepted = true;
+    } else {
+      imageAccepted = false;
+    }
+    if (imageAccepted) {
+      if (imgXFile != null) {
+        setState(() {
+          imgXFile;
+        });
+      }
+    } else {
+      Utils.toastMessage('This image extension is not allowed.');
+      setState(() {
+        imgXFile = null;
+      });
+    }
   }
 
   var _enquiryController = TextEditingController();
