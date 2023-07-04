@@ -65,6 +65,7 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
 
   List<DateTime> _selectedDate = [];
   int? _dateCount;
+  bool isBottonShow = false;
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
@@ -73,9 +74,21 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
         _selectedDate = args.value;
       } else if (args.value is List<DateTime>) {
         _selectedDate = args.value;
-        _dateCount = args.value.length;
-        bsheet();
-      } else {}
+        setState(() {
+          _dateCount = args.value.length;
+        });
+
+        if (!isBottonShow && _dateCount! > 0) {
+          isBottonShow = true;
+          setState(() {
+            _dateCount;
+            bsheet();
+            print("$_dateCount Days");
+          });
+        }
+      } else {
+        setState(() {});
+      }
     });
   }
 

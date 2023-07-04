@@ -18,7 +18,6 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     splashServices.checkAuthentication(context);
-
     notificationServices.firebaseInit(context);
     notificationServices.setupInteractMessage(context);
     notificationServices.isTokenRefresh();

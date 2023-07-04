@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,12 +43,49 @@ class HomeViewState extends State<HomeView> {
       GlobalKey<RefreshIndicatorState>();
   HomeViewViewModel homeViewViewModel = HomeViewViewModel();
   NotificationServices notificationServices = NotificationServices();
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+  late double long;
+  late double lat;
 
   @override
   void initState() {
     homeViewViewModel.fetchClientListApi(context);
     super.initState();
     notificationServices.requestNotificationPermission();
+    checkGps();
+  }
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          print('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          print("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+        // getLocation();
+      }
+    } else {
+      print("GPS Service is not enabled, turn on GPS location");
+    }
+    setState(() {
+      //refresh the UI
+    });
   }
 
   @override

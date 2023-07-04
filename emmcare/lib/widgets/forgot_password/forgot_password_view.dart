@@ -2,7 +2,6 @@ import 'package:emmcare/view_model/forgot_password_view_view_model.dart';
 import 'package:flutter/material.dart';
 import '../../res/colors.dart';
 import '../../utils/utils.dart';
-import 'otp_view.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   @override

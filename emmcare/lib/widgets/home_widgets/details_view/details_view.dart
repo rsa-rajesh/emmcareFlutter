@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
@@ -26,12 +25,21 @@ class _DetailsViewState extends State<DetailsView> {
   bool haspermission = false;
   late LocationPermission permission;
   late Position position;
-  String long = "", lat = "";
-  late StreamSubscription<Position> positionStream;
+  late double long;
+  late double lat;
+
   /* Step:- 1 */
   GoogleMapController? mapController; //contrller for Google map
   Set<Marker> markers = Set(); //markers for google map
   String _instruction = "";
+
+  var distanceInMeters;
+
+  @override
+  void initState() {
+    checkGps();
+    super.initState();
+  }
 
   checkGps() async {
     servicestatus = await Geolocator.isLocationServiceEnabled();
@@ -55,7 +63,6 @@ class _DetailsViewState extends State<DetailsView> {
         setState(() {
           //refresh the UI
         });
-
         getLocation();
       }
     } else {
@@ -69,35 +76,12 @@ class _DetailsViewState extends State<DetailsView> {
 
   getLocation() async {
     position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    print(position.longitude); //Output: 80.24599079
-    print(position.latitude); //Output: 29.6593457
-
-    long = position.longitude.toString();
-    lat = position.latitude.toString();
-
-    setState(() {
-      //refresh UI
-    });
-
-    LocationSettings locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.high, //accuracy of the location data
-      distanceFilter: 100, //minimum distance (measured in meters) a
-      //device must move horizontally before an update event is generated;
+      desiredAccuracy: LocationAccuracy.high,
     );
-
-    StreamSubscription<Position> positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
-            .listen((Position position) {
-      print(position.longitude); //Output: 80.24599079
-      print(position.latitude); //Output: 29.6593457
-
-      long = position.longitude.toString();
-      lat = position.latitude.toString();
-
-      setState(() {
-        //refresh UI on update
-      });
+    long = position.longitude;
+    lat = position.latitude;
+    setState(() {
+      //refresh U
     });
   }
 
@@ -486,26 +470,45 @@ class _DetailsViewState extends State<DetailsView> {
           width: double.infinity,
           color: AppColors.buttonColor,
           child: TextButton.icon(
-              onPressed: () {
-                // checkGps();
-                // var distanceInMeters = Geolocator.distanceBetween(
-                //   client_detail.location!.lat!,
-                //   client_detail.location!.lng!,
-                //   double.parse(lat),
-                //   double.parse(long),
-                // );
+            onPressed: () {
+              distanceInMeters = Geolocator.distanceBetween(
+                client_detail.location!.lat!,
+                client_detail.location!.lng!,
+                lat,
+                long,
+              );
+              // Utils.toastMessage("$distanceInMeters");
+              if (distanceInMeters < 500.00) {
                 ClockInViewModel().clockIn(context);
-              },
-              icon: Icon(
-                Icons.play_arrow,
-                color: Colors.white,
-                size: 30,
-              ),
-              label: Text("CLOCK IN",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold))),
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          content: Text(
+                              "Cannot clock In before approaching to the client location."),
+                          icon: Icon(
+                            Icons.error,
+                            size: 45,
+                          ),
+                          iconColor: Colors.redAccent[400],
+                        ));
+                Future.delayed(
+                    Duration(seconds: 2), () => Navigator.of(context).pop());
+              }
+            },
+            icon: Icon(
+              Icons.play_arrow,
+              color: Colors.white,
+              size: 30,
+            ),
+            label: Text(
+              "CLOCK IN",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
         ),
       );
     } else {
@@ -516,14 +519,30 @@ class _DetailsViewState extends State<DetailsView> {
           color: AppColors.buttonColor,
           child: TextButton.icon(
               onPressed: () {
-                // checkGps();
-                // var distanceInMeters = Geolocator.distanceBetween(
-                //   client_detail.location!.lat!,
-                //   client_detail.location!.lng!,
-                //   double.parse(lat),
-                //   double.parse(long),
-                // );
-                ClockOutViewModel().clockOut(context);
+                distanceInMeters = Geolocator.distanceBetween(
+                  client_detail.location!.lat!,
+                  client_detail.location!.lng!,
+                  lat,
+                  long,
+                );
+                // Utils.toastMessage("$distanceInMeters");
+                if (distanceInMeters < 500.00) {
+                  ClockOutViewModel().clockOut(context);
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            content: Text(
+                                "Cannot clock out before approaching to the client location."),
+                            icon: Icon(
+                              Icons.error,
+                              size: 45,
+                            ),
+                            iconColor: Colors.redAccent[400],
+                          ));
+                  Future.delayed(
+                      Duration(seconds: 2), () => Navigator.of(context).pop());
+                }
               },
               icon: Icon(Icons.play_arrow, color: Colors.white, size: 30),
               label: Text(

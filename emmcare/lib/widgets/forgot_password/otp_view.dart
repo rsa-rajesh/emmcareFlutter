@@ -2,7 +2,6 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/widgets/forgot_password/confirm_password_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import '../../view_model/Otp_view_view_model.dart';
 
 class OTPView extends StatefulWidget {
   const OTPView({super.key});
