@@ -4,7 +4,6 @@ import 'package:emmcare/data/app_exceptions.dart';
 import 'package:emmcare/data/network/BaseApiServices.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkApiService extends BaseApiServices {
@@ -87,12 +86,8 @@ class NetworkApiService extends BaseApiServices {
   Future getPostResponseWithAuthData(
       String url, dynamic data, String token) async {
     dynamic responseJson;
-
     try {
-      final _chuckerHttpClient = ChuckerHttpClient(http.Client());
-// _chuckerHttpClient.get(Uri.parse('$_baseUrl$path'));
-
-      Response response = await _chuckerHttpClient.post(
+      Response response = await post(
         Uri.parse(url),
         body: data,
         headers: {

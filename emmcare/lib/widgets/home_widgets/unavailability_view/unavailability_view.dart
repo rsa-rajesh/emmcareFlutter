@@ -23,6 +23,12 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
   TextEditingController _unavailabilityController = TextEditingController();
   String token = "";
   TimeOfDay _startTime = TimeOfDay(hour: 12, minute: 00);
+  TimeOfDay _endTime = TimeOfDay(hour: 11, minute: 59);
+  bool _allDay = true;
+  List<DateTime> _selectedDate = [];
+  int? _dateCount;
+  bool isBottonShow = false;
+
   void _selectStartTime() async {
     final TimeOfDay? newTime = await showTimePicker(
       context: context,
@@ -35,7 +41,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
     }
   }
 
-  TimeOfDay _endTime = TimeOfDay(hour: 11, minute: 59);
   void _selectEndTime() async {
     final TimeOfDay? newTime = await showTimePicker(
       context: context,
@@ -48,7 +53,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
     }
   }
 
-  bool _allDay = true;
   @override
   void initState() {
     _startTime =
@@ -56,47 +60,51 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
     _endTime =
         TimeOfDay(hour: 11, minute: 59); //set the initial value of text field
     super.initState();
-
     Future<UserModel> getUserData() => UserViewViewModel().getUser();
     getUserData().then((value) async {
       token = value.access.toString();
     });
   }
 
-  List<DateTime> _selectedDate = [];
-  int? _dateCount;
-  bool isBottonShow = false;
-
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    setState(() {
-      if (args.value is PickerDateRange) {
-      } else if (args.value is DateTime) {
-        _selectedDate = args.value;
-      } else if (args.value is List<DateTime>) {
-        _selectedDate = args.value;
-        setState(() {
-          _dateCount = args.value.length;
-        });
+    // setState(() {
+    //   if (args.value is PickerDateRange) {
+    //   } else if (args.value is DateTime) {
+    //     _selectedDate = args.value;
+    //   } else if (args.value is List<DateTime>) {
+    //     _selectedDate = args.value;
+    //     setState(() {
+    //       _dateCount = args.value.length;
+    //     });
 
-        if (!isBottonShow && _dateCount! > 0) {
-          isBottonShow = true;
-          setState(() {
-            _dateCount;
-            bsheet();
-            print("$_dateCount Days");
-          });
-        }
-      } else {
-        setState(() {});
-      }
-    });
-  }
+    //     if (!isBottonShow && _dateCount! > 0) {
+    //       isBottonShow = true;
+    //       setState(() {
+    //         _dateCount;
+    //         bsheet(_dateCount!);
+    //         print("$_dateCount Days");
+    //       });
+    //     }
+    //   } else {
+    //     setState(() {});
+    //   }
+    // });
 
-  // Dispose
-  @override
-  void dispose() {
-    super.dispose();
-    _unavailabilityController.dispose();
+    if (args.value is List<DateTime>) {
+      _dateCount = args.value.length;
+    }
+    if (!isBottonShow && _dateCount! > 0) {
+      // isBottonShow = true;
+      _dateCount;
+      int? value = _dateCount;
+      bsheet(value!);
+      setState(
+        () {},
+      );
+    } else {
+      int value = 0;
+      bsheet(value);
+    }
   }
 
   @override
@@ -154,13 +162,21 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
     );
   }
 
-  bsheet() {
+  bsheet(int value) async {
     scaffoldKey.currentState!.showBottomSheet<dynamic>(
-      enableDrag: true,
       backgroundColor: AppColors.bodyBackgroudColor,
       (context) {
         return StatefulBuilder(
+          //
+          //
           builder: (context, StateSetter setState) {
+            if (value == 0) {
+              Future.delayed(Duration.zero, () {
+                Navigator.pop(context);
+              });
+            }
+            //
+            //
             return Card(
               elevation: 50,
               child: Wrap(
@@ -386,7 +402,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
       };
       data.add(date1);
     }
-
     return data;
   }
 }

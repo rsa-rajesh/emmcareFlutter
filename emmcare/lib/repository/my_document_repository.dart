@@ -19,10 +19,10 @@ class MyDocumentRepository {
     });
     await Future.delayed(Duration(microseconds: 0));
     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    // var realtedUserType = decodedToken["role"];
-    // var realtedUserId = decodedToken["user_id"];
-    var realtedUserType = "";
-    var realtedUserId = "";
+    var realtedUserType = decodedToken["role"];
+    var realtedUserId = decodedToken["user_id"];
+    // var realtedUserType = "";
+    // var realtedUserId = "";
     try {
       dynamic response = await _apiServices.getGetResponseWithAuth(
           AppUrl.getPersonalDocuments(page, realtedUserType, realtedUserId),

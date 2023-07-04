@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:emmcare/res/app_url.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../data/network/BaseApiServices.dart';
 import '../data/network/NetworkApiService.dart';
 import '../model/client_profile_documents_model.dart';
 import '../model/user_model.dart';
+import '../view/home_view.dart';
 import '../view_model/user_view_view_model.dart';
 
 class ClientProfileDocumentsRepository {
@@ -19,10 +21,14 @@ class ClientProfileDocumentsRepository {
       token = value.access.toString();
     });
     await Future.delayed(Duration(microseconds: 0));
-    // var realtedUserType = "client";
-    // var realtedUserId = cltId;
-    var realtedUserType = "";
-    var realtedUserId = "";
+    //
+    final sharedpref = await SharedPreferences.getInstance();
+    var cltId = sharedpref.getInt(HomeViewState.KEYCLIENTID)!;
+    //
+    var realtedUserType = "client";
+    var realtedUserId = cltId;
+    // var realtedUserType = "";
+    // var realtedUserId = "";
 
     try {
       dynamic response = await _apiServices.getGetResponseWithAuth(

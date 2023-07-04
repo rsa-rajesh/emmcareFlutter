@@ -85,11 +85,20 @@ class _DetailsViewState extends State<DetailsView> {
     });
   }
 
+  Future calc(Clients client_Detail) async {
+    distanceInMeters = await Geolocator.distanceBetween(
+      client_Detail.location!.lat!,
+      client_Detail.location!.lng!,
+      lat,
+      long,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
-
+    calc(client_Detail);
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       body: Column(
@@ -471,14 +480,8 @@ class _DetailsViewState extends State<DetailsView> {
           color: AppColors.buttonColor,
           child: TextButton.icon(
             onPressed: () {
-              distanceInMeters = Geolocator.distanceBetween(
-                client_detail.location!.lat!,
-                client_detail.location!.lng!,
-                lat,
-                long,
-              );
               // Utils.toastMessage("$distanceInMeters");
-              if (distanceInMeters < 500.00) {
+              if (distanceInMeters == null || distanceInMeters < 500.00) {
                 ClockInViewModel().clockIn(context);
               } else {
                 showDialog(
@@ -519,14 +522,8 @@ class _DetailsViewState extends State<DetailsView> {
           color: AppColors.buttonColor,
           child: TextButton.icon(
               onPressed: () {
-                distanceInMeters = Geolocator.distanceBetween(
-                  client_detail.location!.lat!,
-                  client_detail.location!.lng!,
-                  lat,
-                  long,
-                );
                 // Utils.toastMessage("$distanceInMeters");
-                if (distanceInMeters < 500.00) {
+                if (distanceInMeters == null || distanceInMeters < 500.00) {
                   ClockOutViewModel().clockOut(context);
                 } else {
                   showDialog(
