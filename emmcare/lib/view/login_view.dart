@@ -187,12 +187,13 @@ class LoginViewState extends State<LoginView> {
                           );
                         },
                         child: Container(
+                          color: Colors.white,
                           alignment: Alignment.topRight,
                           margin: EdgeInsets.only(right: 12),
                           child: Text(
                             "Forgot your password?",
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                               color: Colors.redAccent,
                             ),
@@ -236,7 +237,6 @@ class LoginViewState extends State<LoginView> {
                               };
 
                               authViewModel.loginApi(data, context);
-                              print("api hit");
                               FocusManager.instance.primaryFocus?.unfocus();
                             }
                           },

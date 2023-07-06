@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import '../../view_model/confirm_password_view_view_model.dart';
 
 class ConfirmPasswordView extends StatefulWidget {
-  const ConfirmPasswordView({super.key});
+  final String receivedEmail;
+  final String receivedOtp;
+  const ConfirmPasswordView(
+      {super.key, required this.receivedEmail, required this.receivedOtp});
   @override
   State<ConfirmPasswordView> createState() => _ConfirmPasswordViewState();
 }
@@ -98,6 +101,8 @@ class _ConfirmPasswordViewState extends State<ConfirmPasswordView> {
                           "Password does not matches.", context);
                     } else {
                       Map data = {
+                        "email": widget.receivedEmail,
+                        "otp": widget.receivedOtp,
                         "password": newPasswordController.text.toString(),
                       };
 

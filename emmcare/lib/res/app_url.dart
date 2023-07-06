@@ -109,15 +109,15 @@ class AppUrl {
         "v1/api/auth/client-goal-strategy-update/${internalId.toString()}/";
   }
 
-  static String postForgotPassword() {
-    return baseUrl + "v1/api/auth/password-reset/";
+  static String postPasswordResetOtp() {
+    return baseUrl + "v1/api/auth/password-reset-otp/";
   }
 
-  static String postOtpVerify() {
+  static String postPasswordResetOtpVerify() {
     return baseUrl + "v1/api/auth/password-reset-otp-verify/";
   }
 
-  static String postOtpComplete() {
+  static String postPasswordResetOtpComplete() {
     return baseUrl + "v1/api/auth/password-reset-otp-complete/";
   }
 }

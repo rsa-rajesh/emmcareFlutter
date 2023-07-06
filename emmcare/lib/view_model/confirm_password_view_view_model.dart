@@ -1,8 +1,8 @@
 import 'package:emmcare/repository/confirm_password_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/forgot_password/confirm_password_view.dart';
+import '../utils/routes/routes_name.dart';
+import '../utils/utils.dart';
 
 class ConfirmPasswordViewModel with ChangeNotifier {
   final _myRepo = ConfirmPasswordRepository();
@@ -17,26 +17,11 @@ class ConfirmPasswordViewModel with ChangeNotifier {
 
   Future<void> confirmPasswordapi(dynamic data, BuildContext context) async {
     setLoading(true);
-
     _myRepo.confirmPasswordapi(data).then((value) {
       setLoading(false);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ConfirmPasswordView(),
-        ),
-      );
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                content: Text('Password changed successfully'),
-                icon: Icon(
-                  Icons.done,
-                  size: 45,
-                ),
-                iconColor: Colors.green[400],
-              ));
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      Navigator.pop(context);
+      Navigator.pushNamed(context, RoutesName.login);
+      Utils.flushBarErrorMessage('Password changed successfully.', context);
       if (kDebugMode) {
         print(value.toString());
       }
@@ -45,14 +30,18 @@ class ConfirmPasswordViewModel with ChangeNotifier {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                content: Text(error.toString()),
+                content: Text(
+                  "Unable to change the password.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
                 icon: Icon(
                   Icons.error,
                   size: 45,
                 ),
                 iconColor: Colors.red[400],
               ));
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      Future.delayed(Duration(seconds: 1), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(error.toString());
       }

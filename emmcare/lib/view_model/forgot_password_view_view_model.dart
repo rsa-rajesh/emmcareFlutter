@@ -15,7 +15,8 @@ class ForgotPasswordViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> forgotPasswordApi(dynamic data, BuildContext context) async {
+  Future<void> forgotPasswordApi(
+      dynamic data, String email, BuildContext context) async {
     setLoading(true);
 
     _myRepo.forgotPasswordApi(data).then((value) {
@@ -23,14 +24,17 @@ class ForgotPasswordViewModel with ChangeNotifier {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => OTPView(),
+          builder: (context) => OTPView(receivedEmail: email),
         ),
       );
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
                 content: Text(
-                    'We have send you a mail with instructions about changing your password.'),
+                  'We have send you a mail with instructions about changing your password.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
                 icon: Icon(
                   Icons.done,
                   size: 45,
@@ -38,32 +42,47 @@ class ForgotPasswordViewModel with ChangeNotifier {
                 iconColor: Colors.green[400],
               ));
 
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      Future.delayed(Duration(seconds: 1), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
+      // showDialog(
+      //     context: context,
+      //     builder: (context) => AlertDialog(
+      //           content: Text(splitError(error.toString()) + "."),
+      //           icon: Icon(
+      //             Icons.error,
+      //             size: 45,
+      //           ),
+      //           iconColor: Colors.red[400],
+      //         ));
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                content: Text(splitError(error.toString()) + "."),
+                content: Text(
+                  "The email you entered is not valid.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
                 icon: Icon(
                   Icons.error,
                   size: 45,
                 ),
                 iconColor: Colors.red[400],
               ));
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      Future.delayed(Duration(seconds: 1), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(error.toString());
       }
     });
   }
-  String splitError(String errorString) {
-    String unSplittedString = errorString;
-    //split string
-    var splitteString = unSplittedString.split('"');
-    return splitteString[3];
-  }
+
+  // String splitError(String errorString) {
+  //   String unSplittedString = errorString;
+  //   //split string
+  //   var splitteString = unSplittedString.split('"');
+  //   return splitteString[3];
+  // }
 }

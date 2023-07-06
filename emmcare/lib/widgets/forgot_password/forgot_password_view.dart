@@ -75,16 +75,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   if (emailController.text.isEmpty) {
                     Utils.flushBarErrorMessage("Please enter email", context);
                   } else {
+                    String email = emailController.text.toString();
                     Map data = {
                       "email": emailController.text.toString(),
                     };
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => OTPView(),
-                    //   ),
-                    // );
-                    ForgotPasswordViewModel().forgotPasswordApi(data, context);
+                    ForgotPasswordViewModel()
+                        .forgotPasswordApi(data, email, context);
                     FocusManager.instance.primaryFocus?.unfocus();
                   }
                 },

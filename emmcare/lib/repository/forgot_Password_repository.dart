@@ -8,7 +8,9 @@ class ForgotPasswordRepository {
   Future<dynamic> forgotPasswordApi(dynamic data) async {
     try {
       dynamic response = await _apiServices.getPostApiResponse(
-          AppUrl.postForgotPassword(), data);
+        AppUrl.postPasswordResetOtp(),
+        data,
+      );
       return response;
     } catch (e) {
       throw e;

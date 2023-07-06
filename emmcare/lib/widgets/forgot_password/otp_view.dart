@@ -1,15 +1,18 @@
 import 'package:emmcare/res/colors.dart';
-import 'package:emmcare/widgets/forgot_password/confirm_password_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+import '../../view_model/Otp_view_view_model.dart';
 
 class OTPView extends StatefulWidget {
-  const OTPView({super.key});
+  final String receivedEmail;
+  const OTPView({super.key, required this.receivedEmail});
   @override
   State<OTPView> createState() => _OTPViewState();
 }
 
 class _OTPViewState extends State<OTPView> {
+  TextEditingController textEditingController = TextEditingController();
+  String currentText = "";
   String? finalOTP;
   @override
   Widget build(BuildContext context) {
@@ -33,21 +36,43 @@ class _OTPViewState extends State<OTPView> {
             SizedBox(
               height: 50.0,
             ),
-            OtpTextField(
-              numberOfFields: 6,
-              showFieldAsBox: true,
-              showCursor: true,
-              autoFocus: false,
-              borderColor: Colors.black,
-              clearText: true,
-              enabled: true,
-              textStyle: TextField.materialMisspelledTextStyle,
-              fillColor: Colors.black.withOpacity(0.1),
-              filled: true,
-              keyboardType: TextInputType.numberWithOptions(),
-              onSubmit: (value) {
-                finalOTP = value;
+            PinCodeTextField(
+              length: 6,
+              obscureText: false,
+              animationType: AnimationType.fade,
+              autovalidateMode: AutovalidateMode.always,
+              keyboardType: TextInputType.number,
+              autoDismissKeyboard: true,
+              autoUnfocus: true,
+              pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.box,
+                  borderRadius: BorderRadius.circular(5),
+                  fieldHeight: 50,
+                  fieldWidth: 40,
+                  activeFillColor: Colors.white,
+                  inactiveColor: AppColors.buttonColor,
+                  inactiveFillColor: Colors.white,
+                  selectedFillColor: Colors.white,
+                  selectedColor: Colors.greenAccent,
+                  activeColor: Colors.blue),
+              animationDuration: const Duration(milliseconds: 300),
+              backgroundColor: Colors.blue.shade50,
+              enableActiveFill: true,
+              controller: textEditingController,
+              onCompleted: (v) {
+                debugPrint("Completed");
+                finalOTP = v;
               },
+              onChanged: (value) {
+                debugPrint(value);
+                setState(() {
+                  currentText = value;
+                });
+              },
+              beforeTextPaste: (text) {
+                return true;
+              },
+              appContext: context,
             ),
             SizedBox(
               height: 100,
@@ -60,18 +85,17 @@ class _OTPViewState extends State<OTPView> {
               ),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ConfirmPasswordView(),
-                    ),
-                  );
-                  // dynamic data = finalOTP;
-                  // print(data);
-                  // OtpViewModel().otpApi(data, context);
+                  dynamic otp = finalOTP;
+                  widget.receivedEmail;
+                  Map data = {
+                    "email": widget.receivedEmail,
+                    "otp": otp.toString()
+                  };
+                  OtpViewModel()
+                      .otpApi(data, otp, widget.receivedEmail, context);
                 },
                 child: Text(
-                  "Reset Password",
+                  "Verify OTP",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,

@@ -15,7 +15,8 @@ class OtpViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> otpApi(dynamic data, BuildContext context) async {
+  Future<void> otpApi(
+      dynamic data, String otp, String email, BuildContext context) async {
     setLoading(true);
 
     _myRepo.otpApi(data).then((value) {
@@ -23,20 +24,27 @@ class OtpViewModel with ChangeNotifier {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ConfirmPasswordView(),
+          builder: (context) => ConfirmPasswordView(
+            receivedEmail: email,
+            receivedOtp: otp,
+          ),
         ),
       );
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                content: Text('OTP Verified!'),
+                content: Text(
+                  'OTP Verified.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
                 icon: Icon(
                   Icons.done,
                   size: 45,
                 ),
                 iconColor: Colors.green[400],
               ));
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      Future.delayed(Duration(seconds: 1), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
@@ -45,14 +53,18 @@ class OtpViewModel with ChangeNotifier {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                content: Text(error.toString()),
+                content: Text(
+                  "Invalid OTP.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
                 icon: Icon(
                   Icons.error,
                   size: 45,
                 ),
                 iconColor: Colors.red[400],
               ));
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      Future.delayed(Duration(seconds: 1), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(error.toString());
       }

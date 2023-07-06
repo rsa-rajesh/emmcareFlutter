@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:emmcare/data/network/BaseApiServices.dart';
 import 'package:emmcare/data/network/NetworkApiService.dart';
 import 'package:emmcare/res/app_url.dart';
@@ -9,8 +8,9 @@ class ConfirmPasswordRepository {
   Future<dynamic> confirmPasswordapi(dynamic data) async {
     try {
       dynamic response = await _apiServices.getPostApiResponse(
-        AppUrl.postOtpComplete(),
-        jsonEncode(data),
+        AppUrl.postPasswordResetOtpComplete(),
+        // jsonEncode(data),
+        data,
       );
       return response;
     } catch (e) {

@@ -25,14 +25,15 @@ class ClientProfileDocumentsRepository {
     final sharedpref = await SharedPreferences.getInstance();
     var cltId = sharedpref.getInt(HomeViewState.KEYCLIENTID)!;
     //
-    var realtedUserType = "client";
+    // var realtedUserType = "client";
     var realtedUserId = cltId;
-    // var realtedUserType = "";
+    var realtedUserType = "";
     // var realtedUserId = "";
+    print(cltId);
 
     try {
       dynamic response = await _apiServices.getGetResponseWithAuth(
-          AppUrl.getPersonalDocuments(page, realtedUserType, realtedUserId),
+          AppUrl.getClientDocuments(page, realtedUserType, realtedUserId),
           token);
       return response = ClientProfileDocumentsModel.fromJson(response);
     } catch (e) {

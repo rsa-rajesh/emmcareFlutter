@@ -1,4 +1,3 @@
-import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:emmcare/utils/routes/routes.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/view_model/Injury_view_view_model.dart';
@@ -98,7 +97,6 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        navigatorObservers: [ChuckerFlutter.navigatorObserver],
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
