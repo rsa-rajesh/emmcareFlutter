@@ -43,7 +43,7 @@ final navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseMessaging.instance.subscribeToTopic('push_notification_test');
+  FirebaseMessaging.instance.subscribeToTopic('emmc_care_notification');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(const MyApp());

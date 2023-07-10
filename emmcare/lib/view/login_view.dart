@@ -2,10 +2,12 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/round_button.dart';
 import 'package:emmcare/utils/utils.dart';
 import 'package:emmcare/view_model/auth_view_view_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../view_model/services/notification_services.dart';
 import '../widgets/forgot_password/forgot_password_view.dart';
 
 class LoginView extends StatefulWidget {
@@ -24,10 +26,18 @@ class LoginViewState extends State<LoginView> {
 
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
+
+  NotificationServices notificationServices = NotificationServices();
+  String? fcmToken;
+  String? deviceType;
   @override
   void initState() {
     _getAppVersion();
     super.initState();
+    notificationServices.getDeviceToken().then((value) {
+      fcmToken = value;
+    });
+    checkDeviceType();
   }
 
   // Dispose
@@ -234,6 +244,8 @@ class LoginViewState extends State<LoginView> {
                               Map data = {
                                 "email": emailController.text.toString(),
                                 "password": passwordController.text.toString(),
+                                "register_id": fcmToken.toString(),
+                                "type": deviceType.toString(),
                               };
 
                               authViewModel.loginApi(data, context);
@@ -281,5 +293,20 @@ class LoginViewState extends State<LoginView> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     _appVersion = packageInfo.version;
     setState(() {});
+  }
+
+  String? checkDeviceType() {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      // Android specific code
+      deviceType = "android";
+      return deviceType;
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+      //iOS specific code
+      deviceType = "ios";
+      return deviceType;
+    } else {
+      //web or desktop specific code
+      return null;
+    }
   }
 }

@@ -17,13 +17,14 @@ class NotificationServices {
   // function to request notifications permissions
   void requestNotificationPermission() async {
     NotificationSettings settings = await messaging.requestPermission(
-        alert: true,
-        announcement: true,
-        badge: true,
-        carPlay: true,
-        criticalAlert: true,
-        provisional: true,
-        sound: true);
+      alert: true,
+      announcement: true,
+      badge: true,
+      carPlay: true,
+      criticalAlert: true,
+      provisional: true,
+      sound: true,
+    );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('user granted permission');
@@ -44,13 +45,17 @@ class NotificationServices {
     var iosInitializationSettings = const DarwinInitializationSettings();
 
     var initializationSetting = InitializationSettings(
-        android: androidInitializationSettings, iOS: iosInitializationSettings);
+      android: androidInitializationSettings,
+      iOS: iosInitializationSettings,
+    );
 
-    await _flutterLocalNotificationsPlugin.initialize(initializationSetting,
-        onDidReceiveNotificationResponse: (payload) {
-      // handle interaction when app is active for android
-      handleMessage(context, message);
-    });
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSetting,
+      onDidReceiveNotificationResponse: (payload) {
+        // handle interaction when app is active for android
+        handleMessage(context, message);
+      },
+    );
   }
 
   void firebaseInit(BuildContext context) {
@@ -94,17 +99,25 @@ class NotificationServices {
 
     const DarwinNotificationDetails darwinNotificationDetails =
         DarwinNotificationDetails(
-            presentAlert: true, presentBadge: true, presentSound: true);
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
 
     NotificationDetails notificationDetails = NotificationDetails(
-        android: androidNotificationDetails, iOS: darwinNotificationDetails);
+      android: androidNotificationDetails,
+      iOS: darwinNotificationDetails,
+    );
 
     Future.delayed(Duration.zero, () {
       _flutterLocalNotificationsPlugin.show(
-          0,
-          message.notification!.title.toString(),
-          message.notification!.body.toString(),
-          notificationDetails);
+        0,
+        // message.notification!.title.toString(),
+        // message.notification!.body.toString(),
+        message.data['title'].toString(),
+        message.data['body'].toString(),
+        notificationDetails,
+      );
     });
   }
 
@@ -133,7 +146,7 @@ class NotificationServices {
       handleMessage(context, initialMessage);
     }
 
-    //when app ins background
+    //when app is in  background
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
       handleMessage(context, event);
     });
