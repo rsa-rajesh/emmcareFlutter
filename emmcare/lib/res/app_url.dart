@@ -4,7 +4,7 @@ class AppUrl {
 
   // End Points.
   static String postLogin() {
-    return baseUrl + "v1/api/auth/login/";
+    return baseUrl + "v1/api/auth/app-login/";
   }
 
   static String getShiftList() {
