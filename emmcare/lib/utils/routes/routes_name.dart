@@ -21,6 +21,9 @@ class RoutesName {
   static const String about = "about_view";
 
   //
+  static const String progress = "progress_view";
+
+  //
   static const String document_hub = "document_hub_view";
 
   //

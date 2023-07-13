@@ -37,12 +37,16 @@ class AuthViewViewModel with ChangeNotifier {
       Navigator.pop(context);
       Navigator.pushNamed(context, RoutesName.home);
       Utils.flushBarErrorMessage('You are logged in successfully.', context);
+
+      print(value["profile_img"].toString());
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
+
       Utils.flushBarErrorMessage("Invalid Crendential, Try again.", context);
+
       if (kDebugMode) {
         print(error.toString());
       }

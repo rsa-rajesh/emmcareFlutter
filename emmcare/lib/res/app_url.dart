@@ -1,6 +1,7 @@
 class AppUrl {
   // Base Url.
-  static var baseUrl = "https://api.emmcare.pwnbot.io/";
+  // static var baseUrl = "https://api.emmcare.pwnbot.io/";
+  static var baseUrl = "http://192.168.100.10:8001/";
 
   // End Points.
   static String postLogin() {

@@ -1,11 +1,4 @@
-import 'package:emmcare/data/response/status.dart';
-import 'package:emmcare/model/client_model.dart';
-import 'package:emmcare/res/colors.dart';
-import 'package:emmcare/utils/routes/routes_name.dart';
-import 'package:emmcare/view_model/services/notification_services.dart';
-import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
-import 'package:emmcare/view_model/home_view_view_model.dart';
-import 'package:emmcare/res/components/navigation_drawer.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
@@ -14,11 +7,21 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:emmcare/data/response/status.dart';
+import 'package:emmcare/model/client_model.dart';
+import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/res/components/navigation_drawer.dart';
+import 'package:emmcare/utils/routes/routes_name.dart';
+import 'package:emmcare/view_model/home_view_view_model.dart';
+import 'package:emmcare/view_model/services/notification_services.dart';
+import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
 
 class HomeView extends StatefulWidget {
+  final Map arguments;
   HomeView({
-    super.key,
-  });
+    Key? key,
+    required this.arguments,
+  }) : super(key: key);
   @override
   State<HomeView> createState() => HomeViewState();
 }
@@ -52,6 +55,7 @@ class HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
+    checkFlag(widget.arguments);
     homeViewViewModel.fetchClientListApi(context);
     super.initState();
     notificationServices.requestNotificationPermission();
@@ -608,8 +612,11 @@ class HomeViewState extends State<HomeView> {
   // Define the function that scroll to an item
   void _scrollToIndex(index) {
     double height = 200;
-    _scrollController.animateTo(height * index,
-        duration: const Duration(milliseconds: 800), curve: Curves.easeIn);
+    _scrollController.animateTo(
+      height * index,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeIn,
+    );
   }
 
   getIndex(DateTime p0, List<Clients> clients) {
@@ -621,5 +628,34 @@ class HomeViewState extends State<HomeView> {
       index++;
     }
     return 0;
+  }
+
+  dynamic checkFlag(Map arguments) {
+    if (arguments["flag"] == "New shift") {
+      return Navigator.pushReplacementNamed(
+        context,
+        RoutesName.home,
+      );
+    } else if (arguments["flag"] == "unread") {
+      return Navigator.pushReplacementNamed(
+        context,
+        RoutesName.notification,
+      );
+    } else if (arguments["flag"] == "read") {
+      return Navigator.pushReplacementNamed(
+        context,
+        RoutesName.notification,
+      );
+    } else if (arguments["flag"] == "records") {
+      return Navigator.pushReplacementNamed(
+        context,
+        RoutesName.my_document,
+      );
+    } else if (arguments["flag"] == "c_profile") {
+      return Navigator.pushReplacementNamed(
+        context,
+        RoutesName.document_hub,
+      );
+    }
   }
 }

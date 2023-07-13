@@ -4,20 +4,23 @@ import 'package:emmcare/view_model/services/splash_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+
 class SplashView extends StatefulWidget {
-  const SplashView({super.key});
+  final Map arguments;
+  const SplashView({super.key, required this.arguments});
   @override
-  State<SplashView> createState() => _SplashViewState();
+  State<SplashView> createState() => SplashViewState();
 }
 
-class _SplashViewState extends State<SplashView> {
+class SplashViewState extends State<SplashView> {
   SplashServices splashServices = SplashServices();
   NotificationServices notificationServices = NotificationServices();
 
   @override
   void initState() {
     super.initState();
-    splashServices.checkAuthentication(context);
+    splashServices.checkAuthentication(context, widget.arguments);
     notificationServices.firebaseInit(context);
     notificationServices.setupInteractMessage(context);
     notificationServices.isTokenRefresh();

@@ -1,10 +1,9 @@
 import 'dart:io';
-import 'package:emmcare/utils/routes/routes_name.dart';
-import 'package:emmcare/widgets/notification_widgets/unread_notification_view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import '../../view/splash_view.dart';
 
 class NotificationServices {
   //initialising firebase message plugin
@@ -117,6 +116,7 @@ class NotificationServices {
         message.data['title'].toString(),
         message.data['body'].toString(),
         notificationDetails,
+        payload: message.data.toString(),
       );
     });
   }
@@ -153,21 +153,46 @@ class NotificationServices {
   }
 
   void handleMessage(BuildContext context, RemoteMessage message) {
-    if (message.data['flag'] == 'shift') {
-      Navigator.pushNamed(context, RoutesName.home);
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => HomeView(
-      //               flag: message.data['flag'],
-      //             )));
+    if (message.data["flag"] == "New shift") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SplashView(
+                  arguments: message.data,
+                )),
+      );
     } else if (message.data['flag'] == 'unread') {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => UnReadNotificationView(
-                  // flag: message.data['flag'],
-                  )));
+        context,
+        MaterialPageRoute(
+            builder: (context) => SplashView(
+                  arguments: message.data,
+                )),
+      );
+    } else if (message.data['flag'] == 'read') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SplashView(
+                  arguments: message.data,
+                )),
+      );
+    } else if (message.data['flag'] == 'records') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SplashView(
+                  arguments: message.data,
+                )),
+      );
+    } else if (message.data['flag'] == 'c_profile') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SplashView(
+                  arguments: message.data,
+                )),
+      );
     } else {
       return null;
     }

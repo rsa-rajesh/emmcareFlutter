@@ -1,3 +1,4 @@
+import 'package:emmcare/model/unread_notification_model.dart';
 import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_documents.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_goal.dart';
@@ -18,9 +19,12 @@ import 'package:emmcare/view/my_document_view.dart';
 import 'package:emmcare/view/home_view.dart';
 import 'package:emmcare/view/notification_view.dart';
 import 'package:emmcare/view/splash_view.dart';
+import 'package:emmcare/widgets/notification_widgets/read_notification_view.dart';
+import 'package:emmcare/widgets/notification_widgets/unread_notification_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../view/document_hub_view.dart';
+import '../../widgets/home_widgets/progress_view/progress_view.dart';
 import '../../widgets/home_widgets/unavailability_view/unavailability_view.dart';
 
 class Routes {
@@ -28,7 +32,9 @@ class Routes {
     switch (settings.name) {
       case RoutesName.splash:
         return MaterialPageRoute(
-          builder: (BuildContext context) => SplashView(),
+          builder: (BuildContext context) => SplashView(
+            arguments: {},
+          ),
         );
       case RoutesName.login:
         return MaterialPageRoute(
@@ -36,7 +42,9 @@ class Routes {
         );
       case RoutesName.home:
         return MaterialPageRoute(
-          builder: (BuildContext context) => HomeView(),
+          builder: (BuildContext context) => HomeView(
+            arguments: {},
+          ),
         );
       case RoutesName.my_document:
         return MaterialPageRoute(
@@ -104,6 +112,11 @@ class Routes {
       //     builder: (BuildContext context) => InstructionView(),
       //   );
 
+      case RoutesName.progress:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ProgressView(),
+        );
+
       case RoutesName.shif_report:
         return MaterialPageRoute(
           builder: (BuildContext context) => ShiftReportView(),
@@ -126,6 +139,15 @@ class Routes {
       case RoutesName.unavailability:
         return MaterialPageRoute(
           builder: (BuildContext context) => UnavailabilityView(),
+        );
+
+      case RoutesName.readnotification:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => ReadNotificationView(),
+        );
+      case RoutesName.unreadnotification:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => UnReadNotificationView(),
         );
 
       default:
