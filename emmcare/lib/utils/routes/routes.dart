@@ -3,6 +3,7 @@ import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_documents.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_goal.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_view.dart';
+import 'package:emmcare/widgets/home_widgets/details_view/details_view.dart';
 import 'package:emmcare/widgets/home_widgets/events_view/shift_report_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/enquiry_view.dart';
 import 'package:emmcare/widgets/home_widgets/progress_view/progress_sub_views/warning_view.dart';
@@ -115,6 +116,10 @@ class Routes {
       case RoutesName.progress:
         return MaterialPageRoute(
           builder: (BuildContext context) => ProgressView(),
+        );
+         case RoutesName.client_detail:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => DetailsView(),
         );
 
       case RoutesName.shif_report:

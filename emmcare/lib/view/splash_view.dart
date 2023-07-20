@@ -4,8 +4,6 @@ import 'package:emmcare/view_model/services/splash_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
-
 class SplashView extends StatefulWidget {
   final Map arguments;
   const SplashView({super.key, required this.arguments});

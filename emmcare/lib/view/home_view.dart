@@ -56,8 +56,8 @@ class HomeViewState extends State<HomeView> {
   @override
   void initState() {
     checkFlag(widget.arguments);
-    homeViewViewModel.fetchClientListApi(context);
     super.initState();
+    homeViewViewModel.fetchClientListApi(context);
     notificationServices.requestNotificationPermission();
     checkGps();
   }
@@ -641,11 +641,6 @@ class HomeViewState extends State<HomeView> {
         context,
         RoutesName.notification,
       );
-    } else if (arguments["flag"] == "read") {
-      return Navigator.pushReplacementNamed(
-        context,
-        RoutesName.notification,
-      );
     } else if (arguments["flag"] == "records") {
       return Navigator.pushReplacementNamed(
         context,
@@ -656,6 +651,15 @@ class HomeViewState extends State<HomeView> {
         context,
         RoutesName.document_hub,
       );
+    }
+    //  else if (arguments["flag"] == "client_detail") {
+    //   return Navigator.pushReplacementNamed(
+    //     context,
+    //     RoutesName.client_detail,
+    //   );
+    // }
+    else {
+      return null;
     }
   }
 }
