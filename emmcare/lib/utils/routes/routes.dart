@@ -1,4 +1,3 @@
-import 'package:emmcare/model/unread_notification_model.dart';
 import 'package:emmcare/widgets/home_widgets/client_detail_view.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_documents.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/client_profile_view/client_profile_sub_views/client_profile_goal.dart';

@@ -5,8 +5,6 @@ import 'package:emmcare/view_model/user_view_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
-
 class SplashServices {
   Future<UserModel> getUserData() => UserViewViewModel().getUser();
 

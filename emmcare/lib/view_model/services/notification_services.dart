@@ -60,20 +60,24 @@ class NotificationServices {
   }
 
   void firebaseInit(BuildContext context) {
-    FirebaseMessaging.onMessage.listen((message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification!.android;
+    FirebaseMessaging.onMessage.listen((message) async {
+      // RemoteNotification? notification = message.notification;
+      // AndroidNotification? android = message.notification!.android;
 
-      if (kDebugMode) {
-        print("notifications title:${notification!.title}");
-        print("notifications body:${notification.body}");
-        print('count:${android!.count}');
-        print('data:${message.data.toString()}');
-      }
+      // if (kDebugMode) {
+      //   print("notifications title:${notification!.title}");
+      //   print("notifications body:${notification.body}");
+      //   print('count:${android!.count}');
+      //   print('data:${message.data.toString()}');
+      // }
 
       if (Platform.isAndroid) {
-        initLocalNotifications(context, message);
-        showNotification(message);
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        bool isChecked = preferences.getBool('isChecked')!;
+        if (isChecked) {
+          initLocalNotifications(context, message);
+          showNotification(message);
+        }
       }
     });
   }
@@ -119,11 +123,7 @@ class NotificationServices {
         // message.notification!.body.toString(),
         message.data['title'].toString(),
         message.data['body'].toString(),
-        NotificationDetails(
-          android: androidNotificationDetails,
-          iOS: darwinNotificationDetails,
-        ),
-        payload: message.data.toString(),
+        notificationDetails,
       );
     });
   }
@@ -145,18 +145,24 @@ class NotificationServices {
 
   //handle tap on notification when app is in background or terminated
   Future<void> setupInteractMessage(BuildContext context) async {
-    // when app is terminated
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool isChecked = preferences.getBool('isChecked')!;
 
-    if (initialMessage != null) {
-      handleMessage(context, initialMessage);
+    if (isChecked) {
+      // when app is terminated
+      RemoteMessage? initialMessage =
+          await FirebaseMessaging.instance.getInitialMessage();
+      if (initialMessage != null) {
+        print(isChecked);
+        handleMessage(context, initialMessage);
+      }
+
+      //when app is in  background
+      FirebaseMessaging.onMessageOpenedApp.listen((event) {
+        print(isChecked);
+        handleMessage(context, event);
+      });
     }
-
-    //when app is in  background
-    FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      handleMessage(context, event);
-    });
   }
 
   void handleMessage(BuildContext context, RemoteMessage message) {
