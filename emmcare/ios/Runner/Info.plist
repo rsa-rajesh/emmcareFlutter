@@ -3,8 +3,11 @@
 <plist version="1.0">
 	<dict>
 		<key>NSPhotoLibraryUsageDescription</key>
+					<string>To get user profile image from photo libarary</string>
 		<key>NSCameraUsageDescription</key>
-		<key>NSMicrophoneUsageDescription</key>
+							<string>To get user profile image from photo camera</string>
+		<!-- <key>NSMicrophoneUsageDescription</key>
+							<string>https</string> -->
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>https</string>
@@ -57,5 +60,10 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+</dict>
 	</dict>
 </plist>
