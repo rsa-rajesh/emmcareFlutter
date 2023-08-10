@@ -23,7 +23,6 @@ class _NotificationViewState extends State<NotificationView> {
     UnReadNotificationView(),
     ReadNotificationView(),
   ];
-  //
 
   @override
   Widget build(BuildContext context) {
@@ -36,25 +35,7 @@ class _NotificationViewState extends State<NotificationView> {
           "My Alert",
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Show confirm dialog when clicked on widget
-              showConfirmDialog(
-                context,
-                "Mark Notification Seen",
-                "Do you want to mark all notification as seen?",
-                "Confirm",
-                "Cancel",
-                () {
-                  // do stuff when clicked on Confirm
-                  markNotificationAllSeenViewViewModel.markAllSeen(context);
-                },
-              );
-            },
-            icon: Icon(Icons.check_box),
-          ),
-        ],
+        actions: [getAction(_selectedIndex)],
       ),
 
       // Default view of Notification widget.
@@ -92,5 +73,30 @@ class _NotificationViewState extends State<NotificationView> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  getAction(int selectedIndex) {
+    if (selectedIndex == 0) {
+      return IconButton(
+        onPressed: () {
+          // Show confirm dialog when clicked on widget
+          showConfirmDialog(
+            context,
+            "Mark Notification Seen",
+            "Do you want to mark all notification as seen?",
+            "Confirm",
+            "Cancel",
+            () {
+              // do stuff when clicked on Confirm
+              markNotificationAllSeenViewViewModel.markAllSeen(context);
+              setState(() {});
+            },
+          );
+        },
+        icon: Icon(Icons.check_box),
+      );
+    } else {
+      return Text('');
+    }
   }
 }

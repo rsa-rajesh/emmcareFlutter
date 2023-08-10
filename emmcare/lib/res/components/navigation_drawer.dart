@@ -205,9 +205,15 @@ class _buildHeaderState extends State<buildHeader> {
       child: Column(
         children: [
           CircleAvatar(
-            radius: 65,
+            child: CircleAvatar(
+              radius: 45,
+                          backgroundColor: Colors.white,
+
             backgroundImage:
-                ExactAssetImage("assets/images/emmc_care_icon.jpg"),
+                ExactAssetImage("assets/images/emmc_care_icon.png"),
+            ),
+            radius: 65,
+            backgroundColor: Colors.white,
           ),
           SizedBox(
             height: 8,

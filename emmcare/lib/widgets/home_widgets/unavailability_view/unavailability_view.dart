@@ -28,6 +28,12 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
   List<DateTime> _selectedDate = [];
   int? _dateCount;
   bool isBottonShow = false;
+  int? bsValue=0;
+
+
+late PersistentBottomSheetController _controller;
+// final _scaffoldKey = GlobalKey<ScaffoldState>(); 
+
 
   void _selectStartTime() async {
     final TimeOfDay? newTime = await showTimePicker(
@@ -67,44 +73,19 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    // setState(() {
-    //   if (args.value is PickerDateRange) {
-    //   } else if (args.value is DateTime) {
-    //     _selectedDate = args.value;
-    //   } else if (args.value is List<DateTime>) {
-    //     _selectedDate = args.value;
-    //     setState(() {
-    //       _dateCount = args.value.length;
-    //     });
-
-    //     if (!isBottonShow && _dateCount! > 0) {
-    //       isBottonShow = true;
-    //       setState(() {
-    //         _dateCount;
-    //         bsheet(_dateCount!);
-    //         print("$_dateCount Days");
-    //       });
-    //     }
-    //   } else {
-    //     setState(() {});
-    //   }
-    // });
-
     if (args.value is List<DateTime>) {
       _dateCount = args.value.length;
     }
     if (!isBottonShow && _dateCount! > 0) {
-      // isBottonShow = true;
-      _dateCount;
-      int? value = _dateCount;
-      bsheet(value!);
-      setState(
-        () {},
-      );
+      isBottonShow = true;
+      bsValue = _dateCount;
+      bsheet();
     } else {
-      int value = 0;
-      bsheet(value);
+    bsValue = _dateCount;
+      // int value = 0;
     }
+    _controller.setState!(() {
+    },);
   }
 
   @override
@@ -162,21 +143,23 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
     );
   }
 
-  bsheet(int value) async {
-    scaffoldKey.currentState!.showBottomSheet<dynamic>(
+  bsheet() async {
+   _controller = await scaffoldKey.currentState!.showBottomSheet<dynamic>(
       backgroundColor: AppColors.bodyBackgroudColor,
       (context) {
         return StatefulBuilder(
           //
           //
           builder: (context, StateSetter setState) {
-            if (value == 0) {
+            if (bsValue == 0) {
               Future.delayed(Duration.zero, () {
+                isBottonShow = false;
                 Navigator.pop(context);
+                
               });
             }
-            //
-            //
+            
+            
             return Card(
               elevation: 50,
               child: Wrap(
@@ -191,6 +174,7 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                             color: Colors.redAccent,
                             onPressed: () {
                               Navigator.pop(context);
+                              isBottonShow=false;
                             },
                             icon: Icon(
                               Icons.cancel_rounded,

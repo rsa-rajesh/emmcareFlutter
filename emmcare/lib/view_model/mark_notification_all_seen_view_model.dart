@@ -29,6 +29,7 @@ class MarkNotificationAllSeenViewModel with ChangeNotifier {
               ));
       Future.delayed(Duration(seconds: 2), () {
         Navigator.of(context).pop();
+        
       });
       if (kDebugMode) {
         print(value.toString());

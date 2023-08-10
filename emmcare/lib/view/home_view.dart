@@ -308,12 +308,24 @@ class HomeViewState extends State<HomeView> {
                                       Expanded(
                                         flex: 1,
                                         child: Container(
-                                          height: 40,
+                                          height: 80,
                                           width: 40,
                                           child: Center(
                                             child: Wrap(
                                               direction: Axis.vertical,
                                               children: [
+                                                Text(
+                                                    DateFormat.MMM().format(
+                                                        DateTime.parse(value
+                                                            .clientList
+                                                            .data!
+                                                            .clients![index]
+                                                            .shiftStartDate
+                                                            .toString())),
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
                                                 Text(
                                                     DateFormat.d().format(
                                                         DateTime.parse(value
@@ -442,6 +454,9 @@ class HomeViewState extends State<HomeView> {
                                                 child: Container(
                                                   height: 200,
                                                   child: Card(
+                                      
+                                                    color:DateTime.now()==DateT Color.fromARGB(
+                                                        255, 199, 243, 203),
                                                     child: Column(children: [
                                                       ListTile(
                                                         contentPadding:
@@ -533,8 +548,9 @@ class HomeViewState extends State<HomeView> {
                                                             EdgeInsets.fromLTRB(
                                                                 12, 0, 12, 0),
                                                         leading: CircleAvatar(
-                                                          backgroundColor: AppColors
-                                                              .imageCircleAvatarBodyBackgroudColor,
+                                                          backgroundColor:
+                                                              Colors.black,
+                                                          radius: 20,
                                                           child: ClipOval(
                                                             child: Image.network(
                                                                 "https://api.emmcare.pwnbot.io" +
@@ -545,10 +561,10 @@ class HomeViewState extends State<HomeView> {
                                                                             index]
                                                                         .clientImg
                                                                         .toString(),
-                                                                width: 100,
-                                                                height: 100,
-                                                                fit: BoxFit
-                                                                    .cover,
+                                                                width: 39,
+                                                                height: 39,
+                                                                fit:
+                                                                    BoxFit.fill,
                                                                 errorBuilder:
                                                                     (context,
                                                                         error,

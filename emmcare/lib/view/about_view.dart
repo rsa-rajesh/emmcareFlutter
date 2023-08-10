@@ -46,7 +46,7 @@ class _AboutViewState extends State<AboutView> {
                   Padding(
                     padding: const EdgeInsets.all(25),
                     child: Image.asset(
-                      "assets/images/emmc_care_icon.jpg",
+                      "assets/images/emmc_care_icon.png",
                       height: 100,
                       width: 100,
                     ),
@@ -112,7 +112,7 @@ class _AboutViewState extends State<AboutView> {
                     splashColor: Colors.blue,
                     onTap: () async {
                       final url = Uri.parse(
-                        'https://www.emmc.com.au/',
+                        'https://emmcare.pwnbot.io/help',
                       );
 
                       if (await canLaunchUrl(url)) {
@@ -144,7 +144,7 @@ class _AboutViewState extends State<AboutView> {
                     splashColor: Colors.blue,
                     onTap: () async {
                       final url = Uri.parse(
-                        'https://www.emmc.com.au/',
+                        'https://emmcare.pwnbot.io/termsandcondition',
                       );
 
                       if (await canLaunchUrl(url)) {
@@ -176,7 +176,7 @@ class _AboutViewState extends State<AboutView> {
                     splashColor: Colors.blue,
                     onTap: () async {
                       final url = Uri.parse(
-                        'https://www.emmc.com.au/',
+                        'https://emmcare.pwnbot.io/privacypolicy',
                       );
 
                       if (await canLaunchUrl(url)) {

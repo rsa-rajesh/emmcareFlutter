@@ -116,7 +116,8 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => ProgressView(),
         );
-         case RoutesName.client_detail:
+
+      case RoutesName.client_detail:
         return MaterialPageRoute(
           builder: (BuildContext context) => DetailsView(),
         );

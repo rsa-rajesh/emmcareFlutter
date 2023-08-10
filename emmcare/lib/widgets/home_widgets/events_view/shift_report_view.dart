@@ -48,14 +48,13 @@ class _ShiftReportViewState extends State<ShiftReportView> {
                 children: [
                   ListTile(
                     leading: CircleAvatar(
-                      backgroundColor:
-                          AppColors.imageCircleAvatarBodyBackgroudColor,
+                      backgroundColor: Colors.black,
                       radius: 28,
                       child: ClipOval(
                         child: Image.network(
                             "https://api.emmcare.pwnbot.io" + cltAvatar!,
-                            width: 100,
-                            height: 100,
+                            width: 55,
+                            height: 55,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                           return Icon(

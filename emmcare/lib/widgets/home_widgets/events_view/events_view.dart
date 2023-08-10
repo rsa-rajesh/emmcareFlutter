@@ -165,15 +165,14 @@ class _EventsViewState extends State<EventsView> {
                                         child: Row(
                                           children: [
                                             CircleAvatar(
-                                              backgroundColor: AppColors
-                                                  .imageCircleAvatarBodyBackgroudColor,
+                                              backgroundColor: Colors.black,
                                               radius: 26,
                                               child: ClipOval(
                                                 child: Image.network(
                                                     "https://api.emmcare.pwnbot.io" +
                                                         cltAvatar!,
-                                                    width: 100,
-                                                    height: 100,
+                                                    width: 51,
+                                                    height: 51,
                                                     fit: BoxFit.cover,
                                                     errorBuilder: (context,
                                                         error, stackTrace) {

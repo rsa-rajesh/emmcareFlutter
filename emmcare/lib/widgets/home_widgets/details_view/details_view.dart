@@ -147,14 +147,14 @@ class _DetailsViewState extends State<DetailsView> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                             child: CircleAvatar(
-                              backgroundColor:
-                                  AppColors.imageCircleAvatarBodyBackgroudColor,
+                              radius: 20,
+                              backgroundColor: Colors.black,
                               child: ClipOval(
                                 child: Image.network(
                                     "https://api.emmcare.pwnbot.io" +
                                         client_Detail.staffImg.toString(),
-                                    width: 100,
-                                    height: 100,
+                                    width: 39,
+                                    height: 39,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
                                   return Icon(
@@ -221,15 +221,15 @@ class _DetailsViewState extends State<DetailsView> {
                                     padding:
                                         const EdgeInsets.fromLTRB(0, 0, 0, 8),
                                     child: CircleAvatar(
-                                      backgroundColor: AppColors
-                                          .imageCircleAvatarBodyBackgroudColor,
+                                      backgroundColor: Colors.black,
+                                      radius: 20,
                                       child: ClipOval(
                                         child: Image.network(
                                             "https://api.emmcare.pwnbot.io" +
                                                 client_Detail.clientImg
                                                     .toString(),
-                                            width: 100,
-                                            height: 100,
+                                            width: 39,
+                                            height: 39,
                                             fit: BoxFit.cover, errorBuilder:
                                                 (context, error, stackTrace) {
                                           return Icon(

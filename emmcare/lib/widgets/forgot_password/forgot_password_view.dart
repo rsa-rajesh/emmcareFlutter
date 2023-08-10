@@ -31,8 +31,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               children: [
                 CircleAvatar(
                   radius: 60,
-                  backgroundImage:
-                      ExactAssetImage('assets/images/emmc_care_icon.jpg'),
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(radius: 40, backgroundColor: Colors.white,foregroundImage: ExactAssetImage('assets/images/emmc_care_icon.png'),),
                 ),
               ],
             ),

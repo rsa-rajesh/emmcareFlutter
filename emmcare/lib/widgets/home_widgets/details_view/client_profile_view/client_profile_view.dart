@@ -48,14 +48,13 @@ class ClientProfileViewState extends State<ClientProfileView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        AppColors.imageCircleAvatarBodyBackgroudColor,
+                    backgroundColor: Colors.grey,
                     radius: 30,
                     child: ClipOval(
                       child: Image.network(
                           "https://api.emmcare.pwnbot.io" + cltAvatar!,
-                          width: 100,
-                          height: 100,
+                          width: 58,
+                          height: 58,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                         return Icon(
