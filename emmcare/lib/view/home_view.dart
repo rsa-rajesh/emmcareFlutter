@@ -454,8 +454,7 @@ class HomeViewState extends State<HomeView> {
                                                 child: Container(
                                                   height: 200,
                                                   child: Card(
-                                      
-                                                    color:DateTime.now()==DateT Color.fromARGB(
+                                                    color: Color.fromARGB(
                                                         255, 199, 243, 203),
                                                     child: Column(children: [
                                                       ListTile(
