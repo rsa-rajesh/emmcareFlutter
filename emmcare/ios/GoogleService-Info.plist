@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>566208088436-241mkocn5iuml2bcrdl956qdv0jvu7n3.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.566208088436-241mkocn5iuml2bcrdl956qdv0jvu7n3</string>
 	<key>API_KEY</key>
 	<string>AIzaSyB2jt-9C3s9QaOHgpX64ox2DAEES2og41s</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.pwnbot.emmcare</string>
+	<string>io.pwnbot.emmcare</string>
 	<key>PROJECT_ID</key>
 	<string>emmc-fcm</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:566208088436:ios:3e9b924041921fff4e4421</string>
+	<string>1:566208088436:ios:b158f7106ff96da24e4421</string>
 </dict>
 </plist>

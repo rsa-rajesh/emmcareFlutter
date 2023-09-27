@@ -25,8 +25,8 @@ class _DetailsViewState extends State<DetailsView> {
   bool haspermission = false;
   late LocationPermission permission;
   late Position position;
-  late double long;
-  late double lat;
+  // late double long;
+  // late double lat;
 
   /* Step:- 1 */
   GoogleMapController? mapController; //contrller for Google map
@@ -63,7 +63,7 @@ class _DetailsViewState extends State<DetailsView> {
         setState(() {
           //refresh the UI
         });
-        getLocation();
+        // getLocation();
       }
     } else {
       print("GPS Service is not enabled, turn on GPS location");
@@ -74,31 +74,31 @@ class _DetailsViewState extends State<DetailsView> {
     });
   }
 
-  getLocation() async {
-    position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    long = position.longitude;
-    lat = position.latitude;
-    setState(() {
-      //refresh U
-    });
-  }
+  // getLocation() async {
+  //   position = await Geolocator.getCurrentPosition(
+  //     desiredAccuracy: LocationAccuracy.high,
+  //   );
+  //   long = position.longitude;
+  //   lat = position.latitude;
+  //   setState(() {
+  //     //refresh U
+  //   });
+  // }
 
-  Future calc(Clients client_Detail) async {
-    distanceInMeters = await Geolocator.distanceBetween(
-      client_Detail.location!.lat!,
-      client_Detail.location!.lng!,
-      lat,
-      long,
-    );
-  }
+  // Future calc(Clients client_Detail) async {
+  //   distanceInMeters = await Geolocator.distanceBetween(
+  //     client_Detail.location!.lat!,
+  //     client_Detail.location!.lng!,
+  //     lat,
+  //     long,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
-    calc(client_Detail);
+    // calc(client_Detail);
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       body: Column(

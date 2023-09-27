@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -59,6 +60,7 @@ class HomeViewState extends State<HomeView> {
     super.initState();
     homeViewViewModel.fetchClientListApi(context);
     notificationServices.requestNotificationPermission();
+    FlutterAppBadger.updateBadgeCount(0);
     checkGps();
   }
 
@@ -267,9 +269,6 @@ class HomeViewState extends State<HomeView> {
                           ),
                         ),
                       ),
-                      //
-                      //
-
                       value.clientList.data!.clients!.isEmpty
                           ? Container(
                               alignment: Alignment.center,

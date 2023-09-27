@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../../main.dart';
 import '../../view/splash_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class NotificationServices {
   //initialising firebase message plugin
@@ -23,7 +25,7 @@ class NotificationServices {
       badge: true,
       carPlay: true,
       criticalAlert: true,
-      provisional: true,
+      provisional: false,
       sound: true,
     );
 
@@ -70,6 +72,7 @@ class NotificationServices {
       //   print('count:${android!.count}');
       //   print('data:${message.data.toString()}');
       // }
+      // FlutterAppBadger.updateBadgeCount(2);
 
       if (Platform.isAndroid) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -79,6 +82,9 @@ class NotificationServices {
           showNotification(message);
         }
       }
+
+      // if (Platform.isIOS) {
+      // }
     });
   }
 
@@ -109,8 +115,12 @@ class NotificationServices {
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
+      badgeNumber: 1,
     );
 
+    if (Platform.isIOS) {
+      FlutterAppBadger.updateBadgeCount(1);
+    }
     NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
       iOS: darwinNotificationDetails,
@@ -146,8 +156,14 @@ class NotificationServices {
   //handle tap on notification when app is in background or terminated
   Future<void> setupInteractMessage(BuildContext context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool isChecked = preferences.getBool('isChecked')!;
+    bool isChecked = false;
+    if (preferences.getBool('isChecked') != null) {
+      isChecked = preferences.getBool('isChecked')!;
+    } else {
+      isChecked = false;
+    }
 
+    //  isChecked = (preferences.getBool('isChecked')!=null)?preferences.getBool('isChecked'): false;
     if (isChecked) {
       // when app is terminated
       RemoteMessage? initialMessage =

@@ -36,6 +36,7 @@ class LoginViewState extends State<LoginView> {
     super.initState();
     notificationServices.getDeviceToken().then((value) {
       fcmToken = value;
+      print(fcmToken);
     });
     checkDeviceType();
   }
