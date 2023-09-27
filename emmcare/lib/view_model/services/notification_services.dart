@@ -28,7 +28,12 @@ class NotificationServices {
       provisional: false,
       sound: true,
     );
-
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('user granted permission');
     } else if (settings.authorizationStatus ==

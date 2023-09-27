@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_calendar/flutter_advanced_calendar.dart';
@@ -62,6 +63,11 @@ class HomeViewState extends State<HomeView> {
     notificationServices.requestNotificationPermission();
     FlutterAppBadger.updateBadgeCount(0);
     checkGps();
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
   }
 
   checkGps() async {
@@ -453,8 +459,13 @@ class HomeViewState extends State<HomeView> {
                                                 child: Container(
                                                   height: 200,
                                                   child: Card(
-                                                    color: Color.fromARGB(
-                                                        255, 199, 243, 203),
+                                                    color: getBackgroundColor(
+                                                        value
+                                                            .clientList
+                                                            .data!
+                                                            .clients![index]
+                                                            .shiftStartDate
+                                                            .toString()),
                                                     child: Column(children: [
                                                       ListTile(
                                                         contentPadding:
@@ -674,6 +685,19 @@ class HomeViewState extends State<HomeView> {
     // }
     else {
       return null;
+    }
+  }
+
+  getBackgroundColor(String string) {
+    DateTime date = DateFormat("yyyy-MM-dd").parse(string);
+
+    DateTime now = new DateTime.now();
+    DateTime date2 = new DateTime(now.year, now.month, now.day);
+
+    if (date == date2) {
+      return Color.fromARGB(255, 199, 243, 203);
+    } else {
+      return Color.fromARGB(255, 255, 255, 255);
     }
   }
 }
