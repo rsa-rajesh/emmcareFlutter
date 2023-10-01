@@ -46,134 +46,140 @@ class NavDrawerState extends State<NavDrawer> {
         children: <Widget>[
           // Header
           buildHeader(),
-          //
-          ListTile(
-            leading: Icon(
-              CupertinoIcons.home,
-              color: Colors.black,
-            ),
-            title: Text(
-              "ROSTER",
-              textScaleFactor: 1.2,
-              style: TextStyle(color: Colors.black),
-            ),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, RoutesName.home);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              CupertinoIcons.bell_fill,
-              color: Colors.black,
-            ),
-            title: Text(
-              "ALERT",
-              textScaleFactor: 1.2,
-              style: TextStyle(color: Colors.black),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesName.notification);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              CupertinoIcons.doc,
-              color: Colors.black,
-            ),
-            title: Text(
-              "MY RECORDS",
-              textScaleFactor: 1.2,
-              style: TextStyle(color: Colors.black),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesName.my_document);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              CupertinoIcons.folder,
-              color: Colors.black,
-            ),
-            title: Text(
-              "COMPANY PROFILE",
-              textScaleFactor: 1.2,
-              style: TextStyle(color: Colors.black),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesName.document_hub);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              CupertinoIcons.info,
-              color: Colors.black,
-            ),
-            title: Text(
-              "ABOUT",
-              textScaleFactor: 1.2,
-              style: TextStyle(color: Colors.black),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesName.about);
-            },
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: Switch(
-              value: isChecked != null ? isChecked! : false,
-              activeColor: Colors.green,
-              thumbColor: MaterialStatePropertyAll<Color>(Colors.white),
-              onChanged: (value) {
-                setState(() {
-                  isChecked = value;
-                });
-                saveBool();
-              },
-            ),
-            title: Text(
-              isChecked == true ? "DISABLE ALERT" : "ENABLE ALERT",
-              textScaleFactor: 1.2,
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          Expanded(child: Container()),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton.icon(
-                    onPressed: () {
-                      userPreference.remove().then(
-                        (value) {
-                          Navigator.pushAndRemoveUntil(context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                            return LoginView();
-                          }), (r) {
-                            return false;
-                          });
-                        },
-                      );
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: Icon(
+                    CupertinoIcons.home,
+                    color: Colors.black,
+                  ),
+                  title: Text(
+                    "ROSTER",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, RoutesName.home);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    CupertinoIcons.bell_fill,
+                    color: Colors.black,
+                  ),
+                  title: Text(
+                    "ALERT",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutesName.notification);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    CupertinoIcons.doc,
+                    color: Colors.black,
+                  ),
+                  title: Text(
+                    "MY RECORDS",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutesName.my_document);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    CupertinoIcons.folder,
+                    color: Colors.black,
+                  ),
+                  title: Text(
+                    "COMPANY PROFILE",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutesName.document_hub);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    CupertinoIcons.info,
+                    color: Colors.black,
+                  ),
+                  title: Text(
+                    "ABOUT",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutesName.about);
+                  },
+                ),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Switch(
+                    value: isChecked != null ? isChecked! : false,
+                    activeColor: Colors.green,
+                    thumbColor: MaterialStatePropertyAll<Color>(Colors.white),
+                    onChanged: (value) {
+                      setState(() {
+                        isChecked = value;
+                      });
+                      saveBool();
                     },
-                    icon: Icon(
-                      Icons.logout,
-                      color: Colors.black,
+                  ),
+                  title: Text(
+                    isChecked == true ? "DISABLE ALERT" : "ENABLE ALERT",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                Expanded(child: Container()),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton.icon(
+                          onPressed: () {
+                            userPreference.remove().then(
+                              (value) {
+                                Navigator.pushAndRemoveUntil(context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                  return LoginView();
+                                }), (r) {
+                                  return false;
+                                });
+                              },
+                            );
+                          },
+                          icon: Icon(
+                            Icons.logout,
+                            color: Colors.red,
+                          ),
+                          label: Text(
+                            "LOG OUT",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        )
+                      ],
                     ),
-                    label: Text(
-                      "LOG OUT",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
-          ),
+          )
+          //
         ],
       ),
     );
@@ -207,10 +213,9 @@ class _buildHeaderState extends State<buildHeader> {
           CircleAvatar(
             child: CircleAvatar(
               radius: 45,
-                          backgroundColor: Colors.white,
-
-            backgroundImage:
-                ExactAssetImage("assets/images/emmc_care_icon.png"),
+              backgroundColor: Colors.white,
+              backgroundImage:
+                  ExactAssetImage("assets/images/emmc_care_icon.png"),
             ),
             radius: 65,
             backgroundColor: Colors.white,

@@ -28,12 +28,10 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
   List<DateTime> _selectedDate = [];
   int? _dateCount;
   bool isBottonShow = false;
-  int? bsValue=0;
+  int? bsValue = 0;
 
-
-late PersistentBottomSheetController _controller;
-// final _scaffoldKey = GlobalKey<ScaffoldState>(); 
-
+  late PersistentBottomSheetController _controller;
+// final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _selectStartTime() async {
     final TimeOfDay? newTime = await showTimePicker(
@@ -75,17 +73,19 @@ late PersistentBottomSheetController _controller;
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     if (args.value is List<DateTime>) {
       _dateCount = args.value.length;
+      _selectedDate = args.value;
     }
     if (!isBottonShow && _dateCount! > 0) {
       isBottonShow = true;
       bsValue = _dateCount;
       bsheet();
     } else {
-    bsValue = _dateCount;
+      bsValue = _dateCount;
       // int value = 0;
     }
-    _controller.setState!(() {
-    },);
+    _controller.setState!(
+      () {},
+    );
   }
 
   @override
@@ -103,40 +103,76 @@ late PersistentBottomSheetController _controller;
           create: (BuildContext context) => unavailabilityViewViewModel,
           child: Consumer<UnavailabilityViewViewModel>(
             builder: (context, value, child) {
-              return SfDateRangePicker(
-                navigationDirection:
-                    DateRangePickerNavigationDirection.vertical,
-                enableMultiView: true,
-                backgroundColor: Colors.white38,
-                navigationMode: DateRangePickerNavigationMode.scroll,
-                monthCellStyle: DateRangePickerMonthCellStyle(
-                  textStyle: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87),
+              return Container(
+                child: SfDateRangePicker(
+                  cellBuilder: (BuildContext context,
+                      DateRangePickerCellDetails details) {
+                    final bool isToday =
+                        isSameDate(details.date, DateTime.now());
+                    final bool selectedDate = isSelectedDate(details.date);
+                    return Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: selectedDate
+                                ? Colors.green
+                                : isToday
+                                    ? Colors.amber
+                                    : null,
+                            borderRadius: BorderRadius.circular(12),
+                            border: isToday
+                                ? Border.all(color: Colors.black, width: 2)
+                                : selectedDate
+                                    ? Border.all(
+                                        color: Colors.green.shade900, width: 2)
+                                    : null),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Text(
+                              details.date.day.toString(),
+                              style: TextStyle(
+                                fontSize: selectedDate ? 18 : 13,
+                                color:
+                                    selectedDate ? Colors.white : Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  selectionColor: const Color.fromARGB(0, 255, 193, 7),
+                  navigationDirection:
+                      DateRangePickerNavigationDirection.vertical,
+                  enableMultiView: true,
+                  backgroundColor: Colors.white38,
+                  navigationMode: DateRangePickerNavigationMode.scroll,
+                  headerStyle: DateRangePickerHeaderStyle(
+                    textAlign: TextAlign.left,
+                    textStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.blue.shade600),
+                  ),
+                  monthViewSettings: const DateRangePickerMonthViewSettings(
+                      dayFormat: "E",
+                      viewHeaderHeight: 30,
+                      numberOfWeeksInView: 6,
+                      viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.black87),
+                      )),
+                  onSelectionChanged: _onSelectionChanged,
+                  selectionMode: DateRangePickerSelectionMode.multiple,
+                  initialSelectedRange: PickerDateRange(
+                      DateTime.now().subtract(const Duration(days: 4)),
+                      DateTime.now().add(const Duration(days: 3))),
                 ),
-                headerStyle: DateRangePickerHeaderStyle(
-                  textAlign: TextAlign.center,
-                  textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.blue.shade600),
-                ),
-                monthViewSettings: const DateRangePickerMonthViewSettings(
-                    dayFormat: "E",
-                    viewHeaderHeight: 30,
-                    numberOfWeeksInView: 6,
-                    viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                      textStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black87),
-                    )),
-                onSelectionChanged: _onSelectionChanged,
-                selectionMode: DateRangePickerSelectionMode.multiple,
-                initialSelectedRange: PickerDateRange(
-                    DateTime.now().subtract(const Duration(days: 4)),
-                    DateTime.now().add(const Duration(days: 3))),
               );
             },
           )),
@@ -144,7 +180,7 @@ late PersistentBottomSheetController _controller;
   }
 
   bsheet() async {
-   _controller = await scaffoldKey.currentState!.showBottomSheet<dynamic>(
+    _controller = await scaffoldKey.currentState!.showBottomSheet<dynamic>(
       backgroundColor: AppColors.bodyBackgroudColor,
       (context) {
         return StatefulBuilder(
@@ -155,11 +191,9 @@ late PersistentBottomSheetController _controller;
               Future.delayed(Duration.zero, () {
                 isBottonShow = false;
                 Navigator.pop(context);
-                
               });
             }
-            
-            
+
             return Card(
               elevation: 50,
               child: Wrap(
@@ -174,7 +208,7 @@ late PersistentBottomSheetController _controller;
                             color: Colors.redAccent,
                             onPressed: () {
                               Navigator.pop(context);
-                              isBottonShow=false;
+                              isBottonShow = false;
                             },
                             icon: Icon(
                               Icons.cancel_rounded,
@@ -387,5 +421,22 @@ late PersistentBottomSheetController _controller;
       data.add(date1);
     }
     return data;
+  }
+
+  bool isSelectedDate(DateTime date) {
+    if (_selectedDate.contains(date)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isSameDate(DateTime date, DateTime dateTime) {
+    if (date.year == dateTime.year &&
+        date.month == dateTime.month &&
+        date.day == dateTime.day) {
+      return true;
+    }
+
+    return false;
   }
 }

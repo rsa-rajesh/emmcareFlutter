@@ -67,6 +67,9 @@ class LoginViewState extends State<LoginView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              Spacer(
+                flex: 1,
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,14 +78,13 @@ class LoginViewState extends State<LoginView> {
                     padding: const EdgeInsets.fromLTRB(0, 18, 0, 0),
                     child: Image.asset(
                       "assets/images/emmc_care_logo-white_bg.png",
-                      height: 180,
-                      width: 250,
+                      height: 80,
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
                 ],
+              ),
+              Spacer(
+                flex: 1,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -142,7 +144,7 @@ class LoginViewState extends State<LoginView> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 8,
                       ),
                       Container(
                         alignment: Alignment.topLeft,
@@ -212,7 +214,9 @@ class LoginViewState extends State<LoginView> {
                         ),
                       ),
 
-                      SizedBox(height: height * .10),
+                      SizedBox(
+                        height: 60,
+                      ),
 
                       // RoundButton
                       Container(
@@ -259,7 +263,9 @@ class LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
-              Spacer(),
+              Spacer(
+                flex: 4,
+              ),
               IntrinsicHeight(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
