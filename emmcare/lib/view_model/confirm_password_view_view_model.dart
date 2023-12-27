@@ -20,7 +20,8 @@ class ConfirmPasswordViewModel with ChangeNotifier {
     _myRepo.confirmPasswordapi(data).then((value) {
       setLoading(false);
       Navigator.pop(context);
-      Navigator.pushNamed(context, RoutesName.login);
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.login, (r) => false);
       Utils.flushBarErrorMessage('Password changed successfully.', context);
       if (kDebugMode) {
         print(value.toString());

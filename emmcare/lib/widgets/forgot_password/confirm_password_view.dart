@@ -20,7 +20,10 @@ class _ConfirmPasswordViewState extends State<ConfirmPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: AppColors.appBarColor),
+      appBar: AppBar(
+        backgroundColor: AppColors.appBarColor,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(

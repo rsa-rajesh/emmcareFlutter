@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
+import 'package:emmcare/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -128,13 +129,25 @@ class _WarningViewState extends State<WarningView> {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
         actions: [
           InkWell(
               onTap: () {
                 if (_warningController.text.isEmpty) {
-                  Utils.toastMessage("Note Cannot be empty");
+                  Utils.toastMessage("Warning Cannot be empty");
                 } else {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      context = context;
+                      return const Loading(
+                        'Please wait \n  Adding warning',
+                        false,
+                      );
+                    },
+                  );
                   if (imgXFile == null) {
                     setState(() {
                       _msg = _warningController.text.toString();
@@ -168,7 +181,11 @@ class _WarningViewState extends State<WarningView> {
                     SizedBox(
                       width: 10,
                     ),
-                    Center(child: Text("Save")),
+                    Center(
+                        child: Text(
+                      "Save",
+                      style: TextStyle(color: Colors.white),
+                    )),
                   ],
                 ),
               ))
@@ -176,6 +193,7 @@ class _WarningViewState extends State<WarningView> {
         automaticallyImplyLeading: true,
         title: Text(
           "Add Warning",
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),

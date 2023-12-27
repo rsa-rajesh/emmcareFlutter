@@ -1,4 +1,7 @@
 import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/utils/utils.dart';
+import 'package:emmcare/view/login_view.dart';
+import 'package:emmcare/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../view_model/Otp_view_view_model.dart';
@@ -18,6 +21,7 @@ class _OTPViewState extends State<OTPView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
       ),
       body: Padding(
@@ -91,8 +95,27 @@ class _OTPViewState extends State<OTPView> {
                     "email": widget.receivedEmail,
                     "otp": otp.toString()
                   };
-                  OtpViewModel()
-                      .otpApi(data, otp, widget.receivedEmail, context);
+
+                  if (finalOTP == null) {
+                    Utils.flushBarErrorMessage("OTP not provided", context);
+                  } else if (finalOTP!.length < 5) {
+                    Utils.flushBarErrorMessage("OTP not provided", context);
+                  } else {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        context = context;
+                        return const Loading(
+                          'Verifying OTP',
+                          false,
+                        );
+                      },
+                    );
+
+                    OtpViewModel()
+                        .otpApi(data, otp, widget.receivedEmail, context);
+                  }
                 },
                 child: Text(
                   "Verify OTP",
@@ -103,7 +126,39 @@ class _OTPViewState extends State<OTPView> {
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(
+              height: 120,
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "I remember my password",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return LoginView();
+                      }), (r) {
+                        return false;
+                      });
+                    },
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.green[900]),
+                    ),
+                  )
+                ])
           ],
         ),
       ),

@@ -29,11 +29,12 @@ class _NotificationViewState extends State<NotificationView> {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
         centerTitle: true,
         title: Text(
           "My Alert",
-          style: TextStyle(fontWeight: FontWeight.w700),
+          style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
         actions: [getAction(_selectedIndex)],
       ),

@@ -21,7 +21,6 @@ class ClockInRepository {
 
     final sharedpref = await SharedPreferences.getInstance();
     shiftId = sharedpref.getInt(HomeViewState.KEYSHIFTID)!;
-
     try {
       dynamic response = await _apiServices.getPutResponseWithAuth(
           AppUrl.putClockIn(shiftId), token);

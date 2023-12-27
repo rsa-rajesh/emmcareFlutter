@@ -100,8 +100,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primarySwatch: Colors.green,
-        ),
+            primarySwatch: Colors.green, secondaryHeaderColor: Colors.white),
         navigatorKey: navigatorKey, // Setting a global key for navigator
         initialRoute: RoutesName.splash,
         onGenerateRoute: Routes.generateRoute,

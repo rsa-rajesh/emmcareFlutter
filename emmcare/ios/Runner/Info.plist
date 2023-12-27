@@ -7,19 +7,19 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-<string>This app requires access to the photo library. To post staff complains </string>
+<string>This app requires access to the photo library. To post staff complains with images </string>
 <key>NSMicrophoneUsageDescription</key>
 <string>This app does not require access to the microphone.</string>
 <key>NSCameraUsageDescription</key>
-<string>This app requires access to the camera.</string>
+<string>This app requires access to the camera to post complains and reports with image.</string>
 <key>NSLocationWhenInUseUsageDescription</key>
-<string>This app requires access to location to find clients location and route for services </string>
+<string>This app requires access to location to find clients location and route for services also to detect if you reach client location </string>
 <key>NSLocationAlwaysUsageDescription</key>
-<string>This app requires access to location to find clients location and route for services</string>
+<string>This app requires access to location to find clients location and route for services also to detect if you reach client location</string>
 <key>NSLocationUsageDescription</key>
-<string>This app requires access to location to find clients location and route for services</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-<string>This app requires access to location to find clients location and route for services</string>
+<string>This app requires access to location to find clients location and route for services also to detect if you reach client location</string>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>This app requires access to location to find clients location and route for services also to detect if you reach client location</string>
 
 	<key>CFBundleDisplayName</key>
 	<string>Emmcare</string>
@@ -43,10 +43,6 @@
 	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This application requires location services to work</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This application requires location services to work</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

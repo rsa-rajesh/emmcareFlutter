@@ -19,6 +19,8 @@ class WarningViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.warningWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
+      Navigator.pop(context);
+
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -28,14 +30,23 @@ class WarningViewModel with ChangeNotifier {
                   size: 45,
                 ),
                 iconColor: Colors.green[400],
+                actions: [
+                  TextButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // dismiss dialog
+                    },
+                  ),
+                ],
               ));
 
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
+      Navigator.pop(context);
+
       Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
@@ -48,6 +59,7 @@ class WarningViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.warningWithoutImage(_category, _msg).then((value) {
       setLoading(false);
+      Navigator.pop(context);
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -57,14 +69,24 @@ class WarningViewModel with ChangeNotifier {
                   size: 45,
                 ),
                 iconColor: Colors.green[400],
+                actions: [
+                  TextButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // dismiss dialog
+                    },
+                  ),
+                ],
               ));
 
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      // Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
+      Navigator.pop(context);
+
       Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());

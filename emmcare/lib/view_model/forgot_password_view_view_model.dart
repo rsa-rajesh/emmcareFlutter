@@ -21,12 +21,13 @@ class ForgotPasswordViewModel with ChangeNotifier {
 
     _myRepo.forgotPasswordApi(data).then((value) {
       setLoading(false);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => OTPView(receivedEmail: email),
-        ),
-      );
+      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OTPView(receivedEmail: email),
+          ),
+          (r) => false);
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -47,6 +48,8 @@ class ForgotPasswordViewModel with ChangeNotifier {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
+      Navigator.pop(context);
+
       setLoading(false);
       // showDialog(
       //     context: context,

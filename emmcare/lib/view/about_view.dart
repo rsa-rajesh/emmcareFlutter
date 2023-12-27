@@ -24,6 +24,7 @@ class _AboutViewState extends State<AboutView> {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
         centerTitle: true,
         title: Text(

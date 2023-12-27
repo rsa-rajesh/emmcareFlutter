@@ -40,7 +40,11 @@ class _DocumentHubViewState extends State<DocumentHubView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Company Profile"),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          "Company Profile",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.appBarColor,
         automaticallyImplyLeading: true,

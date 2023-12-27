@@ -2,6 +2,7 @@ import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/res/components/round_button.dart';
 import 'package:emmcare/utils/utils.dart';
 import 'package:emmcare/view_model/auth_view_view_model.dart';
+import 'package:emmcare/widgets/loading_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../view_model/services/notification_services.dart';
 import '../widgets/forgot_password/forgot_password_view.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -200,7 +202,6 @@ class LoginViewState extends State<LoginView> {
                           );
                         },
                         child: Container(
-                          color: Colors.white,
                           alignment: Alignment.topRight,
                           margin: EdgeInsets.only(right: 12),
                           child: Text(
@@ -225,11 +226,16 @@ class LoginViewState extends State<LoginView> {
                             EdgeInsets.only(bottom: 12.0, right: 12, left: 12),
                         child: RoundButton(
                           title: "Login",
-                          loading: authViewModel.loading,
+                          // loading: authViewModel.loading,
                           onPress: () async {
                             if (emailController.text.isEmpty) {
                               Utils.flushBarErrorMessage(
                                   "Please enter email", context);
+                            } else if (EmailValidator.validate(
+                                    emailController.text) ==
+                                false) {
+                              Utils.flushBarErrorMessage(
+                                  "Please enter valid email", context);
                             } else if (passwordController.text.isEmpty) {
                               Utils.flushBarErrorMessage(
                                   "Please enter password", context);
@@ -252,6 +258,18 @@ class LoginViewState extends State<LoginView> {
                                 "register_id": fcmToken.toString(),
                                 "type": deviceType.toString(),
                               };
+
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  context = context;
+                                  return const Loading(
+                                    'Please wait \n  Logging in...',
+                                    false,
+                                  );
+                                },
+                              );
 
                               authViewModel.loginApi(data, context);
                               FocusManager.instance.primaryFocus?.unfocus();

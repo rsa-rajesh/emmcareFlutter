@@ -21,6 +21,7 @@ class _MyDocumentViewerState extends State<MyDocumentViewer> {
         ModalRoute.of(context)!.settings.arguments as Results;
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
         automaticallyImplyLeading: true,
         actions: [

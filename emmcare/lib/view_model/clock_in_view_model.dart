@@ -13,32 +13,44 @@ class ClockInViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> clockIn(BuildContext context) async {
+  Future<bool> clockIn(BuildContext context) async {
     setLoading(true);
-    _myRepo.clockIn().then((value) {
+
+    bool a = await _myRepo.clockIn().then((value) {
       setLoading(false);
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                content: Text("Shift clocked in successfully."),
+                content: Text(value.alertMsg.toString()),
                 icon: Icon(
                   Icons.done,
                   size: 45,
                 ),
                 iconColor: Colors.green[400],
+                actions: [
+                  TextButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // dismiss dialog
+                    },
+                  ),
+                ],
               ));
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      // Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
+
+      return true;
     }).onError((error, stackTrace) {
       setLoading(false);
       Future.delayed(Duration.zero, () => showAlert(context, error.toString()));
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(error.toString());
       }
+      return false;
     });
+    return a;
   }
 
   showAlert(BuildContext context, String error) {
@@ -51,18 +63,32 @@ class ClockInViewModel with ChangeNotifier {
                 size: 45,
               ),
               iconColor: Colors.red[400],
+              actions: [
+                TextButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // dismiss dialog
+                  },
+                ),
+              ],
             ));
   }
 
   String splitError(String errorString) {
     String unSplittedString = errorString;
+    if (errorString.contains("='")) {
+      var splitteString = unSplittedString.split("='");
+      return finalSplittedString(splitteString[1]);
+    } else {
+      return errorString;
+    }
     //split string
-    var splitteString = unSplittedString.split("='");
-    return finalSplittedString(splitteString[1]);
   }
 
   String finalSplittedString(String finalSplitedString) {
     var _finalSplitedString = finalSplitedString.split("',");
     return _finalSplitedString[0];
   }
+
+  // bool clockInV2(BuildContext context) {}
 }

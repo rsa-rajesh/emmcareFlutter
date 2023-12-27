@@ -32,8 +32,12 @@ class _MyDocumentViewState extends State<MyDocumentView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
-        title: Text("My Records"),
+        title: Text(
+          "My Records",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: true,
       ),

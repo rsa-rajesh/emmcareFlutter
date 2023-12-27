@@ -33,8 +33,10 @@ class ClientProfileViewState extends State<ClientProfileView> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text(
             cltName!,
+            style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
           backgroundColor: AppColors.appBarColor,

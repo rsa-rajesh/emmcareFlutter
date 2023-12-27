@@ -51,6 +51,10 @@ class AppUrl {
     return baseUrl + "v1/api/auth/staff-unavailability-create/";
   }
 
+  static String unavailabilityList(id) {
+    return baseUrl + "v1/api/auth/staff-unavailability-list/?staff_id=$id";
+  }
+
   static String getEventsList(page, obj_id) {
     var pageSize = 999999999999999999;
     return baseUrl +

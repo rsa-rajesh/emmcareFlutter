@@ -19,10 +19,8 @@ class ClockOutRepository {
     });
     await Future.delayed(Duration(microseconds: 0));
     int? shiftId;
-
     final sharedpref = await SharedPreferences.getInstance();
     shiftId = sharedpref.getInt(HomeViewState.KEYSHIFTID)!;
-
     try {
       dynamic response = await _apiServices.getPutResponseWithAuth(
           AppUrl.putClockOut(shiftId), token);

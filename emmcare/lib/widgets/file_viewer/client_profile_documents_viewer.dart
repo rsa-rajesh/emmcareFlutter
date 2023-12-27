@@ -20,9 +20,9 @@ class _ClientProfileDocumentsViewerState
   Widget build(BuildContext context) {
     final newclientProfielDocumentsList =
         ModalRoute.of(context)!.settings.arguments as Result;
-
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor, //appbar background color
         actions: [
           InkWell(

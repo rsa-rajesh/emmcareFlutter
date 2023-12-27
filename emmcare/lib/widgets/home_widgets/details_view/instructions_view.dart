@@ -28,7 +28,11 @@ class _InstructionViewState extends State<InstructionView> {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
-        title: Text(cltName!),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          cltName!,
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.appBarColor,
         automaticallyImplyLeading: true,

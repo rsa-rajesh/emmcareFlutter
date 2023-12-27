@@ -1,10 +1,11 @@
 import 'package:emmcare/res/colors.dart';
+import 'package:emmcare/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../model/user_model.dart';
-import 'package:intl/intl.dart';
 import '../../../res/components/round_button.dart';
 import '../../../view_model/unavailability_create_view_view_model.dart';
 import '../../../view_model/user_view_view_model.dart';
@@ -29,7 +30,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
   int? _dateCount;
   bool isBottonShow = false;
   int? bsValue = 0;
-
   late PersistentBottomSheetController _controller;
 // final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -68,6 +68,8 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
     getUserData().then((value) async {
       token = value.access.toString();
     });
+
+    unavailabilityViewViewModel.unavailabilityList();
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
@@ -95,7 +97,11 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
       resizeToAvoidBottomInset: true,
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
-        title: Text("Unavailability"),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          "Unavailability",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.appBarColor,
       ),
@@ -103,77 +109,108 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
           create: (BuildContext context) => unavailabilityViewViewModel,
           child: Consumer<UnavailabilityViewViewModel>(
             builder: (context, value, child) {
-              return Container(
-                child: SfDateRangePicker(
-                  cellBuilder: (BuildContext context,
-                      DateRangePickerCellDetails details) {
-                    final bool isToday =
-                        isSameDate(details.date, DateTime.now());
-                    final bool selectedDate = isSelectedDate(details.date);
-                    return Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: selectedDate
-                                ? Colors.green
-                                : isToday
-                                    ? Colors.amber
-                                    : null,
-                            borderRadius: BorderRadius.circular(12),
-                            border: isToday
-                                ? Border.all(color: Colors.black, width: 2)
-                                : selectedDate
-                                    ? Border.all(
-                                        color: Colors.green.shade900, width: 2)
-                                    : null),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Text(
-                              details.date.day.toString(),
-                              style: TextStyle(
-                                fontSize: selectedDate ? 18 : 13,
-                                color:
-                                    selectedDate ? Colors.white : Colors.black,
-                                fontWeight: FontWeight.bold,
+              return unavailabilityViewViewModel.loading
+                  ? Center(
+                      child: Column(
+                        children: [
+                          Spacer(),
+                          CircularProgressIndicator(),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Text("Loading Unavailability Records"),
+                          Spacer(),
+                        ],
+                      ),
+                    )
+                  : Container(
+                      child: SfDateRangePicker(
+                        minDate: DateTime.now(),
+                        cellBuilder: (BuildContext context,
+                            DateRangePickerCellDetails details) {
+                          final bool isToday =
+                              isSameDate(details.date, DateTime.now());
+                          final bool selectedDate =
+                              isSelectedDate(details.date);
+                          return Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: selectedDate
+                                      ? Colors.green
+                                      : isToday
+                                          ? Colors.amber
+                                          : null,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: isToday
+                                      ? Border.all(
+                                          color: Colors.black, width: 2)
+                                      : selectedDate
+                                          ? Border.all(
+                                              color: Colors.green.shade900,
+                                              width: 2)
+                                          : null),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Text(
+                                    details.date.day.toString(),
+                                    style: TextStyle(
+                                      fontSize: selectedDate ? 18 : 13,
+                                      color: unavailabilityViewViewModel
+                                              .isUnavailableDate(
+                                                  details.date.toString())
+                                          ? Colors.red
+                                          : selectedDate
+                                              ? Colors.white
+                                              : details.date.isAfter(
+                                                      DateTime.now().subtract(
+                                                          Duration(days: 1)))
+                                                  ? Colors.black
+                                                  : Colors.black38,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          );
+                        },
+                        selectionColor: const Color.fromARGB(0, 255, 193, 7),
+                        navigationDirection:
+                            DateRangePickerNavigationDirection.vertical,
+                        enableMultiView: true,
+                        backgroundColor: Colors.white38,
+                        navigationMode: DateRangePickerNavigationMode.scroll,
+                        headerStyle: DateRangePickerHeaderStyle(
+                          textAlign: TextAlign.left,
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.blue.shade600),
                         ),
+                        monthViewSettings: DateRangePickerMonthViewSettings(
+                            blackoutDates:
+                                unavailabilityViewViewModel.getBlockoutDates(),
+                            dayFormat: "E",
+                            viewHeaderHeight: 30,
+                            numberOfWeeksInView: 6,
+                            viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                              textStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black87),
+                            )),
+                        onSelectionChanged: _onSelectionChanged,
+                        // onViewChanged: viewChanged,
+                        selectionMode: DateRangePickerSelectionMode.multiple,
+                        initialSelectedRange: PickerDateRange(
+                            DateTime.now().subtract(const Duration(days: 4)),
+                            DateTime.now().add(const Duration(days: 3))),
                       ),
                     );
-                  },
-                  selectionColor: const Color.fromARGB(0, 255, 193, 7),
-                  navigationDirection:
-                      DateRangePickerNavigationDirection.vertical,
-                  enableMultiView: true,
-                  backgroundColor: Colors.white38,
-                  navigationMode: DateRangePickerNavigationMode.scroll,
-                  headerStyle: DateRangePickerHeaderStyle(
-                    textAlign: TextAlign.left,
-                    textStyle: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.blue.shade600),
-                  ),
-                  monthViewSettings: const DateRangePickerMonthViewSettings(
-                      dayFormat: "E",
-                      viewHeaderHeight: 30,
-                      numberOfWeeksInView: 6,
-                      viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                        textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.black87),
-                      )),
-                  onSelectionChanged: _onSelectionChanged,
-                  selectionMode: DateRangePickerSelectionMode.multiple,
-                  initialSelectedRange: PickerDateRange(
-                      DateTime.now().subtract(const Duration(days: 4)),
-                      DateTime.now().add(const Duration(days: 3))),
-                ),
-              );
             },
           )),
     );
@@ -263,8 +300,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        //
-                        //
                         Text("Unavailability description",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16)),
@@ -353,7 +388,6 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                             "Select all the days where you are unavailable to work. The star time and end time will be applied to each.",
                             style: TextStyle(
                                 fontSize: 14, fontStyle: FontStyle.italic)),
-                        //
                         // RoundButton
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 14, 0, 14),
@@ -362,17 +396,23 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
                             child: RoundButton(
                               title: "Save\t" + "($_dateCount periods)",
                               onPress: () {
-                                DateTime startParsedTime = DateFormat.jm()
-                                    .parse(
-                                        _startTime.format(context).toString());
-                                String startFormattedTime =
-                                    DateFormat('HH:mm:ss')
-                                        .format(startParsedTime);
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    context = context;
+                                    return const Loading(
+                                      'Posting unavailibility report',
+                                      false,
+                                    );
+                                  },
+                                );
 
-                                DateTime endParsedTime = DateFormat.jm()
-                                    .parse(_endTime.format(context).toString());
-                                String endFormattedTime = DateFormat('HH:mm:ss')
-                                    .format(endParsedTime);
+                                String startFormattedTime =
+                                    _startTime.format(context);
+
+                                String endFormattedTime =
+                                    _endTime.format(context);
 
                                 Map<String, dynamic> decodedToken =
                                     JwtDecoder.decode(token);
@@ -439,4 +479,9 @@ class _UnavailabilityViewState extends State<UnavailabilityView> {
 
     return false;
   }
+
+  // void viewChanged(
+  //     DateRangePickerViewChangedArgs dateRangePickerViewChangedArgs) {
+  //   print(dateRangePickerViewChangedArgs.visibleDateRange.startDate.toString());
+  // }
 }

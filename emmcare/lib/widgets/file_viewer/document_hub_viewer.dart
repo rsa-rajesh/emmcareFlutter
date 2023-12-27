@@ -21,6 +21,7 @@ class _DocumentHubViewerState extends State<DocumentHubViewer> {
         ModalRoute.of(context)!.settings.arguments as Result;
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
         automaticallyImplyLeading: true,
         actions: [

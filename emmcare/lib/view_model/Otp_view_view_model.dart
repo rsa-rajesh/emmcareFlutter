@@ -21,15 +21,8 @@ class OtpViewModel with ChangeNotifier {
 
     _myRepo.otpApi(data).then((value) {
       setLoading(false);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ConfirmPasswordView(
-            receivedEmail: email,
-            receivedOtp: otp,
-          ),
-        ),
-      );
+      Navigator.pop(context);
+
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -43,13 +36,32 @@ class OtpViewModel with ChangeNotifier {
                   size: 45,
                 ),
                 iconColor: Colors.green[400],
+                actions: [
+                  TextButton(
+                    child: Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // dismiss dialog
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ConfirmPasswordView(
+                              receivedEmail: email,
+                              receivedOtp: otp,
+                            ),
+                          ),
+                          (route) => false);
+                    },
+                  )
+                ],
               ));
-      Future.delayed(Duration(seconds: 1), () => Navigator.of(context).pop());
+      // Future.delayed(Duration(seconds: 1), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
+      Navigator.pop(context);
+
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -63,8 +75,16 @@ class OtpViewModel with ChangeNotifier {
                   size: 45,
                 ),
                 iconColor: Colors.red[400],
+                actions: [
+                  TextButton(
+                    child: Text("Cancel"),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // dismiss dialog
+                    },
+                  ),
+                ],
               ));
-      Future.delayed(Duration(seconds: 1), () => Navigator.of(context).pop());
+      // Future.delayed(Duration(seconds: 1), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(error.toString());
       }

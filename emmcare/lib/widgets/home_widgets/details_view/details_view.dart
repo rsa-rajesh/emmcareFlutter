@@ -1,8 +1,8 @@
-import 'dart:async';
 import 'package:emmcare/model/client_model.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/utils/routes/routes_name.dart';
 import 'package:emmcare/widgets/home_widgets/details_view/instructions_view.dart';
+import 'package:emmcare/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +25,8 @@ class _DetailsViewState extends State<DetailsView> {
   bool haspermission = false;
   late LocationPermission permission;
   late Position position;
+  bool isClockedIn = false;
+
   // late double long;
   // late double lat;
 
@@ -34,7 +36,6 @@ class _DetailsViewState extends State<DetailsView> {
   String _instruction = "";
 
   var distanceInMeters;
-
   @override
   void initState() {
     checkGps();
@@ -98,7 +99,6 @@ class _DetailsViewState extends State<DetailsView> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     final client_Detail = ModalRoute.of(context)!.settings.arguments as Clients;
-    // calc(client_Detail);
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       body: Column(
@@ -417,7 +417,7 @@ class _DetailsViewState extends State<DetailsView> {
             ),
           ),
 
-          checkClockInAndOut(client_Detail.clockIn.toString(), client_Detail),
+          checkClockInAndOut(client_Detail),
         ],
       ),
     );
@@ -471,18 +471,22 @@ class _DetailsViewState extends State<DetailsView> {
     }
   }
 
-  Widget checkClockInAndOut(String checkclock, Clients client_detail) {
-    if (checkclock == "null") {
+  Widget checkClockInAndOut(Clients client_detail) {
+    if (client_detail.clockIn == null) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
         child: Container(
           width: double.infinity,
           color: AppColors.buttonColor,
           child: TextButton.icon(
-            onPressed: () {
+            onPressed: () async {
               // Utils.toastMessage("$distanceInMeters");
               if (distanceInMeters == null || distanceInMeters < 500.00) {
-                ClockInViewModel().clockIn(context);
+                bool a = await ClockInViewModel().clockIn(context);
+                if (a) {
+                  client_detail.clockIn = "${DateTime.now().toString}";
+                }
+                setState(() {});
               } else {
                 showDialog(
                     context: context,
@@ -494,9 +498,17 @@ class _DetailsViewState extends State<DetailsView> {
                             size: 45,
                           ),
                           iconColor: Colors.redAccent[400],
+                          actions: [
+                            TextButton(
+                              child: Text("Ok"),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // dismiss dialog
+                              },
+                            ),
+                          ],
                         ));
-                Future.delayed(
-                    Duration(seconds: 2), () => Navigator.of(context).pop());
+                // Future.delayed(
+                //     Duration(seconds: 2), () => Navigator.of(context).pop());
               }
             },
             icon: Icon(
@@ -514,17 +526,33 @@ class _DetailsViewState extends State<DetailsView> {
           ),
         ),
       );
-    } else {
+    } else if (client_detail.clockOut == null) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
         child: Container(
           width: double.infinity,
           color: AppColors.buttonColor,
           child: TextButton.icon(
-              onPressed: () {
+              onPressed: () async {
                 // Utils.toastMessage("$distanceInMeters");
                 if (distanceInMeters == null || distanceInMeters < 500.00) {
-                  ClockOutViewModel().clockOut(context);
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      context = context;
+                      return const Loading(
+                        'Clock out in Progress..',
+                        false,
+                      );
+                    },
+                  );
+
+                  bool a = await ClockOutViewModel().clockOut(context);
+                  if (a) {
+                    client_detail.clockOut = "${DateTime.now().toString}";
+                  }
+                  setState(() {});
                 } else {
                   showDialog(
                       context: context,
@@ -536,9 +564,15 @@ class _DetailsViewState extends State<DetailsView> {
                               size: 45,
                             ),
                             iconColor: Colors.redAccent[400],
+                            actions: [
+                              TextButton(
+                                child: Text("Ok"),
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // dismiss dialog
+                                },
+                              ),
+                            ],
                           ));
-                  Future.delayed(
-                      Duration(seconds: 2), () => Navigator.of(context).pop());
                 }
               },
               icon: Icon(Icons.play_arrow, color: Colors.white, size: 30),
@@ -546,6 +580,26 @@ class _DetailsViewState extends State<DetailsView> {
                 "CLOCK OUT",
                 style: TextStyle(
                     color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              )),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        child: Container(
+          width: double.infinity,
+          color: Colors.grey,
+          child: TextButton.icon(
+              onPressed: () {
+                Null;
+              },
+              icon: Icon(Icons.check, color: Colors.green[900], size: 30),
+              label: Text(
+                "SHIFT COMPLETED",
+                style: TextStyle(
+                    color: Colors.green[900],
                     fontSize: 18,
                     fontWeight: FontWeight.bold),
               )),

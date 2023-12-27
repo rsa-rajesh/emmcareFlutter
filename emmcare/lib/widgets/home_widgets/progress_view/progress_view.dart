@@ -29,6 +29,7 @@ class ProgressViewState extends State<ProgressView> {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       floatingActionButton: SpeedDial(
+        iconTheme: IconThemeData(color: Colors.white),
         icon: Icons.add, //icon on Floating action button
         activeIcon: Icons.close, //icon when menu is expanded on button
         backgroundColor:

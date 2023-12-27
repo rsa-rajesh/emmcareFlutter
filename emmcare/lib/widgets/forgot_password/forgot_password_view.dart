@@ -1,4 +1,6 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:emmcare/view_model/forgot_password_view_view_model.dart';
+import 'package:emmcare/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import '../../res/colors.dart';
 import '../../utils/utils.dart';
@@ -15,6 +17,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
       ),
       body: Padding(
@@ -32,7 +35,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 CircleAvatar(
                   radius: 60,
                   backgroundColor: Colors.white,
-                  child: CircleAvatar(radius: 40, backgroundColor: Colors.white,foregroundImage: ExactAssetImage('assets/images/emmc_care_icon.png'),),
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    foregroundImage:
+                        ExactAssetImage('assets/images/emmc_care_icon.png'),
+                  ),
                 ),
               ],
             ),
@@ -74,7 +82,23 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 onPressed: () {
                   if (emailController.text.isEmpty) {
                     Utils.flushBarErrorMessage("Please enter email", context);
+                  } else if (EmailValidator.validate(emailController.text) ==
+                      false) {
+                    Utils.flushBarErrorMessage(
+                        "Please enter valid email", context);
                   } else {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        context = context;
+                        return const Loading(
+                          'Valaditing Your Email',
+                          false,
+                        );
+                      },
+                    );
+
                     String email = emailController.text.toString();
                     Map data = {
                       "email": emailController.text.toString(),

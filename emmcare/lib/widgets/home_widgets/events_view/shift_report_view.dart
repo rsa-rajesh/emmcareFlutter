@@ -32,7 +32,11 @@ class _ShiftReportViewState extends State<ShiftReportView> {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
-        title: Text(event.category.toString()),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          event.category.toString(),
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.appBarColor,
       ),

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
+import 'package:emmcare/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -128,12 +129,24 @@ class _IncidentViewState extends State<IncidentView> {
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
+        iconTheme: IconThemeData(color: Colors.white),
         actions: [
           InkWell(
               onTap: () {
                 if (_incidentController.text.isEmpty) {
-                  Utils.toastMessage("Note Cannot be empty");
+                  Utils.toastMessage("Incident Cannot be empty");
                 } else {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      context = context;
+                      return const Loading(
+                        'Please wait \n  Adding incident',
+                        false,
+                      );
+                    },
+                  );
                   if (imgXFile == null) {
                     setState(() {
                       _msg = _incidentController.text.toString();
@@ -167,7 +180,11 @@ class _IncidentViewState extends State<IncidentView> {
                     SizedBox(
                       width: 10,
                     ),
-                    Center(child: Text("Save")),
+                    Center(
+                        child: Text(
+                      "Save",
+                      style: TextStyle(color: Colors.white),
+                    )),
                   ],
                 ),
               ))
@@ -175,6 +192,7 @@ class _IncidentViewState extends State<IncidentView> {
         automaticallyImplyLeading: true,
         title: Text(
           "Add Incident",
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),

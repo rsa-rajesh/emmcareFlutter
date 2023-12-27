@@ -106,13 +106,19 @@ class HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
-        title: Text("Shift List"),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          "Shift List",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.appBarColor,
       ),
       floatingActionButton: SpeedDial(
         icon: Icons.add, //icon on Floating action button
-        activeIcon: Icons.close, //icon when menu is expanded on button
+        activeIcon: Icons.close,
+        iconTheme: IconThemeData(
+            color: Colors.white), //icon when menu is expanded on button
         backgroundColor:
             AppColors.floatingActionButtonColor, //background color of button
         buttonSize: Size(56, 56), //button size
@@ -262,9 +268,8 @@ class HomeViewState extends State<HomeView> {
                           },
                           controller: _calendarControllerCustom,
                           events: events,
-                          preloadWeekViewAmount: 20,
                           weekLineHeight: 48.0,
-                          startWeekDay: 0,
+                          preloadWeekViewAmount: 20,
                           innerDot: true,
                           keepLineSize: true,
                           calendarTextStyle: const TextStyle(

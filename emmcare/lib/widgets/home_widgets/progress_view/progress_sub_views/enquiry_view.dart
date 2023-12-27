@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
+import 'package:emmcare/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -126,13 +127,26 @@ class _EnquiryViewState extends State<EnquiryView> {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
         actions: [
           InkWell(
               onTap: () {
                 if (_enquiryController.text.isEmpty) {
-                  Utils.toastMessage("Note Cannot be empty");
+                  Utils.toastMessage("Enquiry Cannot be empty");
                 } else {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      context = context;
+                      return const Loading(
+                        'Please wait \n  Adding enquiry',
+                        false,
+                      );
+                    },
+                  );
+
                   if (imgXFile == null) {
                     setState(() {
                       _msg = _enquiryController.text.toString();
@@ -166,7 +180,11 @@ class _EnquiryViewState extends State<EnquiryView> {
                     SizedBox(
                       width: 10,
                     ),
-                    Center(child: Text("Save")),
+                    Center(
+                        child: Text(
+                      "Save",
+                      style: TextStyle(color: Colors.white),
+                    )),
                   ],
                 ),
               ))
@@ -174,6 +192,7 @@ class _EnquiryViewState extends State<EnquiryView> {
         automaticallyImplyLeading: true,
         title: Text(
           "Add Enquiry",
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),

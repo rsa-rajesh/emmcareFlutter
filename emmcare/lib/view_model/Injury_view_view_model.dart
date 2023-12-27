@@ -19,6 +19,8 @@ class InjuryViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.injuryWithImage(_attachment, _category, _msg).then((value) {
       setLoading(false);
+      Navigator.pop(context);
+
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -28,14 +30,24 @@ class InjuryViewModel with ChangeNotifier {
                   size: 45,
                 ),
                 iconColor: Colors.green[400],
+                actions: [
+                  TextButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // dismiss dialog
+                    },
+                  ),
+                ],
               ));
 
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      // Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
+      Navigator.pop(context);
+
       Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());
@@ -45,6 +57,8 @@ class InjuryViewModel with ChangeNotifier {
 
   Future<void> injuryWithoutImage(BuildContext context, _category, _msg) async {
     setLoading(true);
+    Navigator.pop(context);
+
     _myRepo.injuryWithoutImage(_category, _msg).then((value) {
       setLoading(false);
       showDialog(
@@ -56,14 +70,24 @@ class InjuryViewModel with ChangeNotifier {
                   size: 45,
                 ),
                 iconColor: Colors.green[400],
+                actions: [
+                  TextButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // dismiss dialog
+                    },
+                  ),
+                ],
               ));
 
-      Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
+      // Future.delayed(Duration(seconds: 3), () => Navigator.of(context).pop());
       if (kDebugMode) {
         print(value.toString());
       }
     }).onError((error, stackTrace) {
       setLoading(false);
+      Navigator.pop(context);
+
       Utils.toastMessage(error.toString());
       if (kDebugMode) {
         print(error.toString());

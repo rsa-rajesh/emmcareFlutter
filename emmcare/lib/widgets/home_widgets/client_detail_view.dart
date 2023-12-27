@@ -34,13 +34,14 @@ class ClientDetailViewState extends State<ClientDetailView> {
     return Scaffold(
       backgroundColor: AppColors.bodyBackgroudColor,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
         centerTitle: true,
         title: Text(
           client_Detail.client.toString() +
               "-" +
               client_Detail.shiftType.toString(),
-          style: TextStyle(fontWeight: FontWeight.w700),
+          style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
       ),
       body: IndexedStack(

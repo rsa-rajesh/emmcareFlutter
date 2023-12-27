@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:emmcare/res/colors.dart';
 import 'package:emmcare/view/home_view.dart';
+import 'package:emmcare/widgets/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -123,13 +124,25 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColors.appBarColor,
         actions: [
           InkWell(
               onTap: () {
                 if (_noteController.text.isEmpty) {
-                  Utils.toastMessage("Note Cannot be empty");
+                  Utils.toastMessage("Progress notes Cannot be empty");
                 } else {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      context = context;
+                      return const Loading(
+                        'Please wait \n  Adding notes',
+                        false,
+                      );
+                    },
+                  );
                   if (imgXFile == null) {
                     setState(() {
                       _msg = _noteController.text.toString();
@@ -171,7 +184,10 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
                       width: 10,
                     ),
                     Center(
-                      child: Text("Save"),
+                      child: Text(
+                        "Save",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
@@ -180,6 +196,7 @@ class _ProgressNotesViewState extends State<ProgressNotesView> {
         automaticallyImplyLeading: true,
         title: Text(
           "Add Notes",
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
